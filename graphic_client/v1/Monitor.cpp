@@ -1,13 +1,3 @@
-//
-// Monitor.cpp for zappy in /home/manu/tek2/systeme_unix/zappy/graphic_client/v1
-//
-// Made by Manu
-// Login   <manu@epitech.net>
-//
-// Started on  Wed Jun 25 10:06:15 2014 Manu
-// Last update Wed Jun 25 10:27:37 2014 Manu
-//
-
 #include		"Monitor.hh"
 
 namespace		graphic
@@ -26,6 +16,22 @@ namespace		graphic
 
   void			Monitor::render()
   {
+    bool		cont = true;
+
+    try
+      {
+	_window.create(_mapConfig);
+      }
+    catch (std::runtime_error e)
+      {
+	std::cerr << e.what() << std::endl;
+      }
+    while (cont)
+      {
+	if (_window.update() == Window::QUIT)
+	  cont = false;
+	_window.draw(_mapConfig);
+      }
   }
 
   void			Monitor::setMapConfig(const struct MapConfig& mapConfig)
