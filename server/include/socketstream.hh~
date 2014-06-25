@@ -1,0 +1,4 @@
+#ifndef SOCKETSTREAM_HH
+# define SOCKETSTREAM_HH
+
+#endif /* SOCKETSTREAM_HH */
