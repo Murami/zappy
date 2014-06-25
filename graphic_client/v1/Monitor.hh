@@ -1,16 +1,7 @@
-//
-// Monitor.hh for zappy in /home/manu/tek2/systeme_unix/zappy/graphic_client/v1
-//
-// Made by Manu
-// Login   <manu@epitech.net>
-//
-// Started on  Wed Jun 25 10:06:12 2014 Manu
-// Last update Wed Jun 25 10:27:28 2014 Manu
-//
-
 #ifndef		__MONITOR_HH__
 # define	__MONITOR_HH__
 
+# include	<stdexcept>
 # include	<iostream>
 # include	<cstring>
 # include	"Window.hh"

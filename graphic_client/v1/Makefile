@@ -5,12 +5,13 @@
 ## Login   <manu@epitech.net>
 ## 
 ## Started on  Wed Jun 25 09:50:08 2014 Manu
-## Last update Wed Jun 25 10:24:59 2014 Manu
+## Last update Wed Jun 25 11:19:40 2014 Manu
 ##
 
 SRC	=	main.cpp		\
 		Monitor.cpp		\
 		Window.cpp		\
+		AThread.cpp		\
 
 NAME	=	graphic_zappy
 
@@ -20,7 +21,7 @@ CXXFLAGS +=	-W -Wall -Wextra
 
 IFLAGS	=	-I.
 
-LDFLAGS	=	-lSDL -lGL -lGLU
+LDFLAGS	=	-lSDL -lGL -lGLU -lpthread
 
 CXX	=	g++ -o
 
