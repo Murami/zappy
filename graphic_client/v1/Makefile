@@ -5,23 +5,25 @@
 ## Login   <manu@epitech.net>
 ## 
 ## Started on  Wed Jun 25 09:50:08 2014 Manu
-## Last update Wed Jun 25 11:19:40 2014 Manu
+## Last update Thu Jun 26 11:07:58 2014 Manu
 ##
 
 SRC	=	main.cpp		\
 		Monitor.cpp		\
 		Window.cpp		\
 		AThread.cpp		\
+		SdlGlUtils.cpp		\
+		Camera.cpp		\
 
 NAME	=	graphic_zappy
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CXXFLAGS +=	-W -Wall -Wextra
+CXXFLAGS +=	-W -Wall -Wextra -ggdb -g3
 
 IFLAGS	=	-I.
 
-LDFLAGS	=	-lSDL -lGL -lGLU -lpthread
+LDFLAGS	=	-lSDL -lGL -lGLU -lpthread -lSDL_image -lm
 
 CXX	=	g++ -o
 
