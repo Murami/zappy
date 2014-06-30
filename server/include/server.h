@@ -9,10 +9,13 @@
 # include	<stdio.h>
 # include	<string.h>
 
+# include	"list.h"
+
 typedef struct		s_server
 {
   fd_set		rfds;
   int			socket;
+  t_list*		clients;
   int			nb_connexions;
 }			t_server;
 

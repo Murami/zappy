@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include "server.h"
 
 void			create_socket(t_server *this, int port)

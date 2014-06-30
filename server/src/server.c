@@ -11,19 +11,19 @@ void			server_initialize(t_server *this)
 
 void			server_release(t_server *this)
 {
+  shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
 }
 
 void			server_launch(t_server *this)
 {
+  int			retval;
+
   while (42)
     {
       printf("select\n");
       printf("socket [%d]\n", this->socket);
       FD_SET(this->socket, &this->rfds);
-
-      int			retval;
-
       retval = select(this->socket + 1 + this->nb_connexions,
 		      &this->rfds, NULL, NULL, NULL);
       if (retval == -1)
