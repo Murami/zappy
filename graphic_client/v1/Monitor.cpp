@@ -1,3 +1,4 @@
+#include		"Connection.hh"
 #include		"Monitor.hh"
 
 namespace		graphic
@@ -12,6 +13,12 @@ namespace		graphic
     _mapConfig.sizeX = config.sizeX;
     _mapConfig.sizeY = config.sizeY;
     return (_mapConfig);
+  }
+
+  void			Monitor::connect(int argc, char **argv)
+  {
+    _connection = new Connection(argc, argv, *this);
+    _connection->start();
   }
 
   void			Monitor::render()

@@ -25,6 +25,7 @@ namespace	graphic
     double	_yCenterState;
     double	_zCenterState;
     double	_xFreeState;
+    double	_yFreeState;
     double	_zFreeState;
     double	_xDirection;
     double	_zDirection;
@@ -37,7 +38,7 @@ namespace	graphic
 
   private :
     bool	_isInMoveKeys(int);
-    void	_handleMouseEvent(const SDL_Event&);
+    void	_setNewTouch(int, void (Camera::*)());
 
   public :
     void	initialize(const MapConfig&);
@@ -52,6 +53,8 @@ namespace	graphic
     void	turnRight();
     void	zoomPlus();
     void	zoomMinus();
+    void	higher();
+    void	lower();
 
   public :
     Camera();

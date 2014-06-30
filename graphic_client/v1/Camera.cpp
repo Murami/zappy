@@ -21,20 +21,21 @@ namespace		graphic
     return (false);
   }
 
-  void			Camera::_handleMouseEvent(const SDL_Event&)
-  {
-    //
-    // GESTION EVENTS DE SOURIS
-    //
-  }
-
   void			Camera::update(const SDL_Event& event)
   {
-    if (event.key.keysym.sym == SDLK_TAB)
-      changeState();
-    else if (_isInMoveKeys(event.key.keysym.sym))
-      (this->*this->_cameraMoves[event.key.keysym.sym])();
-    _handleMouseEvent(event);
+    if (event.type == SDL_KEYDOWN)
+      {
+	if (event.key.keysym.sym == SDLK_TAB)
+	  changeState();
+	else if (_isInMoveKeys(event.key.keysym.sym))
+	  (this->*this->_cameraMoves[event.key.keysym.sym])();
+      }
+  }
+
+  void			Camera::_setNewTouch(int key, void (Camera::*fct)())
+  {
+    _moveKeys.push_back(key);
+    _cameraMoves[key] = fct;
   }
 
   void			Camera::initialize(const MapConfig& config)
@@ -44,6 +45,7 @@ namespace		graphic
     _yCenterState = _xCenterState;
     _zCenterState = 0;
     _xFreeState = 0;
+    _yFreeState = 2;
     _zFreeState = 0;
     _alphaCenterState = 0;
     _alphaFreeState = 0;
@@ -55,22 +57,14 @@ namespace		graphic
     glLoadIdentity();
     gluPerspective(60, static_cast<double>(Window::WINDOW_X) /
 		   static_cast<double>(Window::WINDOW_Y), 1, 1000);
-    _moveKeys.push_back(SDLK_DOWN);
-    _moveKeys.push_back(SDLK_UP);
-    _moveKeys.push_back(SDLK_LEFT);
-    _moveKeys.push_back(SDLK_RIGHT);
-    _moveKeys.push_back(SDLK_KP_PLUS);
-    _moveKeys.push_back(SDLK_KP_MINUS);
-    _moveKeys.push_back(SDLK_PLUS);
-    _moveKeys.push_back(SDLK_MINUS);
-    _cameraMoves[SDLK_DOWN] = &Camera::goUp;
-    _cameraMoves[SDLK_UP] = &Camera::goDown;
-    _cameraMoves[SDLK_LEFT] = &Camera::turnLeft;
-    _cameraMoves[SDLK_RIGHT] = &Camera::turnRight;
-    _cameraMoves[SDLK_KP_PLUS] = &Camera::zoomPlus;
-    _cameraMoves[SDLK_KP_MINUS] = &Camera::zoomMinus;
-    _cameraMoves[SDLK_PLUS] = &Camera::zoomPlus;
-    _cameraMoves[SDLK_MINUS] = &Camera::zoomMinus;
+    _setNewTouch(SDLK_DOWN, &Camera::goUp);
+    _setNewTouch(SDLK_UP, &Camera::goDown);
+    _setNewTouch(SDLK_LEFT, &Camera::turnLeft);
+    _setNewTouch(SDLK_RIGHT, &Camera::turnRight);
+    _setNewTouch(SDLK_KP_PLUS, &Camera::zoomPlus);
+    _setNewTouch(SDLK_KP_MINUS, &Camera::zoomMinus);
+    _setNewTouch(SDLK_1, &Camera::higher);
+    _setNewTouch(SDLK_2, &Camera::lower);
   }
 
   void			Camera::changeState()
@@ -80,6 +74,19 @@ namespace		graphic
       _state = CENTER;
     else
       _state = FREE;
+    SDL_EnableKeyRepeat(10, 10);
+  }
+
+  void			Camera::lower()
+  {
+    if (_state == FREE)
+      _yFreeState += 0.5;
+  }
+
+  void			Camera::higher()
+  {
+    if (_state == FREE)
+      _yFreeState -= 0.5;
   }
 
   void			Camera::zoomPlus()
@@ -106,7 +113,7 @@ namespace		graphic
       _alphaCenterState -= 2 * PI / 360;
     else
       {
-	_alphaFreeState += 2 * PI / 360;
+	_alphaFreeState += 3 * PI / 360;
       }
   }
 
@@ -116,7 +123,7 @@ namespace		graphic
       _alphaCenterState += 2 * PI / 360;
     else
       {
-	_alphaFreeState -= 2 * PI / 360;
+	_alphaFreeState -= 3 * PI / 360;
       }
   }
 
@@ -129,8 +136,8 @@ namespace		graphic
       }
     else
       {
-	_xFreeState -= _xDirection / 100;
-	_zFreeState -= _zDirection / 100;
+	_xFreeState -= _xDirection / 25;
+	_zFreeState -= _zDirection / 25;
       }
   }
 
@@ -143,8 +150,8 @@ namespace		graphic
       }
     else
       {
-	_xFreeState += _xDirection / 100;
-	_zFreeState += _zDirection / 100;
+	_xFreeState += _xDirection / 25;
+	_zFreeState += _zDirection / 25;
       }
   }
 
@@ -163,8 +170,10 @@ namespace		graphic
       {
 	_xDirection = 10 * sin(_alphaFreeState);
 	_zDirection = 10 * cos(_alphaFreeState);
-	gluLookAt(_xFreeState, 2, _zFreeState,
-		  _xFreeState + _xDirection, 2, _zFreeState + _zDirection,
+	gluLookAt(_xFreeState, _yFreeState,
+		  _zFreeState,
+		  _xFreeState + _xDirection, _yFreeState - (_yFreeState / 5),
+		  _zFreeState + _zDirection,
 		  0, 1, 0);
       }
   }

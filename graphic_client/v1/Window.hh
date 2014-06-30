@@ -6,6 +6,7 @@
 # include	<SDL/SDL.h>
 # include	<GL/gl.h>
 # include	<GL/glu.h>
+# include	"Skybox.hh"
 
 namespace	graphic
 {
@@ -25,6 +26,7 @@ namespace	graphic
     int					_mapSizeX;
     int					_mapSizeY;
     Camera*				_camera;
+    Skybox*				_skybox;
 
   private :
     void			_drawMap(const struct MapConfig&);

@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Thu Apr  3 13:05:09 2014 Manu
-// Last update Thu Jun 26 09:52:16 2014 Manu
+// Last update Fri Jun 27 16:09:59 2014 Manu
 //
 
 #include <SDL/SDL.h>
@@ -82,7 +82,6 @@ namespace		graphic
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       }
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
-
 
     SDL_FreeSurface(gl_fliped_surface);
     SDL_FreeSurface(gl_surface);

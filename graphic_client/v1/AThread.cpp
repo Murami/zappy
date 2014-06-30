@@ -1,13 +1,5 @@
 #include		"AThread.hh"
 
-static void		*start_thread(void *data)
-{
-  AThread*		thread;
-
-  thread = reinterpret_cast<AThread*>(data);
-  return (thread);
-}
-
 AThread::AThread()
 {
 }
