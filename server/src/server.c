@@ -7,6 +7,7 @@
 #include <string.h>
 #include <signal.h>
 #include "server.h"
+#include "client.h"
 
 bool			g_alive;
 
@@ -31,14 +32,14 @@ void			server_initialize(t_server *this)
 
 void			server_release(t_server *this)
 {
-  t_socketstream*	client;
+  t_client*		client;
 
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
   while (!list_empty(this->clients))
     {
       client = list_back(this->clients);
-      socketstream_delete(client);
+      client_delete(client);
       list_pop_back(this->clients);
     }
   list_delete(this->clients);
@@ -49,13 +50,13 @@ void			server_accept(t_server *this)
   int			len;
   int			socket;
   struct sockaddr_in	sin;
-  t_socketstream*	client;
+  t_client*		client;
 
   len = 1;
   socket = accept(this->socket, (struct sockaddr *)&sin, (socklen_t *)&len);
   if (socket == -1)
     perror("accept");
-  client = socketstream_new(socket);
+  client = client_new(socket);
   list_push_back(this->clients, client);
   if (socket > this->socket_max)
     this->socket_max = socket;
@@ -65,13 +66,31 @@ void			server_accept(t_server *this)
 void			server_process_clients(t_server* this, fd_set* fd_set)
 {
   t_list_iterator	it;
+  t_client*		client;
+
+  char			buffer[4096];
+  int			size;
 
   it = list_begin(this->clients);
   while (it != list_end(this->clients))
     {
-      if (FD_ISSET(((t_socketstream*)it->data)->socket, fd_set))
+      client = it->data;
+      if (FD_ISSET(client->socketstream->socket, fd_set))
 	{
-	  /* gestion */
+	  if (!socketstream_flush_input(client->socketstream))
+	    {
+	      /* VERIFIER SI IL Y A D'AUTRE COMMANDES DANS LE BUFFER AVANT DE QUITTER */
+	      /* OU ALORS IL N'Y AURA PAS DE COMMANDES VUE QUE ELLE SONT TOUTES EXECUTÉ */
+	      /* DÉS QUE DISPONIBLE */
+	      it = list_erase(this->clients, it);
+	    }
+	  else
+	    {
+	      while ((size = socketstream_read(client->socketstream, buffer, 4096)))
+		{
+		  /* PARSING ET AJOUT DANS LA PRIORITY QUEUE */
+		}
+	    }
 	}
       it = list_iterator_next(it);
     }
