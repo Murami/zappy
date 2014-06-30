@@ -1,3 +1,7 @@
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
 #include "server.h"
 
 void			create_socket(t_server *this, int port)
@@ -43,14 +47,16 @@ void			create_queue(t_server *this)
     }
 }
 
-void			reset_rfds(t_server *this)
+void			reset_rfds(t_server *this, fd_set *rfds)
 {
   int			i;
 
   i = 0;
-  FD_SET(this->socket, &this->rfds);
+  FD_ZERO(rfds);
+  FD_SET(this->socket, rfds);
   while (i != this->nb_connexions)
     {
+      FD_SET(this->client[i], rfds);
       i++;
     }
 }
