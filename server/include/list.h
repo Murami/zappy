@@ -8,7 +8,7 @@ typedef struct		s_list_elm
   struct s_list_elm*	prev;
   struct s_list_elm*	next;
   void*			data;
-}			t_list_elm, t_list_iterator;
+}			t_list_elm, *t_list_iterator;
 
 typedef struct	s_list
 {
@@ -31,16 +31,16 @@ void*	list_back(t_list* this);
 
 /* ITERATORS */
 
-t_list_iterator*	list_begin(t_list* this);
-t_list_iterator*	list_end(t_list* this);
+t_list_iterator		list_begin(t_list* this);
+t_list_iterator		list_end(t_list* this);
 
-t_list_iterator*	list_iterator_next(t_list_iterator* list_iterator);
-t_list_iterator*	list_iterator_prev(t_list_iterator* list_iterator);
+t_list_iterator		list_iterator_next(t_list_iterator list_iterator);
+t_list_iterator		list_iterator_prev(t_list_iterator list_iterator);
 
 /* INSERT/ERASE */
 
-t_list_iterator*	list_erase(t_list* this, t_list_iterator* list_iterator);
-bool			list_insert(t_list* this, t_list_iterator* list_iterator, void* data);
+t_list_iterator		list_erase(t_list* this, t_list_iterator list_iterator);
+bool			list_insert(t_list* this, t_list_iterator list_iterator, void* data);
 
 /* OPERATORS */
 

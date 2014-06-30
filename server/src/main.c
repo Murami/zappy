@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Wed Jun 25 12:03:10 2014 quentin desabre
-** Last update Wed Jun 25 12:16:27 2014 Desabre Quentin
+** Last update Mon Jun 30 10:33:43 2014 otoshigami
 */
 
 #include "server.h"
@@ -16,4 +16,5 @@ int		main()
 
   server_initialize(&server);
   server_launch(&server);
+  return (0);
 }
