@@ -1,3 +1,9 @@
+#include <unistd.h>
+#include <netdb.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "server.h"
 
 void			create_socket(t_server *this, int port)
@@ -33,7 +39,7 @@ void			bind_socket(t_server *this, struct sockaddr_in *sin)
 
 void			create_queue(t_server *this)
 {
-  int		rlisten;
+  int			rlisten;
 
   rlisten = listen(this->socket, 42);
   if (rlisten == -1)
@@ -43,14 +49,16 @@ void			create_queue(t_server *this)
     }
 }
 
-void			reset_rfds(t_server *this)
+void			reset_rfds(t_server *this, fd_set *rfds)
 {
-  int			i;
+  t_list_iterator	it;
 
-  i = 0;
-  FD_SET(this->socket, &this->rfds);
-  while (i != this->nb_connexions)
+  FD_ZERO(rfds);
+  FD_SET(this->socket, rfds);
+  it = list_begin(this->clients);
+  while (it != list_end(this->clients))
     {
-      i++;
+      FD_SET(((t_socketstream*)it->data)->socket, rfds);
+      it = list_iterator_next(it);
     }
 }
