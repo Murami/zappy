@@ -97,6 +97,11 @@ bool		socketstream_flush_input(t_socketstream* this)
   return (true);
 }
 
+int			socketstream_get_socket(t_socketstream* this)
+{
+  return (this->socket);
+}
+
 t_socketstream*		socketstream_new(int socket)
 {
   t_socketstream*	sockstream;
