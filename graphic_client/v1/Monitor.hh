@@ -14,6 +14,7 @@ namespace			graphic
   {
     int				sizeX;
     int				sizeY;
+    // std::list<AObject*>		items;
   };
 
   class				Monitor

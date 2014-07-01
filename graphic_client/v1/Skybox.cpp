@@ -7,7 +7,7 @@ namespace		graphic
     _quadric = gluNewQuadric();
     gluQuadricNormals(_quadric, GLU_SMOOTH);
     gluQuadricTexture(_quadric, GL_TRUE);
-    _texture = SdlGlUtils::loadTexture("./test.jpg");
+    _texture = SdlGlUtils::loadTexture("./assets/test.jpg");
   }
 
   void			Skybox::update(const SDL_Event&)
@@ -21,8 +21,7 @@ namespace		graphic
     glColor3ub(255, 255, 255);
     glBindTexture(GL_TEXTURE_2D, _texture);
     glPushMatrix();
-    glLoadIdentity();
-    glRotated(-90, 1, 0, 0);
+    glTranslated(0, 0, 100);
     gluSphere(_quadric, 1000, 100, 100);
     glPopMatrix();
     glDisable(GL_TEXTURE_2D);

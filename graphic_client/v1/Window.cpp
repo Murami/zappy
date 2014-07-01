@@ -61,35 +61,40 @@ namespace		graphic
       {
 	glBegin(GL_LINES);
 	glColor3ub(0, 0, 0);
-	glVertex3d(x, 0.1, -config.sizeY / 2 * BLOCK_SIZE);
-	glVertex3d(x, 0.1, config.sizeY / 2 * BLOCK_SIZE);
+	glVertex3d(x,  -config.sizeY / 2 * BLOCK_SIZE, 0.1);
+	glVertex3d(x, config.sizeY / 2 * BLOCK_SIZE, 0.1);
 	glEnd();
       }
     for (int y = -config.sizeY / 2 * BLOCK_SIZE;
-	 y <= config.sizeY / 2 * BLOCK_SIZE; y += BLOCK_SIZE)
+    	 y <= config.sizeY / 2 * BLOCK_SIZE; y += BLOCK_SIZE)
       {
-	glBegin(GL_LINES);
-	glColor3ub(0, 0, 0);
-	glVertex3d(config.sizeX / 2 * BLOCK_SIZE, 0.1, y);
-	glVertex3d(-config.sizeX / 2 * BLOCK_SIZE, 0.1, y);
-	glEnd();
+    	glBegin(GL_LINES);
+    	glColor3ub(0, 0, 0);
+    	glVertex3d(config.sizeX / 2 * BLOCK_SIZE, y, 0.1);
+    	glVertex3d(-config.sizeX / 2 * BLOCK_SIZE, y, 0.1);
+    	glEnd();
       }
   }
 
   void			Window::_drawMap(const struct MapConfig& config)
   {
+    // AStone stone;
+    // stone.setX(0);
+    // stone.setY(0);
+    // stone.draw();
+
     glBegin(GL_QUADS);
     glColor3ub(255, 153, 51);
-    glVertex3d(-config.sizeX / 2 * BLOCK_SIZE, 0,
-	       -config.sizeY / 2 * BLOCK_SIZE);
+    glVertex3d(-config.sizeX / 2 * BLOCK_SIZE,
+    	       -config.sizeY / 2 * BLOCK_SIZE, 0);
     glColor3ub(255, 178, 102);
-    glVertex3d(config.sizeX / 2 * BLOCK_SIZE, 0,
-	       -config.sizeY / 2 * BLOCK_SIZE);
+    glVertex3d(config.sizeX / 2 * BLOCK_SIZE,
+    	       -config.sizeY / 2 * BLOCK_SIZE, 0);
     glColor3ub(255, 128, 0);
-    glVertex3d(config.sizeX / 2 * BLOCK_SIZE, 0, config.sizeY / 2 * BLOCK_SIZE);
+    glVertex3d(config.sizeX / 2 * BLOCK_SIZE, config.sizeY / 2 * BLOCK_SIZE, 0);
     glColor3ub(204, 102, 0);
-    glVertex3d(-config.sizeX / 2 * BLOCK_SIZE, 0,
-	       config.sizeY / 2 * BLOCK_SIZE);
+    glVertex3d(-config.sizeX / 2 * BLOCK_SIZE,
+    	       config.sizeY / 2 * BLOCK_SIZE, 0);
     glEnd();
     _drawGrid(config);
   }
@@ -98,8 +103,8 @@ namespace		graphic
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     _camera->updateForDraw();
-    _drawMap(config);
     _skybox->draw();
+    _drawMap(config);
     glFlush();
     SDL_GL_SwapBuffers();
   }

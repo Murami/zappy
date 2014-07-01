@@ -20,7 +20,8 @@ namespace		graphic
 
   void			Connection::getMapSize(const std::string & str)
   {
-    MapConfig		mapConfig;
+    int			x;
+    int			y;
     std::stringstream	ss;
     std::string		width;
     std::string		height;
@@ -31,24 +32,25 @@ namespace		graphic
     std::stringstream wss, hss;
     wss << width;
     hss << height;
-    wss >> mapConfig.sizeX;
-    hss >> mapConfig.sizeY;
-    _monitor.setMapConfig(mapConfig);
+    wss >> x;
+    hss >> y;
+    _monitor.setMapSizeX(x);
+    _monitor.setMapSizeY(y);
   }
 
-  void			Connection::getCaseContent(const std::string&)
+  void			Connection::getCaseContent(const std::string & str)
   {
-    std::cout << "getCaseContent" << std::endl;
+    std::cout << "getCaseContent : " << str;
   }
 
   void			Connection::getTeamName(const std::string&)
   {
-    std::cout << "getTeamName" << std::endl;
+    //std::cout << "getTeamName" << std::endl;
   }
 
   void			Connection::getTimeUnit(const std::string&)
   {
-    std::cout << "getTimeUnit" << std::endl;
+    //std::cout << "getTimeUnit" << std::endl;
   }
 
   void			Connection::_createRegexFuncMap()
@@ -110,7 +112,10 @@ namespace		graphic
 	    for (int i = 0; i < 24; i++)
 	      {
 		if (boost::regex_search(str, Connection::REGEX[i]))
-		  (connection->*connection->regexFunc[Connection::REGEX[i]])(str);
+		  {
+		    (connection->*connection->regexFunc[Connection::REGEX[i]])(str);
+		    break;
+		  }
 	      }
 	    str.clear();
 	  }
@@ -135,7 +140,6 @@ namespace		graphic
       }
     _server.Receive(buffer, 4096, readSize);
     _server.Send("GRAPHIC\n", 8);
-
     pthread_create(&_thread, NULL, readOnSocket, this);
   }
 

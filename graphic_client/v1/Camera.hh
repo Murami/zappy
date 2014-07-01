@@ -28,6 +28,7 @@ namespace	graphic
     double	_yFreeState;
     double	_zFreeState;
     double	_xDirection;
+    double	_yDirection;
     double	_zDirection;
     double	_alphaCenterState;
     double	_alphaFreeState;

@@ -43,7 +43,7 @@ namespace		graphic
 
   void			Monitor::setMapConfig(const struct MapConfig& mapConfig)
   {
-    _mapConfig = mapConfig;
+    _mapConfig.sizeY = mapConfig.sizeY;
   }
 
   void			Monitor::setMapSizeX(int x)
