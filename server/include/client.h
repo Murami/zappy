@@ -1,29 +1,29 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
+# include "server.h"
 # include "socketstream.h"
 
-/* CLIENT VIRTUAL TABLE DEFINITION FOR INHERITANCE */
+typedef void (*t_client_run_ptr)(void*, t_server*);
+typedef void (*t_client_delete_ptr)(void*);
 
 typedef struct	s_client_vtable
 {
-  void		(*run)(struct s_client);
+  t_client_run_ptr	run;
+  t_client_delete_ptr	delete;
 }		t_client_vtable;
 
-/* INHERITS FROM SOCKETSTREAM */
 typedef struct		s_client
 {
-  t_socketstream	socketstream;
+  t_socketstream*	socketstream;
   t_client_vtable*     	vtable;
 }			t_client;
 
-void		client_initialize(t_client* this, int socket);
+void		client_initialize(t_client* this, t_socketstream* sockstream);
 void		client_release(t_client* this);
 
-/* VIRTUAL METHODS */
-void		client_run(t_client* this);
+void		client_run(t_client* this, t_server* server);
 
-t_client*	client_new(int socket);
 void		client_delete(t_client* client);
 
 #endif /* CLIENT_H */

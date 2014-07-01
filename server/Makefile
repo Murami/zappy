@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Jun 30 12:08:36 2014 otoshigami
+## Last update Tue Jul  1 22:29:41 2014 otoshigami
 ##
 
 ## FILES
@@ -17,7 +17,9 @@ SRC		=	main		\
 			list		\
 			socketstream	\
 			server		\
-			client
+			client		\
+			client_player	\
+			client_graphic
 
 SRC_EXT		=	.c
 

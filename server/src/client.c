@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include "client.h"
 
-void		client_initialize(t_client* this, int socket)
+void		client_initialize(t_client* this, t_socketstream* sockstream)
 {
-  this->socketstream = socketstream_new(socket);
-  this->type = UNKNOWN;
+  this->vtable = NULL;
+  this->socketstream = sockstream;
 }
 
 void		client_release(t_client* this)
@@ -12,19 +12,12 @@ void		client_release(t_client* this)
   socketstream_delete(this->socketstream);
 }
 
-t_client*	client_new(int socket)
+void		client_run(t_client* this, t_server* server)
 {
-  t_client*	client;
-
-  client = malloc(sizeof(t_client));
-  if (client == NULL)
-    return (NULL);
-  client_initialize(client, socket);
-  return (client);
+  this->vtable->run(this, server);
 }
 
 void		client_delete(t_client* client)
 {
-  client_release(client);
-  free(client);
+  client->vtable->delete(client);
 }

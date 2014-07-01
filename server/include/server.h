@@ -11,6 +11,7 @@ typedef struct		s_server
 {
   int			socket_max;
   int			socket;
+  t_list*		new_clients;
   t_list*		clients;
 }			t_server;
 

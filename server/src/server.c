@@ -23,16 +23,18 @@ void			server_initialize(t_server *this)
   signal(SIGINT, &sighandler);
   g_alive = true;
   memset(this, 0, sizeof(t_server));
-  // GESTION DU PORT
+  /* gestion du port*/
   create_socket(this, 4243);
   create_queue(this);
   this->clients = list_new();
+  this->new_clients = list_new();
   this->socket_max = this->socket;
 }
 
 void			server_release(t_server *this)
 {
   t_client*		client;
+  t_socketstream*	new_client;
 
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
@@ -42,6 +44,12 @@ void			server_release(t_server *this)
       client_delete(client);
       list_pop_back(this->clients);
     }
+  while (!list_empty(this->clients))
+    {
+      new_client = list_back(this->new_clients);
+      socketstream_delete(new_client);
+      list_pop_back(this->new_clients);
+    }
   list_delete(this->clients);
 }
 
@@ -50,14 +58,15 @@ void			server_accept(t_server *this)
   int			len;
   int			socket;
   struct sockaddr_in	sin;
-  t_client*		client;
+  t_socketstream*	socketstream;
 
   len = 1;
   socket = accept(this->socket, (struct sockaddr *)&sin, (socklen_t *)&len);
   if (socket == -1)
     perror("accept");
-  client = client_new(socket);
-  list_push_back(this->clients, client);
+  socketstream = socketstream_new(socket);
+  list_push_back(this->new_clients, socketstream);
+  /* HERE WE HAD BETTER GO TROUGH ALL THE OPENED SOCKET TO FIND THE HIGEST AFTER EACH CONNECTION/DISCONNECTION ! */
   if (socket > this->socket_max)
     this->socket_max = socket;
   printf("new client socket [%d]\n", socket);
