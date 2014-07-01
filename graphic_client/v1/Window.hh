@@ -6,9 +6,12 @@
 # include	<SDL/SDL.h>
 # include	<GL/gl.h>
 # include	<GL/glu.h>
+# include	"Skybox.hh"
 
 namespace	graphic
 {
+  class		Camera;
+
   class		Window
   {
   public :
@@ -16,11 +19,18 @@ namespace	graphic
     const static int		WINDOW_Y;
     const static std::string	TITLE;
     const static int		QUIT;
+    const static int		BLOCK_SIZE;
 
   private :
-    SDL_Surface*		_screen;
-    int				_mapSizeX;
-    int				_mapSizeY;
+    SDL_Surface*			_screen;
+    int					_mapSizeX;
+    int					_mapSizeY;
+    Camera*				_camera;
+    Skybox*				_skybox;
+
+  private :
+    void			_drawMap(const struct MapConfig&);
+    void			_drawGrid(const struct MapConfig&);
 
   public :
     void			create(const struct MapConfig&);

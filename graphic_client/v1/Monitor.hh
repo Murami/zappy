@@ -8,10 +8,13 @@
 
 namespace			graphic
 {
+  class				Connection;
+
   struct			MapConfig
   {
     int				sizeX;
     int				sizeY;
+    // std::list<AObject*>		items;
   };
 
   class				Monitor
@@ -19,9 +22,11 @@ namespace			graphic
   private :
     MapConfig			_mapConfig;
     Window			_window;
+    Connection*			_connection;
 
   public :
     void			render();
+    void			connect(int, char **);
 
   public :
     void			setMapSizeX(int);

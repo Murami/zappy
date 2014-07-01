@@ -5,27 +5,34 @@
 ## Login   <manu@epitech.net>
 ## 
 ## Started on  Wed Jun 25 09:50:08 2014 Manu
-## Last update Wed Jun 25 11:19:40 2014 Manu
+## Last update Tue Jul  1 14:23:08 2014 Manu
 ##
 
 SRC	=	main.cpp		\
 		Monitor.cpp		\
 		Window.cpp		\
-		AThread.cpp		\
+		SdlGlUtils.cpp		\
+		Camera.cpp		\
+		Connection.cpp		\
+		Skybox.cpp		\
+		AStone.cpp		\
 
 NAME	=	graphic_zappy
 
 OBJ	=	$(SRC:.cpp=.o)
 
-CXXFLAGS +=	-W -Wall -Wextra
+CXXFLAGS +=	-W -Wall -Wextra -ggdb -g3
 
 IFLAGS	=	-I.
 
-LDFLAGS	=	-lSDL -lGL -lGLU -lpthread
+LDFLAGS	=	-lGL -lGLU -lSDL -lSDL_image -lpthread -lm -lboost_regex -lsfml-network
 
 CXX	=	g++ -o
 
 RM	=	rm -f
+
+.cpp.o	:
+		g++ -c $(SRC) $(CXXFLAGS) $(IFLAGS) $(LDFLAGS)
 
 $(NAME)	:	$(OBJ)
 		$(CXX) $(NAME) $(OBJ) $(CXXFLAGS) $(IFLAGS) $(LDFLAGS)

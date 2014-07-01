@@ -21,4 +21,6 @@ public :
   virtual void	run() = 0;
 };
 
+void		*start_thread(void*);
+
 #endif
