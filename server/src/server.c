@@ -120,18 +120,17 @@ void			server_launch(t_server *this)
       printf("select\n");
       printf("socket [%d]\n", this->socket);
       FD_SET(this->socket, &rfds);
-      retval = select(this->socket + 1 + this->socket_max,
+      retval = select(this->socket_max + 1,
 		      &rfds, NULL, NULL, NULL);
       printf("-- SELECT END --\n");
+      if (g_alive == false)
+	{
+	  server_release(this);
+	  return;
+	}
       if (retval == -1)
 	{
-	  if (g_alive == false)
-	    {
-	      server_release(this);
-	      return;
-	    }
-	  if (g_alive == true)
-	    perror("select()");
+	  perror("select()");
 	}
       else if (retval)
 	{
