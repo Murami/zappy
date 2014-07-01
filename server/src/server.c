@@ -18,13 +18,13 @@ void			sighandler(int signum)
   g_alive = false;
 }
 
-void			server_initialize(t_server *this)
+void			server_initialize(t_server *this, int port)
 {
   signal(SIGINT, &sighandler);
   g_alive = true;
   memset(this, 0, sizeof(t_server));
   /* gestion du port*/
-  create_socket(this, 4243);
+  create_socket(this, port);
   create_queue(this);
   this->clients = list_new();
   this->new_clients = list_new();
@@ -36,8 +36,7 @@ void			server_release(t_server *this)
   t_client*		client;
   t_socketstream*	new_client;
 
-  shutdown(this->socket, SHUT_RDWR);
-  close(this->socket);
+  printf("release\n");
   while (!list_empty(this->clients))
     {
       client = list_back(this->clients);
@@ -50,6 +49,8 @@ void			server_release(t_server *this)
       socketstream_delete(new_client);
       list_pop_back(this->new_clients);
     }
+  shutdown(this->socket, SHUT_RDWR);
+  close(this->socket);
   list_delete(this->clients);
 }
 
@@ -69,10 +70,12 @@ void			server_accept(t_server *this)
   /* HERE WE HAD BETTER GO TROUGH ALL THE OPENED SOCKET TO FIND THE HIGEST AFTER EACH CONNECTION/DISCONNECTION ! */
   if (socket > this->socket_max)
     this->socket_max = socket;
+  socketstream_write(socketstream, "BIENVENUE\n", strlen("BIENVENUE\n"));
   printf("new client socket [%d]\n", socket);
 }
 
-void			server_process_clients(t_server* this, fd_set* fd_set)
+void			server_process_clients(t_server* this,
+					       fd_set* fd_set_in, fd_set* fd_set_out)
 {
   t_list_iterator	it;
   t_client*		client;
@@ -84,7 +87,7 @@ void			server_process_clients(t_server* this, fd_set* fd_set)
   while (it != list_end(this->clients))
     {
       client = it->data;
-      if (FD_ISSET(client->socketstream->socket, fd_set))
+      if (FD_ISSET(client->socketstream->socket, fd_set_in))
 	{
 	  if (!socketstream_flush_input(client->socketstream))
 	    {
@@ -101,6 +104,60 @@ void			server_process_clients(t_server* this, fd_set* fd_set)
 		}
 	    }
 	}
+      if (FD_ISSET(client->socketstream->socket, fd_set_out))
+	{
+	  if (!socketstream_flush_output(client->socketstream))
+	    {
+	      it = list_erase(this->clients, it);
+	    }
+	}
+      it = list_iterator_next(it);
+    }
+}
+
+void			server_process_new_clients(t_server* this,
+						   fd_set* fd_set_in, fd_set* fd_set_out)
+{
+  t_list_iterator	it;
+  t_socketstream*	new_client;
+  t_client*		client;
+  char			buffer[4096];
+  int			size;
+  bool			valid_it;
+
+  it = list_begin(this->new_clients);
+  while (it != list_end(this->new_clients))
+    {
+      valid_it = false;
+      new_client = it->data;
+      if (FD_ISSET(new_client->socket, fd_set_in))
+	{
+	  if (!socketstream_flush_input(new_client))
+	    {
+	      valid_it = false;
+	      it = list_erase(this->new_clients, it);
+	    }
+	  else
+	    {
+	      memset(buffer, 0, 4096);
+	      while ((size = socketstream_read(new_client, buffer, 4096)))
+		{
+		  if (strncmp("GRAPHIC", buffer, 4096) == 0)
+		    {
+		      printf("on creer un monitor");
+		      client = client_graphic_new(new_client);
+		      list_push_back(this->clients, client);
+		      it = list_erase(this->new_clients, it);
+		      valid_it = false;
+		    }
+		  else
+		    printf("on creer une IA");
+		}
+	    }
+	}
+      if (FD_ISSET(new_client->socket, fd_set_out) && valid_it)
+	if (!socketstream_flush_output(new_client))
+	  it = list_erase(this->new_clients, it);
       it = list_iterator_next(it);
     }
 }
@@ -108,7 +165,8 @@ void			server_process_clients(t_server* this, fd_set* fd_set)
 void			server_launch(t_server *this)
 {
   int			retval;
-  fd_set		rfds;
+  fd_set		set_fd_in;
+  fd_set		set_fd_out;
 
   while (42)
     {
@@ -119,32 +177,31 @@ void			server_launch(t_server *this)
 	}
       printf("select\n");
       printf("socket [%d]\n", this->socket);
-      FD_SET(this->socket, &rfds);
-      retval = select(this->socket + 1 + this->socket_max,
-		      &rfds, NULL, NULL, NULL);
+      reset_rfds(this, &set_fd_in, &set_fd_out);
+      retval = select(1 + this->socket_max,
+		      &set_fd_in, &set_fd_out, NULL, NULL);
       printf("-- SELECT END --\n");
+      if (g_alive == false)
+	{
+	  server_release(this);
+	  return;
+	}
       if (retval == -1)
 	{
-	  if (g_alive == false)
-	    {
-	      server_release(this);
-	      return;
-	    }
-	  if (g_alive == true)
-	    perror("select()");
+	  perror("select()");
 	}
       else if (retval)
 	{
-	  if (FD_ISSET(this->socket, &rfds))
+	  if (FD_ISSET(this->socket, &set_fd_in))
 	    {
 	      printf("add client\n");
 	      server_accept(this);
 	    }
 	  else
 	    {
-	      server_process_clients(this, &rfds);
+	      server_process_clients(this, &set_fd_in, &set_fd_out);
+	      server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	    }
-	  reset_rfds(this, &rfds);
 	}
     }
 }

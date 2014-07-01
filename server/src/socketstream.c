@@ -53,11 +53,12 @@ int		socketstream_write(t_socketstream* this, char* buffer, int size)
   if (size > SOCKETSTREAM_BUFFER_SIZE - this->size_output)
     return (0);
   delta = SOCKETSTREAM_BUFFER_SIZE - this->begin_output;
+  if (delta > size)
+    delta = size;
   memcpy(this->buffer_output + this->begin_output, buffer, delta);
   if (size - delta > 0)
     memcpy(this->buffer_output, buffer + delta, size - delta);
-  this->begin_output += size;
-  this->size_output -= size;
+  this->size_output += size;
   this->begin_output %= SOCKETSTREAM_BUFFER_SIZE;
   return (size);
 }
@@ -69,6 +70,8 @@ bool		socketstream_flush_output(t_socketstream* this)
 
   cpysize = MIN(this->size_output,
 		SOCKETSTREAM_BUFFER_SIZE - this->begin_output);
+  printf("%s   --\n", this->buffer_output);
+  printf("%d\n", this->begin_output);
   memcpy(buffer, this->buffer_output + this->begin_output, cpysize);
   if (cpysize - this->size_output)
     memcpy(buffer + cpysize, this->buffer_output + this->begin_output,
