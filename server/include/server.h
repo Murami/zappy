@@ -17,16 +17,18 @@ typedef struct		s_server
 
 /* public functions */
 
-void			server_initialize(t_server *this);
+void			server_initialize(t_server *this, int port);
 void			server_release(t_server *this);
 void			server_launch(t_server *this);
 void			server_accept(t_server *this);
+void			server_process_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
+void			server_process_new_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
 
 /* private functions */
 
 void			create_socket(t_server *this, int port);
 void			bind_socket(t_server *this, struct sockaddr_in *sin);
 void			create_queue(t_server *this);
-void			reset_rfds(t_server *this, fd_set *rfds);
+void			reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out);
 
 #endif	/* _SERVER_H_ */

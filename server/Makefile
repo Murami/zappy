@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Tue Jul  1 22:29:41 2014 otoshigami
+## Last update Tue Jul  1 23:58:46 2014 otoshigami
 ##
 
 ## FILES
@@ -58,7 +58,7 @@ MD		=	mkdir -p
 
 ## CONSTANTS
 
-DBGBOOL		=	no
+DBGBOOL		=	yes
 
 PROFILE		=	no
 
