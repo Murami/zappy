@@ -1,3 +1,5 @@
+#include <string.h>
+#include <stdlib.h>
 #include "team.h"
 
 void		team_initialize(t_team *this, int nb_slots, char *name)
@@ -12,8 +14,9 @@ t_team*		team_new(int nb_slots, char *name)
 
   team = malloc(sizeof(t_team));
   if (team == NULL)
-    return NULL;
+    return (NULL);
   team_initialize(team, nb_slots, name);
+  return (team);
 }
 
 void		team_release(t_team *this)

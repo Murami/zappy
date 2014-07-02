@@ -5,6 +5,7 @@
 
 typedef struct	s_config
 {
+  int		port;
   int		width;
   int		height;
   int		delay;

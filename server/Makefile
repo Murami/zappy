@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Tue Jul  1 23:58:46 2014 otoshigami
+## Last update Wed Jul  2 17:39:52 2014 Desabre Quentin
 ##
 
 ## FILES
@@ -13,13 +13,20 @@
 NAME		=	server
 
 SRC		=	main		\
-			init_server	\
-			list		\
-			socketstream	\
 			server		\
+			server_monitors	\
+			server_io	\
+			server_process	\
+			init_server	\
 			client		\
 			client_player	\
-			client_graphic
+			client_graphic	\
+			socketstream	\
+			list		\
+			gameplay	\
+			map		\
+			case		\
+			team
 
 SRC_EXT		=	.c
 
