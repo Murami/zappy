@@ -229,5 +229,6 @@ void			server_launch(t_server *this)
 	      server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	    }
 	}
+      /* process gameplay */
     }
 }

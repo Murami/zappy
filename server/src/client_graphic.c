@@ -22,7 +22,22 @@ void	client_graphic_release(t_client_graphic* this)
 void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 {
   (void) this;
+  char			buffer[4096];
+  int			size;
+
   (void) server;
+  printf("A client player just received some data");
+  while ((size = socketstream_read(this->socketstream, buffer, 4096)))
+    {
+      if (strncmp("data", buffer, size) == 0)
+	{
+	  printf("received data\n");
+	}
+      else
+	{
+
+	}
+    }
   printf("A client graphic just received some data");
 }
 

@@ -20,9 +20,22 @@ void	client_player_release(t_client_player* this)
 
 void	client_player_run_input(t_client_player* this, t_server* server)
 {
-  (void) this;
+  char			buffer[4096];
+  int			size;
+
   (void) server;
   printf("A client player just received some data");
+  while ((size = socketstream_read(this->socketstream, buffer, 4096)))
+    {
+      if (strncmp("data", buffer, size) == 0)
+	{
+
+	}
+      else
+	{
+
+	}
+    }
 }
 
 t_client_player*	client_player_new(t_socketstream* sockstream)
