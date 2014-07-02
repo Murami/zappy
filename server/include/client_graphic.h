@@ -14,7 +14,7 @@ typedef struct		s_client_graphic
 void			client_graphic_initialize(t_client_graphic* this, t_socketstream* sockstream);
 void			client_graphic_release(t_client_graphic* this);
 
-void			client_graphic_run(t_client_graphic* this, t_server* server);
+void			client_graphic_run_input(t_client_graphic* this, t_server* server);
 
 t_client_graphic*	client_graphic_new(t_socketstream* sockstream);
 void			client_graphic_delete(t_client_graphic* client_graphic);

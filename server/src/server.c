@@ -76,47 +76,6 @@ void			server_accept(t_server *this)
   printf("new client socket [%d]\n", socket);
 }
 
-/* void			server_process_clients(t_server* this, */
-/* 					       fd_set* fd_set_in, fd_set* fd_set_out) */
-/* { */
-/*   t_list_iterator	it; */
-/*   t_client*		client; */
-
-/*   char			buffer[4096]; */
-/*   int			size; */
-
-/*   it = list_begin(this->clients); */
-/*   while (it != list_end(this->clients)) */
-/*     { */
-/*       client = it->data; */
-/*       if (FD_ISSET(client->socketstream->socket, fd_set_in)) */
-/* 	{ */
-/* 	  if (!socketstream_flush_input(client->socketstream)) */
-/* 	    { */
-/* 	      /\* VERIFIER SI IL Y A D'AUTRE COMMANDES DANS LE BUFFER AVANT DE QUITTER *\/ */
-/* 	      /\* OU ALORS IL N'Y AURA PAS DE COMMANDES VUE QUE ELLE SONT TOUTES EXECUTÉ *\/ */
-/* 	      /\* DÉS QUE DISPONIBLE *\/ */
-/* 	      it = list_erase(this->clients, it); */
-/* 	    } */
-/* 	  else */
-/* 	    { */
-/* 	      while ((size = socketstream_read(client->socketstream, buffer, 4096))) */
-/* 		{ */
-/* 		  /\* PARSING ET AJOUT DANS LA PRIORITY QUEUE *\/ */
-/* 		} */
-/* 	    } */
-/* 	} */
-/*       if (FD_ISSET(client->socketstream->socket, fd_set_out)) */
-/* 	{ */
-/* 	  if (!socketstream_flush_output(client->socketstream)) */
-/* 	    { */
-/* 	      it = list_erase(this->clients, it); */
-/* 	    } */
-/* 	} */
-/*       it = list_iterator_next(it); */
-/*     } */
-/* } */
-
 bool			server_process_clients_input(t_server* this,
 						     fd_set* fd_set_in,
 						     t_client* client)
@@ -126,7 +85,7 @@ bool			server_process_clients_input(t_server* this,
   else if (!socketstream_flush_input(client->socketstream))
     return (false);
   else
-    client_run(client, this);
+    client_run_input(client, this);
   return (true);
 }
 
@@ -139,6 +98,8 @@ bool			server_process_clients_output(t_server* this,
   if (FD_ISSET(client->socketstream->socket, fd_set_out))
     if (!socketstream_flush_output(client->socketstream))
       return (false);
+  if (!list_empty(client->requests_output))
+    client_run_output(client, this);
   return (true);
 }
 

@@ -4,7 +4,7 @@
 
 t_client_vtable client_player_vtable =
   {
-    (t_client_run_ptr)client_player_run,
+    (t_client_run_input_ptr)client_player_run_input,
     (t_client_delete_ptr)client_player_delete
   };
 
@@ -18,11 +18,11 @@ void	client_player_release(t_client_player* this)
   client_release(&this->parent_client);
 }
 
-void	client_player_run(t_client_player* this, t_server* server)
+void	client_player_run_input(t_client_player* this, t_server* server)
 {
   (void) this;
   (void) server;
-  printf("A client just received some data");
+  printf("A client player just received some data");
 }
 
 t_client_player*	client_player_new(t_socketstream* sockstream)

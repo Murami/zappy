@@ -5,7 +5,7 @@
 
 t_client_vtable client_graphic_vtable =
   {
-    (t_client_run_ptr)client_graphic_run,
+    (t_client_run_input_ptr)client_graphic_run_input,
     (t_client_delete_ptr)client_graphic_delete
   };
 
@@ -19,11 +19,11 @@ void	client_graphic_release(t_client_graphic* this)
   client_release(&this->parent_client);
 }
 
-void	client_graphic_run(t_client_graphic* this, t_server* server)
+void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 {
   (void) this;
   (void) server;
-  printf("A client just received some data");
+  printf("A client graphic just received some data");
 }
 
 t_client_graphic*	client_graphic_new(t_socketstream* sockstream)
