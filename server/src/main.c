@@ -5,14 +5,18 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Wed Jun 25 12:03:10 2014 quentin desabre
-** Last update Wed Jul  2 00:03:34 2014 otoshigami
+** Last update Wed Jul  2 15:36:33 2014 pinon
 */
 
 #include "server.h"
+#include "parser.h"
 
 int		main(int ac, char** av)
 {
   t_server	server;
+  t_config	option;
+
+  parser(ac, av, &option);
 
   if (ac == 2)
     server_initialize(&server, atoi(av[1]));

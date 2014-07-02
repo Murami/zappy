@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Tue Jul  1 23:58:46 2014 otoshigami
+## Last update Wed Jul  2 17:31:56 2014 pinon
 ##
 
 ## FILES
@@ -19,7 +19,9 @@ SRC		=	main		\
 			server		\
 			client		\
 			client_player	\
-			client_graphic
+			client_graphic	\
+			team		\
+			parser
 
 SRC_EXT		=	.c
 
