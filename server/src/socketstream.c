@@ -70,8 +70,8 @@ bool		socketstream_flush_output(t_socketstream* this)
 
   cpysize = MIN(this->size_output,
 		SOCKETSTREAM_BUFFER_SIZE - this->begin_output);
-  printf("%s   --\n", this->buffer_output);
-  printf("%d\n", this->begin_output);
+  /* printf("%s   --\n", this->buffer_output); */
+  /* printf("%d\n", this->begin_output); */
   memcpy(buffer, this->buffer_output + this->begin_output, cpysize);
   if (cpysize - this->size_output)
     memcpy(buffer + cpysize, this->buffer_output + this->begin_output,

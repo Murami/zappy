@@ -5,9 +5,10 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Wed Jun 25 12:03:10 2014 quentin desabre
-** Last update Wed Jul  2 00:03:34 2014 otoshigami
+** Last update Wed Jul  2 11:39:55 2014 otoshigami
 */
 
+#include <stdlib.h>
 #include "server.h"
 
 int		main(int ac, char** av)
