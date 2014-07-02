@@ -1,0 +1,10 @@
+IMPORTANT check retour des init suite au malloc
+
+gestion du temps
+priority queue
+release gameplay
+depop de la liste gameplay
+parsing cmd player
+parsing cmd graphic
+init du gameplay
+init du client graphic

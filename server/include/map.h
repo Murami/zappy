@@ -11,7 +11,7 @@ typedef struct	s_map
 }		t_map;
 
 t_map*		map_new(int width, int height);
-void		map_initialize(t_map *this, int width, int height);
+bool		map_initialize(t_map *this, int width, int height);
 void		map_release(t_map *this);
 void		map_delete(t_map *this);
 

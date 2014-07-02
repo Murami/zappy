@@ -7,28 +7,25 @@
 #include <string.h>
 #include <signal.h>
 #include "server.h"
+#include "gameplay.h"
 #include "client.h"
+#include "client_graphic.h"
+#include "client_player.h"
+#include "socketstream.h"
 
 bool			g_alive;
 
-void			sighandler(int signum)
-{
-  (void) signum;
-  write(1, "\b\b  \b\b", 6);
-  g_alive = false;
-}
-
-void			server_initialize(t_server *this, int port)
+void			server_initialize(t_server *this, t_config config)
 {
   signal(SIGINT, &sighandler);
   g_alive = true;
   memset(this, 0, sizeof(t_server));
-  /* gestion du port*/
-  create_socket(this, port);
+  create_socket(this, config.port);
   create_queue(this);
   this->clients = list_new();
   this->new_clients = list_new();
   this->socket_max = this->socket;
+  gameplay_initialize(&this->gameplay, config);
 }
 
 void			server_release(t_server *this)
@@ -36,15 +33,18 @@ void			server_release(t_server *this)
   t_client*		client;
   t_socketstream*	new_client;
 
-  printf("release\n");
+  printf("realse [%d] [%d]\n", list_size(this->clients), list_size(this->new_clients));
+
   while (!list_empty(this->clients))
     {
+      printf("release d'un client identifié\n");
       client = list_back(this->clients);
       client_delete(client);
       list_pop_back(this->clients);
     }
-  while (!list_empty(this->clients))
+  while (!list_empty(this->new_clients))
     {
+      printf("release d'un client non - identifié\n");
       new_client = list_back(this->new_clients);
       socketstream_delete(new_client);
       list_pop_back(this->new_clients);
@@ -74,94 +74,6 @@ void			server_accept(t_server *this)
   printf("new client socket [%d]\n", socket);
 }
 
-void			server_process_clients(t_server* this,
-					       fd_set* fd_set_in, fd_set* fd_set_out)
-{
-  t_list_iterator	it;
-  t_client*		client;
-
-  char			buffer[4096];
-  int			size;
-
-  it = list_begin(this->clients);
-  while (it != list_end(this->clients))
-    {
-      client = it->data;
-      if (FD_ISSET(client->socketstream->socket, fd_set_in))
-	{
-	  if (!socketstream_flush_input(client->socketstream))
-	    {
-	      /* VERIFIER SI IL Y A D'AUTRE COMMANDES DANS LE BUFFER AVANT DE QUITTER */
-	      /* OU ALORS IL N'Y AURA PAS DE COMMANDES VUE QUE ELLE SONT TOUTES EXECUTÉ */
-	      /* DÉS QUE DISPONIBLE */
-	      it = list_erase(this->clients, it);
-	    }
-	  else
-	    {
-	      while ((size = socketstream_read(client->socketstream, buffer, 4096)))
-		{
-		  /* PARSING ET AJOUT DANS LA PRIORITY QUEUE */
-		}
-	    }
-	}
-      if (FD_ISSET(client->socketstream->socket, fd_set_out))
-	{
-	  if (!socketstream_flush_output(client->socketstream))
-	    {
-	      it = list_erase(this->clients, it);
-	    }
-	}
-      it = list_iterator_next(it);
-    }
-}
-
-void			server_process_new_clients(t_server* this,
-						   fd_set* fd_set_in, fd_set* fd_set_out)
-{
-  t_list_iterator	it;
-  t_socketstream*	new_client;
-  t_client*		client;
-  char			buffer[4096];
-  int			size;
-  bool			valid_it;
-
-  it = list_begin(this->new_clients);
-  while (it != list_end(this->new_clients))
-    {
-      valid_it = false;
-      new_client = it->data;
-      if (FD_ISSET(new_client->socket, fd_set_in))
-	{
-	  if (!socketstream_flush_input(new_client))
-	    {
-	      valid_it = false;
-	      it = list_erase(this->new_clients, it);
-	    }
-	  else
-	    {
-	      memset(buffer, 0, 4096);
-	      while ((size = socketstream_read(new_client, buffer, 4096)))
-		{
-		  if (strncmp("GRAPHIC", buffer, 4096) == 0)
-		    {
-		      printf("on creer un monitor");
-		      client = client_graphic_new(new_client);
-		      list_push_back(this->clients, client);
-		      it = list_erase(this->new_clients, it);
-		      valid_it = false;
-		    }
-		  else
-		    printf("on creer une IA");
-		}
-	    }
-	}
-      if (FD_ISSET(new_client->socket, fd_set_out) && valid_it)
-	if (!socketstream_flush_output(new_client))
-	  it = list_erase(this->new_clients, it);
-      it = list_iterator_next(it);
-    }
-}
-
 void			server_launch(t_server *this)
 {
   int			retval;
@@ -175,12 +87,9 @@ void			server_launch(t_server *this)
 	  server_release(this);
 	  return;
 	}
-      printf("select\n");
-      printf("socket [%d]\n", this->socket);
       reset_rfds(this, &set_fd_in, &set_fd_out);
       retval = select(1 + this->socket_max,
 		      &set_fd_in, &set_fd_out, NULL, NULL);
-      printf("-- SELECT END --\n");
       if (g_alive == false)
 	{
 	  server_release(this);
@@ -203,5 +112,13 @@ void			server_launch(t_server *this)
 	      server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	    }
 	}
+      /* process gameplay */
     }
+}
+
+void			sighandler(int signum)
+{
+  (void) signum;
+  write(1, "\b\b  \b\b", 6);
+  g_alive = false;
 }
