@@ -1,6 +1,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include "client.h"
+#include "socketstream.h"
+#include "list.h"
+#include "server.h"
 
 void		client_initialize(t_client* this, t_socketstream* sockstream)
 {

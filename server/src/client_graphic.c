@@ -1,7 +1,10 @@
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "client_graphic.h"
+#include "socketstream.h"
+#include "server.h"
 
 t_client_vtable client_graphic_vtable =
   {
@@ -27,7 +30,7 @@ void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 
   (void) server;
   printf("A client player just received some data");
-  while ((size = socketstream_read(this->socketstream, buffer, 4096)))
+  while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
       if (strncmp("data", buffer, size) == 0)
 	{

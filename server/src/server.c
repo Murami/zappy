@@ -10,6 +10,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "client_player.h"
+#include "socketstream.h"
 
 bool			g_alive;
 

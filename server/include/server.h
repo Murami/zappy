@@ -3,9 +3,10 @@
 
 # include	<netinet/in.h>
 # include	<sys/select.h>
-# include	"socketstream.h"
 
 # include	"list.h"
+
+struct s_client;
 
 typedef struct		s_server
 {
@@ -14,8 +15,6 @@ typedef struct		s_server
   t_list*		new_clients;
   t_list*		clients;
 }			t_server;
-
-# include	"client.h"
 
 /* public functions */
 
@@ -26,11 +25,11 @@ void			server_accept(t_server *this);
 void			server_process_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
 void			server_process_new_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
 
-void			server_add_monitor(t_server *this, t_client *client);
-void			server_add_player(t_server *this, t_client *client);
+void			server_add_monitor(t_server *this, struct s_client *client);
+void			server_add_player(t_server *this, struct s_client *client);
 
-void			server_remove_monitor(t_server *this, t_client *client);
-void			server_remove_player(t_server *this, t_client *client);
+void			server_remove_monitor(t_server *this, struct s_client *client);
+void			server_remove_player(t_server *this, struct s_client *client);
 
 /* private functions */
 

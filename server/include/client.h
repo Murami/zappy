@@ -1,9 +1,14 @@
 #ifndef CLIENT_H
 # define CLIENT_H
 
-# include "socketstream.h"
+/* # include "server.h" */
+/* # include "socketstream.h" */
 
-typedef void (*t_client_run_input_ptr)(void*, t_server*);
+struct s_sockstream;
+struct s_server;
+struct s_list;
+
+typedef void (*t_client_run_input_ptr)(void*, struct s_server*);
 typedef void (*t_client_delete_ptr)(void*);
 
 typedef struct			s_client_vtable
@@ -14,18 +19,16 @@ typedef struct			s_client_vtable
 
 typedef struct		s_client
 {
-  t_socketstream*	socketstream;
-  t_client_vtable*     	vtable;
-  t_list*		requests_output;
+  struct s_socketstream*	socketstream;
+  t_client_vtable*		vtable;
+  struct s_list*		requests_output;
 }			t_client;
 
-# include "server.h"
-
-void		client_initialize(t_client* this, t_socketstream* sockstream);
+void		client_initialize(t_client* this, struct s_socketstream* sockstream);
 void		client_release(t_client* this);
 
-void		client_run_input(t_client* this, t_server* server);
-void		client_run_output(t_client* this, t_server* server);
+void		client_run_input(t_client* this, struct s_server* server);
+void		client_run_output(t_client* this, struct s_server* server);
 
 void		client_delete(t_client* client);
 

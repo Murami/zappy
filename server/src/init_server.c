@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "server.h"
 #include "client.h"
+#include "socketstream.h"
 
 void			create_socket(t_server *this, int port)
 {
