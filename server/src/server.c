@@ -81,7 +81,7 @@ bool			server_process_clients_input(t_server* this,
 						     fd_set* fd_set_in,
 						     t_client* client)
 {
-  if (FD_ISSET(client->socketstream->socket, fd_set_in))
+  if (!FD_ISSET(client->socketstream->socket, fd_set_in))
     return (true);
   else if (!socketstream_flush_input(client->socketstream))
     return (false);
@@ -128,10 +128,13 @@ bool			server_read_new_clients_input(t_server* this,
   int			size;
   t_client*		client;
 
+  printf("server read ne clients input\n");
   while ((size = socketstream_peek(new_client, buffer, 4096)))
     {
-      if (strncmp("GRAPHIC", buffer, size) == 0)
+      printf("in dat while [%s]\n", buffer);
+      if (strncmp("GRAPHIC\n", buffer, size) == 0)
 	{
+	  printf("add d'un monitor\n");
 	  client = (t_client*)client_graphic_new(new_client);
 	  list_push_back(this->clients, client);
 	  socketstream_read(new_client, buffer, 4096);
@@ -151,7 +154,7 @@ bool			server_process_new_clients_input(t_server* this,
 							 fd_set* fd_set_in,
 							 t_socketstream* new_client)
 {
-  if (FD_ISSET(new_client->socket, fd_set_in))
+  if (!FD_ISSET(new_client->socket, fd_set_in))
     return (true);
   else if (!socketstream_flush_input(new_client))
     return (false);

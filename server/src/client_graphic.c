@@ -15,6 +15,7 @@ t_client_vtable client_graphic_vtable =
 void	client_graphic_initialize(t_client_graphic* this, t_socketstream* sockstream)
 {
   client_initialize(&this->parent_client, sockstream);
+  this->parent_client.vtable = &client_graphic_vtable;
 }
 
 void	client_graphic_release(t_client_graphic* this)
@@ -29,10 +30,9 @@ void	client_graphic_run_input(t_client_graphic* this, t_server* server)
   int			size;
 
   (void) server;
-  printf("A client player just received some data");
   while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
-      if (strncmp("data", buffer, size) == 0)
+      if (strncmp("data\n", buffer, size) == 0)
 	{
 	  printf("received data\n");
 	}
@@ -41,7 +41,7 @@ void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 
 	}
     }
-  printf("A client graphic just received some data");
+  /* printf("A client graphic just received some data"); */
 }
 
 t_client_graphic*	client_graphic_new(t_socketstream* sockstream)

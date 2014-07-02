@@ -14,6 +14,7 @@ t_client_vtable client_player_vtable =
 void	client_player_initialize(t_client_player* this, t_socketstream* sockstream)
 {
   client_initialize(&this->parent_client, sockstream);
+  this->parent_client.vtable = &client_player_vtable;
 }
 
 void	client_player_release(t_client_player* this)
