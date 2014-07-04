@@ -21,6 +21,7 @@ typedef struct	s_socketstream
 void		socketstream_initialize(t_socketstream* this, int socket);
 void		socketstream_release(t_socketstream* this);
 int		socketstream_read(t_socketstream* this, char* buffer, int size);
+int		socketstream_peek(t_socketstream* this, char* buffer, int size);
 int		socketstream_write(t_socketstream* this, char* buffer, int size);
 bool		socketstream_flush_output(t_socketstream* this);
 bool		socketstream_flush_input(t_socketstream* this);

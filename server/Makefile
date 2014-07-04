@@ -1,23 +1,23 @@
-##
-## Makefile for  in /home/otoshigami/Workspace/Epitech/git/cpp_bomberman
-## 
-## Made by otoshigami
-## Login   <otoshigami@epitech.net>
-## 
-## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Mon Jun 30 12:08:36 2014 otoshigami
-##
-
 ## FILES
 
 NAME		=	server
 
 SRC		=	main		\
-			init_server	\
-			list		\
-			socketstream	\
 			server		\
-			client
+			server_monitors	\
+			server_io	\
+			server_process	\
+			init_server	\
+			client		\
+			client_player	\
+			client_graphic	\
+			parser		\
+			socketstream	\
+			list		\
+			gameplay	\
+			map		\
+			case		\
+			team
 
 SRC_EXT		=	.c
 
@@ -56,7 +56,7 @@ MD		=	mkdir -p
 
 ## CONSTANTS
 
-DBGBOOL		=	no
+DBGBOOL		=	yes
 
 PROFILE		=	no
 

@@ -5,11 +5,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "server.h"
+#include "client.h"
+#include "socketstream.h"
 
 void			create_socket(t_server *this, int port)
 {
   struct sockaddr_in	sin;
   struct protoent 	*pe;
+  int			val;
 
   pe = getprotobyname("TCP");
   this->socket = socket(AF_INET, SOCK_STREAM, pe->p_proto);
@@ -21,6 +24,8 @@ void			create_socket(t_server *this, int port)
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = htonl(INADDR_ANY);
+  val = 1;
+  setsockopt(this->socket, SOL_SOCKET, SO_REUSEADDR, &val, sizeof(int));
   bind_socket(this, &sin);
 }
 
@@ -49,16 +54,35 @@ void			create_queue(t_server *this)
     }
 }
 
-void			reset_rfds(t_server *this, fd_set *rfds)
+void			reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out)
 {
   t_list_iterator	it;
+  t_client*		client;
+  t_socketstream*	sockstream;
 
-  FD_ZERO(rfds);
-  FD_SET(this->socket, rfds);
+  FD_ZERO(fd_set_in);
+  FD_ZERO(fd_set_out);
+  FD_SET(this->socket, fd_set_in);
+  /* CLIENTS LOOP */
   it = list_begin(this->clients);
   while (it != list_end(this->clients))
     {
-      FD_SET(((t_socketstream*)it->data)->socket, rfds);
+      client = it->data;
+      if (SOCKETSTREAM_BUFFER_SIZE - client->socketstream->size_input > 0)
+	FD_SET(client->socketstream->socket, fd_set_in);
+      if (client->socketstream->size_output != 0)
+	FD_SET(client->socketstream->socket, fd_set_out);
+      it = list_iterator_next(it);
+    }
+  /* NEW CLIENTS LOOP */
+  it = list_begin(this->new_clients);
+  while (it != list_end(this->new_clients))
+    {
+      sockstream = it->data;
+      if (SOCKETSTREAM_BUFFER_SIZE - sockstream->size_input > 0)
+	FD_SET(sockstream->socket, fd_set_in);
+      if (sockstream->size_output != 0)
+	FD_SET(sockstream->socket, fd_set_out);
       it = list_iterator_next(it);
     }
 }

@@ -5,10 +5,13 @@
 
 typedef struct	s_config
 {
-  int		width;
-  int		height;
-  int		delay;
-  t_list	*teams;
+  long int		port;
+  long int		width;
+  long int		height;
+  long int		delay;
+  long int		nbr;
+  t_list		*team_names;
+  t_list		*teams;
 }		t_config;
 
 #endif	/* _CONFIG_H_ */

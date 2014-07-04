@@ -1,20 +1,17 @@
-/*
-** main.c for main in /home/desabr_q/Desktop/zappy/PSU_2013_zappy
-**
-** Made by quentin desabre
-** Login   <desabr_q@epitech.net>
-**
-** Started on  Wed Jun 25 12:03:10 2014 quentin desabre
-** Last update Mon Jun 30 10:33:43 2014 otoshigami
-*/
-
+#include <stdlib.h>
+#include "list.h"
+#include "team.h"
+#include "config.h"
 #include "server.h"
+#include "parser.h"
 
-int		main()
+int		main(int ac, char **av)
 {
+  t_config	config;
   t_server	server;
 
-  server_initialize(&server);
+  parser(ac, av, &config);
+  server_initialize(&server, config);
   server_launch(&server);
   return (0);
 }

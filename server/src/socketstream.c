@@ -46,6 +46,27 @@ int		socketstream_read(t_socketstream* this, char* buffer, int size)
     }
 }
 
+int		socketstream_peek(t_socketstream* this, char* buffer, int size)
+{
+  int	delta;
+  int	delta_request;
+
+  delta = SOCKETSTREAM_BUFFER_SIZE - this->begin_input;
+  if (this->size_input < delta)
+    delta = this->size_input;
+  if (size < delta)
+    delta = size;
+  memcpy(buffer, this->buffer_input + this->begin_input, delta);
+  memcpy(buffer + delta, this->buffer_input, this->size_input - delta);
+  if (!strchr(buffer, '\n'))
+    return (0);
+  else
+    {
+      delta_request = MIN(strchr(buffer, '\n') - buffer + 1, this->size_input);
+      return (delta_request);
+    }
+}
+
 int		socketstream_write(t_socketstream* this, char* buffer, int size)
 {
   int	delta;
@@ -53,11 +74,12 @@ int		socketstream_write(t_socketstream* this, char* buffer, int size)
   if (size > SOCKETSTREAM_BUFFER_SIZE - this->size_output)
     return (0);
   delta = SOCKETSTREAM_BUFFER_SIZE - this->begin_output;
+  if (delta > size)
+    delta = size;
   memcpy(this->buffer_output + this->begin_output, buffer, delta);
   if (size - delta > 0)
     memcpy(this->buffer_output, buffer + delta, size - delta);
-  this->begin_output += size;
-  this->size_output -= size;
+  this->size_output += size;
   this->begin_output %= SOCKETSTREAM_BUFFER_SIZE;
   return (size);
 }

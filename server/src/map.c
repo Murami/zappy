@@ -1,3 +1,5 @@
+#include <stdbool.h>
+#include <stdlib.h>
 #include "map.h"
 
 bool		map_initialize(t_map *this, int width, int height)
@@ -14,7 +16,7 @@ bool		map_initialize(t_map *this, int width, int height)
     {
       while (j != height)
 	{
-	  case_initialize(this->map[i + j * width]);
+	  case_initialize(&this->map[i + j * width]);
 	  j++;
 	}
       i++;
@@ -28,7 +30,7 @@ t_map*		map_new(int width, int height)
 {
   t_map		*map;
 
-  if (map = malloc(sizeof(t_map)) != NULL)
+  if ((map = malloc(sizeof(t_map))) != NULL)
     return (NULL);
   map_initialize(map, width, height);
   return (map);
@@ -36,7 +38,7 @@ t_map*		map_new(int width, int height)
 
 void		map_release(t_map *this)
 {
-  free(this->map)
+  free(this->map);
 }
 
 void		map_delete(t_map *this)
