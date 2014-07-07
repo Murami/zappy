@@ -48,4 +48,4 @@ class Data:
         elif res.isAnswer():
             print("test8")
             self.answer = res.getAnswer()
-
+        print("end")

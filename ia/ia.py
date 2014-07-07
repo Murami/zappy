@@ -3,6 +3,9 @@ import select
 import queue
 import zappyNetwork
 import data
+from random import randint
+
+static = 0
 
 class   Player:
     def __init__ (self, teamName):
@@ -26,15 +29,34 @@ class   Player:
     def getResponseFromServer (self):
         return self.parser.parse(self.net.recv())
 
+    def shearchFood (self):
+        global static
+        if static < 3:
+            self.decisions.put("droite")
+            static += 1
+        else:
+            static = 0
+            rand = randint(0,2)
+            if (rand == 0):
+                self.decisions.put("droite")
+            if (rand == 1):
+                self.decisions.put("gauche")
+            for i in range(self.data.level.getActualLevel() * 2 + 1):
+                self.decisions.put("avance")
+
     def getDecision(self):
+        global static
         if not self.decisions.empty():
             return;
         elif self.decisions.empty() and self.data.fov.getUsed() is True:
-            print("voir")
             self.decisions.put("voir")
         elif self.decisions.empty() and self.data.fov.getUsed() is False:
             self.data.fov.setUsed(True)
             self.decisions = self.data.fov.getClosestFood()
+            if self.decisions.empty():
+                self.shearchFood()
+            else:
+                static = 0
 
     def updateData (self):
         print("update")
@@ -46,7 +68,9 @@ class   Player:
         while self.data.alive.isAlive():
             # rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
             self.getDecision()
-            self.net.send(self.decisions.get())
+            var = self.decisions.get()
+            print(var)
+            self.net.send(var)
             self.updateData()
         print("\033[32mOh no, you're dead !!!\033[0m")
 
