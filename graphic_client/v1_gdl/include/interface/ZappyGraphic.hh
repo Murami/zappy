@@ -2,7 +2,6 @@
 # define	__ZAPPYGRAPHIC_HH__
 
 # include	"objects/Stone.hh"
-# include	"network/Connection.hh"
 # include	"interface/Window.hh"
 
 namespace	Zappy

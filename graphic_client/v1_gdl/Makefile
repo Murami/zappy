@@ -1,17 +1,3 @@
-##
-## Makefile for  in /home/otoshigami/Workspace/Epitech/git/cpp_bomberman
-## 
-## Made by otoshigami
-## Login   <otoshigami@epitech.net>
-## 
-## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-<<<<<<< HEAD
-## Last update Sun Jul  6 22:27:12 2014 Manu
-=======
-## Last update Mon Jul  7 17:02:09 2014 Desabre Quentin
->>>>>>> 154fc5d5557c3b5db612f974ca4b07788a332ee1
-##
-
 ## FILES
 
 NAME		=	zappy-graphic
@@ -23,14 +9,11 @@ SRC		=	main				\
 			objects/AObject			\
 			objects/Map			\
 			objects/Stone			\
-<<<<<<< HEAD
 			objects/Player			\
 			objects/ModelManager		\
-=======
 			network/Client			\
 			network/Socket			\
 			network/Mutex			\
->>>>>>> 154fc5d5557c3b5db612f974ca4b07788a332ee1
 
 SRC_EXT		=	.cpp
 
@@ -64,7 +47,7 @@ LIB		=	gdl_gl		\
 			sfml-network	\
 
 DLIB		=	gdl/libs	\
-			
+
 ## RUNS
 
 CC		=	g++
