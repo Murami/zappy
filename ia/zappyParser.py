@@ -34,7 +34,7 @@ class ZappyParser:
             tmp = self.tab[elem].regex.search(str(toParse))
             if tmp is not None:
                 return self.tab[elem].funcPtr(str(toParse))
-        print(str(toParse))
+        print(toParse)
         raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER\033[0m")
 
     def __parseMessage (self, toParse):
