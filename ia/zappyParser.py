@@ -31,9 +31,9 @@ class ZappyParser:
 
     def parse (self, toParse):
         for elem in self.names:
-            tmp = self.tab[elem].regex.search(toParse)
+            tmp = self.tab[elem].regex.search(str(toParse))
             if tmp is not None:
-                return self.tab[elem].funcPtr(toParse)
+                return self.tab[elem].funcPtr(str(toParse))
         raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER\033[0m")
 
     def __parseMessage (self, toParse):
