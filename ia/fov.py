@@ -41,25 +41,26 @@ class Fov:
         return 0
 
     def getClosestFood (self):
+        temp = queue.Queue()
         for elem in distance:
             for sub in elem:
                 if sub < len(self.cases):
                     if self.cases[sub]["nourriture"] > 0:
                         if sub == 0:
-                            temp = queue.Queue()
                             temp.put("prend nourriture")
                             return temp
                         else:
                             return path[sub]
+        return temp
 
     def getClosestStone (self, stoneName):
+        temp = queue.Queue()
         for elem in distance:
             for sub in elem:
                 if sub < len(self.cases):
                     try:
                         if self.cases[sub][stoneName] > 0:
                             if sub == 0:
-                                temp = queue.Queue()
                                 temp.put("prend " + stoneName)
                                 return temp
                             else:
@@ -67,7 +68,8 @@ class Fov:
                     except KeyError:
                         print("\033[31mError in getClosestStone : "            
                               + "\033[33munknown key [" + stoneName + "]\033[0m")
-                        return 0
+                        return temp
+        return temp
                         
 
 distance = list()

@@ -7,6 +7,7 @@ import data
 class   Player:
     def __init__ (self, teamName):
         self.decisions = queue.Queue()
+        self.data = data.Data()
         self.teamName = teamName
         try:
             self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
@@ -28,23 +29,26 @@ class   Player:
     def getDecision(self):
         if not self.decisions.empty():
             return;
-        elif self.decisions.empty() && fov.getUsed() == True:
+        elif self.decisions.empty() and self.data.fov.getUsed() is True:
             self.decisions.put("voir")
-        elif self.decisions.empty() && fov.getUsed() == False:
-            self.decisions = self.fov.getClosestFood()
+        elif self.decisions.empty() and self.data.fov.getUsed() is False:
+            self.decisions = self.data.fov.getClosestFood()
 
-    def updateData(self):
-        data.update(self.net.recv());
-
+    def updateData (self):
+        var = self.net.recv()
+        print(var)
+        print("@@@@@@@@@@@@@@@@@")
+        self.data.update(var);
+        
     def run (self):
         while self.data.alive.isAlive():
             rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
-            if (len(rlist) > 0):
-                updateData()
-            if (len(wlist) > 0):
-                getDecision()
-            self.net.send(self.decisions.pop())
-
+            if len(wlist) > 0:
+                self.net.send(self.decisions.get())
+            self.getDecision()
+            if len(rlist) > 0:
+                self.updateData()
+        print("\033[32mOh no, you're dead !!!\033[0m")
 
 
 def main():

@@ -2,7 +2,7 @@
 class Alive:
 
     def __init__ (self):
-        self.isAlive = True
+        self.isItAlive = True
 
     def isAlive (self):
-        return self.isAlive
+        return self.isItAlive

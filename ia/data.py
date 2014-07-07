@@ -38,3 +38,4 @@ class Data:
             self.message = res.getMessage()
         elif res.isAnswer():
             self.answer = res.getAnswer()
+
