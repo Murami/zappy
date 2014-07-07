@@ -5,8 +5,8 @@ class   ZappyNetwork:
     def __init__ (self, ip, port):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.settimeout(1)
             self.sock.connect((ip, port))
-            self.sock.settimeout(None)
         except OSError as error:
             print("\033[31mNetwork Error " + str(error.errno) + ": \033[33m" + error.strerror + "\033[00m")
         except socket.error as error:

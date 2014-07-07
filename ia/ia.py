@@ -30,24 +30,24 @@ class   Player:
         if not self.decisions.empty():
             return;
         elif self.decisions.empty() and self.data.fov.getUsed() is True:
+            print("voir")
             self.decisions.put("voir")
         elif self.decisions.empty() and self.data.fov.getUsed() is False:
+            self.data.fov.setUsed(True)
             self.decisions = self.data.fov.getClosestFood()
 
     def updateData (self):
-        var = self.net.recv()
-        print(var)
-        print("@@@@@@@@@@@@@@@@@")
-        self.data.update(var);
-        
+        print("update")
+        msg = self.net.recv()
+        print(msg)
+        self.data.update(msg);
+
     def run (self):
         while self.data.alive.isAlive():
-            rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
-            if len(wlist) > 0:
-                self.net.send(self.decisions.get())
+            # rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
             self.getDecision()
-            if len(rlist) > 0:
-                self.updateData()
+            self.net.send(self.decisions.get())
+            self.updateData()
         print("\033[32mOh no, you're dead !!!\033[0m")
 
 

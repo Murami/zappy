@@ -1,7 +1,7 @@
 import queue
 
 class Fov:
-                                        
+
     def __init__ (self):
         self.cases = []
         self.use = False
@@ -33,10 +33,10 @@ class Fov:
         try:
             return self.cases[case][stoneName]
         except IndexError:
-            print("\033[31mError in getStoneOnCase : "            
+            print("\033[31mError in getStoneOnCase : "
                   + "\033[33mbad index [" + str(case) + "]\033[0m")
         except KeyError:
-            print("\033[31mError in getStoneOnCase : "            
+            print("\033[31mError in getStoneOnCase : "
                   + "\033[33munknown key [" + stoneName + "]\033[0m")
         return 0
 
