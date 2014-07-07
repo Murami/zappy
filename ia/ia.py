@@ -1,13 +1,15 @@
-import zappyNetwork
-import inventory
 import sys
-import queue
+import select
+
+import zappyNetwork
 import zappyParser
+import inventory
+
 
 class   Player:
     def __init__ (self, teamName):
-        self.responses = queue.Queue()
         self.teamName = teamName
+        self.parser = zappyParser.ZappyParser()
         try:
             self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except IndexError:
@@ -19,18 +21,19 @@ class   Player:
         self.net.recv()
         self.net.recv()
 
-    def IaReceive (self):
-        p = zappyParser.ZappyParser()
-        self.responses.put(p.parse(self.net.recv()))
-
     def sendMessageToServer (self, msg):
         self.net.send(msg)
 
     def getResponseFromServer (self):
-        if not self.responses.empty():
-            return self.responses.get()
-        else:
-            return None
+        return self.parser.parse(self.net.recv())
+
+    def run (self):
+        while True:
+            rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
+            if not rlist.empty():
+                self.net.recv()
+            if not wlist.empty():
+                self.net.send("avance")
 
 
 def main():
@@ -41,21 +44,13 @@ def main():
               + "\033[33mmissing argument(s)\033[0m")
         raise
 
-    player.sendMessageToServer("avance")
-    player.IaReceive()
-    tmp = player.getResponseFromServer()
-    if tmp.isAnswer():
-        print(tmp.getAnswer.isOk())
-        
-        
+    player.run()
+
+
+# try:
+#     main()
+# except BaseException as err:
+#     print("\033[34m" + str(err) + "\033[0m")
+#     print("\033[36mSo I quit...\033[0m")
     
-
-
-
-
-try:
-    main()
-except BaseException as err:
-    print("\033[34m" + str(err) + "\033[0m")
-    print("\033[36mSo I quit...\033[0m")
-    
+main()

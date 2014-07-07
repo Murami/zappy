@@ -17,13 +17,13 @@ class ZappyParser:
         self.tab = {}
         self.tab["inventory"] = structFuncPtr(re.compile("^{nourriture ([0-9]+),linemate ([0-9]+),sibur ([0-9]+),deraumere ([0-9]+),mendiane ([0-9]+),phiras ([0-9]+),thystame ([0-9]+)}$"),
                                               self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([, ][joueur | nourriture | linemate | sibur | deraumere | mendiane | phiras | thystame]*)*}$"),
+        self.tab["fov"] = structFuncPtr(re.compile("^{([, ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)*)*}$"),
                                         self.__parseFov)
         self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
                                                self.__parseMessage)
         self.tab["expulse"] = structFuncPtr(re.compile("^deplacement: [0-9]+$"),
                                             self.__parseExpulse)
-        self.tab["answer"] = structFuncPtr(re.compile("^[ok|ko]$"),
+        self.tab["answer"] = structFuncPtr(re.compile("^(ok|ko)$"),
                                            self.__parseAnswer)
         self.tab["value"] = structFuncPtr(re.compile("^[0-9]+$"),
                                           self.__parseValue)
@@ -31,9 +31,10 @@ class ZappyParser:
 
     def parse (self, toParse):
         for elem in self.names:
-            tmp = self.tab[elem].regex.search(str(toParse))
+            tmp = self.tab[elem].regex.search(toParse)
             if tmp is not None:
-                return self.tab[elem].funcPtr(str(toParse))
+                return self.tab[elem].funcPtr(toParse)
+        print(toParse)
         raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER\033[0m")
 
     def __parseMessage (self, toParse):

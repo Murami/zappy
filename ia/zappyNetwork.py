@@ -5,6 +5,7 @@ class   ZappyNetwork:
     def __init__ (self, ip, port):
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.settimeout(0)
             self.sock.connect((ip, port))
         except OSError as error:
             if error.errno == 104:
@@ -27,4 +28,4 @@ class   ZappyNetwork:
         self.sock.send("{}\n".format(msg).encode("utf8"))
 
     def recv (self):
-        return str(self.sock.recv(1024)[:-1], "utf8")
+        return str(self.sock.recv(42420)[:-1], "utf8")
