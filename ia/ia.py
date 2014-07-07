@@ -1,5 +1,6 @@
 import sys
 import select
+import queue
 
 import zappyNetwork
 import zappyParser
@@ -8,6 +9,7 @@ import inventory
 
 class   Player:
     def __init__ (self, teamName):
+        self.decisions = queue.Queue()
         self.teamName = teamName
         self.parser = zappyParser.ZappyParser()
         try:
@@ -30,10 +32,7 @@ class   Player:
     def run (self):
         while True:
             rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
-            if not rlist.empty():
-                self.net.recv()
-            if not wlist.empty():
-                self.net.send("avance")
+
 
 
 def main():
