@@ -1,6 +1,7 @@
 #ifndef		__ZAPPYGRAPHIC_HH__
 # define	__ZAPPYGRAPHIC_HH__
 
+# include	"objects/Stone.hh"
 # include	"network/Connection.hh"
 # include	"interface/Window.hh"
 
@@ -14,6 +15,9 @@ namespace	Zappy
     Connection	_connection;
     Window	_window;
     Map*	_map;
+
+    // pour test
+    std::list<Stone*>	_stones;
 
   public :
     void	run();

@@ -20,7 +20,7 @@ namespace	Zappy
     std::map<Type, gdl::Model*>	_models;
 
   public :
-    gdl::Model*		getModel(Type);
+    gdl::Model*		getStone(Type);
 
   private :
     ModelManager();

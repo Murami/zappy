@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Thu Jul  3 01:21:22 2014 Manu
+## Last update Sun Jul  6 22:27:12 2014 Manu
 ##
 
 ## FILES
@@ -19,8 +19,9 @@ SRC		=	main				\
 			network/Connection		\
 			objects/AObject			\
 			objects/Map			\
-			objects/ModelManager		\
 			objects/Stone			\
+			objects/Player			\
+			objects/ModelManager		\
 
 SRC_EXT		=	.cpp
 
@@ -45,6 +46,7 @@ MAKED		=	make --no-print-directory -C
 LIB		=	gdl_gl		\
 			GLEW		\
 			GL		\
+			GLU		\
 			fbxsdk		\
 			SDL2		\
 			pthread		\

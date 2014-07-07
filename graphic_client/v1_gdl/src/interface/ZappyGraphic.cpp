@@ -1,5 +1,5 @@
-#include		"objects/Stone.hh"
 #include		"objects/Map.hh"
+#include		"objects/Player.hh"
 #include		"interface/ZappyGraphic.hh"
 #include		"interface/Camera.hh"
 
@@ -12,8 +12,6 @@ namespace	Zappy
 
   void		ZappyGraphic::run()
   {
-    // Lancer le thread de la connection
-
     _window.create(Window::WIDTH, Window::HEIGHT, Window::TITLE);
 
     _map = new Map(20, 20);
@@ -21,39 +19,61 @@ namespace	Zappy
 
     _window.getCamera()->setPosition(glm::vec2(10, 10));
 
-    Stone* linemate = new Stone(LINEMATE, glm::vec2(0, 0));
-    linemate->initialize();
+    for (int x = 0; x < 20; x++)
+      {
+	for (int y = 0; y < 20; y++)
+	  {
+	    for (int i = 0; i < 12; i++)
+	      {
+		Stone* stone = new Stone((i == 0 ? LINEMATE :
+					  i == 1 ? DERAUMERE :
+					  i == 2 ? SIBUR :
+					  i == 3 ? MENDIANE :
+					  i == 4 ? PHIRAS : THYSTAME),
+					 glm::vec2(x, y));
+		stone->initialize();
+		_stones.push_back(stone);
+	      }
+	  }
+      }
 
-    Stone* deraumere = new Stone(DERAUMERE, glm::vec2(0, 0));
-    deraumere->initialize();
+    std::list<Player*> list;
 
-    Stone* sibur = new Stone(SIBUR, glm::vec2(0, 0));
-    sibur->initialize();
-
-    Stone* mendiane = new Stone(MENDIANE, glm::vec2(0, 0));
-    mendiane->initialize();
-
-    Stone* phiras = new Stone(PHIRAS, glm::vec2(0, 0));
-    phiras->initialize();
-
-    Stone* thystame = new Stone(THYSTAME, glm::vec2(0, 0));
-    thystame->initialize();
+    for (int i = 0; i < 20; i++)
+      {
+	Player* player = new Player(10,  10, "Gitan");
+	player->initialize();
+	list.push_back(player);
+      }
 
     while (_window.isRunning())
       {
 	_window.update();
-	// Dessin des elements ici
 	_window.bindShader();
 
-	_window.draw(linemate);
-	_window.draw(deraumere);
-	_window.draw(sibur);
-	_window.draw(mendiane);
-	_window.draw(phiras);
-	_window.draw(thystame);
+	for (std::list<Player*>::iterator it = list.begin();
+	     it != list.end(); it++)
+	  {
+	    if ((*it)->getState() == STANDING)
+	      {
+		if (random() % 2 == 0)
+		  (*it)->turnLeft();
+		else
+		  (*it)->turnRight();
+		(*it)->goForward();
+	      }
+	    _window.updateObject(*it);
+	  }
+
+	for (std::list<Player*>::iterator it = list.begin();
+	     it != list.end(); it++)
+	  _window.draw(*it);
+
+	for (std::list<Stone*>::iterator it = _stones.begin();
+	     it != _stones.end(); it++)
+	  _window.draw(*it);
 
 	_window.draw(_map);
-
 	_window.flush();
       }
   }

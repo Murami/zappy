@@ -1,4 +1,7 @@
 #include	"interface/ZappyGraphic.hh"
+#include	"objects/AnimationPool.hpp"
+
+Zappy::AnimationPool*	Zappy::AnimationPool::_instance = NULL;
 
 int		main(int argc, char **argv)
 {
