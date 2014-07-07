@@ -15,6 +15,11 @@ class   Player:
     def sendMessageToServer (self, msg):
         self.net.send(msg)
 
+
+
+
+
+
 def main():
     try:
         player = Player(sys.argv[3])
@@ -22,8 +27,11 @@ def main():
         print("\033[31mError in connect : "
               + "\033[33mmissing argument(s)\033[0m")
 
+    while 10:
+        player.sendMessageToServer("avance")
 
 try:
     main()
-except:
-    print("\033[36mSo I quit...\033[0m")
+except BaseException as err:
+    print("\033[31mFatal Error : "
+          + "\033[33m" + str(err) + "\033[0m")
