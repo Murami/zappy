@@ -17,7 +17,7 @@ class   ZappyNetwork:
         self.sock.close()
 
     def connect(self, teamName):
-        self.sock.connect((self.ip, self.port))
+        self.sock.connect((self.ip, int(self.port)))
         self.sock.send(bytes(teamName + "\n", "utf-8"))
         receive = str(self.sock.recv(1024), "utf-8")
         print("HERE : ", receive)

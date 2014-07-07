@@ -1,4 +1,6 @@
 import zappyNetwork
+import inventory
+import sys
 
 class   Player:
     """Ceci est la classe player, qui gère un joueur sur la map"""
@@ -6,8 +8,9 @@ class   Player:
     def __init__ (self, teamName):
         self.teamName = teamName
 
+    # listes des commandes
     def connect (self):
-        self.net = zappyNetwork.ZappyNetwork("127.0.0.1", 4242)
+        self.net = zappyNetwork.ZappyNetwork(sys.argv[1], sys.argv[2])
         self.net.connect(self.teamName)
 
     def forward (self):
