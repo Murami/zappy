@@ -6,8 +6,8 @@ class   ZappyNetwork:
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((ip, port))
-        except socket.error as serr:
-            print(serr);
+        except socket.error, v:
+            print("\033[31m Network Error " + str(v[0]) + ": \033[33m" + v[1] + "\033[00m");
 
     def __del__ (self):
         self.sock.close()
