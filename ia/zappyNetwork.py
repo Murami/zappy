@@ -26,4 +26,4 @@ class   ZappyNetwork:
         self.sock.send("{}\n".format(msg).encode("utf8"))
 
     def recv (self):
-        return self.sock.recv(42420)
+        return "{}\n".format(self.sock.recv(42420)).encode("utf8")
