@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:32 2014 Manu
-// Last update Wed Jul  2 15:59:51 2014 Manu
+// Last update Sun Jul  6 16:08:41 2014 Manu
 //
 
 #include	"objects/AObject.hh"
@@ -14,6 +14,21 @@ namespace	Zappy
 {
   AObject::AObject() : _position(0, 0, 0), _rotation(0, 0, 0), _scale(1, 1, 1)
   {
+  }
+
+  const glm::vec3&	AObject::getPosition() const
+  {
+    return (_position);
+  }
+
+  const glm::vec3&	AObject::getRotation() const
+  {
+    return (_rotation);
+  }
+
+  const glm::vec3&	AObject::getScale() const
+  {
+    return (_scale);
   }
 
   void		AObject::setPosition(const glm::vec3& pos)
@@ -34,6 +49,13 @@ namespace	Zappy
   void		AObject::scale(const glm::vec3& v)
   {
     this->_scale *= v;
+  }
+
+  void		AObject::reset()
+  {
+    _position = glm::vec3(0, 0, 0);
+    _rotation = glm::vec3(0, 0, 0);
+    _scale = glm::vec3(1, 1, 1);
   }
 
   glm::mat4	AObject::getTransformation()

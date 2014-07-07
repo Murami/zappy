@@ -42,29 +42,6 @@ namespace	Zappy
       }
     _lines.build();
     _geom.build();
-
-    _x.setColor(glm::vec4(1, 0, 0, 1));
-    _x.pushVertex(glm::vec3(0, 0, 0));
-    _x.pushVertex(glm::vec3(100, 0, 0));
-    _x.pushUv(glm::vec2(0, 0));
-    _x.pushUv(glm::vec2(1, 1));
-
-    _y.setColor(glm::vec4(0, 1, 0, 1));
-    _y.pushVertex(glm::vec3(0, 0, 0));
-    _y.pushVertex(glm::vec3(0, 100, 0));
-    _y.pushUv(glm::vec2(0, 0));
-    _y.pushUv(glm::vec2(1, 1));
-
-    _z.setColor(glm::vec4(0, 0, 1, 1));
-    _z.pushVertex(glm::vec3(0, 0, 0));
-    _z.pushVertex(glm::vec3(0, 0, 100));
-    _z.pushUv(glm::vec2(0, 0));
-    _z.pushUv(glm::vec2(1, 1));
-
-    _x.build();
-    _y.build();
-    _z.build();
-
   }
 
   void		Map::update(const gdl::Clock&, gdl::Input&)
@@ -77,9 +54,6 @@ namespace	Zappy
     shader.setUniform("color", glm::vec4(1, 1, 1, 1));
     _texture.bind();
     _geom.draw(shader, getTransformation(), GL_QUADS);
-    // _x.draw(shader, getTransformation(), GL_LINES);
-    // _y.draw(shader, getTransformation(), GL_LINES);
-    // _z.draw(shader, getTransformation(), GL_LINES);
     glDisable(GL_TEXTURE_2D);
     _lines.draw(shader, getTransformation(), GL_LINES);
 

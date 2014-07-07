@@ -48,18 +48,18 @@ bool		list_push_front(t_list* this, void* data)
   return (true);
 }
 
-void		list_pop_back(t_list* this)
+void		list_pop_front(t_list* this)
 {
   t_list_elm*	elm;
 
-  elm = (t_list_elm*)this->root->prev;
-  elm->prev->next = this->root;
-  this->root->prev = elm->prev;
+  elm = (t_list_elm*)this->root->next;
+  elm->next->prev = this->root;
+  this->root->next = elm->next;
   free(elm);
   this->size--;
 }
 
-void	list_pop_front(t_list* this)
+void	list_pop_back(t_list* this)
 {
   t_list_elm*	elm;
 

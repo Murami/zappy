@@ -1,3 +1,4 @@
+#include		<unistd.h>
 #include		"objects/AObject.hh"
 #include		"interface/Window.hh"
 #include		"interface/Camera.hh"
@@ -51,6 +52,11 @@ namespace		Zappy
       _running = false;
     _context.updateClock(_clock);
     _handleMouseEvents();
+    // if (_clock.getElapsed() < 1.0f / 10.0f)
+    //   {
+    // 	//std::cout << (1.0f / 10.0f) - _clock.getElapsed() << std::endl;
+    // 	usleep((1.0f / 10.0f) - _clock.getElapsed());
+    //   }
   }
 
   void			Window::flush()
@@ -61,6 +67,11 @@ namespace		Zappy
   void			Window::draw(AObject* object)
   {
     object->draw(_shader, _clock);
+  }
+
+  void			Window::updateObject(AObject* object)
+  {
+    object->update(_clock, _input);
   }
 
   void			Window::bindShader()

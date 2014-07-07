@@ -74,6 +74,7 @@ void			reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out)
 	FD_SET(client->socketstream->socket, fd_set_out);
       it = list_iterator_next(it);
     }
+
   /* NEW CLIENTS LOOP */
   it = list_begin(this->new_clients);
   while (it != list_end(this->new_clients))

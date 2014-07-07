@@ -15,9 +15,9 @@ typedef struct		s_server
 {
   int			socket_max;
   int			socket;
-  t_gameplay    	gameplay;
+  t_gameplay*    	gameplay;
   t_list*		new_clients;
-  t_list*		clients;
+  t_list*		clients; /* ia et monitor */
 }			t_server;
 
 void			sighandler(int);

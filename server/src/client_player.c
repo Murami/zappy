@@ -8,6 +8,7 @@
 t_client_vtable client_player_vtable =
   {
     (t_client_run_input_ptr)client_player_run_input,
+    (t_client_remove_ptr)client_player_remove,
     (t_client_delete_ptr)client_player_delete
   };
 
@@ -39,6 +40,24 @@ void	client_player_run_input(t_client_player* this, t_server* server)
 	{
 
 	}
+    }
+}
+
+void			client_player_remove(t_client_player* client, t_server* server)
+{
+  t_list_iterator	it;
+  t_client_player*	tmp;
+
+  it = list_begin(server->clients);
+  while (it != list_end(server->clients))
+    {
+      tmp = it->data;
+      if (client == tmp)
+	{
+	  it = list_erase(server->clients, it);
+	  return;
+	}
+      it = list_iterator_next(it);
     }
 }
 

@@ -1,6 +1,9 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "gameplay.h"
+#include "socketstream.h"
+#include "client.h"
 
 void		gameplay_initialize(t_gameplay *this, t_config config)
 {
@@ -23,6 +26,11 @@ t_gameplay*    	gameplay_new(t_config config)
     return (NULL);
   gameplay_initialize(gameplay, config);
   return (gameplay);
+}
+
+void		gameplay_update(t_gameplay *this)
+{
+  (void)this;
 }
 
 void		gameplay_release(t_gameplay *this)

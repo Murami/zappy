@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "client.h"
@@ -41,7 +42,7 @@ void		client_run_output(t_client* this, t_server* server)
   while (can_write && !list_empty(this->requests_output))
     {
       request = list_front(this->requests_output);
-      if (socketstream_write(this->socketstream, request, strlen(request) == 0))
+      if (socketstream_write(this->socketstream, request, strlen(request)) == 0)
 	can_write = false;
       else
 	{
@@ -51,7 +52,20 @@ void		client_run_output(t_client* this, t_server* server)
     }
 }
 
+void		client_remove(t_client* this, struct s_server* server)
+{
+  this->vtable->remove(this, server);
+}
+
 void		client_delete(t_client* client)
 {
   client->vtable->delete(client);
+}
+
+void		client_send_msg(t_client *client, char *msg)
+{
+  char		*str;
+
+  str = strdup(msg);
+  list_push_back(client->requests_output, str);
 }

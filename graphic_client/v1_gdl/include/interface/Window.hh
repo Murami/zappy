@@ -22,8 +22,10 @@ namespace	Zappy
     const static float		HEIGHT;
     const static std::string	TITLE;
 
-  private :
+  public :
     gdl::SdlContext	_context;
+
+  private :
     gdl::BasicShader	_shader;
     gdl::Input		_input;
     gdl::Clock		_clock;
@@ -42,6 +44,7 @@ namespace	Zappy
     void	draw(AObject*);
     void	bindShader();
     Camera*	getCamera();
+    void	updateObject(AObject*);
 
   public :
     Window();

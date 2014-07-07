@@ -9,6 +9,7 @@
 t_client_vtable client_graphic_vtable =
   {
     (t_client_run_input_ptr)client_graphic_run_input,
+    (t_client_remove_ptr)client_graphic_remove,
     (t_client_delete_ptr)client_graphic_delete
   };
 
@@ -42,6 +43,24 @@ void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 	}
     }
   /* printf("A client graphic just received some data"); */
+}
+
+void			client_graphic_remove(t_client_graphic* client, t_server* server)
+{
+  t_list_iterator	it;
+  t_client_graphic*	tmp;
+
+  it = list_begin(server->clients);
+  while (it != list_end(server->clients))
+    {
+      tmp = it->data;
+      if (tmp == client)
+	{
+	  it = list_erase(server->clients, it);
+	  return;
+	}
+      it = list_iterator_next(it);
+    }
 }
 
 t_client_graphic*	client_graphic_new(t_socketstream* sockstream)
