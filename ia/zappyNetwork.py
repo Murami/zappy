@@ -6,8 +6,8 @@ class   ZappyNetwork:
         try:
             self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.sock.connect((ip, port))
-        except socket.error as error:
-            print("\033[31mNetwork Error " + str(error[0]) + ": \033[33m" + error[1] + "\033[00m")
+        except OSError as error:
+            print("\033[31mNetwork Error " + str(error.errno) + ": \033[33m" + error.strerror + "\033[00m")
 
     def __del__ (self):
         self.sock.close()
