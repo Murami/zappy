@@ -6,7 +6,7 @@ class   Player:
     def __init__ (self, teamName):
         self.teamName = teamName
         try:
-            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], sys.argv[2])
+            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except IndexError:
             print("\033[31mError in connect : "
                   + "\033[33mmissing argument(s)\033[0m")
@@ -26,4 +26,4 @@ def main():
 try:
     main()
 except:
-    print("\033[32mSo I quit...\033[0m")
+    print("\033[36mSo I quit...\033[0m")
