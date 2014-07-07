@@ -18,6 +18,7 @@ class   ZappyNetwork:
                 print("\033[31mNetwork Error " + str(error[0]) + ": \033[33m" + error[1] + "\033[00m")
         except:
             raise
+        self.recv()
 
     def __del__ (self):
         self.sock.close()
