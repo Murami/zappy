@@ -14,7 +14,7 @@ class Inventory:
         }
 
     def getFood (self):
-        return self.objects["nourriture"]
+        return self.nourriture
         
     def getStoneCount(self, stoneName):
         print("getStoneCount")
@@ -27,7 +27,3 @@ class Inventory:
             print("\033[31mError in getStoneCount : "
                   + "\033[33mbad name\033[0m")
         return 0
-        
-        
-    def eatSomeFood (self):
-        self.nourriture += 126

@@ -4,7 +4,15 @@ class Fov:
                                         
     def __init__ (self):
         self.cases = []
-                        
+        self.use = False
+
+    # savoir si les donnees de voir on deja ete exploitee
+    def getUsed (self):
+        return self.use
+
+    def setUsed (self, use):
+        self.use = use
+
     def getFoodOnCase (self, case):
         try:
             return self.cases[case]["nourriture"]
