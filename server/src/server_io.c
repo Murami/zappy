@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include "config.h"
 #include "server.h"
@@ -13,10 +14,12 @@ bool			server_process_clients_input(t_server* this,
 {
   if (!FD_ISSET(client->socketstream->socket, fd_set_in))
     return (true);
-  else if (!socketstream_flush_input(client->socketstream))
-    return (false);
-  else
-    client_run_input(client, this);
+  if (!socketstream_flush_input(client->socketstream))
+    {
+      client_remove(client, this);
+      return (false);
+    }
+  client_run_input(client, this);
   return (true);
 }
 
@@ -28,7 +31,11 @@ bool			server_process_clients_output(t_server* this,
 
   if (FD_ISSET(client->socketstream->socket, fd_set_out))
     if (!socketstream_flush_output(client->socketstream))
-      return (false);
+      {
+	client_remove(client, this);
+	return (false);
+      }
+  FD_CLR(client->socketstream->socket, fd_set_out);
   if (!list_empty(client->requests_output))
     client_run_output(client, this);
   return (true);
@@ -41,11 +48,13 @@ bool			server_process_new_clients_input(t_server* this,
 {
   if (!FD_ISSET(new_client->socket, fd_set_in))
     return (true);
-  else if (!socketstream_flush_input(new_client))
-    return (false);
-  else
-    return (server_read_new_clients_input(this, new_client));
-  return (true);
+  if (!socketstream_flush_input(new_client))
+    {
+      socketstream_delete(new_client);
+      return (false);
+    }
+  FD_CLR(new_client->socket, fd_set_in);
+  return (server_read_new_clients_input(this, new_client));
 }
 
 bool			server_process_new_clients_output(t_server* this,
@@ -56,7 +65,10 @@ bool			server_process_new_clients_output(t_server* this,
 
   if (FD_ISSET(new_client->socket, fd_set_out))
     if (!socketstream_flush_output(new_client))
-      return (false);
+      {
+	socketstream_delete(new_client);
+	return (false);
+      }
   return (true);
 }
 
@@ -71,6 +83,7 @@ bool			server_read_new_clients_input(t_server* this,
     {
       if (strncmp("GRAPHIC\n", buffer, size) == 0)
 	{
+	  /* sockstream tjrs présent les new client ? */
 	  client = (t_client*)client_graphic_new(new_client);
 	  server_add_monitor(this, client, buffer);
 	  return (false);

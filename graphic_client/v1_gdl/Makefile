@@ -5,7 +5,7 @@
 ## Login   <otoshigami@epitech.net>
 ## 
 ## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Thu Jul  3 01:21:22 2014 Manu
+## Last update Mon Jul  7 17:02:09 2014 Desabre Quentin
 ##
 
 ## FILES
@@ -16,11 +16,13 @@ SRC		=	main				\
 			interface/ZappyGraphic		\
 			interface/Window		\
 			interface/Camera		\
-			network/Connection		\
 			objects/AObject			\
 			objects/Map			\
 			objects/ModelManager		\
 			objects/Stone			\
+			network/Client			\
+			network/Socket			\
+			network/Mutex			\
 
 SRC_EXT		=	.cpp
 
@@ -53,7 +55,7 @@ LIB		=	gdl_gl		\
 			sfml-network	\
 
 DLIB		=	gdl/libs	\
-
+			
 ## RUNS
 
 CC		=	g++
