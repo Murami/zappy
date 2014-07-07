@@ -2,11 +2,11 @@ import zappyParser
 
 p = zappyParser.ZappyParser()
 
-# response = p.parse("{nourriture 10,linemate 4,sibur 0,deraumere 0,mendiane 0,phiras 0,thystame 0}")
+response = p.parse("{nourriture 10,linemate 4,sibur 0,deraumere 0,mendiane 0,phiras 0,thystame 0}")
 
 # response = p.parse("message 8,réussi")
 
-response = p.parse("{ joueur nourriture nourriture, linemate, nourriture,}")
+# response = p.parse("{ joueur nourriture nourriture, linemate, nourriture,}")
 
 if response.isFov() is True:
     fov = response.getFov()
@@ -25,9 +25,11 @@ elif response.isAnswer() is True:
 elif response.isMessage() is True:
     message = response.getMessage()
 
-elif response.isValue() is True:
-    value = response.getValue()
+elif response.isFreeSlot() is True:
+    freeSlot = response.getFreeSlot()
 
-tmp = fov.getClosestFood()
-while not tmp.empty():
-    print(tmp.get())
+print(inventory.getStoneCount("linemate"))
+
+# tmp = fov.getClosestFood()
+# while not tmp.empty():
+#     print(tmp.get())
