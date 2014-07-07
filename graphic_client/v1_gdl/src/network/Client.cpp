@@ -22,12 +22,27 @@ void			*launchListen(void *attr)
   return (attr);
 }
 
+void			*launchWrite(void *attr)
+{
+  std::string		input;
+  Client		*client;
+
+  client = reinterpret_cast<Client *>(attr);
+  while (1)
+    {
+      std::cin >> input;
+      std::cout << input << std::endl;
+      write(client->_socket.getFd(), input.c_str(), input.size());
+    }
+  return (attr);
+}
+
 Client::Client(int argc, char **argv)
 {
   pthread_t		thread;
+  pthread_t		thread2;
   std::stringstream	ss;
   std::string		ip;
-  std::string		input;
   int			port;
 
   if (argc < 3)
@@ -39,12 +54,7 @@ Client::Client(int argc, char **argv)
   _socket.create(port, ip.c_str());
   this->connectServer();
   pthread_create(&thread, NULL, &launchListen, this);
-  while (1)
-    {
-      std::cin >> input;
-      std::cout << input << std::endl;
-      write(this->_socket.getFd(), input.c_str(), input.size());
-    }
+  pthread_create(&thread2, NULL, &launchWrite, this);
 }
 
 Client::~Client()
