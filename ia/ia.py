@@ -1,63 +1,61 @@
 import zappyNetwork
+import inventory
+import sys
+import queue
+import zappyParser
 
 class   Player:
-    """Ceci est la classe player, qui gère un joueur sur la map"""
-
     def __init__ (self, teamName):
+        self.responses = queue.Queue()
         self.teamName = teamName
+        try:
+            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
+        except IndexError:
+            print("\033[31mError in connect : "
+                  + "\033[33mmissing argument(s)\033[0m")
+        except:
+            raise
+        self.net.send(teamName)
+        self.net.recv()
+        self.net.recv()
 
-    def connect (self):
-        self.net = zappyNetwork.ZappyNetwork("127.0.0.1", 4242)
-        self.net.connect(self.teamName)
+    def IaReceive (self):
+        p = zappyParser.ZappyParser()
+        self.responses.put(p.parse(self.net.recv()))
 
-    def forward (self):
-        self.net.communicate("avance")
+    def sendMessageToServer (self, msg):
+        self.net.send(msg)
 
-    def turnRight (self):
-        self.net.communicate("droite")
-
-    def turnLeft (self):
-        self.net.communicate("gauche")
-
-    def see (self):
-        self.net.communicate("voir")
-
-    def inventory (self):
-        self.net.communicate("inventaire")
-
-    def takeObject (self, objectName):
-        self.net.communicate("prend {0}".format(objectName))
-
-    def placeObject (self, objectName):
-        res = self.net.communicate("pose {0}".format(objectName))
-        print(res)
-
-    def eject (self):
-        self.net.communicate("expulse")
-
-    def broadcast (self, msg):
-        self.net.communicate("broadcast " + msg)
-
-    def incantation (self):
-        self.net.communicate("incantation")
-
-    def fork(self):
-        self.net.communicate("fork")
-
-    def freeSlotNbr (self):
-        self.net.communicate("connect_nbr")
-
-################################################################## fin de la classe
+    def getResponseFromServer (self):
+        if not self.responses.empty():
+            return self.responses.get()
+        else:
+            return None
 
 
 def main():
-    one = Player("Bichon")
-    two = Player("Regnier")
-    one.connect()
+    try:
+        player = Player(sys.argv[3])
+    except IndexError:
+        print("\033[31mError in connect : "
+              + "\033[33mmissing argument(s)\033[0m")
+        raise
 
-    # demander au serveur le contenu de l'inventaire coute du temps, mais une fois que c'est fait on replit notre classe inventaire côté client et on peut y accèder plein de fois
+    player.sendMessageToServer("avance")
+    player.IaReceive()
+    tmp = player.getResponseFromServer()
+    if tmp.isAnswer():
+        print(tmp.getAnswer.isOk())
+        
+        
+    
 
-    one.inventory()
-    one.placeObject("linemate")
 
-main()
+
+
+try:
+    main()
+except BaseException as err:
+    print("\033[34m" + str(err) + "\033[0m")
+    print("\033[36mSo I quit...\033[0m")
+    

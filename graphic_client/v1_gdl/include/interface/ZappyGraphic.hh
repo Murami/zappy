@@ -12,7 +12,6 @@ namespace	Zappy
   class		ZappyGraphic
   {
   private :
-    Connection	_connection;
     Window	_window;
     Map*	_map;
 

@@ -23,6 +23,7 @@ void		gameplay_initialize(t_gameplay *this, t_config config);
 t_gameplay*    	gameplay_new(t_config config);
 void		gameplay_release(t_gameplay *this);
 void		gameplay_delete(t_gameplay *this);
+void		gameplay_update(t_gameplay *this);
 
 
 

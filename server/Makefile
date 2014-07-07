@@ -17,6 +17,7 @@ SRC		=	main		\
 			gameplay	\
 			map		\
 			case		\
+			monitors	\
 			team
 
 SRC_EXT		=	.c

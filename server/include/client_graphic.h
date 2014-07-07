@@ -14,6 +14,7 @@ void			client_graphic_initialize(t_client_graphic* this, struct s_socketstream* 
 void			client_graphic_release(t_client_graphic* this);
 
 void			client_graphic_run_input(t_client_graphic* this, struct s_server* server);
+void			client_graphic_remove(t_client_graphic* this, struct s_server* server);
 
 t_client_graphic*	client_graphic_new(struct s_socketstream* sockstream);
 void			client_graphic_delete(t_client_graphic* client_graphic);

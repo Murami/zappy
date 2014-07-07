@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "list.h"
 #include "team.h"
 #include "config.h"
@@ -10,8 +11,14 @@ int		main(int ac, char **av)
   t_config	config;
   t_server	server;
 
+  if (ac < 2)
+    {
+      printf("usage: ./zappy-server-linux [[[-p port] -p port] ...] "
+	     "[-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name_1 team_name_2 ...\n");
+      return (EXIT_FAILURE);
+    }
   parser(ac, av, &config);
   server_initialize(&server, config);
   server_launch(&server);
-  return (0);
+  return (EXIT_SUCCESS);
 }

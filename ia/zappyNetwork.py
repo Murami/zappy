@@ -1,29 +1,30 @@
 import socket
-import sys
-import encodings.idna
-import unicodedata
-
-### ceci est la classe que doit me fournir pinon, en mieux bien sûr ;)
 
 class   ZappyNetwork:
-    """Classe qui sera appelé par les joueurs lors de l'envoie de données"""
 
     def __init__ (self, ip, port):
-        self.ip = ip
-        self.port = port
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        try:
+            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self.sock.connect((ip, port))
+        except OSError as error:
+            if error.errno == 104:
+                print("\033[34mEnd of connection\033[00m")
+            else:
+                print("\033[31mNetwork Error " + str(error.errno) + ": \033[33m" + error.strerror + "\033[00m")
+        except socket.error as error:
+            if error[0] == 104:
+                print("\033[34mEnd of connection\033[00m")
+            else:
+                print("\033[31mNetwork Error " + str(error[0]) + ": \033[33m" + error[1] + "\033[00m")
+        except:
+            raise
+        self.recv()
 
     def __del__ (self):
         self.sock.close()
 
-    def connect(self, teamName):
-        self.sock.connect((self.ip, self.port))
-        self.sock.send(bytes(teamName + "\n", "utf-8"))
-        receive = str(self.sock.recv(1024), "utf-8")
-        print("HERE : ", receive)
-        if receive  == "ko\n":
-            print("Error")
+    def send (self, msg):
+        self.sock.send("{}\n".format(msg).encode("utf8"))
 
-    def communicate (self, msg):
-        self.sock.send(bytes(msg + "\n", "utf-8"))
-        return str(self.sock.recv(1024), "utf-8")
+    def recv (self):
+        return str(self.sock.recv(1024)[:-2], "utf8")

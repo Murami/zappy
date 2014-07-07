@@ -7,7 +7,6 @@ namespace	Zappy
 {
   ZappyGraphic::ZappyGraphic(int argc, char **argv)
   {
-    _connection.initialize(argc, argv);
   }
 
   void		ZappyGraphic::run()
