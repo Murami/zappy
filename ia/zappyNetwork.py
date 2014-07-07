@@ -16,6 +16,8 @@ class   ZappyNetwork:
                 print("\033[34mEnd of connection\033[00m")
             else:
                 print("\033[31mNetwork Error " + str(error[0]) + ": \033[33m" + error[1] + "\033[00m")
+        except:
+            raise
 
     def __del__ (self):
         self.sock.close()

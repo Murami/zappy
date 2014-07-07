@@ -10,6 +10,8 @@ class   Player:
         except IndexError:
             print("\033[31mError in connect : "
                   + "\033[33mmissing argument(s)\033[0m")
+        except:
+            raise
         self.net.send(teamName)
 
     def sendMessageToServer (self, msg):
@@ -26,12 +28,13 @@ def main():
     except IndexError:
         print("\033[31mError in connect : "
               + "\033[33mmissing argument(s)\033[0m")
-
+        raise
     while 10:
         player.sendMessageToServer("avance")
 
 try:
     main()
 except BaseException as err:
-    print("\033[31mFatal Error : "
-          + "\033[33m" + str(err) + "\033[0m")
+    print("\033[34m" + str(err) + "\033[0m")
+    print("\033[36mSo I quit...\033[0m")
+    
