@@ -11,3 +11,35 @@ parsing cmd player
 parsing cmd graphic
 init du gameplay
 init du client graphic
+
+
+TRUC A FAIRE :
+     - Le retour des mallocs
+
+NORME:
+       - Les typedef	-> t_
+       - Les enums	-> e_
+       - Les structures -> s_
+       - Les globales	-> g_
+
+ * 4 paramétres MAX
+ * 25 lignes par fonction
+ * 80 caractéres
+ * 5 fonctions par fichier
+ * Indentation header
+A VERIFIER !!!!!
+
+ANTO ->
+     - PARSING COMMANDES
+     - PASSAGE PROPRES DES DONNÉE
+     - GESTION DU TEMPS
+     - VERIFIACTION DES FREE !!!
+     - MISE EN PLACE DES CALLBACKS DE GAMEPLAY
+     - GESTION DE LA PRIORITÉ DES COMMANDES POUR L'OPTI
+
+ANTO ------ POUR ANTO
+ - METTRE A JOUR LE TEMPS DU SERVER A CHAQUE LOOP
+ - METTRE EN PLACE LES PTR SUR FUNC POUR LES COMMANDES DE L'IA
+ - SI J'AI LE TEMPS PARSER LES COMMAND POUR LE GRAPHIQUE (YOLO)
+
+ - add_command SUR LE SERVER

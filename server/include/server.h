@@ -3,6 +3,7 @@
 
 # include	<netinet/in.h>
 # include	<sys/select.h>
+# include	<sys/time.h>
 
 # include	"config.h"
 # include	"gameplay.h"
@@ -10,6 +11,7 @@
 
 struct s_client;
 struct s_socketstream;
+struct s_client_command;
 
 typedef struct		s_server
 {
@@ -18,6 +20,7 @@ typedef struct		s_server
   t_gameplay    	gameplay;
   t_list*		new_clients;
   t_list*		clients;
+  struct timeval	current_time;
 }			t_server;
 
 void			sighandler(int);
@@ -29,10 +32,12 @@ void			server_release(t_server *this);
 void			server_launch(t_server *this);
 void			server_accept(t_server *this);
 
-void			server_add_monitor(t_server *this, struct s_client *client, char *buffer);
+void			server_add_monitor(t_server *this, struct s_client *client);
 void			server_add_player(t_server *this, struct s_client *client);
 void			server_remove_monitor(t_server *this, struct s_client *client);
 void			server_remove_player(t_server *this, struct s_client *client);
+void			server_add_player_command(t_server* this, struct s_player_command* command);
+void			server_add_monitor_command(t_server* this, struct s_monitor_command* command);
 
 /* functions input output */
 

@@ -8,6 +8,7 @@ t_client_vtable client_graphic_vtable;
 typedef struct		s_client_graphic
 {
   t_client		parent_client;
+  t_monitor*		monitor;
 }			t_client_graphic;
 
 void			client_graphic_initialize(t_client_graphic* this, struct s_socketstream* sockstream);

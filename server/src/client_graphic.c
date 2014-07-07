@@ -16,6 +16,7 @@ void	client_graphic_initialize(t_client_graphic* this, t_socketstream* sockstrea
 {
   client_initialize(&this->parent_client, sockstream);
   this->parent_client.vtable = &client_graphic_vtable;
+  this->monitor = NULL;
 }
 
 void	client_graphic_release(t_client_graphic* this)

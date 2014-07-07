@@ -72,7 +72,7 @@ bool			server_read_new_clients_input(t_server* this,
       if (strncmp("GRAPHIC\n", buffer, size) == 0)
 	{
 	  client = (t_client*)client_graphic_new(new_client);
-	  server_add_monitor(this, client, buffer);
+	  server_add_monitor(this, client);
 	  return (false);
 	}
       else
