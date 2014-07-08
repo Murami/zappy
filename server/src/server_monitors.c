@@ -5,6 +5,7 @@
 #include "client_graphic.h"
 #include "socketstream.h"
 #include "gameplay.h"
+#include "team.h"
 #include "monitors.h"
 
 /* CONNEXION d'un MONITEUR
@@ -41,10 +42,10 @@ void			server_add_monitor(t_server *this, t_client *client)
   gameplay_add_monitor(this->gameplay, client);
 }
 
-void			server_add_player(t_server *this, t_client *client)
+void			server_add_player(t_server *this, t_client *client, t_team *team)
 {
   list_push_back(this->clients, client);
-  gameplay_add_player(this->gameplay, client);
+  gameplay_add_player(this->gameplay, client, team);
 }
 
 void			server_remove_monitor(t_server *this, t_client *client)

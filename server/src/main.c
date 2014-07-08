@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
 #include "list.h"
 #include "team.h"
 #include "config.h"
@@ -17,6 +18,7 @@ int		main(int ac, char **av)
 	     "[-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name_1 team_name_2 ...\n");
       return (EXIT_FAILURE);
     }
+  srand(time(NULL));
   parser(ac, av, &config);
   server_initialize(&server, config);
   server_launch(&server);

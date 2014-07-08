@@ -10,6 +10,7 @@
 # include	"list.h"
 
 struct s_client;
+struct s_team;
 struct s_socketstream;
 struct s_client_command;
 struct s_player_command;
@@ -35,7 +36,7 @@ void			server_launch(t_server *this);
 void			server_accept(t_server *this);
 
 void			server_add_monitor(t_server *this, struct s_client *client);
-void			server_add_player(t_server *this, struct s_client *client);
+void			server_add_player(t_server *this, struct s_client *client, struct s_team* team);
 void			server_remove_monitor(t_server *this, struct s_client *client);
 void			server_remove_player(t_server *this, struct s_client *client);
 void			server_add_player_command(t_server* this, struct s_player_command* command);
