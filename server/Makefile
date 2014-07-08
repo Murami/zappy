@@ -19,6 +19,7 @@ SRC		=	main		\
 			case		\
 			monitors	\
 			player_command	\
+			player		\
 			team
 
 SRC_EXT		=	.c
