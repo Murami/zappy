@@ -5,7 +5,7 @@
 # include	"map.h"
 # include	"list.h"
 
-struct s_client_command;
+struct s_player_command;
 struct s_monitor_command;
 struct s_client;
 struct s_monitor;
@@ -34,7 +34,7 @@ void			gameplay_add_player(t_gameplay* this, struct s_client* client);
 void			gameplay_remove_monitor(t_gameplay* this, struct s_client* client);
 void			gameplay_add_monitor(t_gameplay* this, struct s_client* client);
 
-struct s_player*	gameplay_add_player_command(t_gameplay* this, struct s_client_command* command);
+void			gameplay_add_player_command(t_gameplay* this, struct s_player_command* command);
 void			gameplay_add_monitor_command(t_gameplay* this, struct s_monitor_command* command);
 
 void			gameplay_command_avance(t_gameplay* this, struct s_server* server);

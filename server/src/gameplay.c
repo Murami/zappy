@@ -6,6 +6,8 @@
 #include "client.h"
 #include "server.h"
 #include "monitors.h"
+#include "player_command.h"
+#include "monitor_command.h"
 
 void		gameplay_initialize(t_gameplay *this, t_config config)
 {
@@ -30,7 +32,7 @@ t_gameplay*    	gameplay_new(t_config config)
   return (gameplay);
 }
 
-/* modifer le champs client->player/monitor !!! */
+/* modifer le champs client->player !!! */
 
 void		gameplay_remove_player(t_gameplay* this, t_client* client)
 {
@@ -57,78 +59,92 @@ void		gameplay_add_monitor(t_gameplay* this, t_client* client)
   monitor_initialize(this, client);
 }
 
-void		gameplay_update(t_gameplay *this)
+void			gameplay_update(t_gameplay *this)
 {
   (void)this;
 }
 
-void			gameplay_command_avance(t_gameplay* this, struct s_server* server)
+void			gameplay_command_avance(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_droite(t_gameplay* this, struct s_server* server)
+void			gameplay_command_droite(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_gauche(t_gameplay* this, struct s_server* server)
+void			gameplay_command_gauche(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_voir(t_gameplay* this, struct s_server* server)
+void			gameplay_command_voir(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_inventaire(t_gameplay* this, struct s_server* server)
+void			gameplay_command_inventaire(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_prend_objet(t_gameplay* this, struct s_server* server)
+void			gameplay_command_prend_objet(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_expulse(t_gameplay* this, struct s_server* server)
+void			gameplay_command_expulse(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_broadcast(t_gameplay* this, struct s_server* server)
+void			gameplay_command_broadcast(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_incantation(t_gameplay* this, struct s_server* server)
+void			gameplay_command_incantation(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_fork(t_gameplay* this, struct s_server* server)
+void			gameplay_command_fork(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void			gameplay_command_connect_nbr(t_gameplay* this, struct s_server* server)
+void			gameplay_command_connect_nbr(t_gameplay* this, t_server* server)
 {
   (void) this;
   (void) server;
 }
 
-void		gameplay_release(t_gameplay *this)
+void			gameplay_add_player_command(t_gameplay* this, t_player_command* command)
+{
+  (void) this;
+  (void) command;
+  /* EXECUTE LA COMMANDE DIRECT POUR L'INSTANT */
+}
+
+void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+  /* EXECUTE LA COMMANDE DIRECTE TT LE TEMPS */
+}
+
+void			gameplay_release(t_gameplay *this)
 {
   list_delete(this->teams);
   list_delete(this->players);

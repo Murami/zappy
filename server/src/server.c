@@ -12,6 +12,8 @@
 #include "client_graphic.h"
 #include "client_player.h"
 #include "socketstream.h"
+#include "player_command.h"
+#include "monitor_command.h"
 
 bool			g_alive;
 
@@ -115,12 +117,14 @@ void			server_launch(t_server *this)
     }
 }
 
-void			server_add_player_command(t_server* this, struct s_player_command* command)
+void			server_add_player_command(t_server* this, t_player_command* command)
 {
+  gameplay_add_player_command(this->gameplay, command);
 }
 
-void			server_add_monitor_command(t_server* this, struct s_monitor_command* command)
+void			server_add_monitor_command(t_server* this, t_monitor_command* command)
 {
+  gameplay_add_monitor_command(this->gameplay, command);
 }
 
 void			sighandler(int signum)
