@@ -17,6 +17,8 @@ SRC		=	main		\
 			gameplay	\
 			map		\
 			case		\
+			monitors	\
+			player_command	\
 			team
 
 SRC_EXT		=	.c
@@ -46,7 +48,7 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	gcc
+CC		=	gcc -fmax-errors=2
 RM		=	rm -rf
 MD		=	mkdir -p
 

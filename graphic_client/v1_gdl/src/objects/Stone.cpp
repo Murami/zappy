@@ -7,7 +7,7 @@ namespace	Zappy
   Stone::Stone(Type type, const glm::vec2& caseNum) : AObject()
   {
     _type = type;
-    _model = ModelManager::getInstance()->getModel(type);
+    _model = ModelManager::getInstance()->getStone(type);
     _up = true;
     _cpt = 0;
     _case = caseNum;
@@ -17,15 +17,15 @@ namespace	Zappy
 
   void		Stone::initialize()
   {
-    translate(glm::vec3(0, 0, 0.5));
-    scale(glm::vec3(0.1, 0.1, 0.1));
+    translate(glm::vec3(0, 0, 1));
+    scale(glm::vec3(0.25, 0.25, 0.25));
   }
 
   void		Stone::update(const gdl::Clock&, gdl::Input&)
   {
   }
 
-  void		Stone::draw(gdl::AShader& shader, const gdl::Clock& clock)
+  void		Stone::draw(gdl::AShader& shader, const gdl::Clock&)
   {
     if (_up)
       {
@@ -41,8 +41,8 @@ namespace	Zappy
       _up = false;
     else if (_cpt == 0)
       _up = true;
-    rotate(glm::vec3(0, 0, 1), 1);
-    _model->draw(shader, getTransformation(), clock.getElapsed());
+    rotate(glm::vec3(0, 0, 1), 5);
+    _model->draw(shader, getTransformation(), 0);
   }
 
   const Type&	Stone::getType() const

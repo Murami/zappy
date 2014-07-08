@@ -11,22 +11,22 @@ class ZappyParser:
 
     def __init__ (self):
         # nom des trucs a tester
-        self.names = ["inventory", "fov", "message", "expulse", "answer", "value"]
+        self.names = ["inventory", "fov", "message", "expulse", "answer", "freeSlot"]
 
         # liste de structures liant les regex et leur fonction de parsing
         self.tab = {}
-        self.tab["inventory"] = structFuncPtr(re.compile("^{nourriture ([0-9]+),linemate ([0-9]+),sibur ([0-9]+),deraumere ([0-9]+),mendiane ([0-9]+),phiras ([0-9]+),thystame ([0-9]+)}$"),
+        self.tab["inventory"] = structFuncPtr(re.compile("^{[ ]*nourriture[ ]+([0-9]+),[ ]*linemate[ ]+([0-9]+),[ ]*sibur[ ]+([0-9]+),[ ]*deraumere[ ]+([0-9]+),[ ]*mendiane[ ]+([0-9]+),[ ]*phiras[ ]+([0-9]+),[ ]*thystame[ ]+([0-9]+)}$"),
                                               self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([, ][joueur | nourriture | linemate | sibur | deraumere | mendiane | phiras | thystame]*)*}$"),
+        self.tab["fov"] = structFuncPtr(re.compile("^{([, ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)*)*}$"),
                                         self.__parseFov)
         self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
                                                self.__parseMessage)
         self.tab["expulse"] = structFuncPtr(re.compile("^deplacement: [0-9]+$"),
                                             self.__parseExpulse)
-        self.tab["answer"] = structFuncPtr(re.compile("^[ok | ko]$"),
+        self.tab["answer"] = structFuncPtr(re.compile("^(ok|ko)$"),
                                            self.__parseAnswer)
-        self.tab["value"] = structFuncPtr(re.compile("^[0-9]+$"),
-                                          self.__parseValue)
+        self.tab["freeSlot"] = structFuncPtr(re.compile("^[0-9]+$"),
+                                             self.__parseFreeSlot)
 
 
     def parse (self, toParse):
@@ -34,7 +34,10 @@ class ZappyParser:
             tmp = self.tab[elem].regex.search(toParse)
             if tmp is not None:
                 return self.tab[elem].funcPtr(toParse)
-        raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER\033[0m")
+        print("##########")
+        print(toParse)
+        print("##########")
+        raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
 
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
@@ -78,7 +81,7 @@ class ZappyParser:
             res.answer.isItOk = True
         return res
 
-    def __parseValue (self, toParse):
-        res = responseServer.ResponseServerValue()
-        res.value.value = int(toParse)
+    def __parseFreeSlot (self, toParse):
+        res = responseServer.ResponseServerFreeSlot()
+        res.freeSlot.freeSlot = int(toParse)
         return res

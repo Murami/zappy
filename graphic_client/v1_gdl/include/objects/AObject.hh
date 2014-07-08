@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:28 2014 Manu
-// Last update Thu Jul  3 01:30:04 2014 Manu
+// Last update Sun Jul  6 16:08:03 2014 Manu
 //
 
 #ifndef		__AOBJECT_HH__
@@ -36,10 +36,16 @@ namespace	Zappy
     virtual ~AObject();
 
   public :
+    const glm::vec3&	getPosition() const;
+    const glm::vec3&	getRotation() const;
+    const glm::vec3&	getScale() const;
+
+  public :
+    void		reset();
     void		translate(const glm::vec3&);
     void		rotate(const glm::vec3&, float);
     void		scale(const glm::vec3&);
-    glm::mat4	getTransformation();
+    glm::mat4		getTransformation();
 
   public :
     void		setPosition(const glm::vec3&);

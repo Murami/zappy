@@ -12,17 +12,18 @@ bool		map_initialize(t_map *this, int width, int height)
   this->width = width;
   this->height = height;
   this->map = malloc(width * height * sizeof(t_case));
+  if (this->map == NULL)
+    return (false);
   while (i != width)
     {
+      j = 0;
       while (j != height)
 	{
-	  case_initialize(&this->map[i + j * width]);
+	  case_initialize(&this->map[i + j * width], i, j);
 	  j++;
 	}
       i++;
     }
-  if (this->map == NULL)
-    return (false);
   return (true);
 }
 

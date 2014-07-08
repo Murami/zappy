@@ -23,6 +23,7 @@ namespace	Zappy
     _projection = glm::perspective(60.0f, static_cast<float>(Window::WIDTH) /
 				   static_cast<float>(Window::HEIGHT),
 				   0.1f, 1000.0f);
+    _shader.bind();
     _shader.setUniform("projection", _projection);
   }
 
@@ -61,7 +62,7 @@ namespace	Zappy
 
   void		Camera::zoomLess()
   {
-    if (_distance + 2 < 100)
+    if (_distance + 2 < 1000)
       _distance += 2;
     update();
   }
@@ -90,17 +91,39 @@ namespace	Zappy
 
   void		Camera::translateDrag(float xScreen, float yScreen)
   {
-    // Pas reussi a faire la projection au pire voir avec roguet
-
     double deltaX = xScreen * sin(_thetha) - yScreen * cos(_thetha);
     double deltaY = xScreen * cos(_thetha) + yScreen * sin(_thetha);
 
-    _x += deltaX * (_distance / 100);
-    _y -= deltaY * (_distance / 100);
-    _xFocus += deltaX * (_distance / 100);
-    _yFocus -= deltaY * (_distance / 100);
-
+    _x += deltaX * (_distance / 200);
+    _y -= deltaY * (_distance / 200);
+    _xFocus += deltaX * (_distance / 200);
+    _yFocus -= deltaY * (_distance / 200);
     update();
+  }
+
+  void		Camera::perspectiveMode(const std::string& mode)
+  {
+    if (mode == "2d")
+      {
+	_projection = glm::ortho(0.0f, static_cast<float>(Window::WIDTH) /
+				 static_cast<float>(Window::HEIGHT),
+				 0.1f, 100.0f);
+	_shader.bind();
+	_shader.setUniform("projection", _projection);
+      }
+    else if (mode == "3d")
+      {
+	_projection = glm::perspective(60.0f,
+				       static_cast<float>(Window::WIDTH) /
+				       static_cast<float>(Window::HEIGHT),
+				       0.1f, 1000.0f);
+	_shader.bind();
+	_shader.setUniform("projection", _projection);
+      }
+    else
+      {
+	std::cerr << "Could not apply '" << mode << "' to camera" << std::endl;
+      }
   }
 
   Camera::~Camera()

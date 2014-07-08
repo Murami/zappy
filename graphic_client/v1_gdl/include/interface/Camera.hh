@@ -25,6 +25,7 @@ namespace	Zappy
     glm::mat4		_transformation;
     glm::mat4		_projection;
     gdl::AShader&	_shader;
+    GLuint		_selectBuffer[512];
 
   public :
     void	initialize();
@@ -39,6 +40,7 @@ namespace	Zappy
 
   public :
     void	update();
+    void	perspectiveMode(const std::string& mode);
 
   public :
     void	setMapWidth(int);

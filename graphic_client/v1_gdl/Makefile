@@ -1,13 +1,3 @@
-##
-## Makefile for  in /home/otoshigami/Workspace/Epitech/git/cpp_bomberman
-## 
-## Made by otoshigami
-## Login   <otoshigami@epitech.net>
-## 
-## Started on  Sun Jun 15 08:48:53 2014 otoshigami
-## Last update Thu Jul  3 01:21:22 2014 Manu
-##
-
 ## FILES
 
 NAME		=	zappy-graphic
@@ -16,11 +6,14 @@ SRC		=	main				\
 			interface/ZappyGraphic		\
 			interface/Window		\
 			interface/Camera		\
-			network/Connection		\
 			objects/AObject			\
 			objects/Map			\
-			objects/ModelManager		\
 			objects/Stone			\
+			objects/Player			\
+			objects/ModelManager		\
+			network/Client			\
+			network/Socket			\
+			network/Mutex			\
 
 SRC_EXT		=	.cpp
 
@@ -45,6 +38,7 @@ MAKED		=	make --no-print-directory -C
 LIB		=	gdl_gl		\
 			GLEW		\
 			GL		\
+			GLU		\
 			fbxsdk		\
 			SDL2		\
 			pthread		\

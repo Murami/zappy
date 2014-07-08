@@ -3,7 +3,9 @@ import fov
 import message
 import expulse
 import answer
-import value
+import freeSlot
+import alive
+import level
 
 class ResponseServer:
     """ classe mere """
@@ -14,7 +16,9 @@ class ResponseServer:
         self.isItMessage = False
         self.isItExpulse = False
         self.isItAnswer = False
-        self.isItValue = False
+        self.isItFreeSlot = False
+        self.isItAlive = False
+        self.isItLevel = False
 
     def isInventory (self):
         return self.isItInventory
@@ -31,8 +35,14 @@ class ResponseServer:
     def isAnswer (self):
         return self.isItAnswer
 
-    def isValue (self):
-        return self.isItValue
+    def isFreeSlot (self):
+        return self.isItFreeSlot
+
+    def isAlive (self):
+        return self.isItAlive
+
+    def isLevel (self):
+        return self.isItLevel
 
 # class reponse de type inventaire
 class ResponseServerInventory(ResponseServer):
@@ -90,12 +100,34 @@ class ResponseServerAnswer(ResponseServer):
         return self.answer
 
 # class reponse de type valeur
-class ResponseServerValue(ResponseServer):
+class ResponseServerFreeSlot(ResponseServer):
 
     def __init__ (self):
         ResponseServer.__init__(self)
-        self.value = value.Value()
-        self.isItValue = True
+        self.freeSlot = freeSlot.FreeSlot()
+        self.isItFreeSlot = True
 
-    def getValue (self):
-        return self.value
+    def getFreeSlot (self):
+        return self.freeSlot
+
+# class reponse de type alive
+class ResponseServerAlive(ResponseServer):
+
+    def __init__ (self):
+        ResponseServer.__init__(self)
+        self.alive = alive.Alive()
+        self.isItAlive = True
+
+    def getFreeSlot (self):
+        return self.alive
+
+# class reponse de type level
+class ResponseServerLevel(ResponseServer):
+
+    def __init__ (self):
+        ResponseServer.__init__(self)
+        self.level = level.Level()
+        self.isItLevel = True
+
+    def getFreeSlot (self):
+        return self.level

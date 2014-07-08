@@ -4,10 +4,12 @@
 #include "client_player.h"
 #include "socketstream.h"
 #include "server.h"
+#include "player_command.h"
 
 t_client_vtable client_player_vtable =
   {
     (t_client_run_input_ptr)client_player_run_input,
+    (t_client_remove_ptr)client_player_remove,
     (t_client_delete_ptr)client_player_delete
   };
 
@@ -35,18 +37,41 @@ void	client_player_run_input(t_client_player* this, t_server* server)
   memset(buffer, 0, 4096);
   while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
+      command = NULL;
       strtok(buffer, "\n");
       i = 0;
-      while (command[i] && strcmp(buffer, commands[i].request) != 0)
+      while (g_player_commands[i].request &&
+	     strncmp(buffer, g_player_commands[i].request, strlen(g_player_commands[i].request)) != 0)
       	i++;
-      if (!command[i])
-      	printf("error: invalid command send by a client player!\n");
-      else
+      if (!g_player_commands[i].request)
 	{
-	  command = player_command_new(this, commands[i].time, commands[i].callback);
-	  server_add_player_command(server, command);
+	  if (strcmp(g_player_commands[i].request, "broadcast") == 0 && strlen(buffer + strlen("broadcast")) >= 1)
+	    command = player_command_new(this, server->time, buffer + strlen("broadcast") + 1, i);
+	  else if (strcmp(g_player_commands[i].request, buffer) == 0)
+	    command = player_command_new(this, server->time, NULL, i);
 	}
+      if (command)
+	server_add_player_command(server, command);
+      else
+      	printf("error: invalid command send by a client player!\n");
+    }
+}
 
+void			client_player_remove(t_client_player* client, t_server* server)
+{
+  t_list_iterator	it;
+  t_client_player*	tmp;
+
+  it = list_begin(server->clients);
+  while (it != list_end(server->clients))
+    {
+      tmp = it->data;
+      if (client == tmp)
+	{
+	  it = list_erase(server->clients, it);
+	  return;
+	}
+      it = list_iterator_next(it);
     }
 }
 

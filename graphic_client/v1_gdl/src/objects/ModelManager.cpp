@@ -26,7 +26,7 @@ namespace	Zappy
       throw (std::runtime_error("Unable to load thystame.obj"));
   }
 
-  gdl::Model*	ModelManager::getModel(Type type)
+  gdl::Model*	ModelManager::getStone(Type type)
   {
     return (_models[type]);
   }

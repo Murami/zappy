@@ -12,15 +12,17 @@
 struct s_client;
 struct s_socketstream;
 struct s_client_command;
+struct s_player_command;
+struct s_monitor_command;
 
 typedef struct		s_server
 {
   int			socket_max;
   int			socket;
-  t_gameplay    	gameplay;
+  t_gameplay*    	gameplay;
   t_list*		new_clients;
   t_list*		clients;
-  struct timeval	current_time;
+  struct timeval	time;
 }			t_server;
 
 void			sighandler(int);

@@ -1,7 +1,11 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include "gameplay.h"
+#include "socketstream.h"
 #include "client.h"
+#include "server.h"
+#include "monitors.h"
 
 void		gameplay_initialize(t_gameplay *this, t_config config)
 {
@@ -36,6 +40,7 @@ void		gameplay_remove_player(t_gameplay* this, t_client* client)
 
 void		gameplay_add_player(t_gameplay* this, t_client* client)
 {
+  list_push_back(this->players, client);
   (void)this;
   (void)client;
 }
@@ -48,17 +53,79 @@ void		gameplay_remove_monitor(t_gameplay* this, t_client* client)
 
 void		gameplay_add_monitor(t_gameplay* this, t_client* client)
 {
-  (void)this;
-  (void)client;
+  list_push_back(this->monitors, client);
+  monitor_initialize(this, client);
 }
 
-void		gameplay_run(t_gameplay* this)
+void		gameplay_update(t_gameplay *this)
 {
-  /* GESTION DU TEMPS
-  ** DE LA PRIORIYTY QUEUES
-  ** EXECTUTION DES REQUEST (go partie full gameplay)
-  */
+  (void)this;
+}
+
+void			gameplay_command_avance(t_gameplay* this, struct s_server* server)
+{
   (void) this;
+  (void) server;
+}
+
+void			gameplay_command_droite(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_gauche(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_voir(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_inventaire(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_prend_objet(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_expulse(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_broadcast(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_incantation(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_fork(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
+}
+
+void			gameplay_command_connect_nbr(t_gameplay* this, struct s_server* server)
+{
+  (void) this;
+  (void) server;
 }
 
 void		gameplay_release(t_gameplay *this)

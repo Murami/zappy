@@ -17,15 +17,15 @@ bool			g_alive;
 
 void			server_initialize(t_server *this, t_config config)
 {
-  signal(SIGINT, &sighandler);
   g_alive = true;
+  signal(SIGINT, &sighandler);
   memset(this, 0, sizeof(t_server));
   create_socket(this, config.port);
   create_queue(this);
   this->clients = list_new();
   this->new_clients = list_new();
   this->socket_max = this->socket;
-  gameplay_initialize(&this->gameplay, config);
+  this->gameplay = gameplay_new(config);
 }
 
 void			server_release(t_server *this)
@@ -71,7 +71,6 @@ void			server_accept(t_server *this)
   if (socket > this->socket_max)
     this->socket_max = socket;
   socketstream_write(socketstream, "BIENVENUE\n", strlen("BIENVENUE\n"));
-  printf("new client socket [%d]\n", socket);
 }
 
 void			server_launch(t_server *this)
@@ -88,6 +87,7 @@ void			server_launch(t_server *this)
 	  return;
 	}
       reset_rfds(this, &set_fd_in, &set_fd_out);
+      printf("[SELECT]\n");
       retval = select(1 + this->socket_max,
 		      &set_fd_in, &set_fd_out, NULL, NULL);
       if (g_alive == false)
@@ -103,17 +103,24 @@ void			server_launch(t_server *this)
 	{
 	  if (FD_ISSET(this->socket, &set_fd_in))
 	    {
-	      printf("add client\n");
 	      server_accept(this);
 	    }
 	  else
 	    {
-	      server_process_clients(this, &set_fd_in, &set_fd_out);
 	      server_process_new_clients(this, &set_fd_in, &set_fd_out);
+	      server_process_clients(this, &set_fd_in, &set_fd_out);
 	    }
 	}
-      gameplay_run(&this->gameplay);
+      gameplay_update(this->gameplay);
     }
+}
+
+void			server_add_player_command(t_server* this, struct s_player_command* command)
+{
+}
+
+void			server_add_monitor_command(t_server* this, struct s_monitor_command* command)
+{
 }
 
 void			sighandler(int signum)
