@@ -5,10 +5,11 @@
 
 t_client_vtable client_player_vtable;
 
-typedef struct	s_client_player
+typedef struct		s_client_player
 {
-  t_client	parent_client;
-}		t_client_player;
+  t_client		parent_client;
+  struct s_player*	player;
+}			t_client_player;
 
 void			client_player_initialize(t_client_player* this, struct s_socketstream* sockstream);
 void			client_player_release(t_client_player* this);

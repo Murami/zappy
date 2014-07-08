@@ -32,8 +32,7 @@
 
 */
 
-
-void		monitor_initialize(t_server *this, t_client *client)
+void		monitor_initialize(t_gameplay *this, t_client *client)
 {
   monitor_send_size(this, client);
   monitor_send_delay(this, client);
@@ -41,31 +40,31 @@ void		monitor_initialize(t_server *this, t_client *client)
   monitor_send_map(this, client);
 }
 
-void		monitor_send_size(t_server *this, t_client *client)
+void		monitor_send_size(t_gameplay *this, t_client *client)
 {
   char		buff[4096];
 
-  sprintf(buff, "msz %d %d\n", this->gameplay->map.width, this->gameplay->map.height);
+  sprintf(buff, "msz %d %d\n", this->map.width, this->map.height);
   client_send_msg(client, buff);
 
 }
 
-void		monitor_send_delay(t_server *this, t_client *client)
+void		monitor_send_delay(t_gameplay *this, t_client *client)
 {
   char		buff[4096];
 
-  sprintf(buff, "sgt %d\n", this->gameplay->delay);
+  sprintf(buff, "sgt %d\n", this->delay);
   client_send_msg(client, buff);
 }
 
-void			monitor_send_teams(t_server *this, t_client *client)
+void			monitor_send_teams(t_gameplay *this, t_client *client)
 {
   char			buff[4096];
   t_team		*team;
   t_list_iterator	it;
 
-  it = list_begin(this->gameplay->teams);
-  while (it != list_end(this->gameplay->teams))
+  it = list_begin(this->teams);
+  while (it != list_end(this->teams))
     {
       team = it->data;
       sprintf(buff, "tna %s\n", team->name);
@@ -74,7 +73,7 @@ void			monitor_send_teams(t_server *this, t_client *client)
     }
 }
 
-void		monitor_send_players(t_server *this, t_client *client)
+void		monitor_send_players(t_gameplay *this, t_client *client)
 {
   char		buff[4096];
 
@@ -84,7 +83,7 @@ void		monitor_send_players(t_server *this, t_client *client)
   /* pas de players pour l'instant */
 }
 
-void		monitor_send_eggs(t_server *this, t_client *client)
+void		monitor_send_eggs(t_gameplay *this, t_client *client)
 {
   char		buff[4096];
 
@@ -94,7 +93,7 @@ void		monitor_send_eggs(t_server *this, t_client *client)
   /* no eggs for the moment */
 }
 
-void		monitor_send_case(t_server *this, t_client *client, t_case *c)
+void		monitor_send_case(t_gameplay *this, t_client *client, t_case *c)
 {
   char		buff[4096];
 
@@ -105,19 +104,19 @@ void		monitor_send_case(t_server *this, t_client *client, t_case *c)
   client_send_msg(client, buff);
 }
 
-void		monitor_send_map(t_server *this, t_client *client)
+void		monitor_send_map(t_gameplay *this, t_client *client)
 {
   int		x;
   int		y;
 
   y = 0;
-  while (y != this->gameplay->map.height)
+  while (y != this->map.height)
     {
       x = 0;
-      while (x != this->gameplay->map.width)
+      while (x != this->map.width)
 	{
 	  monitor_send_case(this, client,
-			    &this->gameplay->map.map[x + y * this->gameplay->map.width]);
+			    &this->map.map[x + y * this->map.width]);
 	  x++;
 	}
       y++;
