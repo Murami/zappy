@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include "player_command.h"
 #include "gameplay.h"
-#include "server.h"
 #include "client_player.h"
 
 /*
@@ -24,9 +23,9 @@ t_player_command_binding	g_player_commands[] =
     {0, NULL, NULL}
   };
 
-void			player_command_execute(t_player_command* this, struct s_server* server)
+void			player_command_execute(t_player_command* this, t_gameplay* gameplay)
 {
-  g_player_commands[this->id_command].callback(server->gameplay, server);
+  g_player_commands[this->id_command].callback(gameplay);
 }
 
 struct timeval		player_command_remaining_time(t_player_command* this, struct timeval time)

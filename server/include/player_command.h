@@ -5,7 +5,7 @@
 # include <player_command_binding.h>
 
 struct s_player;
-struct s_server;
+struct s_gameplay;
 struct s_client_player;
 
 /*
@@ -22,7 +22,7 @@ typedef struct		s_player_command
 
 extern t_player_command_binding	g_player_commands[];
 
-void			player_command_execute(t_player_command* this, struct s_server* server);
+void			player_command_execute(t_player_command* this, struct s_gameplay* gameplay);
 struct timeval		player_command_remaining_time(t_player_command* this, struct timeval time);
 t_player_command*	player_command_new(struct s_client_player* client,
 					   struct timeval reception_time,
