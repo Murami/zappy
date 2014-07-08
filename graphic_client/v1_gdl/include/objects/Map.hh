@@ -15,16 +15,11 @@ namespace	Zappy
     const static int	BLOCK_SIZE;
 
   private :
+    gdl::Geometry	_geom;
     gdl::Geometry	_lines;
     gdl::Texture	_texture;
     int			_width;
     int			_height;
-    gdl::Geometry	_geom;
-
-    gdl::Geometry	_x;
-    gdl::Geometry	_y;
-    gdl::Geometry	_z;
-
 
   public :
     virtual void	initialize();

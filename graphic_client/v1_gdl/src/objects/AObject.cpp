@@ -5,9 +5,10 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:32 2014 Manu
-// Last update Sun Jul  6 16:08:41 2014 Manu
+// Last update Tue Jul  8 02:28:27 2014 Manu
 //
 
+#include	"objects/Map.hh"
 #include	"objects/AObject.hh"
 
 namespace	Zappy
@@ -19,6 +20,13 @@ namespace	Zappy
   const glm::vec3&	AObject::getPosition() const
   {
     return (_position);
+  }
+
+  const glm::vec3	AObject::getRealPosition() const
+  {
+    return (glm::vec3((int) _position.x / Map::BLOCK_SIZE,
+		      (int) _position.y / Map::BLOCK_SIZE,
+		      (int) _position.z / Map::BLOCK_SIZE));
   }
 
   const glm::vec3&	AObject::getRotation() const

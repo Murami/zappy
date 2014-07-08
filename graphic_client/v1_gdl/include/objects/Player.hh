@@ -6,6 +6,7 @@
 # include	<Model.hh>
 # include	"objects/AObject.hh"
 # include	"objects/AnimationPool.hpp"
+# include	"BasicShader.hh"
 
 namespace	Zappy
 {
@@ -38,6 +39,8 @@ namespace	Zappy
     float		_timeUnit;
     int			_elapsed;
     std::stack<State>	_stateStack;
+    glm::vec4		_pickColor;
+    gdl::BasicShader	_colorPickShader;
 
   public :
     virtual void	initialize();
@@ -52,6 +55,7 @@ namespace	Zappy
     void		startCast();
     void		stopCast();
     void		stopRunning();
+    const glm::vec4&	getPickColor() const;
 
   public :
     State		getState() const;
@@ -59,7 +63,7 @@ namespace	Zappy
     void		setTimeUnit(float);
 
   public :
-    Player(int x, int y, const std::string& teamName);
+    Player(int x, int y, const std::string& teamName, const glm::vec4&);
     ~Player();
   };
 }

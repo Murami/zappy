@@ -11,8 +11,12 @@ namespace	Zappy
     _up = true;
     _cpt = 0;
     _case = caseNum;
-    translate(glm::vec3(caseNum.x * Map::BLOCK_SIZE + random() % (Map::BLOCK_SIZE - 1) + 1,
-			caseNum.y * Map::BLOCK_SIZE + random() % (Map::BLOCK_SIZE - 1) + 1, 0));
+    translate(glm::vec3(caseNum.x * Map::BLOCK_SIZE + random() %
+			(Map::BLOCK_SIZE - 1) + 1,
+			caseNum.y * Map::BLOCK_SIZE + random() %
+			(Map::BLOCK_SIZE - 1) + 1, 0));
+    _sens = random() % 2 ? false : true;
+    _speed = random() % 10 + 1;
   }
 
   void		Stone::initialize()
@@ -31,17 +35,17 @@ namespace	Zappy
       {
 	_cpt++;
 	translate(glm::vec3(0, 0, 0.01));
+	if (_cpt == 50)
+	  _up = false;
       }
     else
       {
 	_cpt--;
 	translate(glm::vec3(0, 0, -0.01));
+	if (_cpt == 0)
+	  _up = true;
       }
-    if (_cpt == 50)
-      _up = false;
-    else if (_cpt == 0)
-      _up = true;
-    rotate(glm::vec3(0, 0, 1), 5);
+    rotate(glm::vec3(0, 0, 1), _sens ? _speed : -_speed);
     _model->draw(shader, getTransformation(), 0);
   }
 

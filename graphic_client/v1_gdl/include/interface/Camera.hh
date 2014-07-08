@@ -25,6 +25,7 @@ namespace	Zappy
     glm::mat4		_transformation;
     glm::mat4		_projection;
     gdl::AShader&	_shader;
+    gdl::AShader&	_colorPickShader;
     GLuint		_selectBuffer[512];
 
   public :
@@ -47,7 +48,7 @@ namespace	Zappy
     void	setMapHeight(int);
 
   public :
-    Camera(gdl::AShader&);
+    Camera(gdl::AShader&, gdl::AShader&);
     ~Camera();
   };
 }

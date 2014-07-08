@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:28 2014 Manu
-// Last update Sun Jul  6 16:08:03 2014 Manu
+// Last update Tue Jul  8 02:26:19 2014 Manu
 //
 
 #ifndef		__AOBJECT_HH__
@@ -37,6 +37,7 @@ namespace	Zappy
 
   public :
     const glm::vec3&	getPosition() const;
+    const glm::vec3	getRealPosition() const;
     const glm::vec3&	getRotation() const;
     const glm::vec3&	getScale() const;
 

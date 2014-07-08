@@ -14,6 +14,7 @@ namespace	Zappy
 {
   class		AObject;
   class		Camera;
+  class		Player;
 
   class		Window
   {
@@ -27,10 +28,12 @@ namespace	Zappy
 
   private :
     gdl::BasicShader	_shader;
+    gdl::BasicShader	_colorPickShader;
     gdl::Input		_input;
     gdl::Clock		_clock;
     bool		_running;
     Camera*		_camera;
+    GLuint		_pbo;
 
   private :
     void	_handleMouseEvents();
@@ -42,6 +45,7 @@ namespace	Zappy
     void	update();
     void	flush();
     void	draw(AObject*);
+    void	drawPlayerColorMap(Player*);
     void	bindShader();
     Camera*	getCamera();
     void	updateObject(AObject*);

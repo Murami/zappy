@@ -18,9 +18,13 @@ namespace	Zappy
 
   private :
     std::map<Type, gdl::Model*>	_models;
+    gdl::Model*			_food;
+    gdl::Model*			_world;
 
   public :
     gdl::Model*		getStone(Type);
+    gdl::Model*		getFood();
+    gdl::Model*		getWorld();
 
   private :
     ModelManager();

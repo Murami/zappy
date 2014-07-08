@@ -1,13 +1,16 @@
 #include		<unistd.h>
 #include		"objects/AObject.hh"
+#include		"objects/Player.hh"
 #include		"interface/Window.hh"
 #include		"interface/Camera.hh"
+#include		"graphic/ShaderManager.hpp"
 
 namespace		Zappy
 {
   const float		Window::WIDTH = 1920.0f;
   const float		Window::HEIGHT = 1080.0f;
   const std::string	Window::TITLE = "Zappy Bibicy";
+  ShaderManager*	ShaderManager::_instance = NULL;
 
   Window::Window()
   {
@@ -44,6 +47,11 @@ namespace		Zappy
       }
   }
 
+  gdl::Input&		Window::getInputs()
+  {
+    return (_input);
+  }
+
   void			Window::update()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -52,11 +60,6 @@ namespace		Zappy
       _running = false;
     _context.updateClock(_clock);
     _handleMouseEvents();
-    // if (_clock.getElapsed() < 1.0f / 10.0f)
-    //   {
-    // 	//std::cout << (1.0f / 10.0f) - _clock.getElapsed() << std::endl;
-    // 	usleep((1.0f / 10.0f) - _clock.getElapsed());
-    //   }
   }
 
   void			Window::flush()
@@ -66,7 +69,17 @@ namespace		Zappy
 
   void			Window::draw(AObject* object)
   {
+    _shader.bind();
     object->draw(_shader, _clock);
+  }
+
+  void			Window::drawPlayerColorMap(Player *object)
+  {
+    _colorPickShader.bind();
+    _colorPickShader.setUniform("colorPick", object->getPickColor());
+    object->scale(glm::vec3(0.8, 0.999, 0.8));
+    object->draw(_colorPickShader, _clock);
+    object->scale(glm::vec3(1/0.8, 1/0.999, 1/0.8));
   }
 
   void			Window::updateObject(AObject* object)
@@ -83,12 +96,10 @@ namespace		Zappy
   {
     _context.start(w, h, title);
     glEnable(GL_DEPTH_TEST);
-    if (!_shader.load("./gdl/shaders/basic.fp", GL_FRAGMENT_SHADER) ||
-	!_shader.load("./gdl/shaders/basic.vp", GL_VERTEX_SHADER) ||
-	!_shader.build())
-      throw (std::runtime_error("Failed shader initialization"));
+    _shader = *ShaderManager::getInstance()->getBasicShader();
+    _colorPickShader = *ShaderManager::getInstance()->getColorPickShader();
     _running = true;
-    _camera = new Camera(_shader);
+    _camera = new Camera(_shader, _colorPickShader);
     _camera->initialize();
   }
 

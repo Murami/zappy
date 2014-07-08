@@ -6,14 +6,16 @@ SRC		=	main				\
 			interface/ZappyGraphic		\
 			interface/Window		\
 			interface/Camera		\
+			network/Client			\
+			network/Socket			\
+			network/Mutex			\
 			objects/AObject			\
 			objects/Map			\
 			objects/Stone			\
 			objects/Player			\
 			objects/ModelManager		\
-			network/Client			\
-			network/Socket			\
-			network/Mutex			\
+			objects/Food			\
+			objects/World			\
 
 SRC_EXT		=	.cpp
 

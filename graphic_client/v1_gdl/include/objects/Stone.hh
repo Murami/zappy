@@ -24,6 +24,8 @@ namespace	Zappy
     bool	_up;
     int		_cpt;
     glm::vec2	_case;
+    bool	_sens;
+    int		_speed;
 
   public :
     virtual void	initialize();

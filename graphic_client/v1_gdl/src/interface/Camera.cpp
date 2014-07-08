@@ -5,7 +5,9 @@
 namespace	Zappy
 {
 
-  Camera::Camera(gdl::AShader& shader) : _shader(shader)
+  Camera::Camera(gdl::AShader& shader,
+		 gdl::AShader& colorShader) : _shader(shader),
+					       _colorPickShader(colorShader)
   {
     _distance = 10;
     _x = 5;
@@ -25,6 +27,7 @@ namespace	Zappy
 				   0.1f, 1000.0f);
     _shader.bind();
     _shader.setUniform("projection", _projection);
+    _colorPickShader.setUniform("projection", _projection);
   }
 
   void		Camera::initialize()
@@ -38,6 +41,9 @@ namespace	Zappy
     _shader.bind();
     _shader.setUniform("view", _transformation);
     _shader.setUniform("projection", _projection);
+    _colorPickShader.bind();
+    _colorPickShader.setUniform("view", _transformation);
+    _colorPickShader.setUniform("projection", _projection);
   }
 
   void		Camera::update()
@@ -51,19 +57,22 @@ namespace	Zappy
     _shader.bind();
     _shader.setUniform("view", _transformation);
     _shader.setUniform("projection", _projection);
+    _colorPickShader.bind();
+    _colorPickShader.setUniform("view", _transformation);
+    _colorPickShader.setUniform("projection", _projection);
   }
 
   void		Camera::zoomPlus()
   {
-    if (_distance - 2 > 1)
-      _distance -= 2;
+    if (_distance - _distance / 10 > 1)
+      _distance -= _distance / 10;
     update();
   }
 
   void		Camera::zoomLess()
   {
-    if (_distance + 2 < 1000)
-      _distance += 2;
+    if (_distance + _distance / 10 < 1000)
+      _distance += _distance / 10;
     update();
   }
 
@@ -110,6 +119,8 @@ namespace	Zappy
 				 0.1f, 100.0f);
 	_shader.bind();
 	_shader.setUniform("projection", _projection);
+	_colorPickShader.bind();
+	_colorPickShader.setUniform("projection", _projection);
       }
     else if (mode == "3d")
       {
@@ -117,8 +128,8 @@ namespace	Zappy
 				       static_cast<float>(Window::WIDTH) /
 				       static_cast<float>(Window::HEIGHT),
 				       0.1f, 1000.0f);
-	_shader.bind();
-	_shader.setUniform("projection", _projection);
+	_colorPickShader.bind();
+	_colorPickShader.setUniform("projection", _projection);
       }
     else
       {

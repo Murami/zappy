@@ -5,10 +5,11 @@
 namespace	Zappy
 {
   const float	Player::SPEED = 1.0f;
-  //  AnimationPool*	AnimationPool::_instance = NULL;
 
-  Player::Player(int x, int y, const std::string& name) : _teamName(name)
+  Player::Player(int x, int y, const std::string& name,
+		 const glm::vec4& pickColor) : _teamName(name)
   {
+    _pickColor = pickColor;
     _level = 1;
     translate(glm::vec3(x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2,
 			y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2, 0));
@@ -16,6 +17,11 @@ namespace	Zappy
     _direction = FRONT;
     _timeUnit = 100;
     _elapsed = 0;
+  }
+
+  const glm::vec4& Player::getPickColor() const
+  {
+    return (_pickColor);
   }
 
   void		Player::initialize()
@@ -166,7 +172,7 @@ namespace	Zappy
 
   void		Player::draw(gdl::AShader& shader, const gdl::Clock& clock)
   {
-    _model->draw(shader, getTransformation(), clock.getElapsed() * Map::BLOCK_SIZE);
+    _model->draw(shader, getTransformation(), clock.getElapsed());
   }
 
   Player::~Player()
