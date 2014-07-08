@@ -11,6 +11,7 @@ struct s_client;
 struct s_monitor;
 struct s_player;
 struct s_server;
+struct s_team;
 
 typedef struct	s_gameplay
 {
@@ -30,7 +31,7 @@ void			gameplay_release(t_gameplay *this);
 
 void			gameplay_update(t_gameplay *this);
 void			gameplay_remove_player(t_gameplay* this, struct s_client* client);
-void			gameplay_add_player(t_gameplay* this, struct s_client* client);
+void			gameplay_add_player(t_gameplay* this, struct s_client* client, struct s_team *team);
 void			gameplay_remove_monitor(t_gameplay* this, struct s_client* client);
 void			gameplay_add_monitor(t_gameplay* this, struct s_client* client);
 

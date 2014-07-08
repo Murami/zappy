@@ -6,6 +6,8 @@
 #include "client.h"
 #include "server.h"
 #include "monitors.h"
+#include "player.h"
+#include "team.h"
 
 void		gameplay_initialize(t_gameplay *this, t_config config)
 {
@@ -38,11 +40,12 @@ void		gameplay_remove_player(t_gameplay* this, t_client* client)
   (void)client;
 }
 
-void		gameplay_add_player(t_gameplay* this, t_client* client)
+void		gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 {
-  list_push_back(this->players, client);
-  (void)this;
-  (void)client;
+  t_player*	player;
+
+  player = player_new(this, client, team);
+  list_push_back(this->players, player);
 }
 
 void		gameplay_remove_monitor(t_gameplay* this, t_client* client)

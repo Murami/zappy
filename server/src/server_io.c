@@ -6,7 +6,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "client_player.h"
-
+#include "team.h"
 
 bool			server_process_clients_input(t_server* this,
 						     fd_set* fd_set_in,
@@ -72,14 +72,34 @@ bool			server_process_new_clients_output(t_server* this,
   return (true);
 }
 
+t_team*			server_check_teams(t_server *this, char *name, int size)
+{
+  t_list_iterator	it;
+  t_team		*team;
+
+  it = list_begin(this->gameplay->teams);
+  while (it != list_end(this->gameplay->teams))
+    {
+      team = it->data;
+      if (strncmp(team->name, name, size - 1) == 0 && team->nb_slots != 0)
+	{
+	  printf("cet équipe existe\n");
+	  return (team);
+	}
+      it = list_iterator_next(it);
+    }
+  return (NULL);
+}
+
 bool			server_read_new_clients_input(t_server* this,
 						      t_socketstream* new_client)
 {
   char			buffer[4096];
   int			size;
   t_client*		client;
+  t_team*		team;
 
-  while ((size = socketstream_peek(new_client, buffer, 4096)))
+  while ((size = socketstream_read(new_client, buffer, 4096)))
     {
       if (strncmp("GRAPHIC\n", buffer, size) == 0)
 	{
@@ -90,9 +110,13 @@ bool			server_read_new_clients_input(t_server* this,
 	}
       else
 	{
-	  client = (t_client*)client_player_new(new_client);
-	  server_add_player(this, client);
-	  return (false);
+	  if (team = server_check_teams(this, buffer, size))
+	    {
+	      client = (t_client*)client_player_new(new_client);
+	      server_add_player(this, client, team);
+	      return (false);
+	    }
+	  return (true);
 	}
     }
   return (true);
