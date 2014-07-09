@@ -67,59 +67,70 @@ void			gameplay_update(t_gameplay *this)
   (void)this;
 }
 
-void			gameplay_command_avance(t_gameplay* this)
+void			gameplay_command_avance(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
   printf("le début de la fin du serveur\n");
 }
 
-void			gameplay_command_droite(t_gameplay* this)
+void			gameplay_command_droite(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_gauche(t_gameplay* this)
+void			gameplay_command_gauche(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_voir(t_gameplay* this)
+void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_inventaire(t_gameplay* this)
+void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_prend_objet(t_gameplay* this)
+void			gameplay_command_prend_objet(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_expulse(t_gameplay* this)
+void			gameplay_command_expulse(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_broadcast(t_gameplay* this)
+void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_incantation(t_gameplay* this)
+void			gameplay_command_incantation(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_fork(t_gameplay* this)
+void			gameplay_command_fork(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_connect_nbr(t_gameplay* this)
+void			gameplay_command_connect_nbr(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 

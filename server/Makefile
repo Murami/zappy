@@ -50,7 +50,7 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	gcc -fmax-errors=2
+CC		=	gcc -fmax-errors=1
 RM		=	rm -rf
 MD		=	mkdir -p
 

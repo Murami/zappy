@@ -19,6 +19,8 @@ t_monitor_command_binding	g_monitor_commands[] =
 
 void			monitor_command_execute(t_monitor_command* this, t_gameplay* gameplay)
 {
+  (void) this;
+  (void) gameplay;
   /* g_player_commands[this->id_command].callback(gameplay); */
 }
 
