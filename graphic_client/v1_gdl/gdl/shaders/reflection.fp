@@ -7,7 +7,7 @@ varying vec3 fNormal;
 varying vec2 fUv;
 varying vec4 fColor;
 
-const float noise_strength = 0.0;
+const float noise_strength = 0.5;
 
 void main(void)
 {

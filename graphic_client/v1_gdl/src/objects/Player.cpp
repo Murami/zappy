@@ -6,15 +6,16 @@ namespace	Zappy
 {
   const float	Player::SPEED = 1.0f;
 
-  Player::Player(int x, int y, const std::string& name,
+  Player::Player(int playerId, int x, int y, int orientation, int level, const std::string& name,
 		 const glm::vec4& pickColor) : _teamName(name)
   {
+    _id = playerId;
     _pickColor = pickColor;
-    _level = 1;
+    _level = level;
     translate(glm::vec3(x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2,
 			y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2, 0));
     _stateStack.push(STANDING);
-    _direction = FRONT;
+    _direction = static_cast<Direction>(orientation);
     _timeUnit = 100;
     _elapsed = 0;
   }

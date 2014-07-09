@@ -8,7 +8,7 @@ namespace	Zappy
   class		PlayerFactory
   {
   public :
-    static Player*	createNewPlayer(int x, int y, const std::string& tName)
+    static Player*	createNewPlayer(int playerId, int x, int y, int orientation, int level, const std::string& tName)
     {
       static int	next[4];
       static bool	init = false;
@@ -20,7 +20,7 @@ namespace	Zappy
 	  next[2] = 255;
 	  next[3] = 255;
 	  init = true;
-	  return (new Player(x, y, tName, glm::vec4(1, 1, 1, 1)));
+	  return (new Player(playerId, x, y, orientation, level, tName, glm::vec4(1, 1, 1, 1)));
 	}
       if (next[0] <= 0)
 	{
@@ -39,10 +39,10 @@ namespace	Zappy
       else
 	next[0] -= 5;
 
-      return (new Player(x, y, tName, glm::vec4(next[0] / 255,
-						next[1] / 255,
-						next[2] / 255,
-						next[3] / 255)));
+      return (new Player(playerId, x, y, orientation, level, tName, glm::vec4(next[0] / 255,
+									      next[1] / 255,
+									      next[2] / 255,
+									      next[3] / 255)));
     }
   };
 }

@@ -56,10 +56,10 @@ namespace	Zappy
 	      return ;
 	    }
 	  model->setCurrentAnim(0);
-	  std::cout << "Creating new frame based on frames [" << i + 10 << "] [" << i + 11 << "]" << std::endl;
 	  model->createSubAnim(0, "running", i + 10, i + 11);
 	  model->setCurrentSubAnim("running");
 	  _runningFrames[i] = model;
+	  usleep(5000);
 	}
       _standingFrame = new gdl::Model();
       _standingFrame->load("./assets/models/young_link.fbx");

@@ -1,6 +1,7 @@
 #ifndef		__MAP_HH__
 # define	__MAP_HH__
 
+# include	<list>
 # include	<stdexcept>
 # include	<iostream>
 # include	<Geometry.hh>
@@ -9,6 +10,8 @@
 
 namespace	Zappy
 {
+  class		Player;
+
   class		Map : public AObject
   {
   public :
@@ -25,6 +28,9 @@ namespace	Zappy
     virtual void	initialize();
     virtual void	update(const gdl::Clock&, gdl::Input&);
     virtual void	draw(gdl::AShader&, const gdl::Clock&);
+
+  public :
+    void		setSize(int, int);
 
   public :
     Map(int width, int height);

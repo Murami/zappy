@@ -1,3 +1,4 @@
+#include		"graphic/ShaderManager.hpp"
 #include		"objects/Map.hh"
 
 namespace	Zappy
@@ -8,6 +9,12 @@ namespace	Zappy
   {
     _width = width;
     _height = height;
+  }
+
+  void		Map::setSize(int w, int h)
+  {
+    _width = w;
+    _height = h;
   }
 
   void		Map::initialize()
@@ -53,10 +60,10 @@ namespace	Zappy
     glEnable(GL_TEXTURE_2D);
     shader.setUniform("color", glm::vec4(1, 1, 1, 1));
     _texture.bind();
-    _geom.draw(shader, getTransformation(), GL_QUADS);
+    _geom.draw(shader,
+	       getTransformation(), GL_QUADS);
     glDisable(GL_TEXTURE_2D);
     _lines.draw(shader, getTransformation(), GL_LINES);
-
   }
 
   Map::~Map()

@@ -30,6 +30,14 @@ namespace	Zappy
     _world = new gdl::Model();
     if (!_world->load("./assets/models/world/kokiri_forest/world.fbx"))
       throw (std::runtime_error("Unable to load world.obj"));
+    _egg = new gdl::Model();
+    if (!_egg->load("./assets/models/egg.obj"))
+      throw (std::runtime_error("Unable to load egg.obj"));
+  }
+
+  gdl::Model*	ModelManager::getEgg()
+  {
+    return (_egg);
   }
 
   gdl::Model*	ModelManager::getFood()
