@@ -33,7 +33,6 @@ void	client_player_run_input(t_client_player* this, t_server* server)
   int			i;
 
   (void) server;
-  printf("A client player just received some data");
   memset(buffer, 0, 4096);
   while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
@@ -43,7 +42,7 @@ void	client_player_run_input(t_client_player* this, t_server* server)
       while (g_player_commands[i].request &&
 	     strncmp(buffer, g_player_commands[i].request, strlen(g_player_commands[i].request)) != 0)
       	i++;
-      if (!g_player_commands[i].request)
+      if (g_player_commands[i].request)
 	{
 	  if (strcmp(g_player_commands[i].request, "broadcast") == 0 && strlen(buffer + strlen("broadcast")) >= 1)
 	    command = player_command_new(this, server->time, buffer + strlen("broadcast") + 1, i);

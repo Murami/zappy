@@ -2,6 +2,7 @@
 # define CLIENT_GRAPHIC_H
 
 # include "client.h"
+# include "monitor_command.h"
 
 t_client_vtable client_graphic_vtable;
 
@@ -9,6 +10,8 @@ typedef struct		s_client_graphic
 {
   t_client		parent_client;
 }			t_client_graphic;
+
+extern t_monitor_command_binding	g_monitor_commands[];
 
 void			client_graphic_initialize(t_client_graphic* this, struct s_socketstream* sockstream);
 void			client_graphic_release(t_client_graphic* this);

@@ -4,7 +4,6 @@
 # include <sys/time.h>
 
 struct s_gameplay;
-struct s_server;
 
 typedef struct		s_player_command_binding
 {

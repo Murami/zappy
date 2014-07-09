@@ -70,6 +70,7 @@ void			gameplay_update(t_gameplay *this)
 void			gameplay_command_avance(t_gameplay* this)
 {
   (void) this;
+  printf("le début de la fin du serveur\n");
 }
 
 void			gameplay_command_droite(t_gameplay* this)

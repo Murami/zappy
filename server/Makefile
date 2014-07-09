@@ -19,6 +19,7 @@ SRC		=	main		\
 			case		\
 			monitors	\
 			player_command	\
+			monitor_command	\
 			player		\
 			team
 

@@ -7,6 +7,7 @@ struct s_gameplay;
 
 typedef struct		s_player
 {
+  int			id;
   struct s_client*     	client;
   struct s_team*       	team;
   int			orientation;

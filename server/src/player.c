@@ -4,6 +4,7 @@
 #include "client.h"
 #include "team.h"
 #include "gameplay.h"
+#include "socketstream.h"
 #include "client_player.h"
 
 void		player_initialize(t_player *this, t_gameplay *gameplay,
@@ -12,6 +13,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   char		buffer[4096];
 
   ((t_client_player*)client)->player = this;
+  this->id = client->socketstream->socket;
   this->orientation = rand() % 4 + 1;
   this->x = rand() % gameplay->map.width;
   this->y = rand() % gameplay->map.height;
