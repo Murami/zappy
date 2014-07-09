@@ -143,6 +143,60 @@ void			gameplay_add_player_command(t_gameplay* this, t_player_command* command)
   player_command_execute(command, this);
 }
 
+void			gameplay_command_msz(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_bct(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_mct(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_tna(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_ppo(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
 void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
 {
   (void) this;

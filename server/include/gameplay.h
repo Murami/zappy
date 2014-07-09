@@ -50,6 +50,16 @@ void			gameplay_command_incantation(t_gameplay* this, struct s_player_command* c
 void			gameplay_command_fork(t_gameplay* this, struct s_player_command* command);
 void			gameplay_command_connect_nbr(t_gameplay* this, struct s_player_command* command);
 
+void			gameplay_command_msz(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_bct(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_mct(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_tna(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_ppo(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command);
+void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command);
+
 t_gameplay*		gameplay_new(t_config config);
 void			gameplay_delete(t_gameplay *this);
 
