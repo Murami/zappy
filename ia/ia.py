@@ -61,7 +61,7 @@ class   Player:
                 self.searchFood()
             else:
                 static = 0
-            
+
     def updateData (self):
         self.data.update(self.net.recv());
 
