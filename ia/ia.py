@@ -31,6 +31,7 @@ class   Player:
 
     def shearchFood (self):
         global static
+        print("static = " + str(static))
         if static < 3:
             self.decisions.put("droite")
             static += 1
@@ -59,17 +60,14 @@ class   Player:
                 static = 0
 
     def updateData (self):
-        print("update")
-        msg = self.net.recv()
-        print(msg)
-        self.data.update(msg);
+        self.data.update(self.net.recv());
 
     def run (self):
         while self.data.alive.isAlive():
             # rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
             self.getDecision()
             var = self.decisions.get()
-            print(var)
+            print("send = " + var)
             self.net.send(var)
             self.updateData()
         print("\033[32mOh no, you're dead !!!\033[0m")
