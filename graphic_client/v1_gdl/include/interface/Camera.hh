@@ -26,6 +26,7 @@ namespace	Zappy
     glm::mat4		_projection;
     gdl::AShader&	_shader;
     gdl::AShader&	_colorPickShader;
+    gdl::BasicShader	_reflectionShader;
     GLuint		_selectBuffer[512];
 
   public :

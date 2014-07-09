@@ -41,6 +41,7 @@ namespace	Zappy
     std::stack<State>	_stateStack;
     glm::vec4		_pickColor;
     gdl::BasicShader	_colorPickShader;
+    int			_id;
 
   public :
     virtual void	initialize();
@@ -63,7 +64,7 @@ namespace	Zappy
     void		setTimeUnit(float);
 
   public :
-    Player(int x, int y, const std::string& teamName, const glm::vec4&);
+    Player(int playerId, int x, int y, int orientation, int level, const std::string& teamName, const glm::vec4& pickColor);
     ~Player();
   };
 }

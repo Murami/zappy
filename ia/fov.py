@@ -40,7 +40,7 @@ class Fov:
                   + "\033[33munknown key [" + stoneName + "]\033[0m")
         return 0
 
-    def getClosestFood (self):
+    def getClosestFood (self, actualLevel):
         temp = queue.Queue()
         for elem in distance:
             for sub in elem:
@@ -50,10 +50,12 @@ class Fov:
                             temp.put("prend nourriture")
                             return temp
                         else:
-                            return path[sub]
+                            print("j'ai trouve un chemin")
+                            temp = self.getPath(sub, actualLevel)
+                            return temp
         return temp
 
-    def getClosestStone (self, stoneName):
+    def getClosestStone (self, stoneName, actualLevel):
         temp = queue.Queue()
         for elem in distance:
             for sub in elem:
@@ -64,13 +66,26 @@ class Fov:
                                 temp.put("prend " + stoneName)
                                 return temp
                             else:
-                                return path[sub]
+                                return self.getPath(sub, actualLevel)
                     except KeyError:
                         print("\033[31mError in getClosestStone : "            
                               + "\033[33munknown key [" + stoneName + "]\033[0m")
                         return temp
         return temp
-                        
+
+
+    def getPath (self, caseIndex, actualLevel):
+        maxPerLevel = (0, 2, 6, 12, 20, 30, 42, 56, 72)
+        res = queue.Queue()
+        for i in range(actualLevel):
+            res.put("avance")
+        if  caseIndex < maxPerLevel[actualLevel]:
+            res.put("gauche")
+        elif caseIndex > maxPerLevel[actualLevel]:
+            res.put("droite")
+        for i in range(abs(maxPerLevel[actualLevel] - caseIndex)):
+            res.put("avance")
+        return res
 
 distance = list()
 distance.append([0])
@@ -91,33 +106,3 @@ distance.append([50, 62, 67, 77])
 distance.append([49, 63, 66, 78])
 distance.append([65, 79])
 distance.append([64, 80])
-
-# chemin a effectuer pour atteindre la case
-path = list()
-
-maxLine = [0, 3, 8, 15, 24, 35, 48, 63, 80]
-heightB = 0
-tmpAvance = 0
-indexB = 0
-
-while indexB < 81:
-    res = queue.Queue()
-    for i in range(heightB):
-        res.put("avance")
-    if tmpAvance < 0:
-        res.put("gauche")
-    elif tmpAvance > 0:
-        res.put("droite")
-    for i in range(abs(tmpAvance)):
-        res.put("avance")
-    tmpAvance += 1
-    path.append(res)
-    if indexB in maxLine:
-        heightB += 1
-        tmpAvance = -heightB
-    indexB += 1
-
-for i in range(20):
-    print (i)
-    while not path[i].empty():
-        print(path[i].get())

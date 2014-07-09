@@ -11,7 +11,7 @@ namespace	Zappy
   {
     _model = ModelManager::getInstance()->getWorld();
     scale(glm::vec3(20, 20, 20));
-    translate(glm::vec3(0, 0, -100));
+    translate(glm::vec3(0, 0, -71));
     rotate(glm::vec3(1, 0, 0), 90);
   }
 

@@ -33,7 +33,6 @@ namespace	Zappy
     gdl::Clock		_clock;
     bool		_running;
     Camera*		_camera;
-    GLuint		_pbo;
 
   private :
     void	_handleMouseEvents();
