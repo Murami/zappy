@@ -26,7 +26,7 @@ class Data:
         if res.isInventory():
             self.inventory = res.getInventory()
         elif res.isFov():
-            self.fov = res.getFov()
+            self.fov = res.getFov()            
         elif res.isLevel():
             self.level = res.getLevel()
         elif res.isAlive():
@@ -39,3 +39,4 @@ class Data:
             self.message = res.getMessage()
         elif res.isAnswer():
             self.answer = res.getAnswer()
+        return res

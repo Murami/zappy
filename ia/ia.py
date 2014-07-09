@@ -35,43 +35,53 @@ class   Player:
 
     def searchFood (self):
         global static
-        if static < 3:
-            self.decisions.put("droite")
-            static += 1
-        else:
-            static = 0
-            rand = randint(0,2)
-            if (rand == 0):
-                self.decisions.put("droite")
-            elif (rand == 1):
-                self.decisions.put("gauche")
-            for i in range(self.data.level.getActualLevel() * 2 + 1):
-                self.decisions.put("avance")
-
-    def getDecision(self):
-        global static
-        if not self.decisions.empty():
-            return;
-        elif self.decisions.empty() and self.data.fov.getUsed() is True:
+        if self.data.fov.getUsed() is True:
             self.decisions.put("voir")
-        elif self.decisions.empty() and self.data.fov.getUsed() is False:
+        elif self.data.fov.getUsed() is False:
             self.data.fov.setUsed(True)
             self.decisions = self.data.fov.getClosestFood(self.data.level.getActualLevel())
             if self.decisions.qsize() == 0:
-                self.searchFood()
+                if static < 3:
+                    self.decisions.put("droite")
+                    static += 1
+                else:
+                    static = 0
+                    rand = randint(0,2)
+                    if (rand == 0):
+                        self.decisions.put("droite")
+                    elif (rand == 1):
+                        self.decisions.put("gauche")
+                    for i in range(self.data.level.getActualLevel() * 2 + 1):
+                        self.decisions.put("avance")
             else:
                 static = 0
+
+    def getDecision(self):
+        if not self.decisions.empty():
+            return
+        else:
+            if self.data.inventory.getFood() < 3:
+                self.searchFood()
+            else:
+                print("je recherche des pierres")
             
     def updateData (self):
-        self.data.update(self.net.recv());
+        self.data.update(self.net.recv())
+
+    def getInventory (self):
+        self.net.send("inventory")
+        response = self.data.update(self.net.recv())
+        while response.isInventory() is False:
+            response = self.data.update(self.net.recv())
 
     def run (self):
         while self.data.alive.isAlive():
+            self.getInventory()
             self.getDecision()
-            var = self.decisions.get()
-            print("send = " + var)
-            self.net.send(var)
-            self.updateData()
+            # var = self.decisions.get()
+            # print("send = " + var)
+            # self.net.send(var)
+            # self.updateData()
         print("\033[32mOh no, you're dead !!!\033[0m")
 
 
