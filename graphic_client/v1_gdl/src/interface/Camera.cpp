@@ -1,6 +1,7 @@
 #include		"interface/Window.hh"
 #include		"interface/Camera.hh"
 #include		"objects/Map.hh"
+#include		"graphic/ShaderManager.hpp"
 
 namespace	Zappy
 {
@@ -24,10 +25,14 @@ namespace	Zappy
     _thetha = 0;
     _projection = glm::perspective(60.0f, static_cast<float>(Window::WIDTH) /
 				   static_cast<float>(Window::HEIGHT),
-				   0.1f, 1000.0f);
+				   0.1f, 10000.0f);
     _shader.bind();
     _shader.setUniform("projection", _projection);
     _colorPickShader.setUniform("projection", _projection);
+    _reflectionShader = *ShaderManager::getInstance()->getReflectionShader();
+    _reflectionShader.setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->bind();
+    ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
   }
 
   void		Camera::initialize()
@@ -41,9 +46,14 @@ namespace	Zappy
     _shader.bind();
     _shader.setUniform("view", _transformation);
     _shader.setUniform("projection", _projection);
+    _reflectionShader.bind();
+    _reflectionShader.setUniform("view", _transformation);
+    _reflectionShader.setUniform("projection", _projection);
     _colorPickShader.bind();
     _colorPickShader.setUniform("view", _transformation);
     _colorPickShader.setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
   }
 
   void		Camera::update()
@@ -60,6 +70,11 @@ namespace	Zappy
     _colorPickShader.bind();
     _colorPickShader.setUniform("view", _transformation);
     _colorPickShader.setUniform("projection", _projection);
+    _reflectionShader.bind();
+    _reflectionShader.setUniform("view", _transformation);
+    _reflectionShader.setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
   }
 
   void		Camera::zoomPlus()
@@ -121,15 +136,23 @@ namespace	Zappy
 	_shader.setUniform("projection", _projection);
 	_colorPickShader.bind();
 	_colorPickShader.setUniform("projection", _projection);
+	_reflectionShader.bind();
+	_reflectionShader.setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
       }
     else if (mode == "3d")
       {
 	_projection = glm::perspective(60.0f,
 				       static_cast<float>(Window::WIDTH) /
 				       static_cast<float>(Window::HEIGHT),
-				       0.1f, 1000.0f);
+				       0.1f, 10000.0f);
 	_colorPickShader.bind();
 	_colorPickShader.setUniform("projection", _projection);
+	_reflectionShader.bind();
+	_reflectionShader.setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
       }
     else
       {

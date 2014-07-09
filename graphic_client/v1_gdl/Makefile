@@ -3,6 +3,7 @@
 NAME		=	zappy-graphic
 
 SRC		=	main				\
+			parser/Parser			\
 			interface/ZappyGraphic		\
 			interface/Window		\
 			interface/Camera		\
@@ -16,6 +17,7 @@ SRC		=	main				\
 			objects/ModelManager		\
 			objects/Food			\
 			objects/World			\
+			objects/Egg			\
 
 SRC_EXT		=	.cpp
 

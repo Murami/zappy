@@ -70,21 +70,23 @@ namespace		Zappy
   void			Window::draw(AObject* object)
   {
     _shader.bind();
-    object->draw(_shader, _clock);
+    if (object)
+      object->draw(_shader, _clock);
   }
 
   void			Window::drawPlayerColorMap(Player *object)
   {
     _colorPickShader.bind();
     _colorPickShader.setUniform("colorPick", object->getPickColor());
-    object->scale(glm::vec3(0.8, 0.999, 0.8));
+    object->scale(glm::vec3(2, 2, 2));
     object->draw(_colorPickShader, _clock);
-    object->scale(glm::vec3(1/0.8, 1/0.999, 1/0.8));
+    object->scale(glm::vec3(0.5, 0.5, 0.5));
   }
 
   void			Window::updateObject(AObject* object)
   {
-    object->update(_clock, _input);
+    if (object)
+      object->update(_clock, _input);
   }
 
   void			Window::bindShader()

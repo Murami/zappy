@@ -1,24 +1,62 @@
-
+#include <vector>
 #include <sstream>
 #include <stdexcept>
 #include <iostream>
 #include <cstring>
 #include "network/Client.hh"
 
+std::size_t		countLines(const char* str)
+{
+  std::size_t ret = 0;
+  for (int i = 0; str[i]; i++)
+    if (str[i] == '\n')
+      ret++;
+  return (ret);
+}
+
 void			*launchListen(void *attr)
 {
   Client		*client;
   char			buff[8192];
+  std::stringstream	ss;
+  std::string		tmp;
+  int			ndx = 0;
 
   client = reinterpret_cast<Client *>(attr);
+  std::memset(&buff[0], 0, 8192);
+  std::size_t ret = 0;
+  if ((ret = read(client->_socket.getFd(), &buff[0], 8191)) == 0)
+    {
+      std::cerr << "\033[31mConnection to server "
+	"closed unexpectedly\033[0m" << std::endl;
+      return (NULL);
+    }
+  if (std::string(buff) == "BIENVENUE\n")
+    {
+      write(client->_socket.getFd(), "GRAPHIC\n", 8);
+      std::memset(&buff[0], 0, 8192);
+    }
   while (42)
     {
-      std::memset(buff, 0, 8192);
-      read(client->_socket.getFd(), buff, 4096);
-      client->getQueue().push(std::string(buff));
-      std::cout << client->getQueue().front();
-      client->getQueue().pop();
-      // std::cout << buff;
+      if ((ret = read(client->_socket.getFd(), &buff[ndx], 8191 - ndx)) == 0)
+	{
+	  std::cerr << "\033[31mConnection to server "
+	    "closed unexpectedly\033[0m" << std::endl;
+	  return (NULL);
+	}
+      std::size_t nbLines = countLines(&buff[0]);
+      ss << buff;
+      std::vector<std::string> cmds;
+      while (std::getline(ss, tmp))
+	cmds.push_back(tmp);
+      ss.clear();
+      if (cmds.size() > nbLines)
+	cmds.pop_back();
+      std::memset(&buff[0], 0, 8192);
+      strcpy(&buff[0], tmp.c_str());
+      ndx = tmp.size();
+      for (size_t s = 0; s < cmds.size(); s++)
+      	client->getQueue().push(cmds[s]);
     }
   return (attr);
 }
