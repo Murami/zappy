@@ -9,18 +9,19 @@
 
 t_player_command_binding	g_player_commands[] =
   {
-    {7, "avance", gameplay_command_avance},
-    {7, "droite", gameplay_command_droite},
-    {7, "gauche", gameplay_command_gauche},
-    {7, "voir", gameplay_command_voir},
-    {1, "inventaire", gameplay_command_inventaire},
-    {7, "prend objet", gameplay_command_prend_objet},
-    {7, "expulse", gameplay_command_expulse},
-    {7, "broadcast", gameplay_command_broadcast},
-    {300, "incantation", gameplay_command_incantation},
-    {42, "fork", gameplay_command_fork},
-    {0, "connect_nbr", gameplay_command_connect_nbr},
-    {0, NULL, NULL}
+    {0, 7, "avance", gameplay_command_avance},
+    {0, 7, "droite", gameplay_command_droite},
+    {0, 7, "gauche", gameplay_command_gauche},
+    {0, 7, "voir", gameplay_command_voir},
+    {0, 1, "inventaire", gameplay_command_inventaire},
+    {1, 7, "prend", gameplay_command_prend_objet},
+    {1, 7, "pose", gameplay_command_prend_objet},
+    {0, 7, "expulse", gameplay_command_expulse},
+    {1, 7, "broadcast", gameplay_command_broadcast},
+    {0, 300, "incantation", gameplay_command_incantation},
+    {0, 42, "fork", gameplay_command_fork},
+    {0, 0, "connect_nbr", gameplay_command_connect_nbr},
+    {0, 0, NULL, NULL}
   };
 
 void			player_command_execute(t_player_command* this, t_gameplay* gameplay)

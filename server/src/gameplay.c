@@ -79,6 +79,7 @@ struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
 	{
 	  if (player_make_action(player, this, currenttime))
 	    {
+	      it = list_iterator_prev(it);
 	      while (player_make_action(player, this, currenttime));
 	      gameplay_update_player_position(this, player);
 	    }

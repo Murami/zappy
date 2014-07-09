@@ -41,7 +41,7 @@ void	client_graphic_run_input(t_client_graphic* this, t_server* server)
       strtok(buffer, " ");
       datas[0] = strtok(NULL, " ");
       datas[1] = strtok(NULL, " ");
-      while (strcmp(buffer, g_monitor_commands[i].request))
+      while (g_monitor_commands[i].request && strcmp(buffer, g_monitor_commands[i].request))
 	{
 	  i++;
 	}
