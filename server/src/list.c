@@ -124,20 +124,21 @@ t_list_iterator		list_erase(t_list* this, t_list_iterator list_iterator)
   return (prev);
 }
 
-bool			list_insert(t_list* this, t_list_iterator list_iterator, void* data)
+t_list_iterator			list_insert(t_list* this, t_list_iterator list_iterator, void* data)
 {
   t_list_elm*		elm;
 
   elm = (t_list_elm*)malloc(sizeof(t_list_elm));
   if (elm == NULL)
-    return (false);
+    return (this->root);
+  list_iterator = list_iterator_prev(list_iterator);
   elm->next = list_iterator->next;
   elm->prev = list_iterator;
   elm->data = data;
   list_iterator->next->prev = elm;
   list_iterator->next = elm;
   this->size++;
-  return (true);
+  return (elm);
 }
 
 t_list*		list_new()

@@ -30,18 +30,18 @@ void			player_command_execute(t_player_command* this, t_gameplay* gameplay)
 
 struct timeval		player_command_remaining_time(t_player_command* this, struct timeval time)
 {
-  time.tv_usec -= this->reception_time.tv_usec;
+  time.tv_usec -= this->expiration_time.tv_usec;
   if (time.tv_usec < 0)
     {
       time.tv_usec += 1000000;
       time.tv_sec -= 1;
     }
-  time.tv_sec -= this->reception_time.tv_sec;
+  time.tv_sec -= this->expiration_time.tv_sec;
   return (time);
 }
 
-t_player_command*	player_command_new(struct s_client_player* client,
-					   struct timeval reception_time,
+t_player_command*	player_command_new(t_client_player* client,
+					   t_gameplay* gameplay,
 					   char* data,
 					   int id_command)
 {
@@ -50,7 +50,9 @@ t_player_command*	player_command_new(struct s_client_player* client,
   command = malloc(sizeof(t_player_command));
   if (command == NULL)
     return (NULL);
-  command->reception_time = reception_time;
+  command->expiration_time.tv_usec = gameplay->time.tv_usec + (g_player_commands[id_command].time * 1000000) / gameplay->delay;
+  command->expiration_time.tv_sec = command->expiration_time.tv_usec / 1000000;
+  command->expiration_time.tv_usec %= 1000000;
   command->player = client->player;
   command->data = data;
   command->id_command = id_command;

@@ -1,6 +1,7 @@
 #ifndef		_GAMEPLAY_H_
 # define	_GAMEPLAY_H_
 
+# include	<sys/time.h>
 # include	"config.h"
 # include	"map.h"
 # include	"list.h"
@@ -16,7 +17,6 @@ struct s_team;
 typedef struct	s_gameplay
 {
   t_list*	teams;
-
   t_list*	players;
   t_list*	monitors;
 
@@ -24,6 +24,7 @@ typedef struct	s_gameplay
   /* t_list*	output; */
   t_map		map;
   int		delay;
+  struct timeval	time;
 }		t_gameplay;
 
 void			gameplay_initialize(t_gameplay *this, t_config config);
@@ -59,6 +60,9 @@ void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command)
 void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command);
+
+/* void			gameplay_update_first_player_position(t_gameplay* this); */
+void			gameplay_update_player_position(t_gameplay* this, struct s_player* player);
 
 t_gameplay*		gameplay_new(t_config config);
 void			gameplay_delete(t_gameplay *this);

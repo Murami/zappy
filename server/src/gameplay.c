@@ -4,6 +4,7 @@
 #include "gameplay.h"
 #include "socketstream.h"
 #include "client.h"
+#include "player.h"
 #include "server.h"
 #include "monitors.h"
 #include "player_command.h"
@@ -19,6 +20,7 @@ void		gameplay_initialize(t_gameplay *this, t_config config)
   this->teams = config.teams;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
+  gettimeofday(&this->time, NULL);
 }
 
 t_gameplay*    	gameplay_new(t_config config)
@@ -44,6 +46,7 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 
   player = player_new(this, client, team);
   list_push_back(this->players, player);
+  player->it = list_back(this->players);
 }
 
 void			gameplay_remove_monitor(t_gameplay* this, t_client* client)
@@ -138,11 +141,9 @@ void			gameplay_command_connect_nbr(t_gameplay* this, t_player_command* command)
 
 void			gameplay_add_player_command(t_gameplay* this, t_player_command* command)
 {
-  (void) this;
-  (void) command;
-
-  /* EXECUTE LA COMMANDE DIRECT POUR L'INSTANT */
-  player_command_execute(command, this);
+  player_add_action(command->player, command);
+  if (list_size(command->player->command_queue) == 1)
+    gameplay_update_player_position(this, command->player);
 }
 
 void			gameplay_command_msz(t_gameplay* this, struct s_monitor_command* command)
@@ -210,15 +211,60 @@ void			gameplay_release(t_gameplay *this)
 {
   list_delete(this->teams);
   list_delete(this->players);
-  /* list_release(this->requests); */
-  /* list_release(this->output); */
   map_release(&this->map);
-  /* free(this->requests); */
-  /* free(this->output); */
 }
 
-void		gameplay_delete(t_gameplay *this)
+void			gameplay_delete(t_gameplay *this)
 {
   gameplay_release(this);
   free(this);
+}
+
+/* void			gameplay_update_first_player_position(t_gameplay* this) */
+/* { */
+/*   t_list_iterator	it; */
+/*   t_player*		player; */
+/*   struct timeval	time_tomove; */
+/*   struct timeval	time_current; */
+
+/*   player = list_front(this->players); */
+/*   list_pop_front(this->players); */
+/*   it = list_begin(this->players); */
+/*   time_tomove = player_get_next_action_time(player); */
+/*   while (it != list_end(this->players)) */
+/*     { */
+/*       time_current = player_get_next_action_time(it->data); */
+/*       if (time_current.tv_sec < time_tomove.tv_sec || */
+/* 	  (time_current.tv_sec == time_tomove.tv_sec && */
+/* 	   time_current.tv_usec < time_tomove.tv_usec)) */
+/* 	{ */
+/* 	  list_insert(this->players, it, player); */
+/* 	  return; */
+/* 	} */
+/*       it = list_iterator_next(it); */
+/*     } */
+/* } */
+
+void			gameplay_update_player_position(t_gameplay* this, t_player* player)
+{
+  t_list_iterator	it;
+  struct timeval	time_tomove;
+  struct timeval	time_current;
+
+  list_erase(this->players, player->it);
+  it = list_begin(this->players);
+  time_tomove = player_get_next_action_time(player);
+  while (it != list_end(this->players))
+    {
+      time_current = player_get_next_action_time(it->data);
+      if (time_current.tv_sec < time_tomove.tv_sec ||
+	  (time_current.tv_sec == time_tomove.tv_sec &&
+	   time_current.tv_usec < time_tomove.tv_usec))
+	{
+	  player->it = list_insert(this->players, it, player);
+	  return;
+	}
+      it = list_iterator_next(it);
+    }
+  player->it = list_insert(this->players, it, player);
 }
