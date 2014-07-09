@@ -32,5 +32,6 @@ struct timeval		player_get_next_action_time(t_player* this);
 bool			player_make_action(t_player* this, struct s_gameplay* gameplay, struct timeval time);
 bool			player_is_dead(t_player* this, struct timeval time);
 void			player_add_action(t_player* this, t_player_command* command);
+bool			player_need_update(t_player* this, struct timeval time);
 
 #endif		/* _PLAYER_H_ */

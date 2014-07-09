@@ -99,3 +99,17 @@ void			player_add_action(t_player* this, t_player_command* command)
   if (list_size(this->command_queue) < 10)
     list_push_back(this->command_queue, command);
 }
+
+bool			player_need_update(t_player* this, struct timeval time)
+{
+  t_player_command*	command;
+
+  command = list_front(this->command_queue);
+  if (command == NULL)
+    return (player_is_dead(this, time));
+  if (command->expiration_time.tv_sec < time.tv_sec ||
+      (command->expiration_time.tv_sec == time.tv_sec &&
+       command->expiration_time.tv_usec < time.tv_usec))
+    return (true);
+  return (player_is_dead(this, time));
+}

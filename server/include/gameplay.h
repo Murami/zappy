@@ -60,9 +60,8 @@ void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command)
 void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command);
-
-/* void			gameplay_update_first_player_position(t_gameplay* this); */
 void			gameplay_update_player_position(t_gameplay* this, struct s_player* player);
+t_list_iterator		gameplay_kill_player(t_gameplay* this, struct s_player* player);
 
 t_gameplay*		gameplay_new(t_config config);
 void			gameplay_delete(t_gameplay *this);
