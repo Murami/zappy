@@ -14,7 +14,7 @@ struct s_client_player;
 
 typedef struct		s_player_command
 {
-  struct timeval	reception_time;
+  struct timeval	expiration_time;
   struct s_player*	player;
   char*			data;
   int			id_command;
@@ -25,7 +25,7 @@ extern t_player_command_binding	g_player_commands[];
 void			player_command_execute(t_player_command* this, struct s_gameplay* gameplay);
 struct timeval		player_command_remaining_time(t_player_command* this, struct timeval time);
 t_player_command*	player_command_new(struct s_client_player* client,
-					   struct timeval reception_time,
+					   struct s_gameplay* gameplay,
 					   char* data,
 					   int id_command);
 void			player_command_delete(t_player_command* client);
