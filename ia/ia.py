@@ -29,7 +29,7 @@ class   Player:
     def getResponseFromServer (self):
         return self.parser.parse(self.net.recv())
 
-    def shearchFood (self):
+    def searchFood (self):
         global static
         if static < 3:
             self.decisions.put("droite")
@@ -39,7 +39,7 @@ class   Player:
             rand = randint(0,2)
             if (rand == 0):
                 self.decisions.put("droite")
-            if (rand == 1):
+            elif (rand == 1):
                 self.decisions.put("gauche")
             for i in range(self.data.level.getActualLevel() * 2 + 1):
                 self.decisions.put("avance")
@@ -54,7 +54,7 @@ class   Player:
             self.data.fov.setUsed(True)
             self.decisions = self.data.fov.getClosestFood()
             if self.decisions.empty():
-                self.shearchFood()
+                self.searchFood()
             else:
                 static = 0
 
