@@ -116,8 +116,3 @@ while indexB < 81:
         heightB += 1
         tmpAvance = -heightB
     indexB += 1
-
-for i in range(20):
-    print (i)
-    while not path[i].empty():
-        print(path[i].get())

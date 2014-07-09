@@ -4,6 +4,7 @@ import queue
 import zappyNetwork
 import data
 from random import randint
+from random import choice
 
 static = 0
 
@@ -53,6 +54,11 @@ class   Player:
         elif self.decisions.empty() and self.data.fov.getUsed() is False:
             self.data.fov.setUsed(True)
             self.decisions = self.data.fov.getClosestFood()
+            print("##################")
+            while not self.decisions.empty():
+                print(self.decisions.get())
+            print("#############")
+            exit(-1)
             if self.decisions.empty():
                 self.searchFood()
             else:
