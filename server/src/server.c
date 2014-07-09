@@ -27,6 +27,7 @@ void			server_initialize(t_server *this, t_config config)
   this->clients = list_new();
   this->new_clients = list_new();
   this->socket_max = this->socket;
+  gettimeofday(&this->time, NULL);
   this->gameplay = gameplay_new(config);
 }
 
@@ -77,10 +78,13 @@ void			server_accept(t_server *this)
 
 void			server_launch(t_server *this)
 {
+  struct timeval	waiting_time;
   int			retval;
   fd_set		set_fd_in;
   fd_set		set_fd_out;
 
+  waiting_time.tv_sec = 0;
+  waiting_time.tv_usec = 0;
   while (42)
     {
       if (g_alive == false)
@@ -91,29 +95,24 @@ void			server_launch(t_server *this)
       reset_rfds(this, &set_fd_in, &set_fd_out);
       printf("[SELECT]\n");
       retval = select(1 + this->socket_max,
-		      &set_fd_in, &set_fd_out, NULL, NULL);
+		      &set_fd_in, &set_fd_out, NULL,
+		      (waiting_time.tv_sec || waiting_time.tv_usec) ? &waiting_time : NULL);
       if (g_alive == false)
 	{
 	  server_release(this);
 	  return;
 	}
-      if (retval == -1)
+      else if (retval == -1)
+	perror("select()");
+      gettimeofday(&this->time, NULL);
+      if (FD_ISSET(this->socket, &set_fd_in))
+	server_accept(this);
+      else
 	{
-	  perror("select()");
+	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
+	  server_process_clients(this, &set_fd_in, &set_fd_out);
 	}
-      else if (retval)
-	{
-	  if (FD_ISSET(this->socket, &set_fd_in))
-	    {
-	      server_accept(this);
-	    }
-	  else
-	    {
-	      server_process_new_clients(this, &set_fd_in, &set_fd_out);
-	      server_process_clients(this, &set_fd_in, &set_fd_out);
-	    }
-	}
-      gameplay_update(this->gameplay);
+      waiting_time = gameplay_update(this->gameplay, this->time);
     }
 }
 

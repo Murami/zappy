@@ -19,6 +19,7 @@ SRC		=	main		\
 			case		\
 			monitors	\
 			player_command	\
+			monitor_command	\
 			player		\
 			team
 
@@ -49,7 +50,7 @@ LDFLAGS		=
 
 ## RUNS
 
-CC		=	gcc -fmax-errors=2
+CC		=	gcc -fmax-errors=1
 RM		=	rm -rf
 MD		=	mkdir -p
 

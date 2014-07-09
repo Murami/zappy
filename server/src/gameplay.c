@@ -16,8 +16,6 @@ void		gameplay_initialize(t_gameplay *this, t_config config)
   memset(this, 0, sizeof(t_gameplay));
   this->players = list_new();
   this->monitors = list_new();
-  /* this->requests = list_new(); */
-  /* this->output = list_new(); */
   this->teams = config.teams;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
@@ -34,15 +32,13 @@ t_gameplay*    	gameplay_new(t_config config)
   return (gameplay);
 }
 
-/* modifer le champs client->player !!! */
-
-void		gameplay_remove_player(t_gameplay* this, t_client* client)
+void			gameplay_remove_player(t_gameplay* this, t_client* client)
 {
   (void)this;
   (void)client;
 }
 
-void		gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
+void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 {
   t_player*	player;
 
@@ -50,75 +46,93 @@ void		gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
   list_push_back(this->players, player);
 }
 
-void		gameplay_remove_monitor(t_gameplay* this, t_client* client)
+void			gameplay_remove_monitor(t_gameplay* this, t_client* client)
 {
   (void)this;
   (void)client;
 }
 
-void		gameplay_add_monitor(t_gameplay* this, t_client* client)
+void			gameplay_add_monitor(t_gameplay* this, t_client* client)
 {
   list_push_back(this->monitors, client);
   monitor_initialize(this, client);
 }
 
-void			gameplay_update(t_gameplay *this)
+struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
 {
-  (void)this;
+  struct timeval	waiting_time;
+
+  (void) this;
+  (void) currenttime;
+  waiting_time.tv_sec = 0;
+  waiting_time.tv_usec = 0;
+  return (waiting_time);
 }
 
-void			gameplay_command_avance(t_gameplay* this)
+void			gameplay_command_avance(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
+  (void) this;
+  printf("le début de la fin du serveur\n");
+}
+
+void			gameplay_command_droite(t_gameplay* this, t_player_command* command)
+{
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_droite(t_gameplay* this)
+void			gameplay_command_gauche(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_gauche(t_gameplay* this)
+void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_voir(t_gameplay* this)
+void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_inventaire(t_gameplay* this)
+void			gameplay_command_prend_objet(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_prend_objet(t_gameplay* this)
+void			gameplay_command_expulse(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_expulse(t_gameplay* this)
+void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_broadcast(t_gameplay* this)
+void			gameplay_command_incantation(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_incantation(t_gameplay* this)
+void			gameplay_command_fork(t_gameplay* this, t_player_command* command)
 {
+  (void) command;
   (void) this;
 }
 
-void			gameplay_command_fork(t_gameplay* this)
+void			gameplay_command_connect_nbr(t_gameplay* this, t_player_command* command)
 {
-  (void) this;
-}
-
-void			gameplay_command_connect_nbr(t_gameplay* this)
-{
+  (void) command;
   (void) this;
 }
 
@@ -129,6 +143,60 @@ void			gameplay_add_player_command(t_gameplay* this, t_player_command* command)
 
   /* EXECUTE LA COMMANDE DIRECT POUR L'INSTANT */
   player_command_execute(command, this);
+}
+
+void			gameplay_command_msz(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_bct(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_mct(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_tna(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_ppo(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
+}
+
+void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command)
+{
+  (void) this;
+  (void) command;
 }
 
 void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
