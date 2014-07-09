@@ -21,8 +21,11 @@ class   Player:
         except:
             raise
         self.net.send(teamName)
-        self.net.recv()
-        self.net.recv()
+        if self.net.recv() == "ko":
+            print("\033[33mYou can't reach the world yet\033[0m")
+            raise GeneratorExit
+        tmp = self.net.recv().split(" ")
+        print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0], tmp[1]))
 
     def sendMessageToServer (self, msg):
         self.net.send(msg)
@@ -32,7 +35,6 @@ class   Player:
 
     def searchFood (self):
         global static
-        print("static = " + str(static))
         if static < 3:
             self.decisions.put("droite")
             static += 1
@@ -54,23 +56,17 @@ class   Player:
             self.decisions.put("voir")
         elif self.decisions.empty() and self.data.fov.getUsed() is False:
             self.data.fov.setUsed(True)
-            self.decisions = self.data.fov.getClosestFood()
-            print("##################")
-            while not self.decisions.empty():
-                print(self.decisions.get())
-            print("#############")
-            exit(-1)
-            if self.decisions.empty():
+            self.decisions = self.data.fov.getClosestFood(self.data.level.getActualLevel())
+            if self.decisions.qsize() == 0:
                 self.searchFood()
             else:
                 static = 0
-
+            
     def updateData (self):
         self.data.update(self.net.recv());
 
     def run (self):
         while self.data.alive.isAlive():
-            # rlist, wlist, elist = select.select([self.net.sock], [self.net.sock], [])
             self.getDecision()
             var = self.decisions.get()
             print("send = " + var)
