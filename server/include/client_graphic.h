@@ -2,6 +2,7 @@
 # define CLIENT_GRAPHIC_H
 
 # include "client.h"
+# include "monitor_command.h"
 
 t_client_vtable client_graphic_vtable;
 

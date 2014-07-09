@@ -5,6 +5,7 @@
 #include "client_graphic.h"
 #include "socketstream.h"
 #include "server.h"
+#include "monitor_command.h"
 
 t_client_vtable client_graphic_vtable =
   {
@@ -26,23 +27,36 @@ void	client_graphic_release(t_client_graphic* this)
 
 void	client_graphic_run_input(t_client_graphic* this, t_server* server)
 {
-  (void) this;
   char			buffer[4096];
+  char*			datas[2];
+  int			i;
   int			size;
+  t_monitor_command*	command;
 
-  (void) server;
   while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
-      if (strncmp("data\n", buffer, size) == 0)
+      command = NULL;
+      i = 0;
+      strtok(buffer, "\n");
+      strtok(buffer, " ");
+      datas[0] = strtok(NULL, " ");
+      datas[1] = strtok(NULL, " ");
+      while (strcmp(buffer, g_monitor_commands[i].request))
 	{
-	  printf("received data\n");
+	  i++;
 	}
+      if (g_monitor_commands[i].request)
+	{
+	  if ((g_monitor_commands[i].has_data == 1 && datas[0] != NULL && datas[1] == NULL) ||
+	      (g_monitor_commands[i].has_data == 2 && datas[0] != NULL && datas[1] != NULL) ||
+	      (g_monitor_commands[i].has_data == 0 && datas[0] == NULL && datas[1] == NULL))
+	    command = monitor_command_new(this, datas, i);
+	}
+      if (command)
+	server_add_monitor_command(server, command);
       else
-	{
-
-	}
+      	printf("error: invalid command send by a client monitor!\n");
     }
-  /* printf("A client graphic just received some data"); */
 }
 
 void			client_graphic_remove(t_client_graphic* client, t_server* server)
