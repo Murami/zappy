@@ -6,6 +6,7 @@ import answer
 import freeSlot
 import alive
 import level
+import elevation
 
 class ResponseServer:
     """ classe mere """
@@ -18,7 +19,6 @@ class ResponseServer:
         self.isItAnswer = False
         self.isItFreeSlot = False
         self.isItAlive = False
-        self.isItLevel = False
 
     def isInventory (self):
         return self.isItInventory
@@ -40,9 +40,6 @@ class ResponseServer:
 
     def isAlive (self):
         return self.isItAlive
-
-    def isLevel (self):
-        return self.isItLevel
 
 # class reponse de type inventaire
 class ResponseServerInventory(ResponseServer):
@@ -120,14 +117,3 @@ class ResponseServerAlive(ResponseServer):
 
     def getFreeSlot (self):
         return self.alive
-
-# class reponse de type level
-class ResponseServerLevel(ResponseServer):
-
-    def __init__ (self):
-        ResponseServer.__init__(self)
-        self.level = level.Level()
-        self.isItLevel = True
-
-    def getFreeSlot (self):
-        return self.level

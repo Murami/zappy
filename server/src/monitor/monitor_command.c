@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "monitor_command.h"
 #include "gameplay.h"
 #include "client_graphic.h"
@@ -29,9 +30,24 @@ t_monitor_command*	monitor_command_new(t_client_graphic* client, char* data[2], 
   t_monitor_command*	command;
 
   command = malloc(sizeof(t_monitor_command));
-  command->data[0] = data[0];
-  command->data[1] = data[1];
+  if (data[0])
+    command->data[0] = strdup(data[0]);
+  else
+    command->data[0] = NULL;
+  if (data[1])
+    command->data[1] = strdup(data[1]);
+  else
+    command->data[1] = NULL;
   command->id_command = id_command;
   command->client = client;
   return (command);
+}
+
+void			monitor_command_delete(t_monitor_command* command)
+{
+  if (command->data[0])
+    free(command->data[0]);
+  if (command->data[1])
+    free(command->data[1]);
+  free(command);
 }

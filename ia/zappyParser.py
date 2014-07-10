@@ -27,8 +27,6 @@ class ZappyParser:
                                            self.__parseAnswer)
         self.tab["freeSlot"] = structFuncPtr(re.compile("^[0-9]+$"),
                                              self.__parseFreeSlot)
-
-
     def parse (self, toParse):
         for cmd in toParse.split("\n"):
             for elem in self.names:

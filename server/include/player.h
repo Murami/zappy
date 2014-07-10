@@ -42,5 +42,7 @@ bool			player_make_action(t_player* this, struct s_gameplay* gameplay, struct ti
 bool			player_is_dead(t_player* this, struct timeval time);
 void			player_add_action(t_player* this, t_player_command* command);
 bool			player_need_update(t_player* this, struct timeval time);
+void			player_release(t_player* this);
+void			player_delete(t_player* player);
 
 #endif		/* _PLAYER_H_ */

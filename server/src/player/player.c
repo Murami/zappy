@@ -68,6 +68,7 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
     {
       list_pop_front(this->command_queue);
       player_command_execute(command, gameplay);
+      player_command_delete(command);
       return (true);
     }
   return (false);
@@ -102,4 +103,20 @@ bool			player_need_update(t_player* this,
        command->expiration_time.tv_usec < time.tv_usec))
     return (true);
   return (player_is_dead(this, time));
+}
+
+void			player_release(t_player* this)
+{
+  while (!list_empty(this->command_queue))
+    {
+      player_command_delete(list_back(this->command_queue));
+      list_pop_back(this->command_queue);
+    }
+  list_delete(this->command_queue);
+}
+
+void			player_delete(t_player* player)
+{
+  player_release(player);
+  free(player);
 }

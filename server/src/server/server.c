@@ -37,7 +37,6 @@ void			server_release(t_server *this)
   t_socketstream*	new_client;
 
   printf("realse [%d] [%d]\n", list_size(this->clients), list_size(this->new_clients));
-
   while (!list_empty(this->clients))
     {
       printf("release d'un client identifié\n");
@@ -55,6 +54,7 @@ void			server_release(t_server *this)
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
   list_delete(this->clients);
+  gameplay_delete(this->gameplay);
 }
 
 void			server_accept(t_server *this)
@@ -126,11 +126,11 @@ void			server_add_monitor_command(t_server* this, t_monitor_command* command)
   gameplay_add_monitor_command(this->gameplay, command);
 }
 
-t_list_iterator		server_remove(t_server* this, t_list_iterator it)
-{
-  client_remove(it->data, this);
-  return (list_erase(this->clients, it));
-}
+/* t_list_iterator		server_remove(t_server* this, t_list_iterator it) */
+/* { */
+/*   client_remove(it->data, this); */
+/*   return (list_erase(this->clients, it)); */
+/* } */
 
 void			sighandler(int signum)
 {

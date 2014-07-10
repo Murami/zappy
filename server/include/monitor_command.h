@@ -19,6 +19,5 @@ void			monitor_command_execute(struct s_monitor_command* this,
 						struct s_gameplay* gameplay);
 t_monitor_command*	monitor_command_new(struct s_client_graphic* client,
 					    char* data[2], int id_command);
-
-
+void			monitor_command_delete(t_monitor_command* command);
 #endif /* MONITOR_COMMAND_H */

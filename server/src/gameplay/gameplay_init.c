@@ -2,6 +2,7 @@
 #include <string.h>
 #include "gameplay.h"
 #include "server.h"
+#include "player.h"
 
 t_gameplay*    	gameplay_new(t_config config, t_server* server)
 {
@@ -29,7 +30,13 @@ void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
 void			gameplay_release(t_gameplay *this)
 {
   list_delete(this->teams);
+  while (!list_empty(this->players))
+    {
+      player_delete(list_back(this->players));
+      list_pop_back(this->players);
+    }
   list_delete(this->players);
+  list_delete(this->monitors);
   map_release(&this->map);
 }
 
