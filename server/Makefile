@@ -23,6 +23,8 @@ SRC		=	main				\
 			misc/socketstream_io		\
 			misc/list			\
 			gameplay/gameplay		\
+			gameplay/gameplay_init		\
+			gameplay/gameplay_client	\
 			gameplay/gameplay_food		\
 			gameplay/gameplay_linemate	\
 			gameplay/gameplay_deraumere	\
