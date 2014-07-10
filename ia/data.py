@@ -26,6 +26,7 @@ class Data:
         self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.lvlNeeded = False
         self.direction = -1
+        self.leader = 0
 
     def update (self, response):
         res = self.parser.parse(response)
@@ -47,6 +48,7 @@ class Data:
             self.elevation = res.getElevation()
         elif res.isLevel():
             self.level = res.getLevel()
+            self.leader = 0
             self.elevation.isInElevation = False
         return res
 

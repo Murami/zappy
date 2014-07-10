@@ -80,6 +80,7 @@ class   Player:
         elif (self.regex["regroup"].search(message) is not None):
             regex = self.regex["regroup"].search(message)
             if (int(regex.group(1)) == self.data.level.getActualLevel()):
+                self.data.leader = -1
                 self.data.direction = self.data.message.getDirection()
 
     def recvFromServer (self):
@@ -175,7 +176,9 @@ class   Player:
 
     def gathering (self):
         print("gathering")
-        self.addToQueue("broadcast regroup " + str(self.data.level.getActualLevel()))
+        if (self.data.leader == 0):
+            self.data.leader = 1
+            self.addToQueue("broadcast regroup " + str(self.data.level.getActualLevel()))
 
     def dropAllStone (self):
         for elem in self.stoneName:
@@ -197,6 +200,15 @@ class   Player:
         print("fork")
         self.addToQueue("fork")
 
+    def tryEvolution (self):
+        print("tryEvolution")
+        self.addToQueue("voir")
+        self.sendRequests()
+        if (self.data.fov.getPlayerOnCase(0) - 1 ==
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+            return (True)
+        return (False)
+
     def evolution (self):
         print("evolution")
         global getlvl
@@ -207,13 +219,16 @@ class   Player:
             getlvl = -1
         else:
             getlvl += 1
-        print("nbrOfLevel " + str(self.data.level.getActualLevel()) + " = " + str(self.data.getNbrOfLevel(self.data.level.getActualLevel())))
-        print("player needed = " + str(self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]))
         if (self.data.level.getActualLevel() == 1):
+            self.evolutionProcess()
+        elif (self.data.leader == 1 and self.tryEvolution() == True):
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
               self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
-            self.gathering()
+            if (self.data.leader == 1 and self.tryEvolution() == True):
+                self.evolutionProcess()
+            else:
+                self.gathering()
         # elif (self.data.getNbrofLowerLevel(self.data.level.getActualLevel()) >=
         #       self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
         #     self.fork()

@@ -48,7 +48,7 @@ class ZappyParser:
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
         tmp = toParse.split(",")
-        res.message.direction = tmp[0][8:]
+        res.message.direction = int(tmp[0][8:])
         res.message.message = tmp[1]
         return res
 
