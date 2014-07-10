@@ -27,6 +27,7 @@ class   Player:
             "pose": responseServer.ResponseServer.isAnswer,
             "broadcast": responseServer.ResponseServer.isAnswer
         }
+        self.stoneName = ["linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"]
         self.ressourcesByLevel = {
             1: {"player": 1, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
             2: {"player": 2, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
@@ -168,13 +169,13 @@ class   Player:
         self.addToQueue("broadcast regroup " + self.data.level.getActualLevel())
 
     def dropAllStone (self):
-        for elem in self.data.parser.names:
+        for elem in self.stoneName:
             for i in range(self.data.fov.getStoneOnCase(0, elem)):
                 self.addToQueue("prend {}".format(elem))
 
     def putNeededStone (self):
-        for elem in self.data.parser.names:
-            for i in range self.ressourcesByLevel[self.data.level.getActualLevel()][elem]:
+        for elem in self.stoneName:
+            for i in range(self.ressourcesByLevel[self.data.level.getActualLevel()][elem]):
                 self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
