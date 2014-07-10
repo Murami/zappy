@@ -171,7 +171,7 @@ class   Player:
         self.sendRequests()
 
     def gathering (self):
-        self.addToQueue("broadcast regroup " + self.data.level.getActualLevel())
+        self.addToQueue("broadcast regroup " + str(self.data.level.getActualLevel()))
 
     def dropAllStone (self):
         for elem in self.stoneName:
