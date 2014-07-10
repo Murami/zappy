@@ -17,7 +17,7 @@ class ZappyParser:
         self.tab = {}
         self.tab["inventory"] = structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
                                               self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?[ ]+(joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))*}$"),
+        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?([ ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))?)*}"),
                                         self.__parseFov)
         self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
                                                self.__parseMessage)
@@ -35,10 +35,10 @@ class ZappyParser:
                 tmp = self.tab[elem].regex.search(cmd)
                 if tmp is not None:
                     return self.tab[elem].funcPtr(cmd)
-                print("##########")
-                print(cmd)
-                print("##########")
-                raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
+            print("##########")
+            print(cmd)
+            print("##########")
+            raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
 
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
