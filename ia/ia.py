@@ -196,6 +196,8 @@ class   Player:
             getlvl = -1
         else:
             getlvl += 1
+        print("nbrOfLevel " + str(self.data.level.getActualLevel()) + " = " + str(self.data.getNbrOfLevel(self.data.level.getActualLevel())))
+        print("player needed = " + str(self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]))
         if (self.data.level.getActualLevel() == 1):
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
@@ -203,7 +205,7 @@ class   Player:
             self.gathering()
 
     def getDecision (self):
-        print("level = " + str(self.data.level.getActualLevel()))
+        # print("level = " + str(self.data.level.getActualLevel()))
         stone = self.stoneNeeded()
         if self.data.inventory.getFood() < 5:
             while (self.data.inventory.getFood() < 15):
