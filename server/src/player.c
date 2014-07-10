@@ -52,7 +52,8 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   printf("team [%s] - nb slot [%d]\n", this->team->name, this->team->nb_slots);
 }
 
-t_player*	player_new(t_gameplay *gameplay, t_client *client, t_team *team)
+t_player*	player_new(t_gameplay *gameplay, t_client *client,
+			   t_team *team)
 {
   t_player	*player;
 
@@ -68,7 +69,8 @@ struct timeval	player_get_next_action_time(t_player* this)
   return (this->death_time);
 }
 
-bool			player_make_action(t_player* this, t_gameplay* gameplay, struct timeval time)
+bool			player_make_action(t_player* this, t_gameplay* gameplay,
+					   struct timeval time)
 {
   t_player_command*	command;
 
@@ -89,18 +91,21 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay, struct timeval t
 bool			player_is_dead(t_player* this, struct timeval time)
 {
   if (this->death_time.tv_sec < time.tv_sec ||
-      (this->death_time.tv_sec == time.tv_sec && this->death_time.tv_usec < time.tv_usec))
+      (this->death_time.tv_sec == time.tv_sec &&
+       this->death_time.tv_usec < time.tv_usec))
     return (true);
   return (false);
 }
 
-void			player_add_action(t_player* this, t_player_command* command)
+void			player_add_action(t_player* this,
+					  t_player_command* command)
 {
   if (list_size(this->command_queue) < 10)
     list_push_back(this->command_queue, command);
 }
 
-bool			player_need_update(t_player* this, struct timeval time)
+bool			player_need_update(t_player* this,
+					   struct timeval time)
 {
   t_player_command*	command;
 

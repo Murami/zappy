@@ -24,12 +24,14 @@ t_player_command_binding	g_player_commands[] =
     {0, 0, NULL, NULL}
   };
 
-void			player_command_execute(t_player_command* this, t_gameplay* gameplay)
+void			player_command_execute(t_player_command* this,
+					       t_gameplay* gameplay)
 {
   g_player_commands[this->id_command].callback(gameplay, this);
 }
 
-struct timeval		player_command_remaining_time(t_player_command* this, struct timeval time)
+struct timeval		player_command_remaining_time(t_player_command* this,
+						      struct timeval time)
 {
   time.tv_usec -= this->expiration_time.tv_usec;
   if (time.tv_usec < 0)
@@ -51,8 +53,10 @@ t_player_command*	player_command_new(t_client_player* client,
   command = malloc(sizeof(t_player_command));
   if (command == NULL)
     return (NULL);
-  command->expiration_time.tv_usec = gameplay->time.tv_usec + (g_player_commands[id_command].time * 1000000) / gameplay->delay;
-  command->expiration_time.tv_sec = command->expiration_time.tv_usec / 1000000;
+  command->expiration_time.tv_usec = gameplay->time.tv_usec
+    + (g_player_commands[id_command].time * 1000000) / gameplay->delay;
+  command->expiration_time.tv_sec = command->expiration_time.tv_usec
+    / 1000000;
   command->expiration_time.tv_usec %= 1000000;
   command->player = client->player;
   command->data = data;

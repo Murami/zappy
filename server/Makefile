@@ -2,25 +2,28 @@
 
 NAME		=	server_zappy
 
-SRC		=	main		\
-			server		\
-			server_monitors	\
-			server_io	\
-			server_process	\
-			init_server	\
-			client		\
-			client_player	\
-			client_graphic	\
-			parser		\
-			socketstream	\
-			list		\
-			gameplay	\
-			map		\
-			case		\
-			monitors	\
-			player_command	\
-			monitor_command	\
-			player		\
+SRC		=	main			\
+			server			\
+			server_monitors		\
+			server_io		\
+			server_process		\
+			init_server		\
+			client			\
+			client_player		\
+			client_player_run_input	\
+			client_graphic		\
+			parser			\
+			socketstream		\
+			socketstream_flush	\
+			socketstream_io		\
+			list			\
+			gameplay		\
+			map			\
+			case			\
+			monitors		\
+			player_command		\
+			monitor_command		\
+			player			\
 			team
 
 SRC_EXT		=	.c
