@@ -21,7 +21,7 @@ class   Player:
             "voir": responseServer.ResponseServer.isFov,
             "connect_nbr": responseServer.ResponseServer.isFreeSlot,
             "fork": responseServer.ResponseServer.isAnswer,
-            "incantation": responseServer.ResponseServer.isAnswer,
+            "incantation": responseServer.ResponseServer.isElevation,
             "expulse": responseServer.ResponseServer.isExpulse,
             "prend": responseServer.ResponseServer.isAnswer,
             "pose": responseServer.ResponseServer.isAnswer,

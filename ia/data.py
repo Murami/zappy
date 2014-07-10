@@ -28,30 +28,26 @@ class Data:
         self.direction = -1
 
     def update (self, response):
-        res = responseServer.ResponseServer()
-        if response == "elevation en cours":
-            self.elevation.isInElevation = True
-        elif response[:16] == "niveau actuel : ":
+        res = self.parser.parse(response)
+        if res.isInventory():
+            self.inventory = res.getInventory()
+        elif res.isFov():
+            self.fov = res.getFov()
+        elif res.isAlive():
+            self.alive = res.getAlive()
+        elif res.isFreeSlot():
+            self.freeSlot = res.getFreeSlot()
+        elif res.isExpulse():
+            self.expulse = res.getExpulse()
+        elif res.isMessage():
+            self.message = res.getMessage()
+        elif res.isAnswer():
+            self.answer = res.getAnswer()
+        elif res.isElevation():
+            self.elevation = res.getElevation()
+        elif res.isLevel():
+            self.level = res.getLevel()
             self.elevation.isInElevation = False
-            self.level.actualLevel = int(response[16:])
-        elif response == "mort":
-            self.alive.killHim()
-        else:
-            res = self.parser.parse(response)
-            if res.isInventory():
-                self.inventory = res.getInventory()
-            elif res.isFov():
-                self.fov = res.getFov()
-            elif res.isAlive():
-                self.alive = res.getAlive()
-            elif res.isFreeSlot():
-                self.freeSlot = res.getFreeSlot()
-            elif res.isExpulse():
-                self.expulse = res.getExpulse()
-            elif res.isMessage():
-                self.message = res.getMessage()
-            elif res.isAnswer():
-                self.answer = res.getAnswer()
         return res
 
     def reinitializeListLevel (self):
