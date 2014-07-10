@@ -29,13 +29,13 @@ class   Player:
         }
         self.stoneName = ["linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"]
         self.ressourcesByLevel = {
-            1: {"player": 1, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
-            2: {"player": 2, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
-            3: {"player": 2, "linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
-            4: {"player": 4, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
-            5: {"player": 4, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
-            6: {"player": 6, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
-            7: {"player": 6, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
+            1: {"player": 0, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
+            2: {"player": 1, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
+            3: {"player": 1, "linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
+            4: {"player": 3, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
+            5: {"player": 3, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
+            6: {"player": 5, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
+            7: {"player": 5, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
         }
         self.regex = {
             "getlvl": re.compile("^getlvl$"),
@@ -99,6 +99,7 @@ class   Player:
                 response = self.recvFromServer()
 
     def searchFood (self):
+        print("searchFood")
         global static
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
@@ -128,21 +129,22 @@ class   Player:
             return ("linemate")
         if (self.data.inventory.getStoneCount("deraumere") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["deraumere"]):
-            return ("linemate")
+            return ("deraumere")
         if (self.data.inventory.getStoneCount("sibur") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["sibur"]):
-            return ("linemate")
+            return ("sibur")
         if (self.data.inventory.getStoneCount("mendiane") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["mendiane"]):
-            return ("linemate")
+            return ("mendiane")
         if (self.data.inventory.getStoneCount("phiras") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["phiras"]):
-            return ("linemate")
+            return ("phiras")
         if (self.data.inventory.getStoneCount("thystame") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["thystame"]):
-            return ("linemate")
+            return ("thystame")
 
     def searchStone (self, stone):
+        print("searchStone")
         global static
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
@@ -167,10 +169,12 @@ class   Player:
         self.sendRequests()
 
     def getInventory (self):
+        print("inventory")
         self.addToQueue("inventaire")
         self.sendRequests()
 
     def gathering (self):
+        print("gathering")
         self.addToQueue("broadcast regroup " + str(self.data.level.getActualLevel()))
 
     def dropAllStone (self):
@@ -184,15 +188,22 @@ class   Player:
                 self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
+        print("evolution process")
         self.dropAllStone()
         self.putNeededStone()
         self.addToQueue("incantation")
 
+    def fork (self):
+        print("fork")
+        self.addToQueue("fork")
+
     def evolution (self):
+        print("evolution")
         global getlvl
         if (getlvl == -1):
             self.addToQueue("broadcast getlvl")
-        if (getlvl > 5):
+        if (getlvl > 20):
+            self.data.reinitializeListLevel()
             getlvl = -1
         else:
             getlvl += 1
@@ -201,14 +212,16 @@ class   Player:
         if (self.data.level.getActualLevel() == 1):
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
-            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
             self.gathering()
+        # elif (self.data.getNbrofLowerLevel(self.data.level.getActualLevel()) >=
+        #       self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+        #     self.fork()
 
     def getDecision (self):
-        # print("level = " + str(self.data.level.getActualLevel()))
         stone = self.stoneNeeded()
-        if self.data.inventory.getFood() < 5:
-            while (self.data.inventory.getFood() < 15):
+        if self.data.inventory.getFood() < 11:
+            while (self.data.inventory.getFood() < 20):
                 self.searchFood()
                 self.getInventory()
         elif (self.data.lvlNeeded == True):
@@ -217,7 +230,6 @@ class   Player:
         elif (stone is not None):
             self.searchStone(stone)
         else:
-            print("evolution")
             self.evolution()
 
     def run (self):

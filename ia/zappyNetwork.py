@@ -20,7 +20,6 @@ class   ZappyNetwork:
         self.sock.close()
 
     def send (self, msg):
-        print("SEND ->>> " + msg)
         self.sock.send("{}\n".format(msg).encode("utf8"))
 
     def recv (self):
