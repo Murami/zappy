@@ -9,6 +9,7 @@ from random import randint
 from random import choice
 
 static = 0
+getlvl = 0
 
 class   Player:
     def __init__ (self, teamName):
@@ -26,14 +27,14 @@ class   Player:
             "pose": responseServer.ResponseServer.isAnswer,
             "broadcast": responseServer.ResponseServer.isAnswer
         }
-        self.stoneByLevel = {
-            1: {"linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
-            2: {"linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
-            3: {"linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
-            4: {"linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
-            5: {"linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
-            6: {"linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
-            7: {"linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
+        self.ressourcesByLevel = {
+            1: {"player": 1, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
+            2: {"player": 2, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
+            3: {"player": 2, "linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
+            4: {"player": 4, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
+            5: {"player": 4, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
+            6: {"player": 6, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
+            7: {"player": 6, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
         }
         self.regex = {
             "getlvl": re.compile("^getlvl$"),
@@ -60,6 +61,8 @@ class   Player:
         self.requests.put(request)
 
     def responseIsTypeOf(self, response, type):
+        ret = self.mtdPtr[type.split(" ")[0]](response)
+        print("bool - " + type.split(" ")[0] + " = " + str(ret))
         return (self.mtdPtr[type.split(" ")[0]](response))
 
     def sendMessageToServer (self, msg):
@@ -68,7 +71,7 @@ class   Player:
 
     def manageMessage(self, message):
         if (self.regex["getlvl"].search(message) is not None):
-            self.net.send("broadcast mylvl " + str(self.data.level.getActualLevel()))
+            self.data.lvlNeeded = True;
         elif (self.regex["mylvl"].search(message) is not None):
             regex = self.regex["mylvl"].search(message)
             self.data.listOtherLevel[int(regex.group(1))] += 1
@@ -115,22 +118,22 @@ class   Player:
 
     def stoneNeeded (self):
         if (self.data.inventory.getStoneCount("linemate") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["linemate"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["linemate"]):
             return ("linemate")
         if (self.data.inventory.getStoneCount("deraumere") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["deraumere"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["deraumere"]):
             return ("linemate")
         if (self.data.inventory.getStoneCount("sibur") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["sibur"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["sibur"]):
             return ("linemate")
         if (self.data.inventory.getStoneCount("mendiane") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["mendiane"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["mendiane"]):
             return ("linemate")
         if (self.data.inventory.getStoneCount("phiras") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["phiras"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["phiras"]):
             return ("linemate")
         if (self.data.inventory.getStoneCount("thystame") <
-            self.stoneByLevel[self.data.level.getActualLevel()]["thystame"]):
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["thystame"]):
             return ("linemate")
 
     def searchStone (self, stone):
@@ -161,15 +164,42 @@ class   Player:
         self.addToQueue("inventaire")
         self.sendRequests()
 
+    def gathering (self):
+        self.addToQueue("broadcast regroup " + self.data.level.getActualLevel())
+
+    def dropAllStone (self):
+
+    def putNeededStone (self, level):
+
+    def evolutionProcess (self):
+            self.dropAllStone()
+            self.putStoneNeeded(self.data.level.getActualLevel())
+            self.addToQueue("incantation")
+
     def evolution (self):
-        self.net.send("broadcast getlvl")
+        global getlvl
+        if (getlvl == -1):
+            self.addToQueue("broadcast getlvl")
+        if (getlvl > 5):
+            getlvl = -1
+        else:
+            getlvl += 1
+        if (self.data.level.getActualLevel() == 1):
+            self.dropAll()
+            self.evolutionProcess()
+        elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+            self.gathering()
 
     def getDecision (self):
         stone = self.stoneNeeded()
-        if self.data.inventory.getFood() < 3:
-            while (self.data.inventory.getFood() < 10):
+        if self.data.inventory.getFood() < 10:
+            while (self.data.inventory.getFood() < 30):
                 self.searchFood()
                 self.getInventory()
+        elif (self.data.lvlNeeded == True):
+            self.addToQueue("broadcast mylvl " + str(self.data.level.getActualLevel()))
+            self.data.lvlNeeded = False
         elif (stone is not None):
             self.searchStone(stone)
         else:
