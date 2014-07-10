@@ -27,11 +27,6 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client)
   free(player);
 }
 
-void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
-{
-  monitor_command_execute(command, this);
-}
-
 void			gameplay_add_monitor(t_gameplay* this, t_client* client)
 {
   list_push_back(this->monitors, client);

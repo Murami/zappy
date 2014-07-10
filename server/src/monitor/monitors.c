@@ -4,34 +4,6 @@
 #include "client_graphic.h"
 #include "monitors.h"
 
-/* CONNEXION d'un MONITEUR
-
-  size of the map
-  "msz X Y\n"
-
-  unité de temps
-  "sgt T\n"
-
-  contenu d'une case .. de la map
-  "bct 0 0 q q q q q q q\n"
-  .....
-  "bct X Y q q q q q q q\n"
-
-  nom équipe .. s
-  "tna N\n"
-  ...
-  "tna N\n"
-
-  connexion d'un nouveau player
-  "pnw #n X Y O L N\n"  O = orientation L = level n = numéro de l'équipe
-  ...
-
-  oeuf a été pondu
-  "enw #e #n X Y\n"
-  ...
-
-*/
-
 void		monitor_initialize(t_gameplay *this, t_client *client)
 {
   monitor_send_size(this, client);

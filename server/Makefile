@@ -24,6 +24,12 @@ SRC		=	main				\
 			misc/list			\
 			gameplay/gameplay		\
 			gameplay/gameplay_init		\
+			gameplay/gameplay_move		\
+			gameplay/gameplay_fork		\
+			gameplay/gameplay_add_command	\
+			gameplay/gameplay_broadcast	\
+			gameplay/gameplay_voir		\
+			gameplay/gameplay_incantation	\
 			gameplay/gameplay_client	\
 			gameplay/gameplay_food		\
 			gameplay/gameplay_linemate	\
