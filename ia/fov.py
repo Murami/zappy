@@ -50,7 +50,6 @@ class Fov:
                             temp.put("prend nourriture")
                             return temp
                         else:
-                            print("j'ai trouve un chemin")
                             temp = self.getPath(sub, actualLevel)
                             return temp
         return temp
@@ -75,15 +74,17 @@ class Fov:
 
 
     def getPath (self, caseIndex, actualLevel):
-        maxPerLevel = (0, 2, 6, 12, 20, 30, 42, 56, 72)
+        maxPerLevel = [0, 2, 6, 12, 20, 30, 42, 56, 72]
+        while caseIndex < maxPerLevel[actualLevel] - actualLevel:
+            actualLevel -= 1
         res = queue.Queue()
-        for i in range(actualLevel):
+        for i in range(0, actualLevel):
             res.put("avance")
-        if  caseIndex < maxPerLevel[actualLevel]:
+        if caseIndex < maxPerLevel[actualLevel]:
             res.put("gauche")
         elif caseIndex > maxPerLevel[actualLevel]:
             res.put("droite")
-        for i in range(abs(maxPerLevel[actualLevel] - caseIndex)):
+        for i in range(0, abs(maxPerLevel[actualLevel] - caseIndex)):
             res.put("avance")
         return res
 
