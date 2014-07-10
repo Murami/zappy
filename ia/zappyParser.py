@@ -15,8 +15,12 @@ class ZappyParser:
 
         # liste de structures liant les regex et leur fonction de parsing
         self.tab = {}
+<<<<<<< HEAD
         self.tab["inventory"] = structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
         # self.tab["inventory"] = structFuncPtr(re.compile("^{[ ]*nourriture[ ]+([0-9]+),[ ]*linemate[ ]+([0-9]+),[ ]*sibur[ ]+([0-9]+),[ ]*deraumere[ ]+([0-9]+),[ ]*mendiane[ ]+([0-9]+),[ ]*phiras[ ]+([0-9]+),[ ]*thystame[ ]+([0-9]+)}$"),
+=======
+        self.tab["inventory"] = structFuncPtr(re.compile("^{[ ]*nourriture[ ]+([0-9]+),[ ]*linemate[ ]+([0-9]+),[ ]*deraumere[ ]+([0-9]+),[ ]*sibur[ ]+([0-9]+),[ ]*mendiane[ ]+([0-9]+),[ ]*phiras[ ]+([0-9]+),[ ]*thystame[ ]+([0-9]+)}$"),
+>>>>>>> 7376370a3524cba46c4e0a4cfdfc89eb67f8401c
                                               self.__parseInventory)
         self.tab["fov"] = structFuncPtr(re.compile("^{([, ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)*)*}$"),
                                         self.__parseFov)

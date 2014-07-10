@@ -26,7 +26,7 @@ class Data:
         if res.isInventory():
             self.inventory = res.getInventory()
         elif res.isFov():
-            self.fov = res.getFov()            
+            self.fov = res.getFov()
         elif res.isLevel():
             self.level = res.getLevel()
         elif res.isAlive():
