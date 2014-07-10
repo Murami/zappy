@@ -17,7 +17,7 @@ class ZappyParser:
         self.tab = {}
         self.tab["inventory"] = structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
                                               self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?[ ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))*}$"),
+        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?[ ]+(joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))*}$"),
                                         self.__parseFov)
         self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
                                                self.__parseMessage)
