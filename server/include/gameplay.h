@@ -25,6 +25,13 @@ typedef struct		s_gameplay
   struct s_server*	server;
 }			t_gameplay;
 
+typedef struct		s_object_binding
+{
+  void			(*put)(t_gameplay*, struct s_player_command*);
+  void			(*take)(t_gameplay*, struct s_player_command*);
+  char*			object;
+}			t_object_binding;
+
 void			gameplay_initialize(t_gameplay *this, t_config config, struct s_server* server);
 void			gameplay_release(t_gameplay *this);
 
