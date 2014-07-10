@@ -1,6 +1,6 @@
 ## FILES
 
-NAME		=	server
+NAME		=	server_zappy
 
 SRC		=	main		\
 			server		\

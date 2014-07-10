@@ -45,9 +45,9 @@ void	client_player_run_input(t_client_player* this, t_server* server)
       if (g_player_commands[i].request)
 	{
 	  if (strcmp(g_player_commands[i].request, "broadcast") == 0 && strlen(buffer + strlen("broadcast")) >= 1)
-	    command = player_command_new(this, server->time, buffer + strlen("broadcast") + 1, i);
+	    command = player_command_new(this, server->gameplay, buffer + strlen("broadcast") + 1, i);
 	  else if (strcmp(g_player_commands[i].request, buffer) == 0)
-	    command = player_command_new(this, server->time, NULL, i);
+	    command = player_command_new(this, server->gameplay, NULL, i);
 	}
       if (command)
 	server_add_player_command(server, command);

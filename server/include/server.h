@@ -23,7 +23,6 @@ typedef struct		s_server
   t_gameplay*    	gameplay;
   t_list*		new_clients;
   t_list*		clients;
-  struct timeval	time;
 }			t_server;
 
 void			sighandler(int);

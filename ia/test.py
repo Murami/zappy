@@ -2,7 +2,7 @@ import zappyParser
 
 p = zappyParser.ZappyParser()
 
-response = p.parse("{nourriture 10,linemate 4,sibur 0,deraumere 0,mendiane 0,phiras 0,thystame 0}")
+response = p.parse("{nourriture 10,linemate 0,sibur 0,deraumere 0,mendiane 0,phiras 0,thystame 0}")
 
 # response = p.parse("message 8,réussi")
 
