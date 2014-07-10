@@ -219,6 +219,7 @@ class   Player:
         #     self.fork()
 
     def transformNbrInDirection (self, nb):
+        print("@@@@@@@@@@@@@@@@ DIECTION = " + str(nb) + "@@@@@@@@@@@@@@@@@")
         if nb == 1:
             self.addToQueue("avance")
         elif nb == 2:
@@ -250,17 +251,20 @@ class   Player:
             self.addToQueue("droite")
             self.addToQueue("avance")
 
-        
-
     def getDecision (self):
         stone = self.stoneNeeded()
         if self.data.inventory.getFood() < 11:
             while (self.data.inventory.getFood() < 20):
                 self.searchFood()
                 self.getInventory()
-        elif (self.data.lvlNeeded == True):
-            self.addToQueue("broadcast mylvl " + str(self.data.level.getActualLevel()))
-            self.data.lvlNeeded = False
+        elif (self.data.lvlNeeded == True or self.data.direction != -1):
+            if (self.data.lvlNeeded == True):
+                self.addToQueue("broadcast mylvl " + str(self.data.level.getActualLevel()))
+                self.data.lvlNeeded = False
+            if (self.data.direction != -1):
+                self.transformNbrInDirection(self.data.direction)
+                self.data.direction = - 1
+            self.sendRequests()
         elif (stone is not None):
             self.searchStone(stone)
         else:
