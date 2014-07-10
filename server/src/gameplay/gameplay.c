@@ -14,72 +14,6 @@
 #include "player.h"
 #include "team.h"
 
-void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
-{
-  memset(this, 0, sizeof(t_gameplay));
-  this->players = list_new();
-  this->monitors = list_new();
-  this->teams = config.teams;
-  map_initialize(&this->map, config.width, config.height);
-  this->delay = config.delay;
-  this->server = server;
-  gettimeofday(&this->time, NULL);
-}
-
-t_gameplay*    	gameplay_new(t_config config, t_server* server)
-{
-  t_gameplay	*gameplay;
-
-  gameplay = malloc(sizeof(t_gameplay));
-  if (!gameplay)
-    return (NULL);
-  gameplay_initialize(gameplay, config, server);
-  return (gameplay);
-}
-
-void			gameplay_remove_player(t_gameplay* this, t_client* client)
-{
-  t_player*		player;
-
-  (void) this;
-  player = ((t_client_player*)client)->player;
-  client_delete(client);
-  free(player);
-}
-
-void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
-{
-  t_player*	player;
-
-  player = player_new(this, client, team);
-  list_push_back(this->players, player);
-  player->it = list_back(this->players);
-}
-
-void			gameplay_remove_monitor(t_gameplay* this, t_client* client)
-{
-  t_list_iterator	it;
-  t_client_graphic*	tmp;
-
-  it = list_begin(this->monitors);
-  while (it != list_end(this->monitors))
-    {
-      tmp = it->data;
-      if ((t_client*)tmp == client)
-  	{
-  	  it = list_erase(this->monitors, it);
-  	  return;
-  	}
-      it = list_iterator_next(it);
-    }
-}
-
-void			gameplay_add_monitor(t_gameplay* this, t_client* client)
-{
-  list_push_back(this->monitors, client);
-  monitor_initialize(this, client);
-}
-
 struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
 {
   struct timeval	waiting_time;
@@ -150,37 +84,8 @@ void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
   (void) command;
   (void) this;
-  // GUEROT
 }
 
-void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
-{
-  char			buffer[4096];
-  (void) this;
-
-  sprintf(buffer, "{nourriture %d, linemate %d, deraumere %d, "
-	  "sibur %d, mendiane %d, phiras %d, thystame %d}",
-	  command->player->inventory.food,
-	  command->player->inventory.linemate,
-	  command->player->inventory.deraumere,
-	  command->player->inventory.sibur,
-	  command->player->inventory.mendiane,
-	  command->player->inventory.phiras,
-	  command->player->inventory.thystame);
-  client_send_msg(command->player->client, buffer);
-}
-
-void			gameplay_command_prend(t_gameplay* this, t_player_command* command)
-{
-  (void) command;
-  (void) this;
-}
-
-void			gameplay_command_pose(t_gameplay* this, t_player_command* command)
-{
-  (void) command;
-  (void) this;
-}
 
 void			gameplay_command_move(t_gameplay* this, t_player* player)
 {
@@ -223,23 +128,40 @@ void			gameplay_command_expulse(t_gameplay* this, t_player_command* command)
 
 void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
 {
-  (void) command;
-  (void) this;
+  char			buffer[4096];
+  t_list_iterator	it;
+  t_player*		player;
+
+  it = list_begin(this->players);
+  // le 1 est a changer par la direction mais faut voir avec guerot
+  sprintf(buffer, "message %d,%s\n", 1, command->data);
+  while (it != list_end(this->players))
+    {
+      player = it->data;
+      if (player->id != command->player->id)
+	{
+	  client_send_msg(player->client, command->data);
+	}
+      it = list_iterator_next(it);
+    }
 }
 
-void			gameplay_command_incantation(t_gameplay* this, t_player_command* command)
+void			gameplay_command_incantation(t_gameplay* this,
+						     t_player_command* command)
 {
   (void) command;
   (void) this;
 }
 
-void			gameplay_command_fork(t_gameplay* this, t_player_command* command)
+void			gameplay_command_fork(t_gameplay* this,
+					      t_player_command* command)
 {
   (void) command;
   (void) this;
 }
 
-void			gameplay_command_connect_nbr(t_gameplay* this, t_player_command* command)
+void			gameplay_command_connect_nbr(t_gameplay* this,
+						     t_player_command* command)
 {
   char			buffer[4096];
 
@@ -309,23 +231,6 @@ void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command)
   (void) command;
 }
 
-void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
-{
-  monitor_command_execute(command, this);
-}
-
-void			gameplay_release(t_gameplay *this)
-{
-  list_delete(this->teams);
-  list_delete(this->players);
-  map_release(&this->map);
-}
-
-void			gameplay_delete(t_gameplay *this)
-{
-  gameplay_release(this);
-  free(this);
-}
 
 void			gameplay_update_player_position(t_gameplay* this, t_player* player)
 {
