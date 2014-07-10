@@ -70,7 +70,7 @@ class   Player:
 
     def getInventory (self):
         self.net.send("inventory")
-        response = self.data.update(self.net.recv())
+        response = ResponseServer()
         while response.isInventory() is False:
             response = self.data.update(self.net.recv())
 
