@@ -102,7 +102,7 @@ class ZappyParser:
 
     def __parseLevel (self, toParse):
         res = responseServer.ResponseServerLevel()
-        res.actualLevel = self.tab["level"].regex.search(toParse).group(1)
+        res.level.actualLevel = int(self.tab["level"].regex.search(toParse).group(1))
         return res
 
     def __parseAlive (self, toParse):

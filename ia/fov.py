@@ -31,7 +31,7 @@ class Fov:
 
     def getStoneOnCase (self, case, stoneName):
         try:
-            return self.cases[case][stoneName]
+            return self.cases[int(case)][stoneName]
         except IndexError:
             print("\033[31mError in getStoneOnCase : "
                   + "\033[33mbad index [" + str(case) + "]\033[0m")
