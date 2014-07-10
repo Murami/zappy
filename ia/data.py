@@ -20,6 +20,7 @@ class Data:
         self.expulse = expulse.Expulse()
         self.message = message.Message()
         self.answer = answer.Answer()
+        self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     def update (self, response):
         res = self.parser.parse(response)
@@ -39,4 +40,16 @@ class Data:
             self.message = res.getMessage()
         elif res.isAnswer():
             self.answer = res.getAnswer()
+        return res
+
+    def reinitializeListLevel (self):
+        self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+    def getNbrOfLevel (self, level):
+        return self.listOtherLevel[level]
+
+    def getNbrofLowerLevel (self, level):
+        res = 0
+        for i in range(level):
+            res += self.listOtherLevel[i]
         return res

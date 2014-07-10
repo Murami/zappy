@@ -9,10 +9,12 @@
 #include "monitors.h"
 #include "player_command.h"
 #include "monitor_command.h"
+#include "client_player.h"
+#include "client_graphic.h"
 #include "player.h"
 #include "team.h"
 
-void		gameplay_initialize(t_gameplay *this, t_config config)
+void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
 {
   memset(this, 0, sizeof(t_gameplay));
   this->players = list_new();
@@ -20,24 +22,29 @@ void		gameplay_initialize(t_gameplay *this, t_config config)
   this->teams = config.teams;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
+  this->server = server;
   gettimeofday(&this->time, NULL);
 }
 
-t_gameplay*    	gameplay_new(t_config config)
+t_gameplay*    	gameplay_new(t_config config, t_server* server)
 {
   t_gameplay	*gameplay;
 
   gameplay = malloc(sizeof(t_gameplay));
   if (!gameplay)
     return (NULL);
-  gameplay_initialize(gameplay, config);
+  gameplay_initialize(gameplay, config, server);
   return (gameplay);
 }
 
 void			gameplay_remove_player(t_gameplay* this, t_client* client)
 {
-  (void)this;
-  (void)client;
+  t_player*		player;
+
+  (void) this;
+  player = ((t_client_player*)client)->player;
+  client_delete(client);
+  free(player);
 }
 
 void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
@@ -51,8 +58,20 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 
 void			gameplay_remove_monitor(t_gameplay* this, t_client* client)
 {
-  (void)this;
-  (void)client;
+  t_list_iterator	it;
+  t_client_graphic*	tmp;
+
+  it = list_begin(this->monitors);
+  while (it != list_end(this->monitors))
+    {
+      tmp = it->data;
+      if ((t_client*)tmp == client)
+  	{
+  	  it = list_erase(this->monitors, it);
+  	  return;
+  	}
+      it = list_iterator_next(it);
+    }
 }
 
 void			gameplay_add_monitor(t_gameplay* this, t_client* client)
@@ -150,7 +169,13 @@ void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
   client_send_msg(command->player->client, buffer);
 }
 
-void			gameplay_command_prend_objet(t_gameplay* this, t_player_command* command)
+void			gameplay_command_prend(t_gameplay* this, t_player_command* command)
+{
+  (void) command;
+  (void) this;
+}
+
+void			gameplay_command_pose(t_gameplay* this, t_player_command* command)
 {
   char			buffer[4096];
 
@@ -367,9 +392,7 @@ void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command)
 
 void			gameplay_add_monitor_command(t_gameplay* this, t_monitor_command* command)
 {
-  (void) this;
-  (void) command;
-  /* EXECUTE LA COMMANDE DIRECTE TT LE TEMPS */
+  monitor_command_execute(command, this);
 }
 
 void			gameplay_release(t_gameplay *this)
@@ -414,8 +437,7 @@ t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
   /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
-  it = player->it;
-  client_delete(player->client);
-  free(player);
-  return (list_erase(this->players, it));
+  it = list_iterator_prev(player->it);
+  client_remove(player->client, this->server);
+  return (it);
 }
