@@ -12,13 +12,13 @@ struct s_client_player;
 ** TYPEDEF SUR LE PTR FUNC POUR LA NORME
 */
 
-typedef struct		s_player_command
+typedef struct			s_player_command
 {
-  struct timeval	reception_time;
-  struct s_player*	player;
-  char*			data;
-  int			id_command;
-}			t_player_command;
+  struct timeval		reception_time;
+  struct s_player*		player;
+  char*			       	data;
+  int				id_command;
+}				t_player_command;
 
 extern t_player_command_binding	g_player_commands[];
 
