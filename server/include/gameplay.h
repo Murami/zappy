@@ -50,6 +50,22 @@ void			gameplay_command_incantation(t_gameplay* this, struct s_player_command* c
 void			gameplay_command_fork(t_gameplay* this, struct s_player_command* command);
 void			gameplay_command_connect_nbr(t_gameplay* this, struct s_player_command* command);
 
+void			gameplay_take_food(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_linemate(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_deraumere(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_sibur(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_mendiane(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_phiras(t_gameplay* this, struct s_player_command* command);
+void			gameplay_take_thystame(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_food(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_linemate(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_deraumere(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_sibur(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_mendiane(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_phiras(t_gameplay* this, struct s_player_command* command);
+void			gameplay_drop_thystame(t_gameplay* this, struct s_player_command* command);
+
+
 void			gameplay_command_msz(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_bct(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_mct(t_gameplay* this, struct s_monitor_command* command);
