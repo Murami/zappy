@@ -28,7 +28,7 @@ void			server_initialize(t_server *this, t_config config)
   this->clients = list_new();
   this->new_clients = list_new();
   this->socket_max = this->socket;
-  this->gameplay = gameplay_new(config);
+  this->gameplay = gameplay_new(config, this);
 }
 
 void			server_release(t_server *this)
@@ -124,6 +124,12 @@ void			server_add_player_command(t_server* this, t_player_command* command)
 void			server_add_monitor_command(t_server* this, t_monitor_command* command)
 {
   gameplay_add_monitor_command(this->gameplay, command);
+}
+
+t_list_iterator		server_remove(t_server* this, t_list_iterator it)
+{
+  client_remove(it->data, this);
+  return (list_erase(this->clients, it));
 }
 
 void			sighandler(int signum)

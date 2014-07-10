@@ -9,6 +9,7 @@ SRC		=	main			\
 			server_process		\
 			init_server		\
 			client			\
+			client_io		\
 			client_player		\
 			client_player_run_input	\
 			client_graphic		\

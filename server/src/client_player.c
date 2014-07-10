@@ -23,22 +23,9 @@ void	client_player_release(t_client_player* this)
   client_release(&this->parent_client);
 }
 
-void			client_player_remove(t_client_player* client, t_server* server)
+void			client_player_remove(t_client_player* this, t_server* server)
 {
-  t_list_iterator	it;
-  t_client_player*	tmp;
-
-  it = list_begin(server->clients);
-  while (it != list_end(server->clients))
-    {
-      tmp = it->data;
-      if (client == tmp)
-	{
-	  it = list_erase(server->clients, it);
-	  return;
-	}
-      it = list_iterator_next(it);
-    }
+  gameplay_remove_player(server->gameplay, (t_client*)this);
 }
 
 t_client_player*	client_player_new(t_socketstream* sockstream)
