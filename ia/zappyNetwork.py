@@ -20,11 +20,14 @@ class   ZappyNetwork:
         self.sock.close()
 
     def send (self, msg):
+        print("SEND ->>> " + msg)
         self.sock.send("{}\n".format(msg).encode("utf8"))
 
     def recv (self):
         try:
-            return str(self.sock.recv(42420)[:-1], "utf8")
+            file = self.sock.makefile('rb')
+            data = file.readline()
+            return str(data[:-1], "utf8")
         except:
             print("\033[32m\b\bPetit malin, t'as appuyé sur Ctrl+C\033[0m")
             raise

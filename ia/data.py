@@ -21,6 +21,8 @@ class Data:
         self.message = message.Message()
         self.answer = answer.Answer()
         self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+        self.lvlNeeded = False
+        self.regroupNeedded = False
 
     def update (self, response):
         res = self.parser.parse(response)
