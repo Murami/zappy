@@ -14,10 +14,7 @@ void			server_process_new_clients(t_server* this,
       new_client = it->data;
       if (!server_process_new_clients_input(this, fd_set_in, new_client) ||
 	  !server_process_new_clients_output(this, fd_set_out, new_client))
-	{
-	  socketstream_delete(new_client);
-	  it = list_erase(this->new_clients, it);
-	}
+	it = list_erase(this->new_clients, it);
       it = list_iterator_next(it);
     }
 }
@@ -34,7 +31,7 @@ void			server_process_clients(t_server* this,
       client = it->data;
       if (!server_process_clients_input(this, fd_set_in, client) ||
 	  !server_process_clients_output(this, fd_set_out, client))
-	it = server_remove(this, it);
+	it = list_erase(this->clients, it);
       it = list_iterator_next(it);
     }
 }

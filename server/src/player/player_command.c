@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 #include "player_command.h"
 #include "gameplay.h"
 #include "client_player.h"
@@ -59,12 +60,17 @@ t_player_command*	player_command_new(t_client_player* client,
     / 1000000;
   command->expiration_time.tv_usec %= 1000000;
   command->player = client->player;
-  command->data = data;
+  if (data)
+    command->data = strdup(data);
+  else
+    command->data = NULL;
   command->id_command = id_command;
   return (command);
 }
 
 void			player_command_delete(t_player_command* command)
 {
+  if (command->data)
+    free(command->data);
   free(command);
 }

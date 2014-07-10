@@ -15,4 +15,5 @@ void			gameplay_add_monitor_command(t_gameplay* this,
 						     t_monitor_command* command)
 {
   monitor_command_execute(command, this);
+  monitor_command_delete(command);
 }
