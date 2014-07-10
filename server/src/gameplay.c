@@ -131,7 +131,6 @@ void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
   (void) command;
   (void) this;
-  // GUEROT
 }
 
 void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
@@ -153,8 +152,87 @@ void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 
 void			gameplay_command_prend_objet(t_gameplay* this, t_player_command* command)
 {
-  (void) command;
-  (void) this;
+  char			buffer[4096];
+
+  if (strcmp(command->data, "nourriture") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].food != 0)
+	{
+	  command->player->inventory.food++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "linemate") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].linemate != 0)
+	{
+	  command->player->inventory.linemate++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "deraumere") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].deraumere != 0)
+	{
+	  command->player->inventory.deraumere++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "sibur") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].sibur != 0)
+	{
+	  command->player->inventory.sibur++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "mendiane") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].mendiane != 0)
+	{
+	  command->player->inventory.mendiane++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "phiras") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].phiras != 0)
+	{
+	  command->player->inventory.phiras++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  else if (strcmp(command->data, "thystame") == 0)
+    {
+      if (this->map.map[command->player->x + command->player->y *
+			this->map.width].thystame != 0)
+	{
+	  command->player->inventory.thystame++;
+	  sprintf(buffer, "ok");
+	  client_send_msg(command->player->client, buffer);
+	  return;
+	}
+    }
+  sprintf(buffer, "ko");
+  client_send_msg(command->player->client, buffer);
 }
 
 void			gameplay_command_move(t_gameplay* this, t_player* player)
@@ -202,19 +280,22 @@ void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
   (void) this;
 }
 
-void			gameplay_command_incantation(t_gameplay* this, t_player_command* command)
+void			gameplay_command_incantation(t_gameplay* this,
+						     t_player_command* command)
 {
   (void) command;
   (void) this;
 }
 
-void			gameplay_command_fork(t_gameplay* this, t_player_command* command)
+void			gameplay_command_fork(t_gameplay* this,
+					      t_player_command* command)
 {
   (void) command;
   (void) this;
 }
 
-void			gameplay_command_connect_nbr(t_gameplay* this, t_player_command* command)
+void			gameplay_command_connect_nbr(t_gameplay* this,
+						     t_player_command* command)
 {
   char			buffer[4096];
 
