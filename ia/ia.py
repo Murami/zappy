@@ -248,9 +248,7 @@ class   Player:
         elif nb == 8:
             self.addToQueue("avance")
             self.addToQueue("droite")
-            self.addToQueue("avance")
-
-        
+            self.addToQueue("avance")        
 
     def getDecision (self):
         stone = self.stoneNeeded()
