@@ -25,6 +25,15 @@ class   Player:
             "pose" : responseServer.ResponseServer.isAnswer,
             "broadcast" : responseServer.ResponseServer.isAnswer
         }
+        self.stoneByLevel = {
+            1: {"linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
+            2: {"linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
+            3: {"linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
+            4: {"linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
+            5: {"linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
+            6: {"linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
+            7: {"linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
+        }
         self.requests = queue.Queue()
         self.data = data.Data()
         self.teamName = teamName
@@ -46,32 +55,24 @@ class   Player:
         self.requests.put(request)
 
     def responseIsTypeOf(self, response, type):
-        print("test5")
-        return (self.mtdPtr[type](response))
+        return (self.mtdPtr[type.split(" ")[0]](response))
 
     def sendMessageToServer (self, msg):
-        print("send : " + msg)
+        print("send = " + msg)
         self.net.send(msg)
 
     def recvFromServer (self):
         res = self.net.recv()
-        print("res = " + res)
+        print("recv = " + res)
         return (self.data.update(res))
 
     def sendRequests (self):
         while (self.requests.qsize() > 0):
-            print("test1")
             request = self.requests.get()
-            print("test2")
             self.sendMessageToServer(request)
-            print("test3")
             response = self.recvFromServer()
-            print("test4")
             while (self.responseIsTypeOf(response, request) == False):
-                print("bool = " + str(self.responseIsTypeOf(response, request)))
-                print("test6")
                 response = self.recvFromServer()
-                print("test7")
 
     def searchFood (self):
         global static
@@ -95,43 +96,24 @@ class   Player:
                         self.addToQueue("avance")
             else:
                 static = 0
+        self.sendRequests()
 
     def getInventory (self):
         self.addToQueue("inventaire")
         self.sendRequests()
 
-    def getDecision(self):
-        print("food = " + str(self.data.inventory.getFood()))
-        if self.data.inventory.getFood() < 5:
-            self.searchFood()
-        else:
-<<<<<<< HEAD
-            if self.data.inventory.getFood() < 3:
+    def getDecision (self):
+        if self.data.inventory.getFood() < 3:
+            while (self.data.inventory.getFood() < 10):
                 self.searchFood()
-            else:
-                print("je recherche des pierres")
-            
-    def updateData (self):
-        self.data.update(self.net.recv())
-
-    def getInventory (self):
-        self.net.send("inventory")
-        response = ResponseServer()
-        while response.isInventory() is False:
-            response = self.data.update(self.net.recv())
-=======
+                self.getInventory()
+        else:
             print("je recherche des pierres")
->>>>>>> 7376370a3524cba46c4e0a4cfdfc89eb67f8401c
 
     def run (self):
         while self.data.alive.isAlive():
             self.getInventory()
-            print("test")
             self.getDecision()
-            # var = self.decisions.get()
-            # print("send = " + var)
-            # self.net.send(var)
-            # self.updateData()
         print("\033[32mOh no, you're dead !!!\033[0m")
 
 
