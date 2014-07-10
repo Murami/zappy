@@ -29,7 +29,7 @@ namespace	Zappy
       throw (std::runtime_error("Unable to load heart.obj"));
     _world = new gdl::Model();
     if (!_world->load("./assets/models/world/kokiri_forest/world.fbx"))
-      throw (std::runtime_error("Unable to load world.obj"));
+      throw (std::runtime_error("Unable to load world.fbx"));
     _egg = new gdl::Model();
     if (!_egg->load("./assets/models/egg.obj"))
       throw (std::runtime_error("Unable to load egg.obj"));
