@@ -20,7 +20,7 @@ class Data:
         self.expulse = expulse.Expulse()
         self.message = message.Message()
         self.answer = answer.Answer()
-        self.listOtherLevel = list()
+        self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
     def update (self, response):
         res = self.parser.parse(response)
