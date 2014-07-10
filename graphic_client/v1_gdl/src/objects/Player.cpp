@@ -18,6 +18,51 @@ namespace	Zappy
     _direction = static_cast<Direction>(orientation);
     _timeUnit = 100;
     _elapsed = 0;
+    _x = x;
+    _y = y;
+  }
+
+  int		Player::getY() const
+  {
+    return (_y);
+  }
+
+  void		Player::setOrientation(Direction dir)
+  {
+    _direction = dir;
+  }
+
+  void		Player::setPosition(int x, int y)
+  {
+    _x = x;
+    _y = y;
+    _position.x = x * Map::BLOCK_SIZE;
+    _position.y = y * Map::BLOCK_SIZE;
+  }
+
+  void		Player::setLevel(int lvl)
+  {
+    _level = lvl;
+  }
+
+  int		Player::getX() const
+  {
+    return (_x);
+  }
+
+  int		Player::getLevel() const
+  {
+    return (_level);
+  }
+
+  const std::string&	Player::getTeamName() const
+  {
+    return (_teamName);
+  }
+
+  int		Player::getId() const
+  {
+    return (_id);
   }
 
   const glm::vec4& Player::getPickColor() const

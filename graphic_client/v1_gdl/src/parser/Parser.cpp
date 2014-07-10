@@ -131,7 +131,24 @@ namespace	Zappy
 
   void		Parser::setPlayerPosition(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    // PPO n x y o
+    std::stringstream ss;
+    std::stringstream sstmp;
+    std::string	tmp;
+    int		tab[4];
+    int		i = 0;
+
+    ss << args;
+    while (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> tab[i];
+	sstmp.clear();
+	i++;
+	if (i == 4)
+	  break;
+      }
+    _callback->setPlayerPosition(tab[0], tab[1], tab[2], tab[3]);
   }
 
   void		Parser::changePlayerLevel(const std::string& args)

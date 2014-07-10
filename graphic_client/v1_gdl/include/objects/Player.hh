@@ -12,10 +12,10 @@ namespace	Zappy
 {
   enum		Direction
     {
-      FRONT,
-      LEFT,
-      BACK,
-      RIGHT
+      FRONT = 0,
+      LEFT = 1,
+      BACK = 2,
+      RIGHT = 3
     };
 
   enum		State
@@ -42,6 +42,8 @@ namespace	Zappy
     glm::vec4		_pickColor;
     gdl::BasicShader	_colorPickShader;
     int			_id;
+    int			_x;
+    int			_y;
 
   public :
     virtual void	initialize();
@@ -57,6 +59,18 @@ namespace	Zappy
     void		stopCast();
     void		stopRunning();
     const glm::vec4&	getPickColor() const;
+
+  public :
+    int			getId() const;
+    int			getLevel() const;
+    const std::string&	getTeamName() const;
+    int			getX() const;
+    int			getY() const;
+
+  public :
+    void		setLevel(int);
+    void		setPosition(int, int);
+    void		setOrientation(Direction);
 
   public :
     State		getState() const;

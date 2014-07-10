@@ -1,5 +1,5 @@
-// #include		<GL/glew.h>
-// #include		<GL/glut.h>
+#include		<GL/glew.h>
+#include		<GL/glut.h>
 #include		"objects/Map.hh"
 #include		"objects/Player.hh"
 #include		"interface/ZappyGraphic.hh"
@@ -231,30 +231,30 @@ namespace	Zappy
 	      _foods.push_back(food);
 	    }
 	// Ne sais pas si marche a test avec IA
-	else if (resources[0] < foodAtCase)
-	  while (resources[0] < _getFoodAtCase(x, y))
-	    _removeFoodAtCase(x, y);
+	// else if (resources[0] < foodAtCase)
+	//   while (resources[0] < _getFoodAtCase(x, y))
+	//     _removeFoodAtCase(x, y);
       }
 
-    int t = 0;
-    for (int res = 1; res < 7; res++)
-      {
-    	for (int nb = 0; nb < resources[res]; nb++)
-    	  {
-    	    int stone = _getStoneByTypeAtCase(x, y, static_cast<Type>(t));
-    	    if (resources[res] > stone)
-    	      while (resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
-    		{
-    		  Stone* stone = new Stone(static_cast<Type>(t), glm::vec2(x, y));
-    		  stone->initialize();
-    		  _stones.push_back(stone);
-    		}
-    	    else if (resources[res] > stone)
-    	      while(resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
-    		_removeStoneByTypeAtCase(x, y, static_cast<Type>(t));
-    	  }
-    	t++;
-      }
+    // int t = 0;
+    // for (int res = 1; res < 7; res++)
+    //   {
+    // 	for (int nb = 0; nb < resources[res]; nb++)
+    // 	  {
+    // 	    int stone = _getStoneByTypeAtCase(x, y, static_cast<Type>(t));
+    // 	    if (resources[res] > stone)
+    // 	      while (resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
+    // 		{
+    // 		  Stone* stone = new Stone(static_cast<Type>(t), glm::vec2(x, y));
+    // 		  stone->initialize();
+    // 		  _stones.push_back(stone);
+    // 		}
+    // 	    else if (resources[res] > stone)
+    // 	      while(resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
+    // 		_removeStoneByTypeAtCase(x, y, static_cast<Type>(t));
+    // 	  }
+    // 	t++;
+    //   }
 
   }
 
@@ -273,8 +273,19 @@ namespace	Zappy
     _players.push_back(player);
   }
 
-  void		ZappyGraphic::setPlayerPosition(int, int, int, int)
+  void		ZappyGraphic::setPlayerPosition(int playerId, int newX,
+						int newY, int orientation)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == playerId)
+	  {
+	    (*it)->setPosition(newX, newY);
+	    (*it)->setOrientation(static_cast<Direction>(orientation));
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::changePlayerLevel(int, int)
