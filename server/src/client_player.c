@@ -1,6 +1,4 @@
-#include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include "client_player.h"
 #include "socketstream.h"
 #include "server.h"
@@ -23,37 +21,6 @@ void	client_player_initialize(t_client_player* this, t_socketstream* sockstream)
 void	client_player_release(t_client_player* this)
 {
   client_release(&this->parent_client);
-}
-
-void	client_player_run_input(t_client_player* this, t_server* server)
-{
-  char			buffer[4096];
-  t_player_command*	command;
-  int			size;
-  int			i;
-
-  (void) server;
-  memset(buffer, 0, 4096);
-  while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
-    {
-      command = NULL;
-      strtok(buffer, "\n");
-      i = 0;
-      while (g_player_commands[i].request &&
-	     strncmp(buffer, g_player_commands[i].request, strlen(g_player_commands[i].request)) != 0)
-      	i++;
-      if (g_player_commands[i].request)
-	{
-	  if (strcmp(g_player_commands[i].request, "broadcast") == 0 && strlen(buffer + strlen("broadcast")) >= 1)
-	    command = player_command_new(this, server->time, buffer + strlen("broadcast") + 1, i);
-	  else if (strcmp(g_player_commands[i].request, buffer) == 0)
-	    command = player_command_new(this, server->time, NULL, i);
-	}
-      if (command)
-	server_add_player_command(server, command);
-      else
-      	printf("error: invalid command send by a client player!\n");
-    }
 }
 
 void			client_player_remove(t_client_player* client, t_server* server)

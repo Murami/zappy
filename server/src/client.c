@@ -6,7 +6,8 @@
 #include "list.h"
 #include "server.h"
 
-void		client_initialize(t_client* this, t_socketstream* sockstream)
+void		client_initialize(t_client* this,
+				  t_socketstream* sockstream)
 {
   this->vtable = NULL;
   this->socketstream = sockstream;
@@ -42,7 +43,8 @@ void		client_run_output(t_client* this, t_server* server)
   while (can_write && !list_empty(this->requests_output))
     {
       request = list_front(this->requests_output);
-      if (socketstream_write(this->socketstream, request, strlen(request)) == 0)
+      if (socketstream_write(this->socketstream,
+			     request, strlen(request)) == 0)
 	can_write = false;
       else
 	{

@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <signal.h>
+#include <sys/time.h>
 #include "server.h"
 #include "gameplay.h"
 #include "client.h"
@@ -27,7 +28,6 @@ void			server_initialize(t_server *this, t_config config)
   this->clients = list_new();
   this->new_clients = list_new();
   this->socket_max = this->socket;
-  gettimeofday(&this->time, NULL);
   this->gameplay = gameplay_new(config);
 }
 
@@ -104,7 +104,7 @@ void			server_launch(t_server *this)
 	}
       else if (retval == -1)
 	perror("select()");
-      gettimeofday(&this->time, NULL);
+      gettimeofday(&this->gameplay->time, NULL);
       if (FD_ISSET(this->socket, &set_fd_in))
 	server_accept(this);
       else
@@ -112,7 +112,7 @@ void			server_launch(t_server *this)
 	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	  server_process_clients(this, &set_fd_in, &set_fd_out);
 	}
-      waiting_time = gameplay_update(this->gameplay, this->time);
+      waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
     }
 }
 

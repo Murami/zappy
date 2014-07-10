@@ -3,7 +3,7 @@ class Inventory:
     """ Classe inventaire qui sera actualiser a chaque fois qu'on envoi "inventaire" au serveur """
 
     def __init__ (self):
-        self.nourriture = 1260
+        self.nourriture = 10
         self.stones = {
             "linemate":0,
             "deraumere":0,

@@ -15,9 +15,9 @@ class ZappyParser:
 
         # liste de structures liant les regex et leur fonction de parsing
         self.tab = {}
-        self.tab["inventory"] = structFuncPtr(re.compile("^{[ ]*nourriture[ ]+([0-9]+),[ ]*linemate[ ]+([0-9]+),[ ]*sibur[ ]+([0-9]+),[ ]*deraumere[ ]+([0-9]+),[ ]*mendiane[ ]+([0-9]+),[ ]*phiras[ ]+([0-9]+),[ ]*thystame[ ]+([0-9]+)}$"),
+        self.tab["inventory"] = structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
                                               self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([, ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)*)*}$"),
+        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?([ ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))?)*}"),
                                         self.__parseFov)
         self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
                                                self.__parseMessage)
@@ -30,14 +30,15 @@ class ZappyParser:
 
 
     def parse (self, toParse):
-        for elem in self.names:
-            tmp = self.tab[elem].regex.search(toParse)
-            if tmp is not None:
-                return self.tab[elem].funcPtr(toParse)
-        print("##########")
-        print(toParse)
-        print("##########")
-        raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
+        for cmd in toParse.split("\n"):
+            for elem in self.names:
+                tmp = self.tab[elem].regex.search(cmd)
+                if tmp is not None:
+                    return self.tab[elem].funcPtr(cmd)
+            print("##########")
+            print(cmd)
+            print("##########")
+            raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
 
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
@@ -56,7 +57,9 @@ class ZappyParser:
         tmp = re.findall("[a-z]+ [0-9]+", toParse)
         for elem in tmp:
             voz = elem.split(" ")
-            res.inventory.stones[voz[0]] = voz[1]
+            if voz[0] == "nourriture":
+                res.inventory.nourriture = int(voz[1])
+            res.inventory.stones[voz[0]] = int(voz[1])
         return res
 
     def __parseFov (self, toParse):
