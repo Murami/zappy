@@ -30,14 +30,15 @@ class ZappyParser:
 
 
     def parse (self, toParse):
-        for elem in self.names:
-            tmp = self.tab[elem].regex.search(toParse)
-            if tmp is not None:
-                return self.tab[elem].funcPtr(toParse)
-        print("##########")
-        print(toParse)
-        print("##########")
-        raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
+        for cmd in toParse.split("\n"):
+            for elem in self.names:
+                tmp = self.tab[elem].regex.search(cmd)
+                if tmp is not None:
+                    return self.tab[elem].funcPtr(cmd)
+                print("##########")
+                print(cmd)
+                print("##########")
+                raise SyntaxError("\033[31mBAD COMMAND FROM THE SERVER (\033[33mthere might be a man in the middle\033[31m)\033[0m")
 
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
