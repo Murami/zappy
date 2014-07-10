@@ -192,7 +192,7 @@ class   Player:
         else:
             getlvl += 1
         if (self.data.level.getActualLevel() == 1):
-            self.dropAll()
+            self.dropAllStone()
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
             self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
