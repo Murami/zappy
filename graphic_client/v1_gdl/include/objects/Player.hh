@@ -10,12 +10,12 @@
 
 namespace	Zappy
 {
-  enum		Direction
+  enum		Orientation
     {
-      FRONT = 0,
-      LEFT = 1,
-      BACK = 2,
-      RIGHT = 3
+      NORTH = 1,
+      EAST = 2,
+      SOUTH = 3,
+      WEST = 4
     };
 
   enum		State
@@ -35,7 +35,7 @@ namespace	Zappy
     gdl::Model*		_model;
     int			_level;
     const std::string&	_teamName;
-    Direction		_direction;
+    Orientation		_orientation;
     float		_timeUnit;
     int			_elapsed;
     std::stack<State>	_stateStack;
@@ -44,6 +44,8 @@ namespace	Zappy
     int			_id;
     int			_x;
     int			_y;
+    int			_limitX;
+    int			_limitY;
 
   public :
     virtual void	initialize();
@@ -59,6 +61,7 @@ namespace	Zappy
     void		stopCast();
     void		stopRunning();
     const glm::vec4&	getPickColor() const;
+    void		goingTo(int, int);
 
   public :
     int			getId() const;
@@ -66,11 +69,12 @@ namespace	Zappy
     const std::string&	getTeamName() const;
     int			getX() const;
     int			getY() const;
+    Orientation		getOrientation() const;
 
   public :
     void		setLevel(int);
     void		setPosition(int, int);
-    void		setOrientation(Direction);
+    void		setOrientation(Orientation);
 
   public :
     State		getState() const;
@@ -78,7 +82,9 @@ namespace	Zappy
     void		setTimeUnit(float);
 
   public :
-    Player(int playerId, int x, int y, int orientation, int level, const std::string& teamName, const glm::vec4& pickColor);
+    Player(int playerId, int x, int y, int orientation,
+	   int level, int limitX, int limitY, const std::string& teamName,
+	   const glm::vec4& pickColor);
     ~Player();
   };
 }

@@ -71,7 +71,7 @@ class   Player:
             self.net.send("broadcast mylvl " + str(self.data.level.getActualLevel()))
         elif (self.regex["mylvl"].search(message) is not None):
             regex = self.regex["mylvl"].search(message)
-            self.data.listOtherLevel[regex.group(1)] += 1
+            self.data.listOtherLevel[int(regex.group(1))] += 1
 
     def recvFromServer (self):
         recv = self.net.recv()

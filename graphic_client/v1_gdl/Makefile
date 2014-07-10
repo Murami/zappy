@@ -34,7 +34,9 @@ DINC		=	include		\
 			gdl/includes	\
 
 CFLAGS		=	-Wall		\
-			-Wextra
+			-Wextra		\
+			-fmax-errors=1	\
+
 
 MAKED		=	make --no-print-directory -C
 

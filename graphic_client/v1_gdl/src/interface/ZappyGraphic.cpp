@@ -53,7 +53,10 @@ namespace	Zappy
 
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
-	  _window.draw(*it);
+	  {
+	    _window.updateObject(*it);
+	    _window.draw(*it);
+	  }
 
 	//drawOnlyOne*()
 	_drawOnlyOneStone();
@@ -181,9 +184,9 @@ namespace	Zappy
     for (std::list<Food*>::iterator it = _foods.begin();
 	 it != _foods.end(); it++)
       {
-	if ((*it)->getPosition().x == x && (*it)->getPosition().y == y)
+	if ((*it)->getX() == x && (*it)->getY() == y)
 	  {
-	    _foods.remove(*it);
+	    _foods.erase(it);
 	    break;
 	  }
       }
@@ -212,7 +215,7 @@ namespace	Zappy
 	    (*it)->getPosition().y == y &&
 	    (*it)->getType() == type)
 	  {
-	    _stones.remove(*it);
+	    _stones.erase(it);
 	    break;
 	  }
       }
@@ -220,42 +223,45 @@ namespace	Zappy
 
   void		ZappyGraphic::setCaseContent(int x, int y, int* resources)
   {
-    for (int i = 0; i < resources[0]; i++)
+    int foodAtCase = _getFoodAtCase(x, y);
+    if (resources[0] > foodAtCase)
       {
-	int foodAtCase = _getFoodAtCase(x, y);
-	if (resources[0] > foodAtCase)
-	  while (resources[0] > _getFoodAtCase(x, y))
-	    {
-	      Food* food = new Food(x, y);
-	      food->initialize();
-	      _foods.push_back(food);
-	    }
-	// Ne sais pas si marche a test avec IA
-	// else if (resources[0] < foodAtCase)
-	//   while (resources[0] < _getFoodAtCase(x, y))
-	//     _removeFoodAtCase(x, y);
+	while (resources[0] > foodAtCase)
+	  {
+	    Food* food = new Food(x, y);
+	    food->initialize();
+	    _foods.push_back(food);
+	    foodAtCase++;
+	  }
       }
-
-    // int t = 0;
-    // for (int res = 1; res < 7; res++)
-    //   {
-    // 	for (int nb = 0; nb < resources[res]; nb++)
-    // 	  {
-    // 	    int stone = _getStoneByTypeAtCase(x, y, static_cast<Type>(t));
-    // 	    if (resources[res] > stone)
-    // 	      while (resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
-    // 		{
-    // 		  Stone* stone = new Stone(static_cast<Type>(t), glm::vec2(x, y));
-    // 		  stone->initialize();
-    // 		  _stones.push_back(stone);
-    // 		}
-    // 	    else if (resources[res] > stone)
-    // 	      while(resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
-    // 		_removeStoneByTypeAtCase(x, y, static_cast<Type>(t));
-    // 	  }
-    // 	t++;
-    //   }
-
+    else if (resources[0] < foodAtCase)
+      {
+	while (resources[0] < foodAtCase)
+	  {
+	    _removeFoodAtCase(x, y);
+	    foodAtCase--;
+	  }
+      }
+    int t = 0;
+    for (int res = 1; res < 7; res++)
+      {
+	int nbstone = _getStoneByTypeAtCase(x, y, static_cast<Type>(t));
+	if (resources[res] > nbstone)
+	  while (resources[res] > nbstone)
+	    {
+	      Stone* stone = new Stone(static_cast<Type>(t), glm::vec2(x, y));
+	      stone->initialize();
+	      _stones.push_back(stone);
+	      nbstone++;
+	    }
+	else if (resources[res] < nbstone)
+	  while(resources[res] < nbstone)
+	    {
+	      _removeStoneByTypeAtCase(x, y, static_cast<Type>(t));
+	      nbstone--;
+	    }
+	t++;
+      }
   }
 
   void		ZappyGraphic::addTeamName(const std::string&)
@@ -268,6 +274,8 @@ namespace	Zappy
   {
     Player *player = PlayerFactory::createNewPlayer(playerId, x, y,
 						    orientation, level,
+						    _map->getWidth(),
+						    _map->getHeight(),
 						    teamName);
     player->initialize();
     _players.push_back(player);
@@ -281,8 +289,14 @@ namespace	Zappy
       {
 	if ((*it)->getId() == playerId)
 	  {
-	    (*it)->setPosition(newX, newY);
-	    (*it)->setOrientation(static_cast<Direction>(orientation));
+	    if ((*it)->getX() == newX && (*it)->getY() == newY)
+	      {
+		(*it)->setOrientation(static_cast<Orientation>(orientation));
+	      }
+	    else
+	      {
+		(*it)->goForward();
+	      }
 	    break;
 	  }
       }

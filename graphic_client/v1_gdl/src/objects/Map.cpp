@@ -7,16 +7,18 @@ namespace	Zappy
 
   Map::Map(int width, int height) : AObject()
   {
-    // _width = width;
-    // _height = height;
-    // for (int x = 0; x < width; x++)
-    //   {
-    // 	for (int y = 0; y < height; y++)
-    // 	  {
-    // 	    Case* c = new Case(x, y);
-    // 	    _cases.push_back(c);
-    // 	  }
-    //   }
+    _width = width;
+    _height = height;
+  }
+
+  int		Map::getWidth() const
+  {
+    return (_width);
+  }
+
+  int		Map::getHeight() const
+  {
+    return (_height);
   }
 
   void		Map::setSize(int w, int h)
@@ -24,15 +26,6 @@ namespace	Zappy
     _width = w;
     _height = h;
   }
-
-  // void		Map::updateFood(const std::list<Food*>& list)
-  // {
-  //   for (std::list<Food*>::iterator it = list.begin();
-  // 	 it != list.end(); it++)
-  //     {
-
-  //     }
-  // }
 
   void		Map::initialize()
   {
