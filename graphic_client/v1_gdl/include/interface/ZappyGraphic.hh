@@ -33,6 +33,12 @@ namespace	Zappy
 
   private :
     void	_handleRightClickEvent();
+    void	_drawOnlyOneFood();
+    void	_drawOnlyOneStone();
+    void	_removeFoodAtCase(int, int);
+    int		_getFoodAtCase(int, int);
+    void	_removeStoneByTypeAtCase(int, int, Type);
+    int		_getStoneByTypeAtCase(int, int, Type);
 
   public :
     void	run();

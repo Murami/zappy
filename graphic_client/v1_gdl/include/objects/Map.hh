@@ -23,11 +23,15 @@ namespace	Zappy
     gdl::Texture	_texture;
     int			_width;
     int			_height;
+    // std::list<Case*>	_cases;
 
   public :
     virtual void	initialize();
     virtual void	update(const gdl::Clock&, gdl::Input&);
     virtual void	draw(gdl::AShader&, const gdl::Clock&);
+
+  // public :
+  //   void		updateFood(const std::list<Food*>&);
 
   public :
     void		setSize(int, int);

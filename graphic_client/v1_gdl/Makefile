@@ -18,6 +18,7 @@ SRC		=	main				\
 			objects/Food			\
 			objects/World			\
 			objects/Egg			\
+			objects/Case			\
 
 SRC_EXT		=	.cpp
 

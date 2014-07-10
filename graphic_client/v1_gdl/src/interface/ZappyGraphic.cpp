@@ -33,98 +33,99 @@ namespace	Zappy
     _window.create(Window::WIDTH, Window::HEIGHT, Window::TITLE);
     updateClient();
 
-    // for (int x = 0; x < 20; x++)
-    //   {
-    // 	for (int y = 0; y < 20; y++)
-    // 	  {
-    // 	    for (int i = 0; i < random() % 7; i++)
-    // 	      {
-    // 		Stone* stone = new Stone((i == 0 ? LINEMATE :
-    // 					  i == 1 ? DERAUMERE :
-    // 					  i == 2 ? SIBUR :
-    // 					  i == 3 ? MENDIANE :
-    // 					  i == 4 ? PHIRAS : THYSTAME),
-    // 					 glm::vec2(x, y));
-    // 		stone->initialize();
-    // 		_stones.push_back(stone);
-    // 	      }
-    // 	  }
-    //   }
-
-    // for (int i = 0; i < 10; i++)
-    //   {
-    // 	Egg *egg = new Egg(random() % 20, random() % 20);
-    // 	egg->initialize();
-    // 	_eggs.push_back(egg);
-    //   }
-
-    // _world = new World();
-    // _world->initialize();
-
-    // for (int x = 0; x < 20; x++)
-    //   {
-    // 	Food* food = new Food(random() % 20, random() % 20);
-    // 	food->initialize();
-    // 	_foods.push_back(food);
-    //   }
-
-    // for (int i = 0; i < 1; i++)
-    //   {
-    // 	Player* player = PlayerFactory::createNewPlayer(10,  10, "Gitan");
-    // 	player->initialize();
-    // 	_players.push_back(player);
-    //   }
+    _world = new World();
+    _world->initialize();
 
     while (_window.isRunning())
       {
 	_window.bindShader();
 	_window.update();
-
 	updateClient();
-
-	// for (std::list<Player*>::iterator it = _players.begin();
-	//      it != _players.end(); it++)
-	//   {
-	//     if ((*it)->getState() == STANDING)
-	//       {
-	// 	if (random() % 2 == 0)
-	// 	  (*it)->turnLeft();
-	// 	else
-	// 	  (*it)->turnRight();
-	// 	(*it)->goForward();
-	//       }
-	//     _window.updateObject(*it);
-	//   }
 
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.drawPlayerColorMap(static_cast<Player*>(*it));
-
 	_handleRightClickEvent();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// _window.bindShader();
-	// _window.draw(_world);
+	_window.bindShader();
+	_window.draw(_world);
 
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.draw(*it);
 
-	for (std::list<Food*>::iterator it = _foods.begin();
-	     it != _foods.end(); it++)
-	  _window.draw(*it);
-
-	// for (std::list<Egg*>::iterator it = _eggs.begin();
-	//      it != _eggs.end(); it++)
-	//   _window.draw(*it);
+	//drawOnlyOne*()
+	_drawOnlyOneStone();
+	_drawOnlyOneFood();
 
 	// for (std::list<Stone*>::iterator it = _stones.begin();
 	//      it != _stones.end(); it++)
 	//   _window.draw(*it);
 
+	// for (std::list<Egg*>::iterator it = _eggs.begin();
+	//      it != _eggs.end(); it++)
+	//   _window.draw(*it);
+
 	_window.draw(_map);
 	_window.flush();
       }
+  }
+
+  void		ZappyGraphic::_drawOnlyOneStone()
+  {
+
+    std::list<Stone*> tmp;
+    bool yetInList = false;
+    for (std::list<Stone*>::iterator it = _stones.begin();
+    	 it != _stones.end(); it++)
+      {
+    	yetInList = false;
+    	std::list<Stone*>::iterator it2;
+    	for (it2 = tmp.begin();
+    	     it2 != tmp.end(); it2++)
+    	  {
+    	    if ((*it2)->getPosition().x == (*it)->getPosition().x &&
+    		(*it2)->getPosition().y == (*it)->getPosition().y &&
+		(*it2)->getType() == (*it)->getType())
+    	      {
+    		yetInList = true;
+    		break;
+    	      }
+    	  }
+    	if (!yetInList && _stones.size())
+    	  tmp.push_back(*it);
+      }
+    for (std::list<Stone*>::iterator it = tmp.begin();
+    	 it != tmp.end(); it++)
+      _window.draw(*it);
+  }
+
+  void		ZappyGraphic::_drawOnlyOneFood()
+  {
+    std::list<Food*> tmp;
+    bool yetInList = false;
+    for (std::list<Food*>::iterator it = _foods.begin();
+    	 it != _foods.end(); it++)
+      {
+    	yetInList = false;
+    	std::list<Food*>::iterator it2;
+    	for (it2 = tmp.begin();
+    	     it2 != tmp.end(); it2++)
+    	  {
+    	    if ((*it2)->getX() == (*it)->getX() &&
+    		(*it2)->getY() == (*it)->getY())
+    	      {
+    		yetInList = true;
+    		break;
+    	      }
+    	  }
+    	if (!yetInList)
+    	  tmp.push_back(*it);
+      }
+    for (std::list<Food*>::iterator it = tmp.begin();
+    	 it != tmp.end(); it++)
+      _window.draw(*it);
   }
 
   void		ZappyGraphic::_handleRightClickEvent()
@@ -163,21 +164,98 @@ namespace	Zappy
     _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
   }
 
+  int		ZappyGraphic::_getFoodAtCase(int x, int y)
+  {
+    int		res = 0;
+    for (std::list<Food*>::iterator it = _foods.begin();
+	 it != _foods.end(); it++)
+      {
+	if ((*it)->getX() == x && (*it)->getY() == y)
+	  res++;
+      }
+    return (res);
+  }
+
+  void		ZappyGraphic::_removeFoodAtCase(int x, int y)
+  {
+    for (std::list<Food*>::iterator it = _foods.begin();
+	 it != _foods.end(); it++)
+      {
+	if ((*it)->getPosition().x == x && (*it)->getPosition().y == y)
+	  {
+	    _foods.remove(*it);
+	    break;
+	  }
+      }
+  }
+
+  int		ZappyGraphic::_getStoneByTypeAtCase(int x, int y, Type type)
+  {
+    int		res = 0;
+    for (std::list<Stone*>::iterator it = _stones.begin();
+	 it != _stones.end(); it++)
+      {
+	if ((*it)->getPosition().x == x &&
+	    (*it)->getPosition().y == y &&
+	    (*it)->getType() == type)
+	  res++;
+      }
+    return (res);
+  }
+
+  void		ZappyGraphic::_removeStoneByTypeAtCase(int x, int y, Type type)
+  {
+    for (std::list<Stone*>::iterator it = _stones.begin();
+	 it != _stones.end(); it++)
+      {
+	if ((*it)->getPosition().x == x &&
+	    (*it)->getPosition().y == y &&
+	    (*it)->getType() == type)
+	  {
+	    _stones.remove(*it);
+	    break;
+	  }
+      }
+  }
+
   void		ZappyGraphic::setCaseContent(int x, int y, int* resources)
   {
     for (int i = 0; i < resources[0]; i++)
       {
-	Food* food = new Food(x, y);
-	food->initialize();
-	_foods.push_back(food);
+	int foodAtCase = _getFoodAtCase(x, y);
+	if (resources[0] > foodAtCase)
+	  while (resources[0] > _getFoodAtCase(x, y))
+	    {
+	      Food* food = new Food(x, y);
+	      food->initialize();
+	      _foods.push_back(food);
+	    }
+	// Ne sais pas si marche a test avec IA
+	else if (resources[0] < foodAtCase)
+	  while (resources[0] < _getFoodAtCase(x, y))
+	    _removeFoodAtCase(x, y);
       }
+
+    int t = 0;
     for (int res = 1; res < 7; res++)
       {
-	for (int nb = 0; nb < resources[res]; nb++)
-	  {
-
-	  }
+    	for (int nb = 0; nb < resources[res]; nb++)
+    	  {
+    	    int stone = _getStoneByTypeAtCase(x, y, static_cast<Type>(t));
+    	    if (resources[res] > stone)
+    	      while (resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
+    		{
+    		  Stone* stone = new Stone(static_cast<Type>(t), glm::vec2(x, y));
+    		  stone->initialize();
+    		  _stones.push_back(stone);
+    		}
+    	    else if (resources[res] > stone)
+    	      while(resources[res] > _getStoneByTypeAtCase(x, y, static_cast<Type>(t)))
+    		_removeStoneByTypeAtCase(x, y, static_cast<Type>(t));
+    	  }
+    	t++;
       }
+
   }
 
   void		ZappyGraphic::addTeamName(const std::string&)

@@ -64,43 +64,41 @@ namespace	Zappy
     mainSS << args;
     if (std::getline(mainSS, tmp, ' '))
       {
-	nb << tmp;
-	nb >> x;
+    	nb << tmp;
+    	nb >> x;
       }
     nb.clear();
     if (std::getline(mainSS, tmp, ' '))
       {
-	nb << tmp;
-	nb >> y;
+    	nb << tmp;
+    	nb >> y;
       }
     _callback->setMapSize(x, y);
   }
 
   void		Parser::setCaseContent(const std::string& args)
   {
-    // bct X Y q q q q q q q
-
     std::stringstream	ss;
     std::stringstream	sstmp;
     std::string		tmp;
     int			resources[7];
     int			x = 0, y = 0;
-    int			i = 0;
+    int			i = 0, j = 0;
 
     ss << args;
     while (std::getline(ss, tmp, ' '))
       {
-	sstmp << tmp;
-	if (i == 0)
-	  sstmp >> x;
-	else if (i == 1)
-	  sstmp >> y;
-	else
-	  sstmp >> resources[i];
-	i++;
-	if (i == 8)
-	  break;
-	sstmp.clear();
+    	sstmp << tmp;
+    	if (i == 0)
+    	  sstmp >> x;
+    	else if (i == 1)
+    	  sstmp >> y;
+    	else
+    	  sstmp >> resources[j++];
+    	sstmp.clear();
+    	i++;
+    	if (j == 7)
+    	  break;
       }
     _callback->setCaseContent(x, y, &resources[0]);
   }
@@ -121,12 +119,12 @@ namespace	Zappy
     ss << args;
     while (std::getline(ss, tmp, ' '))
       {
-	ssTmp << tmp;
-	ssTmp >> tab[i];
-	ssTmp.clear();
-	i++;
-	if (i == 4)
-	  break;
+    	ssTmp << tmp;
+    	ssTmp >> tab[i];
+    	ssTmp.clear();
+    	i++;
+    	if (i == 4)
+    	  break;
       }
     _callback->addNewPlayer(tab[0], tab[1], tab[2], tab[3], tab[4], tmp);
   }
