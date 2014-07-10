@@ -18,6 +18,7 @@ SRC		=	main				\
 			objects/Food			\
 			objects/World			\
 			objects/Egg			\
+			objects/Case			\
 
 SRC_EXT		=	.cpp
 
@@ -33,7 +34,9 @@ DINC		=	include		\
 			gdl/includes	\
 
 CFLAGS		=	-Wall		\
-			-Wextra
+			-Wextra		\
+			-fmax-errors=1	\
+
 
 MAKED		=	make --no-print-directory -C
 

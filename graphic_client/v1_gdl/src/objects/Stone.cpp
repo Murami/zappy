@@ -49,6 +49,11 @@ namespace	Zappy
     _model->draw(shader, getTransformation(), 0);
   }
 
+  const glm::vec2&	Stone::getPosition() const
+  {
+    return (_case);
+  }
+
   const Type&	Stone::getType() const
   {
     return (_type);

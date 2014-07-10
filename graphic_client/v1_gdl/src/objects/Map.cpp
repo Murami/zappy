@@ -11,6 +11,16 @@ namespace	Zappy
     _height = height;
   }
 
+  int		Map::getWidth() const
+  {
+    return (_width);
+  }
+
+  int		Map::getHeight() const
+  {
+    return (_height);
+  }
+
   void		Map::setSize(int w, int h)
   {
     _width = w;

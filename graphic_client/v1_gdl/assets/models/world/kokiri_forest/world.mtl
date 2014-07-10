@@ -1,0 +1,430 @@
+# Blender MTL File: 'None'
+# Material Count: 43
+
+newmtl NemuMat27
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl awning
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/awning.png
+
+newmtl bark
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/bark.png
+
+newmtl bridge
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/bridge.png
+
+newmtl bush
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/bush.png
+
+newmtl bushside
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/bushside.png
+
+newmtl curtain
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/curtain.png
+
+newmtl cut
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/cut.png
+
+newmtl doodd
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/doodd.png
+
+newmtl doodh
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/doodh.png
+
+newmtl doods
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/doods.png
+
+newmtl edge
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/edge.png
+
+newmtl enter
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/enter.png
+
+newmtl exit
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/exit.png
+
+newmtl fade
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/fade.png
+
+newmtl fence
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/fence.png
+
+newmtl fencew
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/fencew.png
+
+newmtl grass
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/grass.png
+
+newmtl house
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/house.png
+
+newmtl ladder
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/ladder.png
+
+newmtl leaf
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/leaf.png
+
+newmtl ledge
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/ledge.png
+
+newmtl mido
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/mido.png
+
+newmtl patch
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/patch.png
+
+newmtl path
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/path.png
+
+newmtl pathe
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/pathe.png
+
+newmtl patht
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/patht.png
+
+newmtl porch
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/porch.png
+
+newmtl rail
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/rail.png
+
+newmtl saria
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl shop
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/shop.png
+
+newmtl shroom
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/shroom.png
+
+newmtl step
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/step.png
+
+newmtl steptop
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/steptop.png
+
+newmtl tower
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/tower.png
+
+newmtl trees
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/trees.png
+
+newmtl trunks
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/trunks.png
+
+newmtl vine
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/vine.png
+
+newmtl vineh
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/vineh.png
+
+newmtl vinew
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/vinew.png
+
+newmtl wall
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/wall.png
+
+newmtl walls
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/walls.png
+
+newmtl water
+Ns 7.843137
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd /home/manu/rendu/PSU_2013_zappy/graphic_client/v1_gdl/assets/models/world/Kokiri Forest/water.png

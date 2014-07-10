@@ -8,12 +8,12 @@ namespace	Zappy
 {
   enum		Type
     {
-      LINEMATE,
-      DERAUMERE,
-      SIBUR,
-      MENDIANE,
-      PHIRAS,
-      THYSTAME
+      LINEMATE = 0,
+      DERAUMERE = 1,
+      SIBUR = 2,
+      MENDIANE = 3,
+      PHIRAS = 4,
+      THYSTAME = 5
     };
 
   class		Stone : public AObject
@@ -34,6 +34,7 @@ namespace	Zappy
 
   public :
     const Type&		getType() const;
+    const glm::vec2&	getPosition() const;
 
   public :
     Stone(Type, const glm::vec2& caseNum = glm::vec2(0, 0));

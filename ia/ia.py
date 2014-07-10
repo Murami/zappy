@@ -36,8 +36,8 @@ class   Player:
             7: {"linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
         }
         self.regex = {
-            self.regex["getlvl"]: re.compile("^getlvl$"),
-            self.regex["mylvl"]: re.compile("^mylvl ([0-9]+)$")
+            "getlvl": re.compile("^getlvl$"),
+            "mylvl": re.compile("^mylvl ([0-9]+)$")
         }
         self.requests = queue.Queue()
         self.data = data.Data()
@@ -71,7 +71,7 @@ class   Player:
             self.net.send("broadcast mylvl " + str(self.data.level.getActualLevel()))
         elif (self.regex["mylvl"].search(message) is not None):
             regex = self.regex["mylvl"].search(message)
-            self.data.listOtherLevel[regex.group(1)] += 1
+            self.data.listOtherLevel[int(regex.group(1))] += 1
 
     def recvFromServer (self):
         recv = self.net.recv()

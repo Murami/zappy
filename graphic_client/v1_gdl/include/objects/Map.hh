@@ -33,6 +33,10 @@ namespace	Zappy
     void		setSize(int, int);
 
   public :
+    int		getWidth() const;
+    int		getHeight() const;
+
+  public :
     Map(int width, int height);
     ~Map();
   };
