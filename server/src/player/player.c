@@ -6,6 +6,7 @@
 #include "gameplay.h"
 #include "socketstream.h"
 #include "client_player.h"
+#include "time_val.h"
 
 /* INIT DU DEAHT TIME EN BRUT A FAIRE EN FONCTION DE LA BOUFE ET DU DELAY */
 
@@ -15,8 +16,9 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   char		buffer[4096];
 
   ((t_client_player*)client)->player = this;
-  this->death_time.tv_sec = gameplay->time.tv_sec + 10;
-  this->death_time.tv_usec = gameplay->time.tv_usec;
+  this->death_time.tv_usec = (1200 * 1000000) / gameplay->delay;
+  this->death_time.tv_sec = 0;
+  this->death_time = timeval_add(gameplay->time, this->death_time);
   this->id = client->socketstream->socket;
   this->direction = rand() % 4 + 1;
   this->x = rand() % gameplay->map.width;
@@ -62,9 +64,10 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
   command = list_front(this->command_queue);
   if (command == NULL)
     return (false);
-  if (command->expiration_time.tv_sec < time.tv_sec ||
-      (command->expiration_time.tv_sec == time.tv_sec &&
-       command->expiration_time.tv_usec < time.tv_usec))
+  /* if (command->expiration_time.tv_sec < time.tv_sec || */
+  /*     (command->expiration_time.tv_sec == time.tv_sec && */
+  /*      command->expiration_time.tv_usec < time.tv_usec)) */
+  if (timeval_comp(command->expiration_time, time) < 0)
     {
       list_pop_front(this->command_queue);
       player_command_execute(command, gameplay);
@@ -76,9 +79,10 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
 
 bool			player_is_dead(t_player* this, struct timeval time)
 {
-  if (this->death_time.tv_sec < time.tv_sec ||
-      (this->death_time.tv_sec == time.tv_sec &&
-       this->death_time.tv_usec < time.tv_usec))
+  /* if (this->death_time.tv_sec < time.tv_sec || */
+  /*     (this->death_time.tv_sec == time.tv_sec && */
+  /*      this->death_time.tv_usec < time.tv_usec)) */
+  if (timeval_comp(this->death_time, time) < 0)
     return (true);
   return (false);
 }
@@ -98,9 +102,10 @@ bool			player_need_update(t_player* this,
   command = list_front(this->command_queue);
   if (command == NULL)
     return (player_is_dead(this, time));
-  if (command->expiration_time.tv_sec < time.tv_sec ||
-      (command->expiration_time.tv_sec == time.tv_sec &&
-       command->expiration_time.tv_usec < time.tv_usec))
+  /* if (command->expiration_time.tv_sec < time.tv_sec || */
+  /*     (command->expiration_time.tv_sec == time.tv_sec && */
+  /*      command->expiration_time.tv_usec < time.tv_usec)) */
+  if (timeval_comp(this->death_time, time) < 0)
     return (true);
   return (player_is_dead(this, time));
 }

@@ -13,8 +13,8 @@ void		gameplay_take_food(t_gameplay *this, t_player_command *command)
 		    this->map.width].food != 0)
     {
       this->map.map[command->player->x + command->player->y *
-		    this->map.width].food--;
-      command->player->inventory.food++;
+      		    this->map.width].food--;
+      /* command->player->inventory.food++; */
       sprintf(buffer, "ok");
       client_send_msg(command->player->client, buffer);
     }
