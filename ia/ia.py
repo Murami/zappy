@@ -179,7 +179,7 @@ class   Player:
 
     def putNeededStone (self):
         for elem in self.data.parser.names:
-            for i in range self.ressourcesByLevel[self.data.level.getActualLevel()][elem]:
+            for i in range(self.ressourcesByLevel[self.data.level.getActualLevel()][elem]):
                 self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
@@ -196,7 +196,6 @@ class   Player:
         else:
             getlvl += 1
         if (self.data.level.getActualLevel() == 1):
-            self.dropAll()
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
             self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
