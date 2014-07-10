@@ -8,6 +8,7 @@ struct s_gameplay;
 
 typedef struct		s_player_command_binding
 {
+  int			has_data;
   int			time;
   const char*		request;
   void			(*callback)(struct s_gameplay*, struct s_player_command*);
