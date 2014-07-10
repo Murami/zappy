@@ -42,6 +42,9 @@ class Data:
             self.answer = res.getAnswer()
         return res
 
+    def reinitializeListLevel (self):
+        self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
+
     def getNbrOfLevel (self, level):
         return self.listOtherLevel[level]
 
@@ -50,5 +53,3 @@ class Data:
         for i in range(level):
             res += self.listOtherLevel[i]
         return res
-
-
