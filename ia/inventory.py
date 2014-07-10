@@ -15,9 +15,8 @@ class Inventory:
 
     def getFood (self):
         return self.nourriture
-        
+
     def getStoneCount(self, stoneName):
-        print("getStoneCount")
         try:
             return self.stones[stoneName]
         except KeyError:
