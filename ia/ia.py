@@ -21,7 +21,7 @@ class   Player:
             "voir": responseServer.ResponseServer.isFov,
             "connect_nbr": responseServer.ResponseServer.isFreeSlot,
             "fork": responseServer.ResponseServer.isAnswer,
-            "incantation": responseServer.ResponseServer.isElevation,
+            "incantation": responseServer.ResponseServer.isLevel,
             "expulse": responseServer.ResponseServer.isExpulse,
             "prend": responseServer.ResponseServer.isAnswer,
             "pose": responseServer.ResponseServer.isAnswer,
@@ -95,7 +95,7 @@ class   Player:
             request = self.requests.get()
             self.sendMessageToServer(request)
             response = self.recvFromServer()
-            while (self.responseIsTypeOf(response, request) == False):
+            while (self.responseIsTypeOf(response, request) == False and response.isAnswer() == False):
                 response = self.recvFromServer()
 
     def searchFood (self):
@@ -184,9 +184,9 @@ class   Player:
                 self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
-            self.dropAllStone()
-            self.putNeededStone()
-            self.addToQueue("incantation")
+        self.dropAllStone()
+        self.putNeededStone()
+        self.addToQueue("incantation")
 
     def evolution (self):
         global getlvl
@@ -203,9 +203,10 @@ class   Player:
             self.gathering()
 
     def getDecision (self):
+        print("level = " + str(self.data.level.getActualLevel()))
         stone = self.stoneNeeded()
-        if self.data.inventory.getFood() < 10:
-            while (self.data.inventory.getFood() < 30):
+        if self.data.inventory.getFood() < 5:
+            while (self.data.inventory.getFood() < 15):
                 self.searchFood()
                 self.getInventory()
         elif (self.data.lvlNeeded == True):
