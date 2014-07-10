@@ -36,8 +36,7 @@ void			server_accept(t_server *this);
 
 void			server_add_monitor(t_server *this, struct s_client *client);
 void			server_add_player(t_server *this, struct s_client *client, struct s_team* team);
-void			server_remove_monitor(t_server *this, struct s_client *client);
-void			server_remove_player(t_server *this, struct s_client *client);
+t_list_iterator		server_remove(t_server *this, t_list_iterator it);
 void			server_add_player_command(t_server* this, struct s_player_command* command);
 void			server_add_monitor_command(t_server* this, struct s_monitor_command* command);
 
