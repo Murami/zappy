@@ -218,6 +218,40 @@ class   Player:
         #       self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
         #     self.fork()
 
+    def transformNbrInDirection (self, nb):
+        if nb == 1:
+            self.addToQueue("avance")
+        elif nb == 2:
+            self.addToQueue("avance")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 3:
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 4:
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 5:
+            self.addToQueue("gauche")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 6:
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+        elif nb == 7:
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+        elif nb == 8:
+            self.addToQueue("avance")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+
+        
+
     def getDecision (self):
         stone = self.stoneNeeded()
         if self.data.inventory.getFood() < 11:
