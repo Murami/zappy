@@ -38,7 +38,8 @@ class   Player:
         }
         self.regex = {
             "getlvl": re.compile("^getlvl$"),
-            "mylvl": re.compile("^mylvl ([0-9]+)$")
+            "mylvl": re.compile("^mylvl ([0-9]+)$"),
+            "regroup": re.compile("^regroup ([0-9]+)$")
         }
         self.requests = queue.Queue()
         self.data = data.Data()
@@ -75,6 +76,10 @@ class   Player:
         elif (self.regex["mylvl"].search(message) is not None):
             regex = self.regex["mylvl"].search(message)
             self.data.listOtherLevel[int(regex.group(1))] += 1
+        elif (self.regex["regroup"].search(message) is not None):
+            regex = self.regex["regroup"].search(message)
+            if (int(regex.group(1)) == self.data.level.getActualLevel()):
+                self.data.direction = self.data.message.getDirection()
 
     def recvFromServer (self):
         recv = self.net.recv()
@@ -220,7 +225,6 @@ def main():
         print("\033[31mError in connect : "
               + "\033[33mmissing argument(s)\033[0m")
         raise
-
     player.run()
 
 
