@@ -173,12 +173,18 @@ class   Player:
         self.addToQueue("broadcast regroup " + self.data.level.getActualLevel())
 
     def dropAllStone (self):
+        for elem in self.data.parser.names:
+            for i in range(self.data.fov.getStoneOnCase(0, elem)):
+                self.addToQueue("prend {}".format(elem))
 
-    def putNeededStone (self, level):
+    def putNeededStone (self):
+        for elem in self.data.parser.names:
+            for i in range self.ressourcesByLevel[self.data.level.getActualLevel()][elem]:
+                self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
             self.dropAllStone()
-            self.putStoneNeeded(self.data.level.getActualLevel())
+            self.putNeededStone()
             self.addToQueue("incantation")
 
     def evolution (self):
