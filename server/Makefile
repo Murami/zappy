@@ -65,7 +65,7 @@ MAKED		=	make --no-print-directory -C
 
 ## LINKAGE
 
-LIB		=
+LIB		=	m
 
 DLIB		=
 
