@@ -4,6 +4,7 @@
 #include "player_command.h"
 #include "player.h"
 #include "client.h"
+#include "time_val.h"
 
 t_object_binding object_bindings[] =
   {
@@ -20,11 +21,19 @@ t_object_binding object_bindings[] =
 void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 {
   char			buffer[4096];
+  struct timeval	time;
+  float			foods;
   (void)this;
   /* CALCULER LE FOOD */
+
+  time = timeval_sub(command->player->death_time, time);
+  foods = time.tv_sec + ((float)time.tv_usec) / 1000000.f;
+  foods /=  (126.f / ((float)this->delay));
+  if (foods < 0)
+    foods = 0;
   sprintf(buffer, "{nourriture %d, linemate %d, deraumere %d, "
 	  "sibur %d, mendiane %d, phiras %d, thystame %d}",
-	  command->player->inventory.food,
+	  (int)foods,
 	  command->player->inventory.linemate,
 	  command->player->inventory.deraumere,
 	  command->player->inventory.sibur,
