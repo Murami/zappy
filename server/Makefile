@@ -22,6 +22,7 @@ SRC		=	main				\
 			misc/socketstream_flush		\
 			misc/socketstream_io		\
 			misc/list			\
+			misc/time_val			\
 			gameplay/gameplay		\
 			gameplay/gameplay_init		\
 			gameplay/gameplay_move		\
@@ -64,7 +65,7 @@ MAKED		=	make --no-print-directory -C
 
 ## LINKAGE
 
-LIB		=
+LIB		=	m
 
 DLIB		=
 

@@ -4,15 +4,36 @@
 #include "player_command.h"
 #include "player.h"
 #include "client.h"
+#include "time_val.h"
+
+t_object_binding object_bindings[] =
+  {
+    {gameplay_drop_food, gameplay_take_food, "nourriture"},
+    {gameplay_drop_linemate, gameplay_take_linemate, "linemate"},
+    {gameplay_drop_deraumere, gameplay_take_deraumere, "deraumere"},
+    {gameplay_drop_sibur, gameplay_take_sibur, "sibur"},
+    {gameplay_drop_mendiane, gameplay_take_mendiane, "mendiane"},
+    {gameplay_drop_phiras, gameplay_take_phiras, "phiras"},
+    {gameplay_drop_thystame, gameplay_take_thystame, "thystame"},
+    {NULL, NULL, NULL}
+  };
 
 void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 {
   char			buffer[4096];
-  (void) this;
+  struct timeval	time;
+  float			foods;
+  (void)this;
+  /* CALCULER LE FOOD */
 
+  time = timeval_sub(command->player->death_time, time);
+  foods = time.tv_sec + ((float)time.tv_usec) / 1000000.f;
+  foods /=  (126.f / ((float)this->delay));
+  if (foods < 0)
+    foods = 0;
   sprintf(buffer, "{nourriture %d, linemate %d, deraumere %d, "
 	  "sibur %d, mendiane %d, phiras %d, thystame %d}",
-	  command->player->inventory.food,
+	  (int)foods,
 	  command->player->inventory.linemate,
 	  command->player->inventory.deraumere,
 	  command->player->inventory.sibur,
@@ -24,36 +45,30 @@ void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
 
 void			gameplay_command_pose(t_gameplay* this, t_player_command* command)
 {
-  if (strcmp(command->data, "nourriture") == 0)
-    gameplay_drop_food(this, command);
-  else if (strcmp(command->data, "linemate") == 0)
-    gameplay_drop_linemate(this, command);
-  else if (strcmp(command->data, "deraumere") == 0)
-    gameplay_drop_deraumere(this, command);
-  else if (strcmp(command->data, "sibur") == 0)
-    gameplay_drop_sibur(this, command);
-  else if (strcmp(command->data, "mendiane") == 0)
-    gameplay_drop_mendiane(this, command);
-  else if (strcmp(command->data, "phiras") == 0)
-    gameplay_drop_phiras(this, command);
-  else if (strcmp(command->data, "thystame") == 0)
-    gameplay_drop_thystame(this, command);
+  int			i = 0;
+
+  while (object_bindings[i].object)
+    {
+      if (strcmp(command->data,	object_bindings[i].object) == 0)
+	{
+	  object_bindings[i].put(this, command);
+	  return;
+	}
+      i++;
+    }
 }
 
 void			gameplay_command_prend(t_gameplay* this, t_player_command* command)
 {
-  if (strcmp(command->data, "nourriture") == 0)
-    gameplay_take_food(this, command);
-  else if (strcmp(command->data, "linemate") == 0)
-    gameplay_take_linemate(this, command);
-  else if (strcmp(command->data, "deraumere") == 0)
-    gameplay_take_deraumere(this, command);
-  else if (strcmp(command->data, "sibur") == 0)
-    gameplay_take_sibur(this, command);
-  else if (strcmp(command->data, "mendiane") == 0)
-    gameplay_take_mendiane(this, command);
-  else if (strcmp(command->data, "phiras") == 0)
-    gameplay_take_phiras(this, command);
-  else if (strcmp(command->data, "thystame") == 0)
-    gameplay_take_thystame(this, command);
+  int			i = 0;
+
+  while (object_bindings[i].object)
+    {
+      if (strcmp(command->data,	object_bindings[i].object) == 0)
+	{
+	  object_bindings[i].take(this, command);
+	  return;
+	}
+      i++;
+    }
 }

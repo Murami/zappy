@@ -13,6 +13,7 @@
 #include "client_graphic.h"
 #include "player.h"
 #include "team.h"
+#include "time_val.h"
 
 struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
 {
@@ -58,9 +59,10 @@ void			gameplay_update_player_position(t_gameplay* this, t_player* player)
   while (it != list_end(this->players))
     {
       time_current = player_get_next_action_time(it->data);
-      if (time_current.tv_sec < time_tomove.tv_sec ||
-	  (time_current.tv_sec == time_tomove.tv_sec &&
-	   time_current.tv_usec < time_tomove.tv_usec))
+      /* if (time_current.tv_sec < time_tomove.tv_sec || */
+      /* 	  (time_current.tv_sec == time_tomove.tv_sec && */
+      /* 	   time_current.tv_usec < time_tomove.tv_usec)) */
+      if (timeval_comp(time_current, time_tomove) < 0)
 	{
 	  player->it = list_insert(this->players, it, player);
 	  return;
