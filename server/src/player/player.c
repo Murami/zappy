@@ -7,6 +7,7 @@
 #include "socketstream.h"
 #include "client_player.h"
 #include "time_val.h"
+#include "list.h"
 
 /* INIT DU DEAHT TIME EN BRUT A FAIRE EN FONCTION DE LA BOUFE ET DU DELAY */
 
@@ -25,6 +26,8 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->y = rand() % gameplay->map.height;
   this->level = 1;
   this->team = team;
+  this->eggs = list_new();
+  this->command_queue = list_new();
   team->nb_slots--;
   case_initialize(&this->inventory, this->x, this->y);
   sprintf(buffer, "%d\n", team->nb_slots);
@@ -118,6 +121,7 @@ void			player_release(t_player* this)
       list_pop_back(this->command_queue);
     }
   list_delete(this->command_queue);
+  list_delete(this->eggs);
 }
 
 void			player_delete(t_player* player)

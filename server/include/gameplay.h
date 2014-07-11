@@ -19,6 +19,7 @@ typedef struct		s_gameplay
   t_list*		teams;
   t_list*		players;
   t_list*		monitors;
+  t_list*		eggs;
   t_map			map;
   int			delay;
   struct timeval	time;

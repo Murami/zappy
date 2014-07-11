@@ -20,6 +20,7 @@ void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
   memset(this, 0, sizeof(t_gameplay));
   this->players = list_new();
   this->monitors = list_new();
+  this->eggs = list_new();
   this->teams = config.teams;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
@@ -35,6 +36,12 @@ void			gameplay_release(t_gameplay *this)
       player_delete(list_back(this->players));
       list_pop_back(this->players);
     }
+  while (!list_empty(this->eggs))
+    {
+      free(this->eggs);
+      list_pop_back(this->eggs);
+    }
+  list_delete(this->eggs);
   list_delete(this->players);
   list_delete(this->monitors);
   map_release(&this->map);

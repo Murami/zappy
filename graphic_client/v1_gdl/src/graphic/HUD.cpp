@@ -34,7 +34,7 @@ namespace	Zappy
     if (TTF_Init() != 0)
       throw (std::runtime_error("Error while initializing TTF_Font"));
     if (!_font)
-      if ((_font = TTF_OpenFont("./Triforce.ttf", 16)) == NULL)
+      if ((_font = TTF_OpenFont("./test.ttf", 16)) == NULL)
 	throw (std::runtime_error(TTF_GetError()));
     _currentPlayer = player;
     _active = true;
