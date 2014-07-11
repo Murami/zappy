@@ -1,20 +1,21 @@
 IMPORTANT check retour des init suite au malloc
 
+pop nourriture
+pop pierre
+incantation
 
-LES OEUFS
-Generation des pierres et de la bouffe
-gestion du temps
-priority queue
-release gameplay
-depop de la liste gameplay
-parsing cmd player
-parsing cmd graphic
-init du gameplay
-init du client graphic
-
+GRAPHIC:
+ - gestion des events ia
+ - send players
+ - send eggs
+ - ppo
+ - plv
+ - pin
+ - SUR LE SET DU DELAI SST GESTION UPDATE
 
 TRUC A FAIRE :
      - Le retour des mallocs
+     - Les UnitTest
 
 NORME:
        - Les typedef	-> t_
@@ -30,14 +31,7 @@ NORME:
 A VERIFIER !!!!!
 
 ANTO ->
-     - PARSING COMMANDES
-     - PASSAGE PROPRES DES DONNÉE
-     - GESTION DU TEMPS
      - VERIFIACTION DES FREE !!!
-     - MISE EN PLACE DES CALLBACKS DE GAMEPLAY
-     - GESTION DE LA PRIORITÉ DES COMMANDES POUR L'OPTI
-
-ANTO ------ POUR ANTO
- - METTRE A JOUR LE TEMPS DU SERVER A CHAQUE LOOP /* normalement c'est fait */
-
- - add_command SUR LE SERVER
+     - OnDelayChange : update all request and death_time !!!!
+     - Les ouefs a prendre en compte dans la gestion du temps
+     - condtions bourines pour la gestion de l'incant
