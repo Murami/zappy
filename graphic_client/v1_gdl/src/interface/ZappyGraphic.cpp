@@ -243,8 +243,10 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::playerStock(int, int, int, int*)
+  void		ZappyGraphic::playerStock(int id, int, int, int* resources)
   {
+    _hud->updateStock(id, resources[0], resources[1], resources[2],
+		      resources[3], resources[4], resources[5], resources[6]);
   }
 
   void		ZappyGraphic::playerExpulse(int)

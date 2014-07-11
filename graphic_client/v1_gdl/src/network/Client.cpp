@@ -38,23 +38,11 @@ void			*launchListen(void *attr)
     }
   while (42)
     {
-      if (client->haveToSendRequest())
-	{
-	  std::string request = client->getRequestToSend();
-	  if (write(client->_socket.getFd(),
-		    request.c_str(), request.size()) == -1)
-	    client->throwWriteFailure();
-	  std::memset(&buff[0], 0, 8192);
-	  if ((ret = read(client->_socket.getFd(), &buff[0], 8191)) <= 0)
-	    client->throwConnectionLost();
-	  std::cout << "coucou" << std::endl;
-	  continue;
-	}
       if ((ret = read(client->_socket.getFd(), &buff[ndx], 8191 - ndx)) == 0)
 	{
 	  client->throwConnectionLost();
-	  std::cerr << "\033[31mConnection to server "
-	    "closed unexpectedly\033[0m" << std::endl;
+	  // std::cerr << "\033[31mConnection to server "
+	  //   "closed unexpectedly\033[0m" << std::endl;
 	  return (NULL);
 	}
       std::size_t nbLines = countLines(&buff[0]);
@@ -70,6 +58,8 @@ void			*launchListen(void *attr)
       ndx = tmp.size();
       for (size_t s = 0; s < cmds.size(); s++)
       	client->getQueue().push(cmds[s]);
+      if (client->haveToSendRequest())
+      	client->resetRequest();
     }
   return (attr);
 }
@@ -107,8 +97,6 @@ void			Client::throwConnectionLost()
 
 Client::Client(int argc, char **argv)
 {
-  pthread_t		thread;
-  pthread_t		thread2;
   std::stringstream	ss;
   std::string		ip;
   int			port;
@@ -121,8 +109,8 @@ Client::Client(int argc, char **argv)
   ip = argv[1];
   _socket.create(port, ip.c_str());
   this->connectServer();
-  pthread_create(&thread, NULL, &launchListen, this);
-  pthread_create(&thread2, NULL, &launchWrite, this);
+  pthread_create(&_thread, NULL, &launchListen, this);
+  pthread_create(&_thread2, NULL, &launchWrite, this);
   _sendRequest = false;
 }
 
@@ -140,6 +128,7 @@ void			Client::sendRequest(const std::string& request)
 {
   _request = request;
   _sendRequest = true;
+  write(_socket.getFd(), request.c_str(), request.size());
 }
 
 Client::~Client()
@@ -156,7 +145,7 @@ void				Client::connectServer()
   	  (const struct sockaddr *)&this->_socket.getSin(),
   	  sizeof(this->_socket.getSin()));
   if (ret == -1)
-    std::cerr << "Error Connect" << std::endl;
+    throw (std::runtime_error("Error while attempting to connect..."));
 }
 
 SafeQueue<std::string>&		Client::getQueue()

@@ -5,14 +5,13 @@
 // Login   <desabr_q@epitech.net>
 //
 // Started on  Tue May 13 18:35:03 2014 quentin desabre
-// Last update Fri Jul 11 04:07:15 2014 Manu
+// Last update Fri Jul 11 08:46:55 2014 Manu
 //
 
 #ifndef				_CLIENT_HH_
 # define			_CLIENT_HH_
 
 # include			<string>
-# include			<SFML/Network.hpp>
 # include			"network/Socket.hh"
 # include			"network/SafeQueue.hpp"
 
@@ -41,6 +40,8 @@ public:
 private :
   bool		_sendRequest;
   std::string	_request;
+  pthread_t	_thread;
+  pthread_t	_thread2;
 };
 
 #endif			/* _CLIENT_HH_ */

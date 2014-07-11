@@ -49,6 +49,7 @@ namespace	Zappy
     int			_limitY;
     bool		_alive;
     bool		_dying;
+    gdl::AShader*	_shader;
 
   public :
     virtual void	initialize();

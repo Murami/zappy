@@ -1,8 +1,12 @@
 #ifndef		__SHADERMANAGER_HPP__
 # define	__SHADERMANAGER_HPP__
 
+# include	<iostream>
+# include	<Texture.hh>
 # include	<BasicShader.hh>
 # include	<stdexcept>
+
+# define	MAX_PLAYER_LEVEL	7
 
 namespace	Zappy
 {
@@ -17,6 +21,7 @@ namespace	Zappy
     gdl::BasicShader	*_reflectionShader;
     gdl::BasicShader	*_mapShader;
     gdl::BasicShader	*_hudShader;
+    gdl::BasicShader	*_playerShaders[MAX_PLAYER_LEVEL];
 
   public :
     static ShaderManager*	getInstance()
@@ -51,6 +56,11 @@ namespace	Zappy
       return (_colorPickShader);
     }
 
+    gdl::BasicShader*	getPlayerShader(int level)
+    {
+      return (_playerShaders[level - 1]);
+    }
+
   private :
     ShaderManager()
     {
@@ -81,6 +91,17 @@ namespace	Zappy
 	  !_hudShader->load("./gdl/shaders/hud.vp", GL_VERTEX_SHADER) ||
 	  !_hudShader->build())
 	throw (std::runtime_error("Failed map shader init"));
+      for (int i = 0; i < MAX_PLAYER_LEVEL; i++)
+	{
+	  _playerShaders[i] = new gdl::BasicShader();
+	  if (!_playerShaders[i]->load("./gdl/shaders/player.fp", GL_FRAGMENT_SHADER))
+	    throw (std::runtime_error("Failed to load player.fp"));
+	  if (!_playerShaders[i]->load("./gdl/shaders/player.vp", GL_VERTEX_SHADER))
+	    throw (std::runtime_error("Failed to load player.vp"));
+	  if (!_playerShaders[i]->build())
+	    throw (std::runtime_error("Failed to build player shader"));
+	  _playerShaders[i]->bind();
+	}
     }
 
     ~ShaderManager()

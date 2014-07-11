@@ -56,8 +56,8 @@ namespace gdl
 
     void	removeFromManager();
 
-    FbxModel			*_model;
-    SFbxModelHandler	*_modelHandler;
+    FbxModel				*_model;
+    SFbxModelHandler			*_modelHandler;
     bool				_loop;
     double				_timeSinceLastFrame;
 

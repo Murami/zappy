@@ -47,11 +47,11 @@ LIB		=	gdl_gl		\
 			GL		\
 			GLU		\
 			fbxsdk		\
+			SDL_ttf		\
 			SDL2		\
 			pthread		\
 			dl		\
 			rt		\
-			sfml-network	\
 
 DLIB		=	gdl/libs	\
 

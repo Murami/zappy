@@ -172,9 +172,31 @@ namespace	Zappy
     _callback->changePlayerLevel(id, level);
   }
 
-  void		Parser::playerStock(const std::string&)
+  void		Parser::playerStock(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream	ss;
+    std::stringstream	sstmp;
+    std::string		tmp;
+    int			resources[7];
+    int			x = 0, y = 0, id = 0;
+    int			i = 0, j = 0;
+
+    ss << args;
+    while (std::getline(ss, tmp, ' '))
+      {
+    	sstmp << tmp;
+    	if (i == 0)
+    	  sstmp >> id;
+    	else if (i == 1)
+    	  sstmp >> x;
+	else if (i == 2)
+	  sstmp >> y;
+    	else
+    	  sstmp >> resources[j++];
+    	sstmp.clear();
+    	i++;
+      }
+    _callback->playerStock(id, x, y, &resources[0]);
   }
 
   void		Parser::playerExpulse(const std::string&)

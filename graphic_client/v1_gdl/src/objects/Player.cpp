@@ -1,6 +1,7 @@
 #include		"objects/ModelManager.hh"
 #include		"objects/Player.hh"
 #include		"objects/Map.hh"
+#include		"graphic/ShaderManager.hpp"
 
 namespace	Zappy
 {
@@ -26,6 +27,7 @@ namespace	Zappy
     _y = y;
     _alive = true;
     _dying = false;
+    _shader = ShaderManager::getInstance()->getPlayerShader(_level);
   }
 
   bool		Player::isAlive() const
@@ -83,6 +85,7 @@ namespace	Zappy
   void		Player::setLevel(int lvl)
   {
     _level = lvl;
+    _shader = ShaderManager::getInstance()->getPlayerShader(lvl);
   }
 
   int		Player::getX() const
@@ -112,7 +115,7 @@ namespace	Zappy
 
   void		Player::initialize()
   {
-    _model = AnimationPool::getInstance()->getStandingFrame(_level);
+    _model = AnimationPool::getInstance()->getStandingFrame();
     rotate(glm::vec3(0, 1, 0), (_orientation - 1) * 90);
   }
 
@@ -194,7 +197,7 @@ namespace	Zappy
 		  _position.x = (_limitX - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
 		break;
 	      }
-	    _model = AnimationPool::getInstance()->getNextRunningFrame(_level);
+	    _model = AnimationPool::getInstance()->getNextRunningFrame();
 	    if (_model == NULL)
 	      std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
 	    _elapsed++;
@@ -231,7 +234,7 @@ namespace	Zappy
     _y = (int) _position.y / Map::BLOCK_SIZE;
     _stateStack.pop();
     _stateStack.push(STANDING);
-    _model = AnimationPool::getInstance()->getStandingFrame(_level);
+    _model = AnimationPool::getInstance()->getStandingFrame();
   }
 
   void		Player::setTimeUnit(float time)
@@ -244,9 +247,9 @@ namespace	Zappy
     return (_timeUnit);
   }
 
-  void		Player::draw(gdl::AShader& shader, const gdl::Clock& clock)
+  void		Player::draw(gdl::AShader&, const gdl::Clock& clock)
   {
-    _model->draw(shader, getTransformation(), clock.getElapsed());
+    _model->draw(*_shader, getTransformation(), clock.getElapsed());
   }
 
   Player::~Player()

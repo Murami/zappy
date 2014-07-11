@@ -5,6 +5,7 @@
 # include	<Geometry.hh>
 # include	<Texture.hh>
 # include	"BasicShader.hh"
+# include	"SDL_ttf.h"
 
 class		Client;
 
@@ -19,13 +20,16 @@ namespace	Zappy
     Player*		_currentPlayer;
     gdl::Geometry	_frame;
     gdl::Texture	_texture;
-    gdl::BasicShader*	_shader;
+    gdl::BasicShader	_shader;
     Client*		_client;
+    int			_resources[7];
+    TTF_Font*		_font;
 
   public :
     void	print(Player*, Client&);
     void	hide();
     void	draw();
+    void	updateStock(int id, int, int, int, int, int, int, int);
 
   public :
     bool	isActive() const;

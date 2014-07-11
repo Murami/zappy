@@ -1,3 +1,4 @@
+#include		<SDL_ttf.h>
 #include		<unistd.h>
 #include		"objects/AObject.hh"
 #include		"objects/Player.hh"
@@ -7,8 +8,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1280.0f;
-  const float		Window::HEIGHT = 960.0f;
+  const float		Window::WIDTH = 1600.0f;
+  const float		Window::HEIGHT = 900.0f;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 
@@ -60,6 +61,7 @@ namespace		Zappy
       _running = false;
     _context.updateClock(_clock);
     _handleMouseEvents();
+    _camera->update();
   }
 
   void			Window::flush()
@@ -78,9 +80,7 @@ namespace		Zappy
   {
     _colorPickShader.bind();
     _colorPickShader.setUniform("colorPick", object->getPickColor());
-    object->scale(glm::vec3(2, 2, 2));
     object->draw(_colorPickShader, _clock);
-    object->scale(glm::vec3(0.5, 0.5, 0.5));
   }
 
   void			Window::updatePlayers(std::list<Player*>& list)

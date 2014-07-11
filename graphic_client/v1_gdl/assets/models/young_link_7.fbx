@@ -4114,7 +4114,7 @@ Objects:  {
 			Property: "LastFrame", "int", "",0
 			Property: "Width", "int", "",0
 			Property: "Height", "int", "",0
-			Property: "Path", "charptr", "", "YoungLink_grp.tga"
+			Property: "Path", "charptr", "", "YoungLink_grp_7.tga"
 			Property: "StartFrame", "int", "",0
 			Property: "StopFrame", "int", "",0
 			Property: "PlaySpeed", "double", "",1
@@ -4125,8 +4125,8 @@ Objects:  {
 			Property: "AccessMode", "enum", "",0
 		}
 		UseMipMap: 0
-		Filename: "YoungLink_grp.tga"
-		RelativeFilename: "Young Link/YoungLink_grp.tga"
+		Filename: "YoungLink_grp_7.tga"
+		RelativeFilename: "Young Link/YoungLink_grp_7.tga"
 	}
 	Texture: "Texture::YoungLink_grp_png_002", "TextureVideoClip" {
 		Type: "TextureVideoClip"
@@ -4150,8 +4150,8 @@ Objects:  {
 			Property: "VideoProperty", "object", ""
 		}
 		Media: "Video::YoungLink_grp_png_002"
-		FileName: "YoungLink_grp.tga"
-		RelativeFilename: "Young Link/YoungLink_grp.tga"
+		FileName: "YoungLink_grp_7.tga"
+		RelativeFilename: "Young Link/YoungLink_grp_7.tga"
 		ModelUVTranslation: 0,0
 		ModelUVScaling: 1,1
 		Texture_Alpha_Source: "None"
