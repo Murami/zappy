@@ -6,6 +6,7 @@ Zappy::AnimationPool*	Zappy::AnimationPool::_instance = NULL;
 
 int		main(int argc, char **argv)
 {
+
   Client			client(argc, argv);
   try
     {
@@ -17,5 +18,6 @@ int		main(int argc, char **argv)
       std::cerr << "\033[31m" << e.what() << "\033[0m" << std::endl;
       return (-1);
     }
+
   return (0);
 }

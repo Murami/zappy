@@ -5,7 +5,7 @@
 # include	<Geometry.hh>
 # include	<Texture.hh>
 # include	"BasicShader.hh"
-# include	"SDL_ttf.h"
+# include	<SDL2/SDL_ttf.h>
 
 class		Client;
 
