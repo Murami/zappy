@@ -24,11 +24,24 @@ namespace	Zappy
     _elapsed = 0;
     _x = x;
     _y = y;
+    _alive = true;
+    _dying = false;
+  }
+
+  bool		Player::isAlive() const
+  {
+    return (_alive);
   }
 
   int		Player::getY() const
   {
     return (_y);
+  }
+
+  void		Player::die()
+  {
+    _dying = true;
+    rotate(glm::vec3(1, 0, 0), -90);
   }
 
   void		Player::setOrientation(Orientation dir)
@@ -99,7 +112,7 @@ namespace	Zappy
 
   void		Player::initialize()
   {
-    _model = AnimationPool::getInstance()->getStandingFrame();
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
     rotate(glm::vec3(0, 1, 0), (_orientation - 1) * 90);
   }
 
@@ -153,48 +166,62 @@ namespace	Zappy
 
   void		Player::update(const gdl::Clock&, gdl::Input&)
   {
-    switch (_stateStack.top())
+    if (!_dying)
       {
-      case RUNNING :
-    	switch (_orientation)
-    	  {
-    	  case NORTH :
-    	    translate(glm::vec3(0, -Player::SPEED, 0));
-	    if (_position.y < 0)
-	      _position.y = (_limitY - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
-    	    break;
-    	  case EAST :
-    	    translate(glm::vec3(Player::SPEED, 0, 0));
-	    if (_position.x > Map::BLOCK_SIZE * _limitX)
-	      _position.x = 0;
-    	    break;
-    	  case SOUTH :
-    	    translate(glm::vec3(0, Player::SPEED, 0));
-	    if (_position.y > Map::BLOCK_SIZE * _limitY)
-	      _position.y = 0;
-   	    break;
-    	  case WEST :
-    	    translate(glm::vec3(-Player::SPEED, 0, 0));
-	    if (_position.x < 0)
-	      _position.x = (_limitX - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
-   	    break;
-    	  }
-	_model = AnimationPool::getInstance()->getNextRunningFrame();
-	if (_model == NULL)
-	  std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
-	_elapsed++;
-	if (_elapsed == Map::BLOCK_SIZE)
+	switch (_stateStack.top())
 	  {
-	    stopRunning();
+	  case RUNNING :
+	    switch (_orientation)
+	      {
+	      case NORTH :
+		translate(glm::vec3(0, -Player::SPEED, 0));
+		if (_position.y < 0)
+		  _position.y = (_limitY - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
+		break;
+	      case EAST :
+		translate(glm::vec3(Player::SPEED, 0, 0));
+		if (_position.x > Map::BLOCK_SIZE * _limitX)
+		  _position.x = 0;
+		break;
+	      case SOUTH :
+		translate(glm::vec3(0, Player::SPEED, 0));
+		if (_position.y > Map::BLOCK_SIZE * _limitY)
+		  _position.y = 0;
+		break;
+	      case WEST :
+		translate(glm::vec3(-Player::SPEED, 0, 0));
+		if (_position.x < 0)
+		  _position.x = (_limitX - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
+		break;
+	      }
+	    _model = AnimationPool::getInstance()->getNextRunningFrame(_level);
+	    if (_model == NULL)
+	      std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
+	    _elapsed++;
+	    if (_elapsed == Map::BLOCK_SIZE)
+	      {
+		stopRunning();
+		_elapsed = 0;
+	      }
+	    break;
+	  case LOOTING :
+	    break;
+	  case CASTING :
+	    break;
+	  case STANDING :
+	    break;
+	  case GHOST :
+	    break;
+	  }
+      }
+    else
+      {
+	_elapsed++;
+	if (_elapsed == 25)
+	  {
+	    _alive = false;
 	    _elapsed = 0;
 	  }
-	break;
-      case LOOTING :
-    	break;
-      case CASTING :
-    	break;
-      case STANDING :
-    	break;
       }
   }
 
@@ -204,7 +231,7 @@ namespace	Zappy
     _y = (int) _position.y / Map::BLOCK_SIZE;
     _stateStack.pop();
     _stateStack.push(STANDING);
-    _model = AnimationPool::getInstance()->getStandingFrame();
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
   }
 
   void		Player::setTimeUnit(float time)

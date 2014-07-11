@@ -16,6 +16,7 @@ namespace	Zappy
     gdl::BasicShader	*_colorPickShader;
     gdl::BasicShader	*_reflectionShader;
     gdl::BasicShader	*_mapShader;
+    gdl::BasicShader	*_hudShader;
 
   public :
     static ShaderManager*	getInstance()
@@ -23,6 +24,11 @@ namespace	Zappy
       if (_instance == NULL)
 	_instance = new ShaderManager();
       return (_instance);
+    }
+
+    gdl::BasicShader*	getHUDShader()
+    {
+      return (_hudShader);
     }
 
     gdl::BasicShader*	getMapShader()
@@ -69,6 +75,11 @@ namespace	Zappy
       if (!_mapShader->load("./gdl/shaders/map.fp", GL_FRAGMENT_SHADER) ||
 	  !_mapShader->load("./gdl/shaders/map.vp", GL_VERTEX_SHADER) ||
 	  !_mapShader->build())
+	throw (std::runtime_error("Failed map shader init"));
+      _hudShader = new gdl::BasicShader();
+      if (!_hudShader->load("./gdl/shaders/hud.fp", GL_FRAGMENT_SHADER) ||
+	  !_hudShader->load("./gdl/shaders/hud.vp", GL_VERTEX_SHADER) ||
+	  !_hudShader->build())
 	throw (std::runtime_error("Failed map shader init"));
     }
 

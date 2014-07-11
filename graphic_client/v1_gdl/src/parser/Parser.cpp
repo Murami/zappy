@@ -103,7 +103,7 @@ namespace	Zappy
     _callback->setCaseContent(x, y, &resources[0]);
   }
 
-  void		Parser::addTeamName(const std::string& args)
+  void		Parser::addTeamName(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
@@ -131,7 +131,6 @@ namespace	Zappy
 
   void		Parser::setPlayerPosition(const std::string& args)
   {
-    // PPO n x y o
     std::stringstream ss;
     std::stringstream sstmp;
     std::string	tmp;
@@ -153,70 +152,92 @@ namespace	Zappy
 
   void		Parser::changePlayerLevel(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss;
+    std::stringstream sstmp;
+    std::string tmp;
+    int	id = 0, level = 0;
+
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> level;
+      }
+    _callback->changePlayerLevel(id, level);
   }
 
-  void		Parser::playerStock(const std::string& args)
+  void		Parser::playerStock(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerExpulse(const std::string& args)
+  void		Parser::playerExpulse(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerBroadcast(const std::string& args)
+  void		Parser::playerBroadcast(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerStartCast(const std::string& args)
+  void		Parser::playerStartCast(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::castEnd(const std::string& args)
+  void		Parser::castEnd(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerLaysEgg(const std::string& args)
+  void		Parser::playerLaysEgg(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerDropsResource(const std::string& args)
+  void		Parser::playerDropsResource(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerLootsResource(const std::string& args)
+  void		Parser::playerLootsResource(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
   void		Parser::playerDies(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream	ss;
+    int		nb;
+
+    ss << args;
+    ss >> nb;
+    _callback->playerDies(nb);
   }
 
-  void		Parser::eggLaidOnCaseByPlayer(const std::string& args)
+  void		Parser::eggLaidOnCaseByPlayer(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::eggOpens(const std::string& args)
+  void		Parser::eggOpens(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerConnectsForEgg(const std::string& args)
+  void		Parser::playerConnectsForEgg(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::eggDies(const std::string& args)
+  void		Parser::eggDies(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
@@ -231,22 +252,22 @@ namespace	Zappy
     _callback->setTimeUnit(time);
   }
 
-  void		Parser::endGame(const std::string& args)
+  void		Parser::endGame(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::serverMessage(const std::string& args)
+  void		Parser::serverMessage(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::unknownCommand(const std::string& args)
+  void		Parser::unknownCommand(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::badParameters(const std::string& args)
+  void		Parser::badParameters(const std::string&)
   {
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }

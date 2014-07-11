@@ -11,7 +11,7 @@ class ZappyParser:
 
     def __init__ (self):
         # nom des trucs a tester
-        self.names = ["inventory", "fov", "message", "expulse", "answer", "freeSlot"]
+        self.names = ["inventory", "fov", "message", "expulse", "answer", "freeSlot", "elevation", "level", "alive"]
 
         # liste de structures liant les regex et leur fonction de parsing
         self.tab = {}
@@ -27,7 +27,12 @@ class ZappyParser:
                                            self.__parseAnswer)
         self.tab["freeSlot"] = structFuncPtr(re.compile("^[0-9]+$"),
                                              self.__parseFreeSlot)
-
+        self.tab["elevation"] = structFuncPtr(re.compile("elevation en cours"),
+                                              self.__parseElevation)
+        self.tab["level"] = structFuncPtr(re.compile("niveau actuel : ([0-9]+)"),
+                                          self.__parseLevel)
+        self.tab["alive"] = structFuncPtr(re.compile("mort"),
+                                          self.__parseAlive)
 
     def parse (self, toParse):
         for cmd in toParse.split("\n"):
@@ -43,7 +48,7 @@ class ZappyParser:
     def __parseMessage (self, toParse):
         res = responseServer.ResponseServerMessage()
         tmp = toParse.split(",")
-        res.message.direction = tmp[0][8:]
+        res.message.direction = int(tmp[0][8:])
         res.message.message = tmp[1]
         return res
 
@@ -73,6 +78,7 @@ class ZappyParser:
             res.fov.cases[i]["linemate"] = elem.count("linemate")
             res.fov.cases[i]["deraumere"] = elem.count("deraumere")
             res.fov.cases[i]["sibur"] = elem.count("sibur")
+            res.fov.cases[i]["mendiane"] = elem.count("mendiane")
             res.fov.cases[i]["phiras"] = elem.count("phiras")
             res.fov.cases[i]["thystame"] = elem.count("thystame")
             i += 1
@@ -87,4 +93,19 @@ class ZappyParser:
     def __parseFreeSlot (self, toParse):
         res = responseServer.ResponseServerFreeSlot()
         res.freeSlot.freeSlot = int(toParse)
+        return res
+
+    def __parseElevation (self, toParse):
+        res = responseServer.ResponseServerElevation()
+        res.isInElevation = True
+        return res
+
+    def __parseLevel (self, toParse):
+        res = responseServer.ResponseServerLevel()
+        res.level.actualLevel = int(self.tab["level"].regex.search(toParse).group(1))
+        return res
+
+    def __parseAlive (self, toParse):
+        res = responseServer.ResponseServerAlive()
+        res.isItAlive = False
         return res

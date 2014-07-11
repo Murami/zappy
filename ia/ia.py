@@ -21,7 +21,7 @@ class   Player:
             "voir": responseServer.ResponseServer.isFov,
             "connect_nbr": responseServer.ResponseServer.isFreeSlot,
             "fork": responseServer.ResponseServer.isAnswer,
-            "incantation": responseServer.ResponseServer.isAnswer,
+            "incantation": responseServer.ResponseServer.isLevel,
             "expulse": responseServer.ResponseServer.isExpulse,
             "prend": responseServer.ResponseServer.isAnswer,
             "pose": responseServer.ResponseServer.isAnswer,
@@ -29,17 +29,18 @@ class   Player:
         }
         self.stoneName = ["linemate", "deraumere", "sibur", "mendiane", "phiras", "thystame"]
         self.ressourcesByLevel = {
-            1: {"player": 1, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
-            2: {"player": 2, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
-            3: {"player": 2, "linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
-            4: {"player": 4, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
-            5: {"player": 4, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
-            6: {"player": 6, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
-            7: {"player": 6, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
+            1: {"player": 0, "linemate": 1, "deraumere": 0, "sibur": 0, "mendiane": 0, "phiras": 0, "thystame": 0},
+            2: {"player": 1, "linemate": 1, "deraumere": 1, "sibur": 1, "mendiane": 0, "phiras": 0, "thystame": 0},
+            3: {"player": 1, "linemate": 2, "deraumere": 0, "sibur": 1, "mendiane": 0, "phiras": 2, "thystame": 0},
+            4: {"player": 3, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
+            5: {"player": 3, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
+            6: {"player": 5, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
+            7: {"player": 5, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
         }
         self.regex = {
             "getlvl": re.compile("^getlvl$"),
-            "mylvl": re.compile("^mylvl ([0-9]+)$")
+            "mylvl": re.compile("^mylvl ([0-9]+)$"),
+            "regroup": re.compile("^regroup ([0-9]+)$")
         }
         self.requests = queue.Queue()
         self.data = data.Data()
@@ -76,6 +77,11 @@ class   Player:
         elif (self.regex["mylvl"].search(message) is not None):
             regex = self.regex["mylvl"].search(message)
             self.data.listOtherLevel[int(regex.group(1))] += 1
+        elif (self.regex["regroup"].search(message) is not None):
+            regex = self.regex["regroup"].search(message)
+            if (int(regex.group(1)) == self.data.level.getActualLevel()):
+                self.data.leader = -1
+                self.data.direction = self.data.message.getDirection()
 
     def recvFromServer (self):
         recv = self.net.recv()
@@ -90,10 +96,11 @@ class   Player:
             request = self.requests.get()
             self.sendMessageToServer(request)
             response = self.recvFromServer()
-            while (self.responseIsTypeOf(response, request) == False):
+            while (self.responseIsTypeOf(response, request) == False and response.isAnswer() == False):
                 response = self.recvFromServer()
 
     def searchFood (self):
+        print("searchFood")
         global static
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
@@ -123,21 +130,22 @@ class   Player:
             return ("linemate")
         if (self.data.inventory.getStoneCount("deraumere") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["deraumere"]):
-            return ("linemate")
+            return ("deraumere")
         if (self.data.inventory.getStoneCount("sibur") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["sibur"]):
-            return ("linemate")
+            return ("sibur")
         if (self.data.inventory.getStoneCount("mendiane") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["mendiane"]):
-            return ("linemate")
+            return ("mendiane")
         if (self.data.inventory.getStoneCount("phiras") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["phiras"]):
-            return ("linemate")
+            return ("phiras")
         if (self.data.inventory.getStoneCount("thystame") <
             self.ressourcesByLevel[self.data.level.getActualLevel()]["thystame"]):
-            return ("linemate")
+            return ("thystame")
 
     def searchStone (self, stone):
+        print("searchStone")
         global static
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
@@ -162,11 +170,15 @@ class   Player:
         self.sendRequests()
 
     def getInventory (self):
+        print("inventory")
         self.addToQueue("inventaire")
         self.sendRequests()
 
     def gathering (self):
-        self.addToQueue("broadcast regroup " + self.data.level.getActualLevel())
+        print("gathering")
+        if (self.data.leader == 0):
+            self.data.leader = 1
+            self.addToQueue("broadcast regroup " + str(self.data.level.getActualLevel()))
 
     def dropAllStone (self):
         for elem in self.stoneName:
@@ -179,38 +191,98 @@ class   Player:
                 self.addToQueue("pose {}".format(elem))
 
     def evolutionProcess (self):
-            self.dropAllStone()
-            self.putNeededStone()
-            self.addToQueue("incantation")
+        print("evolution process")
+        self.dropAllStone()
+        self.putNeededStone()
+        self.addToQueue("incantation")
+
+    def fork (self):
+        print("fork")
+        self.addToQueue("fork")
+
+    def tryEvolution (self):
+        print("tryEvolution")
+        self.addToQueue("voir")
+        self.sendRequests()
+        if (self.data.fov.getPlayerOnCase(0) - 1 ==
+            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+            return (True)
+        return (False)
 
     def evolution (self):
+        print("evolution")
         global getlvl
         if (getlvl == -1):
             self.addToQueue("broadcast getlvl")
-        if (getlvl > 5):
+        if (getlvl > 20):
+            self.data.reinitializeListLevel()
             getlvl = -1
         else:
             getlvl += 1
         if (self.data.level.getActualLevel() == 1):
-            self.dropAll()
+            self.evolutionProcess()
+        elif (self.data.leader == 1 and self.tryEvolution() == True):
             self.evolutionProcess()
         elif (self.data.getNbrOfLevel(self.data.level.getActualLevel()) >=
-            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
-            self.gathering()
+              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+            if (self.data.leader == 1 and self.tryEvolution() == True):
+                self.evolutionProcess()
+            else:
+                self.gathering()
+        # elif (self.data.getNbrofLowerLevel(self.data.level.getActualLevel()) >=
+        #       self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]):
+        #     self.fork()
+
+    def transformNbrInDirection (self, nb):
+        print("@@@@@@@@@@@@@@@@ DIECTION = " + str(nb) + "@@@@@@@@@@@@@@@@@")
+        if nb == 1:
+            self.addToQueue("avance")
+        elif nb == 2:
+            self.addToQueue("avance")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 3:
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 4:
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 5:
+            self.addToQueue("gauche")
+            self.addToQueue("gauche")
+            self.addToQueue("avance")
+        elif nb == 6:
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+        elif nb == 7:
+            self.addToQueue("droite")
+            self.addToQueue("avance")
+        elif nb == 8:
+            self.addToQueue("avance")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
 
     def getDecision (self):
         stone = self.stoneNeeded()
-        if self.data.inventory.getFood() < 10:
-            while (self.data.inventory.getFood() < 30):
+        if self.data.inventory.getFood() < 11:
+            while (self.data.inventory.getFood() < 20):
                 self.searchFood()
                 self.getInventory()
-        elif (self.data.lvlNeeded == True):
-            self.addToQueue("broadcast mylvl " + str(self.data.level.getActualLevel()))
-            self.data.lvlNeeded = False
+        elif (self.data.lvlNeeded == True or self.data.direction != -1):
+            if (self.data.lvlNeeded == True):
+                self.addToQueue("broadcast mylvl " + str(self.data.level.getActualLevel()))
+                self.data.lvlNeeded = False
+            if (self.data.direction != -1):
+                self.transformNbrInDirection(self.data.direction)
+                self.data.direction = - 1
+            self.sendRequests()
         elif (stone is not None):
             self.searchStone(stone)
         else:
-            print("evolution")
             self.evolution()
 
     def run (self):
@@ -227,7 +299,6 @@ def main():
         print("\033[31mError in connect : "
               + "\033[33mmissing argument(s)\033[0m")
         raise
-
     player.run()
 
 

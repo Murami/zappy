@@ -23,7 +23,8 @@ namespace	Zappy
       STANDING,
       RUNNING,
       LOOTING,
-      CASTING
+      CASTING,
+      GHOST,
     };
 
   class		Player : public AObject
@@ -46,6 +47,8 @@ namespace	Zappy
     int			_y;
     int			_limitX;
     int			_limitY;
+    bool		_alive;
+    bool		_dying;
 
   public :
     virtual void	initialize();
@@ -62,6 +65,7 @@ namespace	Zappy
     void		stopRunning();
     const glm::vec4&	getPickColor() const;
     void		goingTo(int, int);
+    void		die();
 
   public :
     int			getId() const;
@@ -70,6 +74,7 @@ namespace	Zappy
     int			getX() const;
     int			getY() const;
     Orientation		getOrientation() const;
+    bool		isAlive() const;
 
   public :
     void		setLevel(int);

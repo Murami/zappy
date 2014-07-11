@@ -1,6 +1,7 @@
 #ifndef		__ZAPPYGRAPHIC_HH__
 # define	__ZAPPYGRAPHIC_HH__
 
+# include	"graphic/HUD.hh"
 # include	"parser/ICallback.hh"
 # include	"objects/Stone.hh"
 # include	"interface/Window.hh"
@@ -23,6 +24,7 @@ namespace	Zappy
     Client&	_client;
     World*	_world;
     Parser*	_parser;
+    HUD*	_hud;
     int		_timeUnit;
 
     // pour test

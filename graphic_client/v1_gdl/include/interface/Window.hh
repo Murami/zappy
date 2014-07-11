@@ -48,6 +48,7 @@ namespace	Zappy
     void	bindShader();
     Camera*	getCamera();
     void	updateObject(AObject*);
+    void	updatePlayers(std::list<Player*>&);
 
   public :
     Window();

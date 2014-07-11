@@ -6,7 +6,9 @@ import freeSlot
 import expulse
 import message
 import answer
+import elevation
 import zappyParser
+import responseServer
 
 class Data:
     def __init__ (self):
@@ -14,6 +16,7 @@ class Data:
         self.inventory = inventory.Inventory()
         self.fov = fov.Fov()
         self.fov.setUsed(True)
+        self.elevation = elevation.Elevation()
         self.level = level.Level()
         self.alive = alive.Alive()
         self.freeSlot = freeSlot.FreeSlot()
@@ -22,7 +25,8 @@ class Data:
         self.answer = answer.Answer()
         self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
         self.lvlNeeded = False
-        self.regroupNeedded = False
+        self.direction = -1
+        self.leader = 0
 
     def update (self, response):
         res = self.parser.parse(response)
@@ -30,8 +34,6 @@ class Data:
             self.inventory = res.getInventory()
         elif res.isFov():
             self.fov = res.getFov()
-        elif res.isLevel():
-            self.level = res.getLevel()
         elif res.isAlive():
             self.alive = res.getAlive()
         elif res.isFreeSlot():
@@ -42,6 +44,12 @@ class Data:
             self.message = res.getMessage()
         elif res.isAnswer():
             self.answer = res.getAnswer()
+        elif res.isElevation():
+            self.elevation = res.getElevation()
+        elif res.isLevel():
+            self.level = res.getLevel()
+            self.leader = 0
+            self.elevation.isInElevation = False
         return res
 
     def reinitializeListLevel (self):

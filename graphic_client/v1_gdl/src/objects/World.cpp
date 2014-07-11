@@ -10,7 +10,7 @@ namespace	Zappy
   void		World::initialize()
   {
     _model = ModelManager::getInstance()->getWorld();
-    scale(glm::vec3(20, 20, 20));
+    scale(glm::vec3(30, 30, 30));
     translate(glm::vec3(0, 0, -71));
     rotate(glm::vec3(1, 0, 0), 90);
   }
