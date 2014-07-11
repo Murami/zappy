@@ -47,7 +47,6 @@ LIB		=	gdl_gl		\
 			GL		\
 			GLU		\
 			fbxsdk		\
-			SDL_ttf		\
 			SDL2		\
 			pthread		\
 			dl		\
@@ -120,8 +119,9 @@ endif
 CFLAGS		+=	$(CINC)
 LDFLAGS		+=	$(DLIB)				\
 			$(LIB)				\
-			-Wl,-rpath=./gdl/libs:./lua/libs
-
+			-Wl,-rpath=./gdl/libs:./lua/libs\
+			-LLIBDIR			\
+			-D_REENTRANT -I/usr/local/include/SDL2 -I/usr/include/SDL2  -L/usr/local/lib -lSDL2_ttf -lSDL2
 ## MISC RULES
 
 MAKEOBJ		= $(addprefix $(DOBJ), %.o) : $(addprefix $(addprefix $(DSRC), %), $(SRC_EXT))
