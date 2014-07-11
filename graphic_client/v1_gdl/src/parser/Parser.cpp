@@ -123,7 +123,7 @@ namespace	Zappy
     	ssTmp >> tab[i];
     	ssTmp.clear();
     	i++;
-    	if (i == 4)
+    	if (i == 6)
     	  break;
       }
     _callback->addNewPlayer(tab[0], tab[1], tab[2], tab[3], tab[4], tmp);

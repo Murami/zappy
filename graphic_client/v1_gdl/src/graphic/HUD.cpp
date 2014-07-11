@@ -58,6 +58,8 @@ namespace	Zappy
 
   void		HUD::_printTeam()
   {
+    Sentence s(_currentPlayer->getTeamName(), (Window::WIDTH / 6) - (_currentPlayer->getTeamName().size() / 2) * 10 - 10, Window::HEIGHT * (62.5 / 900) + 10);
+    s.draw(_shader);
   }
 
   void		HUD::_printResources()

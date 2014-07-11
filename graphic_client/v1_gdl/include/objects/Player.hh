@@ -35,7 +35,7 @@ namespace	Zappy
   private :
     gdl::Model*		_model;
     int			_level;
-    const std::string&	_teamName;
+    const std::string	_teamName;
     Orientation		_orientation;
     float		_timeUnit;
     int			_elapsed;
