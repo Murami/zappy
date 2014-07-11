@@ -31,46 +31,33 @@ namespace	Zappy
   void		ZappyGraphic::run()
   {
     _window.create(Window::WIDTH, Window::HEIGHT, Window::TITLE);
+    AnimationPool::getInstance()->loadModels();
+    _hud = new HUD();
     updateClient();
-
     _world = new World();
     _world->initialize();
-
     while (_window.isRunning())
       {
 	_window.bindShader();
 	_window.update();
 	updateClient();
-
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.drawPlayerColorMap(static_cast<Player*>(*it));
 	_handleRightClickEvent();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 	_window.bindShader();
 	_window.draw(_world);
-
-	for (std::list<Player*>::iterator it = _players.begin();
-	     it != _players.end(); it++)
-	  {
-	    _window.updateObject(*it);
-	    _window.draw(*it);
-	  }
-
-	//drawOnlyOne*()
+	_window.updatePlayers(_players);
 	_drawOnlyOneStone();
 	_drawOnlyOneFood();
-
-	// for (std::list<Stone*>::iterator it = _stones.begin();
-	//      it != _stones.end(); it++)
-	//   _window.draw(*it);
 
 	// for (std::list<Egg*>::iterator it = _eggs.begin();
 	//      it != _eggs.end(); it++)
 	//   _window.draw(*it);
 
 	_window.draw(_map);
+	_hud->draw();
 	_window.flush();
       }
   }
@@ -136,24 +123,23 @@ namespace	Zappy
     gdl::Input	input = _window.getInputs();
     unsigned char pixel[4];
     pixel[0] = pixel[1] = pixel[2] = pixel[3] = 0;
-    if (input.getKey(SDL_BUTTON_RIGHT))
+    if (input.getInput(SDL_BUTTON_RIGHT))
       {
 	glReadPixels(input.getMousePosition().x,
 		     Window::HEIGHT - input.getMousePosition().y,
 		     1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel[0]);
-
 	glm::vec4 clickedColor(pixel[0] / 255,
 			       pixel[1] / 255,
 			       pixel[2] / 255, 0);
-
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  {
 	    if ((*it)->getPickColor().r == clickedColor.r &&
 		(*it)->getPickColor().g == clickedColor.g &&
 		(*it)->getPickColor().b == clickedColor.b)
-	      // CALLBACK POUR AFFICHAGE HUD D'UN JOUEUR
-	      std::cout << "[CLICK] : player on " << (*it)->getRealPosition().x << " " << (*it)->getRealPosition().y << std::endl;
+	      _hud->print(*it, _client);
+	    else
+	      _hud->hide();
 	  }
       }
   }
@@ -165,60 +151,6 @@ namespace	Zappy
     _map->setSize(width, height);
     _map->initialize();
     _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
-  }
-
-  int		ZappyGraphic::_getFoodAtCase(int x, int y)
-  {
-    int		res = 0;
-    for (std::list<Food*>::iterator it = _foods.begin();
-	 it != _foods.end(); it++)
-      {
-	if ((*it)->getX() == x && (*it)->getY() == y)
-	  res++;
-      }
-    return (res);
-  }
-
-  void		ZappyGraphic::_removeFoodAtCase(int x, int y)
-  {
-    for (std::list<Food*>::iterator it = _foods.begin();
-	 it != _foods.end(); it++)
-      {
-	if ((*it)->getX() == x && (*it)->getY() == y)
-	  {
-	    _foods.erase(it);
-	    break;
-	  }
-      }
-  }
-
-  int		ZappyGraphic::_getStoneByTypeAtCase(int x, int y, Type type)
-  {
-    int		res = 0;
-    for (std::list<Stone*>::iterator it = _stones.begin();
-	 it != _stones.end(); it++)
-      {
-	if ((*it)->getPosition().x == x &&
-	    (*it)->getPosition().y == y &&
-	    (*it)->getType() == type)
-	  res++;
-      }
-    return (res);
-  }
-
-  void		ZappyGraphic::_removeStoneByTypeAtCase(int x, int y, Type type)
-  {
-    for (std::list<Stone*>::iterator it = _stones.begin();
-	 it != _stones.end(); it++)
-      {
-	if ((*it)->getPosition().x == x &&
-	    (*it)->getPosition().y == y &&
-	    (*it)->getType() == type)
-	  {
-	    _stones.erase(it);
-	    break;
-	  }
-      }
   }
 
   void		ZappyGraphic::setCaseContent(int x, int y, int* resources)
@@ -290,20 +222,25 @@ namespace	Zappy
 	if ((*it)->getId() == playerId)
 	  {
 	    if ((*it)->getX() == newX && (*it)->getY() == newY)
-	      {
-		(*it)->setOrientation(static_cast<Orientation>(orientation));
-	      }
+	      (*it)->setOrientation(static_cast<Orientation>(orientation));
 	    else
-	      {
-		(*it)->goForward();
-	      }
+	      (*it)->goForward();
 	    break;
 	  }
       }
   }
 
-  void		ZappyGraphic::changePlayerLevel(int, int)
+  void		ZappyGraphic::changePlayerLevel(int playerId, int level)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == playerId)
+	  {
+	    (*it)->setLevel(level);
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::playerStock(int, int, int, int*)
@@ -338,8 +275,18 @@ namespace	Zappy
   {
   }
 
-  void		ZappyGraphic::playerDies(int)
+  void		ZappyGraphic::playerDies(int playerId)
   {
+    _hud->hide();
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == playerId)
+	  {
+	    (*it)->die();
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::eggLaidOnCaseByPlayer(int, int, int, int)
@@ -377,6 +324,60 @@ namespace	Zappy
 
   void		ZappyGraphic::badParameters(const std::string&)
   {
+  }
+
+  int		ZappyGraphic::_getFoodAtCase(int x, int y)
+  {
+    int		res = 0;
+    for (std::list<Food*>::iterator it = _foods.begin();
+	 it != _foods.end(); it++)
+      {
+	if ((*it)->getX() == x && (*it)->getY() == y)
+	  res++;
+      }
+    return (res);
+  }
+
+  void		ZappyGraphic::_removeFoodAtCase(int x, int y)
+  {
+    for (std::list<Food*>::iterator it = _foods.begin();
+	 it != _foods.end(); it++)
+      {
+	if ((*it)->getX() == x && (*it)->getY() == y)
+	  {
+	    _foods.erase(it);
+	    break;
+	  }
+      }
+  }
+
+  int		ZappyGraphic::_getStoneByTypeAtCase(int x, int y, Type type)
+  {
+    int		res = 0;
+    for (std::list<Stone*>::iterator it = _stones.begin();
+	 it != _stones.end(); it++)
+      {
+	if ((*it)->getPosition().x == x &&
+	    (*it)->getPosition().y == y &&
+	    (*it)->getType() == type)
+	  res++;
+      }
+    return (res);
+  }
+
+  void		ZappyGraphic::_removeStoneByTypeAtCase(int x, int y, Type type)
+  {
+    for (std::list<Stone*>::iterator it = _stones.begin();
+	 it != _stones.end(); it++)
+      {
+	if ((*it)->getPosition().x == x &&
+	    (*it)->getPosition().y == y &&
+	    (*it)->getType() == type)
+	  {
+	    _stones.erase(it);
+	    break;
+	  }
+      }
   }
 
   ZappyGraphic::~ZappyGraphic()

@@ -7,8 +7,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1920.0f;
-  const float		Window::HEIGHT = 1080.0f;
+  const float		Window::WIDTH = 1280.0f;
+  const float		Window::HEIGHT = 960.0f;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 
@@ -81,6 +81,21 @@ namespace		Zappy
     object->scale(glm::vec3(2, 2, 2));
     object->draw(_colorPickShader, _clock);
     object->scale(glm::vec3(0.5, 0.5, 0.5));
+  }
+
+  void			Window::updatePlayers(std::list<Player*>& list)
+  {
+    for (std::list<Player*>::iterator it = list.begin();
+	 it != list.end(); it++)
+      {
+	updateObject(*it);
+	draw(*it);
+	if ((*it)->isAlive() == false)
+	  {
+	    list.erase(it);
+	    break;
+	  }
+      }
   }
 
   void			Window::updateObject(AObject* object)

@@ -38,8 +38,21 @@ void			*launchListen(void *attr)
     }
   while (42)
     {
+      if (client->haveToSendRequest())
+	{
+	  std::string request = client->getRequestToSend();
+	  if (write(client->_socket.getFd(),
+		    request.c_str(), request.size()) == -1)
+	    client->throwWriteFailure();
+	  std::memset(&buff[0], 0, 8192);
+	  if ((ret = read(client->_socket.getFd(), &buff[0], 8191)) <= 0)
+	    client->throwConnectionLost();
+	  std::cout << "coucou" << std::endl;
+	  continue;
+	}
       if ((ret = read(client->_socket.getFd(), &buff[ndx], 8191 - ndx)) == 0)
 	{
+	  client->throwConnectionLost();
 	  std::cerr << "\033[31mConnection to server "
 	    "closed unexpectedly\033[0m" << std::endl;
 	  return (NULL);
@@ -76,6 +89,22 @@ void			*launchWrite(void *attr)
   return (attr);
 }
 
+void			Client::resetRequest()
+{
+  _sendRequest = false;
+  _request = std::string("");
+}
+
+void			Client::throwWriteFailure()
+{
+  throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
+}
+
+void			Client::throwConnectionLost()
+{
+  throw (std::runtime_error("Connection to server has closed unexpectedly"));
+}
+
 Client::Client(int argc, char **argv)
 {
   pthread_t		thread;
@@ -94,6 +123,23 @@ Client::Client(int argc, char **argv)
   this->connectServer();
   pthread_create(&thread, NULL, &launchListen, this);
   pthread_create(&thread2, NULL, &launchWrite, this);
+  _sendRequest = false;
+}
+
+std::string&		Client::getRequestToSend()
+{
+  return (_request);
+}
+
+bool			Client::haveToSendRequest() const
+{
+  return (_sendRequest);
+}
+
+void			Client::sendRequest(const std::string& request)
+{
+  _request = request;
+  _sendRequest = true;
 }
 
 Client::~Client()

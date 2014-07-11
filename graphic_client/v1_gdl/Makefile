@@ -10,6 +10,7 @@ SRC		=	main				\
 			network/Client			\
 			network/Socket			\
 			network/Mutex			\
+			graphic/HUD			\
 			objects/AObject			\
 			objects/Map			\
 			objects/Stone			\
@@ -18,7 +19,6 @@ SRC		=	main				\
 			objects/Food			\
 			objects/World			\
 			objects/Egg			\
-			objects/Case			\
 
 SRC_EXT		=	.cpp
 
