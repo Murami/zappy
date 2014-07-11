@@ -38,17 +38,17 @@ namespace	Zappy
     void	_handleMouseEvents();
 
   public :
-    gdl::Input&	getInputs();
-    void	create(int w, int h, const std::string& title);
-    bool	isRunning() const;
-    void	update();
-    void	flush();
-    void	draw(AObject*);
-    void	drawPlayerColorMap(Player*);
-    void	bindShader();
-    Camera*	getCamera();
-    void	updateObject(AObject*);
-    void	updatePlayers(std::list<Player*>&);
+    gdl::Input&		getInputs();
+    void		create(int w, int h, const std::string& title);
+    bool		isRunning() const;
+    void		update();
+    void		flush();
+    void		draw(AObject*);
+    void		drawPlayerColorMap(Player*);
+    void		bindShader();
+    Camera*		getCamera();
+    void		updateObject(AObject*);
+    void		updatePlayers(std::list<Player*>&);
 
   public :
     Window();

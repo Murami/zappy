@@ -1,6 +1,7 @@
 #ifndef		__PLAYERFACTORY_HPP__
 # define	__PLAYERFACTORY_HPP__
 
+# include	<iostream>
 # include	<glm/gtc/matrix_transform.hpp>
 
 namespace	Zappy
@@ -23,8 +24,6 @@ namespace	Zappy
 	  next[2] = 255;
 	  next[3] = 255;
 	  init = true;
-	  return (new Player(playerId, x, y, orientation, level, limitX, limitY,
-			     tName, glm::vec4(1, 1, 1, 1)));
 	}
       if (next[0] <= 0)
 	{
@@ -42,12 +41,11 @@ namespace	Zappy
 	}
       else
 	next[0] -= 5;
-
       return (new Player(playerId, x, y, orientation, level,
-			 limitX, limitY, tName, glm::vec4(next[0] / 255,
-							  next[1] / 255,
-							  next[2] / 255,
-							  next[3] / 255)));
+			 limitX, limitY, tName, glm::vec4(static_cast<float>(next[0]) / 255.0f,
+							  static_cast<float>(next[1]) / 255.0f,
+							  static_cast<float>(next[2]) / 255.0f,
+							  1.0f)));
     }
   };
 }
