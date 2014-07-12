@@ -76,13 +76,8 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
   command = list_front(this->command_queue);
   if (command == NULL)
     return (false);
-  /* if (command->expiration_time.tv_sec < time.tv_sec || */
-  /*     (command->expiration_time.tv_sec == time.tv_sec && */
-  /*      command->expiration_time.tv_usec < time.tv_usec)) */
-  printf("comparaison time\n");
   if (timeval_comp(command->expiration_time, time) < 0)
     {
-      printf("true\n");
       list_pop_front(this->command_queue);
       player_command_execute(command, gameplay);
       player_command_delete(command);
@@ -94,9 +89,6 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
 
 bool			player_is_dead(t_player* this, struct timeval time)
 {
-  /* if (this->death_time.tv_sec < time.tv_sec || */
-  /*     (this->death_time.tv_sec == time.tv_sec && */
-  /*      this->death_time.tv_usec < time.tv_usec)) */
   if (timeval_comp(this->death_time, time) < 0)
     return (true);
   return (false);

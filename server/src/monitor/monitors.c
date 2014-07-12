@@ -74,11 +74,10 @@ void		monitor_send_player_position(t_gameplay *this, int id, t_client* client)
   client_send_msg(client, buffer);
 }
 
-void		monitor_send_player(t_gameplay *this, t_player *player, t_client* client)
+void		monitor_send_player(t_player *player, t_client* client)
 {
   char			buffer[4096];
 
-  (void)this;
   sprintf(buffer, "pnw %d %d %d %d %d %s\n",
 	  player->id,
 	  player->x,
@@ -100,7 +99,7 @@ void		monitor_send_players(t_gameplay *this, t_client *client)
   while (it != list_end(this->players))
     {
       player = it->data;
-      monitor_send_player(this, player, client);
+      monitor_send_player(player, client);
       it = list_iterator_next(it);
     }
 }

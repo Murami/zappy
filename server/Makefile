@@ -31,7 +31,8 @@ SRC		=	main				\
 			gameplay/gameplay_broadcast	\
 			gameplay/gameplay_voir		\
 			gameplay/gameplay_incantation	\
-			gameplay/gameplay_client	\
+			gameplay/gameplay_add_player	\
+			gameplay/gameplay_add_monitor	\
 			gameplay/gameplay_food		\
 			gameplay/gameplay_linemate	\
 			gameplay/gameplay_deraumere	\
