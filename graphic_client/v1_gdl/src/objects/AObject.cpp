@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:32 2014 Manu
-// Last update Tue Jul  8 02:28:27 2014 Manu
+// Last update Sat Jul 12 20:49:35 2014 Manu
 //
 
 #include	"objects/Map.hh"
@@ -67,6 +67,19 @@ namespace	Zappy
   }
 
   glm::mat4	AObject::getTransformation()
+  {
+    glm::mat4	matrix(1);
+
+    matrix = glm::scale(matrix, glm::vec3(1, -1, 1));
+    matrix = glm::translate(matrix, this->_position);
+    matrix = glm::rotate(matrix, this->_rotation.x, glm::vec3(1, 0, 0));
+    matrix = glm::rotate(matrix, this->_rotation.y, glm::vec3(0, 1, 0));
+    matrix = glm::rotate(matrix, this->_rotation.z, glm::vec3(0, 0, 1));
+    matrix = glm::scale(matrix, this->_scale);
+    return (matrix);
+  }
+
+  glm::mat4	AObject::getReverseTransformation()
   {
     glm::mat4	matrix(1);
 

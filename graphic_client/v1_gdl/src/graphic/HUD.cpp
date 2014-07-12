@@ -37,6 +37,15 @@ namespace	Zappy
     _active = true;
     _client = &client;
     _window = &window;
+    char buff[4096];
+    std::memset(buff, 0, 4096);
+    std::stringstream ss;
+    ss << _currentPlayer->getId();
+    std::string request(std::string("pin ") + ss.str() + '\n');
+    _client->sendRequest(request);
+    std::memset(&buff[0], 0, 4096);
+    request = std::string(std::string("plv ") + ss.str() + '\n');
+    _client->sendRequest(request);
   }
 
   void		HUD::_printLife()
@@ -112,7 +121,7 @@ namespace	Zappy
       {
 	static int	cpt = 0;
 
-	if (cpt == 250)
+	if (cpt == 25)
 	  {
 	    char buff[4096];
 	    std::memset(buff, 0, 4096);

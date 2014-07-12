@@ -22,7 +22,10 @@ namespace	Zappy
     virtual void	draw(gdl::AShader&, const gdl::Clock&);
 
   public :
-    Egg(int, int);
+    int		getId() const;
+
+  public :
+    Egg(int id, int x, int y);
     ~Egg();
   };
 }

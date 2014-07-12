@@ -209,19 +209,79 @@ namespace	Zappy
     //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
   }
 
-  void		Parser::playerStartCast(const std::string&)
+  void		Parser::playerStartCast(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    // pic X Y L #n #n...\n
+    std::stringstream ss;
+    std::stringstream sstmp;
+    std::string tmp;
+    ss << args;
+    int x = 0, y = 0, level = 0, id = 0, i = 0;
+    std::list<int> list;
+    while (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	if (i == 0)
+	  sstmp >> x;
+	else if (i == 1)
+	  sstmp >> y;
+	else if (i == 2)
+	  sstmp >> level;
+	else if (i == 3)
+	  sstmp >> id;
+	else
+	  {
+	    int j;
+	    sstmp >> j;
+	    list.push_back(j);
+	  }
+	sstmp.clear();
+	i++;
+      }
+    _callback->playerStartCast(id, x, y, level, list);
   }
 
-  void		Parser::castEnd(const std::string&)
+  void		Parser::castEnd(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int x = 0, y = 0, r = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> x;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> y;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> r;
+	sstmp.clear();
+      }
+    _callback->castEnd(x, y, r);
   }
 
   void		Parser::playerLaysEgg(const std::string&)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    // pfk #n\n
+
+    std::stringstream ss;
+    std::stringstream sstmp;
+    std::string tmp;
+    int id = 0;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	_callback->playerLaysEgg(id);
+      }
   }
 
   void		Parser::playerDropsResource(const std::string&)

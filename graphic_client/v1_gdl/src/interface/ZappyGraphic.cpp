@@ -32,8 +32,6 @@ namespace	Zappy
     AnimationPool::getInstance()->loadModels();
     _hud = new HUD();
     updateClient();
-    // _world = new World();
-    // _world->initialize();
     while (_window.isRunning())
       {
 	_window.bindShader();
@@ -57,9 +55,9 @@ namespace	Zappy
 	// _drawOnlyOneStone();
 	// _drawOnlyOneFood();
 
-	// for (std::list<Egg*>::iterator it = _eggs.begin();
-	//      it != _eggs.end(); it++)
-	//   _window.draw(*it);
+	for (std::list<Egg*>::iterator it = _eggs.begin();
+	     it != _eggs.end(); it++)
+	  _window.draw(*it);
 
 	_window.drawMap(_map);
 	_hud->draw();
@@ -160,7 +158,7 @@ namespace	Zappy
     _world = new World();
     _world->initialize();
     _world->setMapSize(_map->getWidth(), _map->getHeight());
-    _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
+    _window.getCamera()->setPosition(glm::vec2(width / 2, -height / 2));
     for (int i = 0; i < (width + height); i++)
       _window.getCamera()->zoomLess();
   }
@@ -269,16 +267,42 @@ namespace	Zappy
   {
   }
 
-  void		ZappyGraphic::playerStartCast(int, int, int, int, std::list<int>)
+  void		ZappyGraphic::playerStartCast(int firstId, int x, int y,
+					      int, std::list<int> ids)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == firstId)
+	  (*it)->startCast();
+	else if ((*it)->getX() == x && (*it)->getY() == y)
+	  (*it)->startCast();
+      }
   }
 
-  void		ZappyGraphic::castEnd(int, int, int)
+  void		ZappyGraphic::castEnd(int x, int y, int)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getX() == x && (*it)->getY() == y)
+	  (*it)->stopCast();
+      }
   }
 
-  void		ZappyGraphic::playerLaysEgg(int)
+  void		ZappyGraphic::playerLaysEgg(int id)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == id)
+	  {
+	    Egg* egg = new Egg(id, (*it)->getX(), (*it)->getY());
+	    egg->initialize();
+	    _eggs.push_back(egg);
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::playerDropsResource(int, int)
