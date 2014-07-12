@@ -48,6 +48,7 @@ void			client_player_run_input(t_client_player* this,
 
   while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
     {
+      printf("buffer [%s]\n", buffer);
       if ((command = get_command(server, this, buffer, size)))
 	server_add_player_command(server, command);
       else

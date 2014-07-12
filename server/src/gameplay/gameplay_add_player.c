@@ -51,7 +51,6 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
       player->client = client;
       ((t_client_player*)client)->player = player;
       gameplay_update_player_position(this, player, this->players);
-      bind
     }
   else
     {
