@@ -180,6 +180,7 @@ hystame"]
     def tryToEvolve (self):
         if self.data.getNbrOfMyLevel() >=\
            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+            print(self.playerReadyOnMyCase)
             if self.playerReadyOnMyCase >=\
                self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
                 self.evolve()
@@ -233,7 +234,7 @@ hystame"]
         if self.isCome == True:
             return
         if self.data.level.getActualLevel() == int(exp.group(1)):
-            if (self.needToStay is False):
+            if self.needToStay is False:
                 self.transformNbrInDirection(message.getDirection())
                 print("je bouge <-------------------------------")
             self.possibleLeader = False
@@ -273,7 +274,6 @@ hystame"]
         self.sendRequests()
 
     def getDecision (self):
-        print(self.data.level.getActualLevel())
         self.possibleLeader = True
         self.manageTaskList()
         if self.data.inventory.getFood() <= 3:
@@ -282,7 +282,7 @@ hystame"]
             while self.data.inventory.getFood() < 10:
                 self.seekFood()
                 self.getInventory()
-        elif len(self.getNeededStones()) > 0:
+        elif self.possibleLeader is True and len(self.getNeededStones()) > 0:
             self.playerReadyOnMyCase = 0
             self.needToStay = False
             self.seekStone()
@@ -293,7 +293,6 @@ hystame"]
         while self.data.alive.isAlive() is True:
             self.getInventory()
             self.getDecision()
-            print("\033[34m" + str(self.data.inventory.getFood()) + "\033[0m")
         print("\033[32mOh no, you're dead !!!\033[0m")
 
 
