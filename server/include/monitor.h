@@ -4,12 +4,15 @@
 # include	"gameplay.h"
 # include	"client.h"
 
+struct s_player;
+
 void		monitor_initialize(t_gameplay *this, t_client *client);
 void		monitor_send_size(t_gameplay *this, t_client *client);
 void		monitor_send_delay(t_gameplay *this, t_client *client);
 void		monitor_send_teams(t_gameplay *this, t_client *client);
-void		monitor_send_case(t_gameplay *this, t_client *client, t_case *c);
+void		monitor_send_case(t_client *client, t_case *c);
 void		monitor_send_map(t_gameplay *this, t_client *client);
+void		monitor_send_player(struct s_player *player, t_client *client);
 void		monitor_send_players(t_gameplay *this, t_client *client);
 void		monitor_send_eggs(t_gameplay *this, t_client *client);
 

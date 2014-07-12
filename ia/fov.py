@@ -5,7 +5,9 @@ class Fov:
     def __init__ (self):
         self.cases = []
         self.use = False
-
+        self.nbrOfComma = 0
+        self.maxPerLevel = [0, 2, 6, 12, 20, 30, 42, 56, 72]
+        
     # savoir si les donnees de voir on deja ete exploitee
     def getUsed (self):
         return self.use
@@ -74,19 +76,24 @@ class Fov:
 
 
     def getPath (self, caseIndex, actualLevel):
-        maxPerLevel = [0, 2, 6, 12, 20, 30, 42, 56, 72]
-        while caseIndex < maxPerLevel[actualLevel] - actualLevel:
+        while caseIndex < self.maxPerLevel[actualLevel] - actualLevel:
             actualLevel -= 1
         res = queue.Queue()
         for i in range(0, actualLevel):
             res.put("avance")
-        if caseIndex < maxPerLevel[actualLevel]:
+        if caseIndex < self.maxPerLevel[actualLevel]:
             res.put("gauche")
-        elif caseIndex > maxPerLevel[actualLevel]:
+        elif caseIndex > self.maxPerLevel[actualLevel]:
             res.put("droite")
-        for i in range(0, abs(maxPerLevel[actualLevel] - caseIndex)):
+        for i in range(0, abs(self.maxPerLevel[actualLevel] - caseIndex)):
             res.put("avance")
         return res
+
+    def getLevelWithRange (self):
+        for i in range(9):
+            if self.maxPerLevel[i] + i == self.nbrOfComma:
+                return i
+        return 0
 
 distance = list()
 distance.append([0])

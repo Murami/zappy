@@ -17,7 +17,6 @@ bool			server_process_clients_input(t_server* this,
   if (!socketstream_flush_input(client->socketstream))
     {
       client_remove(client, this);
-      /* client_delete(client); */
       return (false);
     }
   client_run_input(client, this);
@@ -34,7 +33,6 @@ bool			server_process_clients_output(t_server* this,
     if (!socketstream_flush_output(client->socketstream))
       {
 	client_remove(client, this);
-	/* client_delete(client); */
 	return (false);
       }
   FD_CLR(client->socketstream->socket, fd_set_out);

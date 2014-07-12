@@ -105,9 +105,9 @@ bool			check_players(t_gameplay* this, t_player_command* command, int nb)
 
 bool			check_incant(t_gameplay* this, t_player_command* command)
 {
-  int	x;
-  int	y;
-  int	level;
+  int			x;
+  int			y;
+  int			level;
 
   x = command->player->x;
   y = command->player->y;
@@ -123,6 +123,8 @@ bool			check_incant(t_gameplay* this, t_player_command* command)
   return (false);
 }
 
+
+
 void			gameplay_command_incantation(t_gameplay* this,
 						     t_player_command* command)
 {
@@ -133,6 +135,7 @@ void			gameplay_command_incantation(t_gameplay* this,
   sprintf(buffer, "niveau actuel : %d\n", command->player->level + 1);
   if (check_incant(this, command))
     {
+      gameplay_send_res_incant(this, command, true);
       it = list_begin(this->players);
       while (it != list_end(this->players))
 	{
@@ -140,9 +143,12 @@ void			gameplay_command_incantation(t_gameplay* this,
 	  if (player->x == command->player->x && player->y == command->player->y)
 	    {
 	      player->level++;
+	      gameplay_send_lvl_all(this, player);
 	      client_send_msg(player->client, buffer);
 	    }
 	  it = list_iterator_next(it);
 	}
     }
+  else
+    gameplay_send_res_incant(this, command, false);
 }

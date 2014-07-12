@@ -70,7 +70,7 @@ void			reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out)
       client = it->data;
       if (SOCKETSTREAM_BUFFER_SIZE - client->socketstream->size_input > 0)
 	FD_SET(client->socketstream->socket, fd_set_in);
-      if (client->socketstream->size_output != 0)
+      if (client->socketstream->size_output != 0 || !list_empty(client->requests_output))
 	FD_SET(client->socketstream->socket, fd_set_out);
       it = list_iterator_next(it);
     }

@@ -29,7 +29,7 @@ static t_player_command*	get_command(t_server* server,
     i++;
   if (g_player_commands[i].request)
     {
-      if (strncmp(g_player_commands[i].request, "broadcast", size))
+      if (strncmp(g_player_commands[i].request, "broadcast", size) == 0)
 	return (player_command_new(client, server->gameplay,
 				   buffer_original + strlen("broadcast") + 1, i));
       if ((g_player_commands[i].has_data == 1 && data != NULL) ||

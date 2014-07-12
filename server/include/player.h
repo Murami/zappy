@@ -1,6 +1,7 @@
 #ifndef		_PLAYER_H_
 # define	_PLAYER_H_
 
+# include	<stdbool.h>
 # include	<sys/time.h>
 # include	"case.h"
 # include	"list.h"
@@ -32,6 +33,7 @@ typedef struct		s_player
   /* t_list*		eggs; */
   t_list_iterator	it;
   struct timeval	death_time;
+  bool			ghost;
 }			t_player;
 
 void			player_initialize(t_player *this, struct s_gameplay *gameplay,

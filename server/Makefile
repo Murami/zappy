@@ -15,7 +15,13 @@ SRC		=	main				\
 			client/client_graphic		\
 			player/player			\
 			player/player_command		\
-			monitor/monitors		\
+			monitor/monitor_init		\
+			monitor/monitor_size		\
+			monitor/monitor_delay		\
+			monitor/monitor_teams		\
+			monitor/monitor_players		\
+			monitor/monitor_eggs		\
+			monitor/monitor_map		\
 			monitor/monitor_command		\
 			misc/parser			\
 			misc/socketstream		\
@@ -24,9 +30,18 @@ SRC		=	main				\
 			misc/list			\
 			misc/time_val			\
 			gameplay/gameplay		\
-			gameplay/gameplay_avance	\
+			gameplay/gameplay_send_take	\
+			gameplay/gameplay_send_drop	\
+			gameplay/gameplay_send_inventory\
+			gameplay/gameplay_send_res	\
+			gameplay/gameplay_send_case	\
+			gameplay/gameplay_send_lvl	\
 			gameplay/gameplay_init		\
 			gameplay/gameplay_move		\
+			gameplay/gameplay_expulse	\
+			gameplay/gameplay_avance	\
+			gameplay/gameplay_droite	\
+			gameplay/gameplay_gauche	\
 			gameplay/gameplay_fork		\
 			gameplay/gameplay_add_command	\
 			gameplay/gameplay_broadcast	\
@@ -42,7 +57,6 @@ SRC		=	main				\
 			gameplay/gameplay_phiras	\
 			gameplay/gameplay_thystame	\
 			gameplay/gameplay_monitor	\
-			gameplay/gameplay_player	\
 			gameplay/gameplay_object	\
 			gameplay/map			\
 			gameplay/case			\

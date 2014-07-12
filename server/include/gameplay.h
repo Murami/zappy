@@ -13,17 +13,20 @@ struct s_monitor;
 struct s_player;
 struct s_server;
 struct s_team;
+struct s_case;
 
 typedef struct		s_gameplay
 {
   t_list*		teams;
   t_list*		players;
+  t_list*		ghosts;
   t_list*		monitors;
   t_list*		eggs;
   t_map			map;
   int			delay;
   struct timeval	time;
   struct s_server*	server;
+  int			last_id;
 }			t_gameplay;
 
 typedef struct		s_object_binding
@@ -41,10 +44,27 @@ void			gameplay_remove_player(t_gameplay* this, struct s_client* client);
 void			gameplay_add_player(t_gameplay* this, struct s_client* client, struct s_team *team);
 void			gameplay_remove_monitor(t_gameplay* this, struct s_client* client);
 void			gameplay_add_monitor(t_gameplay* this, struct s_client* client);
+int			gameplay_get_new_id(t_gameplay* this);
+struct timeval		gameplay_update_players(t_gameplay* this, struct timeval currenttime,
+						t_list* list,
+						t_list_iterator (*kill_player)(t_gameplay*, struct s_player*));
 
 void			gameplay_add_player_command(t_gameplay* this, struct s_player_command* command);
 void			gameplay_add_monitor_command(t_gameplay* this, struct s_monitor_command* command);
 
+void			gameplay_send_drop(struct s_client *monitor, struct s_player_command *command, int id);
+void			gameplay_send_take(struct s_client *monitor, struct s_player_command *command, int id);
+void			gameplay_send_inventory(struct s_client *monitor, struct s_player_command *command);
+void			gameplay_send_pos(t_gameplay *this, struct s_player *player);
+void			gameplay_send_res(struct s_client *client, bool b);
+void			gameplay_send_case(struct s_client *monitor, struct s_case *c);
+void			gameplay_send_case_all(t_gameplay *gameplay, struct s_player *player);
+void			gameplay_send_lvl_all(t_gameplay *gameplay, struct s_player *player);
+void			gameplay_send_res_incant(t_gameplay *this, struct s_player_command *command, bool b);
+
+void			bind_command_object(t_gameplay *this, struct s_player_command *command, t_case *c, int id);
+
+void			gameplay_command_move(t_gameplay *this, struct s_player *player);
 void			gameplay_command_avance(t_gameplay* this, struct s_player_command* command);
 void			gameplay_command_droite(t_gameplay* this, struct s_player_command* command);
 void			gameplay_command_gauche(t_gameplay* this, struct s_player_command* command);
@@ -83,8 +103,9 @@ void			gameplay_command_plv(t_gameplay* this, struct s_monitor_command* command)
 void			gameplay_command_pin(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sgt(t_gameplay* this, struct s_monitor_command* command);
 void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command);
-void			gameplay_update_player_position(t_gameplay* this, struct s_player* player);
+void			gameplay_update_player_position(t_gameplay* this, struct s_player* player, t_list* list);
 t_list_iterator		gameplay_kill_player(t_gameplay* this, struct s_player* player);
+t_list_iterator		gameplay_kill_ghost(t_gameplay* this, struct s_player* player);
 
 bool			check_incant(t_gameplay* this, struct s_player_command* command);
 

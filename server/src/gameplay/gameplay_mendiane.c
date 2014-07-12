@@ -5,41 +5,40 @@
 #include "player.h"
 #include "client.h"
 
-void		gameplay_take_mendiane(t_gameplay *this, t_player_command *command)
+void			gameplay_take_mendiane(t_gameplay *this, t_player_command *command)
 {
-  char			buffer[4096];
+  int			x;
+  int			y;
 
-  if (this->map.map[command->player->x + command->player->y *
-		    this->map.width].mendiane != 0)
+  x = command->player->x;
+  y = command->player->y;
+  if (this->map.map[x + command->player->y * this->map.width].mendiane != 0)
     {
-      this->map.map[command->player->x + command->player->y *
-		    this->map.width].mendiane--;
+      this->map.map[x + y * this->map.width].mendiane--;
       command->player->inventory.mendiane++;
-      sprintf(buffer, "ok");
-      client_send_msg(command->player->client, buffer);
+      bind_command_object(this, command,
+			  &this->map.map[x + this->map.width * y], 4);
+      gameplay_send_res(command->player->client, true);
     }
   else
-    {
-      sprintf(buffer, "ko");
-      client_send_msg(command->player->client, buffer);
-    }
+    gameplay_send_res(command->player->client, false);
 }
 
-void		gameplay_drop_mendiane(t_gameplay *this, t_player_command *command)
+void			gameplay_drop_mendiane(t_gameplay *this, t_player_command *command)
 {
-  char			buffer[4096];
+  int			x;
+  int			y;
 
+  x = command->player->x;
+  y = command->player->y;
   if (command->player->inventory.mendiane > 0)
     {
-      this->map.map[command->player->x + command->player-> y *
-		    this->map.width].mendiane ++;
+      this->map.map[x + command->player-> y * this->map.width].mendiane ++;
       command->player->inventory.mendiane--;
-      sprintf(buffer, "ok");
-      client_send_msg(command->player->client, buffer);
+      bind_command_object(this, command,
+			  &this->map.map[x + this->map.width * y], 4);
+      gameplay_send_res(command->player->client, true);
     }
   else
-    {
-      sprintf(buffer, "ko");
-      client_send_msg(command->player->client, buffer);
-    }
+    gameplay_send_res(command->player->client, false);
 }

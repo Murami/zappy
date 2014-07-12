@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include "gameplay.h"
 #include "player_command.h"
@@ -23,7 +24,6 @@ void			send_incantation_start(t_gameplay* this, t_player_command* command)
 void			gameplay_add_player_command(t_gameplay* this,
 						    t_player_command* command)
 {
-  printf("ADD COMMAND\n");
   if ((strcmp(g_player_commands[command->id_command].request, "incantation") == 0 &&
        check_incant(this, command)) ||
       strcmp(g_player_commands[command->id_command].request, "incantation") != 0
@@ -33,7 +33,7 @@ void			gameplay_add_player_command(t_gameplay* this,
 	send_incantation_start(this, command);
       player_add_action(command->player, command);
       if (list_size(command->player->command_queue) == 1)
-	gameplay_update_player_position(this, command->player);
+	gameplay_update_player_position(this, command->player, this->players);
     }
   else
     client_send_msg(command->player->client, "ko");

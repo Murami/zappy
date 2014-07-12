@@ -38,3 +38,53 @@ ANTO ->
      - egg hatch
      - tester gestion egg
      - verifer bindings ia<->graphic
+---------------------------------------------------------------------------
+
+CALLBACK
+
+msz OK
+bct OK
+mct OK
+tna OK
+ppo OK
+piv OK
+plv OK
+sst OK
+sgt OK
+
+
+---------------------------------------------------------------------------
+
+EVENT
+
+avance				       -OK-
+droite				       -OK-
+gauche				       -OK-
+
+drop					OK	pop à faire
+take					OK	pop à faire
+Connexion d'un nouveau joueur		OK	+ pop de vie
+
+Un joueur expulse      			OK	à tester
+Un joueur broadcast			OK	à tester
+
+Premier joueur lance incant		--	pic X Y #n #n....
+Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
+mort de faim				--	pdi #n
+fin du jeu				--	seg N
+msg server				--	smg M
+cmd inconnue				--	suc
+mauvais param				--	sbp
+mort					--	...
+ko + délais connexion			--	...
+
+id oeuf + mort de l'oeuf à gerer --> antho
+
+ponte oeuf				--	pfk #n
+oeuf a été pondu 			--	enw #e #n X Y + init monitor
+oeuf eclot				--	eht #e
+joueur co sur egg			--	ebo #e
+oeuf meurt de faim			--	edi #e
+
+
+---------------------------------------------------------------------------

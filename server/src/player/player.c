@@ -20,13 +20,12 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->death_time.tv_usec = (1200 * 1000000) / gameplay->delay;
   this->death_time.tv_sec = 0;
   this->death_time = timeval_add(gameplay->time, this->death_time);
-  this->id = client->socketstream->socket;
+  this->id = gameplay_get_new_id(gameplay);
   this->direction = rand() % 4 + 1;
   this->x = rand() % gameplay->map.width;
   this->y = rand() % gameplay->map.height;
   this->level = 1;
   this->team = team;
-  /* this->eggs = list_new(); */
   this->command_queue = list_new();
   this->client = client;
   team->nb_slots--;

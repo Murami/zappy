@@ -17,6 +17,9 @@ namespace	Zappy
     virtual void	draw(gdl::AShader&, const gdl::Clock&);
 
   public :
+    void		setMapSize(int, int);
+
+  public :
     World();
     ~World();
   };
