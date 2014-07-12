@@ -42,12 +42,14 @@ hystame"]
             7: {"player": 5, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
         }
         self.taskList = list()
-        self.regName= ["come", "getlvl", "mylvl", "here"]
+        self.regName= ["come", "getlvl", "mylvl", "here", "way"]
         self.regex = {
             "come": structFuncPtr(re.compile("^come ([0-9]+)$"), self.__come),
             "getlvl": structFuncPtr(re.compile("^getlvl$"), self.__getlvl),
             "mylvl": structFuncPtr(re.compile("^mylvl ([0-9]+)$"), self.__mylvl),
-            "here": structFuncPtr(re.compile("ĥere"), self.__here)
+            "here": structFuncPtr(re.compile("^here$"), self.__here),
+            "way" : structFuncPtr(re.compile("^on my way$"), self.__way),
+            "wait": structFuncPtr(re.compile("^wait ([0-9]+)$"), self.__wait)
         }
         self.isGetLevel = False
         self.isCome = False
@@ -58,6 +60,8 @@ hystame"]
         self.playerReadyOnMyCase = 0
         self.possibleLeader = True
         self.needToStay = False
+        self.isFirstCome = True
+        self.iMustWait = False
         try:
             self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except:
@@ -126,6 +130,7 @@ hystame"]
                 self.addToQueue("avance")
 
     def seekFood (self):
+        print("SEEK FOOD")
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
         else:
@@ -138,6 +143,7 @@ hystame"]
         self.sendRequests()
 
     def seekStone (self):
+        print("SEEK STONE")
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
         else:
@@ -173,26 +179,36 @@ hystame"]
         print("\033[36mFORK\033[0m")
 
     def evolve (self):
+        self.isFirstCome = True
         self.dropAllStoneOnCase()
         self.putNeededStone()
         self.addToQueue("incantation")
 
     def tryToEvolve (self):
+        print("TRY EVOLVE")
         if self.data.getNbrOfMyLevel() >=\
            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+            print("EVOLVE COND 1 : il y a assez de joueur")
             print(self.playerReadyOnMyCase)
             if self.playerReadyOnMyCase >=\
                self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                print("EVOLVE COND 1'1 : c'est le evolve")
                 self.evolve()
-            else:
+            elif self.isFirstCome == True:
+                print("EVOLVE COND 1''2; cc'est le broadcast come")
+                self.isFirstCome = False
                 self.addToQueue("broadcast come " + str(self.data.level.getActualLevel()))
         else:
+            print("EVOLVE COND 2 : il y a pas assez de joueur")
             if self.staticEvolve == 0:
+                print("EVOLVE COND 2'1 :  je demande les niveaux")
                 self.addToQueue("broadcast getlvl")
                 self.data.reinitializeListLevel()
             else:
+                print("EVOLVE COND 2''2")
                 self.staticEvolve += 1
                 if self.staticEvolve >= 5:
+                    print("EVOLVE COND 221")
                     if self.data.getNbrOfLowerLevel() >=\
                        self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
                         self.fork()
@@ -202,9 +218,6 @@ hystame"]
 
     def transformNbrInDirection (self, nb):
         if nb == 0:
-            self.addToQueue("droite")
-            self.addToQueue("droite")
-            self.addToQueue("avance")
             self.addToQueue("broadcast here")
             self.needToStay = True
         elif nb == 1:
@@ -236,7 +249,7 @@ hystame"]
         if self.data.level.getActualLevel() == int(exp.group(1)):
             if self.needToStay is False:
                 self.transformNbrInDirection(message.getDirection())
-                print("je bouge <-------------------------------")
+                self.addToQueue("broadcast on my way")
             self.possibleLeader = False
             self.isCome = True
 
@@ -250,7 +263,21 @@ hystame"]
         self.data.addLevelToList(int(exp.group(1)))
 
     def __here (self, exp, message):
+        print("##############################################################")
         self.playerReadyOnMyCase += 1
+
+    def __way (self, exp, message):
+        if self.isWay == True:
+            return
+        if message.getDirection() == 0:
+            self.addToQueue("wait " + str(self.data.level.getActualLevel()))
+        self.addToQueue("broadcast come " + str(self.data.level.getActualLevel()))
+        self.isWay = True
+
+    def __wait (self, exp, message):
+        if exp.group(1) == self.data.level.getActualLevel()\
+           and message.getDirection() == 0:
+            self.iMustWait = True
 
     def manageMessage (self, message):
         for elem in self.regName:
@@ -263,6 +290,7 @@ hystame"]
             return
         self.isCome = False
         self.isGetLevel = False
+        self.isWay = False
         for elem in self.taskList:
             if elem.isMessage() is True:
                 self.manageMessage(elem.getMessage())
@@ -274,19 +302,22 @@ hystame"]
         self.sendRequests()
 
     def getDecision (self):
+        print("\nDECISION")
         self.possibleLeader = True
         self.manageTaskList()
         if self.data.inventory.getFood() <= 3:
             self.playerReadyOnMyCase = 0
             self.needToStay = False
+            self.isFirstCome = True
             while self.data.inventory.getFood() < 10:
                 self.seekFood()
                 self.getInventory()
-        elif self.possibleLeader is True and len(self.getNeededStones()) > 0:
+        elif self.iMustWait == False and self.possibleLeader is True and len(self.getNeededStones()) > 0:
             self.playerReadyOnMyCase = 0
             self.needToStay = False
+            self.isFirstCome = True
             self.seekStone()
-        elif self.possibleLeader == True:
+        elif self.iMustWait == False and self.possibleLeader == True:
             self.tryToEvolve()
 
     def run (self):

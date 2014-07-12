@@ -88,5 +88,5 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PL
       it = list_iterator_next(it);
     }
   player->it = list_insert(this->ghosts, it, player);
-  player->is_egg = true;
+  player->is_egg = false;
 }
