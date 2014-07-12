@@ -36,18 +36,16 @@ void	gameplay_remove_egg(t_gameplay* this, t_egg* egg)
     }
 }
 
-void	egg_hatch(t_gameplay* gameplay, t_egg* egg)
+void	egg_hatch(t_gameplay* this, t_egg* egg)
 {
-
-  (void) gameplay;
-  (void) egg;
   t_player*	player;
 
-  player = player_new(gameplay, NULL, egg->team);
-  player->is_egg = true;
+  player = player_new(this, NULL, egg->team);
+  player->id_egg = egg->id;
   player->it = NULL;
-  gameplay_update_player_position(gameplay, player, gameplay->ghosts);
-  gameplay_remove_egg(gameplay, egg);
+  gameplay_update_player_position(this, player, this->ghosts);
+  gameplay_send_egg_hatch(this, egg);
+  gameplay_remove_egg(this, egg);
 }
 
 struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)
