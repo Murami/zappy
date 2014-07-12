@@ -29,7 +29,7 @@ typedef struct		s_player
   int			x;
   int			y;
   t_list*		command_queue;
-  t_list*		eggs;
+  /* t_list*		eggs; */
   t_list_iterator	it;
   struct timeval	death_time;
 }			t_player;

@@ -26,7 +26,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->y = rand() % gameplay->map.height;
   this->level = 1;
   this->team = team;
-  this->eggs = list_new();
+  /* this->eggs = list_new(); */
   this->command_queue = list_new();
   this->client = client;
   team->nb_slots--;
@@ -36,12 +36,6 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   client_send_msg(client, buffer);
   sprintf(buffer, "%d %d\n", this->x, this->y);
   client_send_msg(client, buffer);
-
-
-  printf("[NEW PLAYER]\n");
-  printf("pos x [%d] --- pos y [%d]\n", this->x, this->y);
-  printf("level [%d]\n", this->level);
-  printf("team [%s] - nb slot [%d]\n", this->team->name, this->team->nb_slots);
 }
 
 t_player*	player_new(t_gameplay *gameplay, t_client *client,
@@ -83,7 +77,6 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
       player_command_delete(command);
       return (true);
     }
-  printf("false\n");
   return (false);
 }
 
@@ -109,9 +102,6 @@ bool			player_need_update(t_player* this,
   command = list_front(this->command_queue);
   if (command == NULL)
     return (player_is_dead(this, time));
-  /* if (command->expiration_time.tv_sec < time.tv_sec || */
-  /*     (command->expiration_time.tv_sec == time.tv_sec && */
-  /*      command->expiration_time.tv_usec < time.tv_usec)) */
   if (timeval_comp(command->expiration_time, time) < 0)
     return (true);
   return (player_is_dead(this, time));
@@ -125,7 +115,7 @@ void			player_release(t_player* this)
       list_pop_back(this->command_queue);
     }
   list_delete(this->command_queue);
-  list_delete(this->eggs);
+  /* list_delete(this->eggs); */
 }
 
 void			player_delete(t_player* player)
