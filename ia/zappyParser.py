@@ -70,6 +70,7 @@ class ZappyParser:
     def __parseFov (self, toParse):
         res = responseServer.ResponseServerFov()
         tmp = toParse.split(",")
+        res.fov.nbrOfComma = toParse.count(",")
         i = 0
         for elem in tmp:
             res.fov.cases.append({})
