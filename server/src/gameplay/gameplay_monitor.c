@@ -30,8 +30,7 @@ void			gameplay_command_tna(t_gameplay* this, t_monitor_command* command)
 
 void			gameplay_command_ppo(t_gameplay* this, t_monitor_command* command)
 {
-  (void) this;
-  (void) command;
+  monitor_send_player_position(this, command->data[0], &command->client->parent_client);
 }
 
 void			gameplay_command_plv(t_gameplay* this, t_monitor_command* command)

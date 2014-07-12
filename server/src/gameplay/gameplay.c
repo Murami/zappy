@@ -47,8 +47,6 @@ struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
   return (timeval_sub(waiting_time, currenttime));
 }
 
-
-
 void			gameplay_update_player_position(t_gameplay* this, t_player* player)
 {
   t_list_iterator	it;

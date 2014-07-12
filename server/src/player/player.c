@@ -56,8 +56,15 @@ t_player*	player_new(t_gameplay *gameplay, t_client *client,
   return (player);
 }
 
-struct timeval	player_get_next_action_time(t_player* this)
+struct timeval		player_get_next_action_time(t_player* this)
 {
+  t_player_command*	command;
+
+  command = list_front(this->command_queue);
+  if (!command)
+    return (this->death_time);
+  if (timeval_comp(command->expiration_time, this->death_time) < 0)
+    return (command->expiration_time);
   return (this->death_time);
 }
 
@@ -72,13 +79,16 @@ bool			player_make_action(t_player* this, t_gameplay* gameplay,
   /* if (command->expiration_time.tv_sec < time.tv_sec || */
   /*     (command->expiration_time.tv_sec == time.tv_sec && */
   /*      command->expiration_time.tv_usec < time.tv_usec)) */
+  printf("comparaison time\n");
   if (timeval_comp(command->expiration_time, time) < 0)
     {
+      printf("true\n");
       list_pop_front(this->command_queue);
       player_command_execute(command, gameplay);
       player_command_delete(command);
       return (true);
     }
+  printf("false\n");
   return (false);
 }
 
@@ -110,7 +120,7 @@ bool			player_need_update(t_player* this,
   /* if (command->expiration_time.tv_sec < time.tv_sec || */
   /*     (command->expiration_time.tv_sec == time.tv_sec && */
   /*      command->expiration_time.tv_usec < time.tv_usec)) */
-  if (timeval_comp(this->death_time, time) < 0)
+  if (timeval_comp(command->expiration_time, time) < 0)
     return (true);
   return (player_is_dead(this, time));
 }
