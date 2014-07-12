@@ -108,6 +108,7 @@ t_list_iterator		gameplay_kill_player(t_gameplay* this, struct s_player* player)
 t_list_iterator		gameplay_kill_ghost(t_gameplay* this, struct s_player* player);
 
 bool			check_incant(t_gameplay* this, struct s_player_command* command);
+int			count_taken_slot(t_gameplay* this, struct s_team* team);
 
 t_gameplay*		gameplay_new(t_config config, struct s_server* server);
 void			gameplay_delete(t_gameplay *this);

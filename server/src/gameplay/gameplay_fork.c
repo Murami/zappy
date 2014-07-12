@@ -27,12 +27,39 @@ void			gameplay_command_fork(t_gameplay* this,
   gameplay_send_egg_lay(this, command->player);
 }
 
+int			count_taken_slot(t_gameplay* this, t_team* team)
+{
+  t_list_iterator	it;
+  t_player*		player;
+  int			i;
+
+  i = 0;
+  it = list_begin(this->players);
+  while (it != list_end(this->players))
+    {
+      player = it->data;
+      if (!player->is_egg && player->team == team)
+	i++;
+      it = list_iterator_next(it);
+    }
+  it = list_begin(this->ghosts);
+  while (it != list_end(this->ghosts))
+    {
+      player = it->data;
+      if (!player->is_egg && player->team == team)
+	i++;
+      it = list_iterator_next(it);
+    }
+  return (i);
+}
+
 void			gameplay_command_connect_nbr(t_gameplay* this,
 						     t_player_command* command)
 {
   char			buffer[4096];
 
-  (void) this;
-  sprintf(buffer, "%d", command->player->team->nb_slots + list_size(this->ghosts));
+  sprintf(buffer, "%d", list_size(this->ghosts)
+	  + command->player->team->nb_slots
+	  - count_taken_slot(this, command->player->team));
   client_send_msg(command->player->client, buffer);
 }
