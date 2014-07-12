@@ -6,10 +6,9 @@ Zappy::AnimationPool*	Zappy::AnimationPool::_instance = NULL;
 
 int		main(int argc, char **argv)
 {
-
-  Client			client(argc, argv);
   try
     {
+      Client			client(argc, argv);
       Zappy::ZappyGraphic	zappy(client);
       zappy.run();
     }

@@ -44,11 +44,13 @@ namespace	Zappy
     void		update();
     void		flush();
     void		draw(AObject*);
+    void		drawMap(AObject*);
     void		drawPlayerColorMap(Player*);
     void		bindShader();
     Camera*		getCamera();
     void		updateObject(AObject*);
     void		updatePlayers(std::list<Player*>&);
+    void		setCameraPosition(int, int);
 
   public :
     Window();
