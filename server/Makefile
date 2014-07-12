@@ -24,6 +24,7 @@ SRC		=	main				\
 			misc/list			\
 			misc/time_val			\
 			gameplay/gameplay		\
+			gameplay/gameplay_avance	\
 			gameplay/gameplay_init		\
 			gameplay/gameplay_move		\
 			gameplay/gameplay_fork		\
