@@ -21,8 +21,8 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client)
 {
   t_player*		player;
 
-  (void) this;
   player = ((t_client_player*)client)->player;
+  list_erase(this->players, player->it);
   client_delete(client);
   free(player);
 }

@@ -49,7 +49,10 @@ void			*launchListen(void *attr)
       ss << buff;
       std::vector<std::string> cmds;
       while (std::getline(ss, tmp))
-	cmds.push_back(tmp);
+	{
+	  std::cout << "BUFFER [" << tmp << "]" << std::endl;
+	  cmds.push_back(tmp);
+	}
       ss.clear();
       if (cmds.size() > nbLines)
 	cmds.pop_back();
