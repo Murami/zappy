@@ -15,12 +15,14 @@ void		gameplay_take_linemate(t_gameplay *this, t_player_command *command)
       this->map.map[command->player->x + command->player->y *
 		    this->map.width].linemate--;
       command->player->inventory.linemate++;
-      sprintf(buffer, "ok");
+      bind_command_take(this,
+			&this->map.map[command->player->x + this->map.width * command->player->y]);
+      sprintf(buffer, "ok\n");
       client_send_msg(command->player->client, buffer);
     }
   else
     {
-      sprintf(buffer, "ko");
+      sprintf(buffer, "ko\n");
       client_send_msg(command->player->client, buffer);
     }
 }
@@ -34,12 +36,14 @@ void		gameplay_drop_linemate(t_gameplay *this, t_player_command *command)
       this->map.map[command->player->x + command->player-> y *
 		    this->map.width].linemate ++;
       command->player->inventory.linemate--;
-      sprintf(buffer, "ok");
+      bind_command_take(this,
+			&this->map.map[command->player->x + this->map.width * command->player->y]);
+      sprintf(buffer, "ok\n");
       client_send_msg(command->player->client, buffer);
     }
   else
     {
-      sprintf(buffer, "ko");
+      sprintf(buffer, "ko\n");
       client_send_msg(command->player->client, buffer);
     }
 }

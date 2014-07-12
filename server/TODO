@@ -1,38 +1,44 @@
-IMPORTANT check retour des init suite au malloc
+---------------------------------------------------------------------------
 
-pop nourriture
-pop pierre
-incantation
+CALLBACK
 
-GRAPHIC:
- - gestion des events ia
- - send players
- - send eggs
- - ppo
- - plv
- - pin
- - SUR LE SET DU DELAI SST GESTION UPDATE
+msz OK
+bct OK
+mct OK
+tna OK
+ppo OK
+piv OK
+plv OK
+sst OK
+sgt OK
 
-TRUC A FAIRE :
-     - Le retour des mallocs
-     - Les UnitTest
 
-NORME:
-       - Les typedef	-> t_
-       - Les enums	-> e_
-       - Les structures -> s_
-       - Les globales	-> g_
+---------------------------------------------------------------------------
 
- * 4 paramétres MAX
- * 25 lignes par fonction
- * 80 caractéres
- * 5 fonctions par fichier
- * Indentation header
-A VERIFIER !!!!!
+EVENT
 
-ANTO ->
-     - VERIFIACTION DES FREE !!!
-     - OnDelayChange : update all request and death_time !!!!
-     - Les ouefs a prendre en compte dans la gestion du temps
-     - condtions bourines pour la gestion de l'incant
-     - egg hatch
+Connexion d'un nouveau joueur		OK	+ pop de vie
+Un joueur expulse      			OK
+un joueur broadcast			OK
+Premier joueur lance incant		--	pic X Y #n #n....
+Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
+drop					--	pdr #n i + pop
+take					--	pgt #n i + pop
+mort de faim				--	pdi #n
+fin du jeu				--	seg N
+msg server				--	smg M
+cmd inconnue				--	suc
+mauvais param				--	sbp
+mort					--	...
+ko + délais connexion			--	...
+
+id oeuf + mort de l'oeuf à gerer --> antho
+
+ponte oeuf				--	pfk #n
+oeuf a été pondu 			--	enw #e #n X Y + init monitor
+oeuf eclot				--	eht #e
+joueur co sur egg			--	ebo #e
+oeuf meurt de faim			--	edi #e
+
+
+---------------------------------------------------------------------------

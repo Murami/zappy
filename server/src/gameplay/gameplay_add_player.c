@@ -1,8 +1,9 @@
+#include <stdio.h>
 #include <stdlib.h>
 #include "gameplay.h"
 #include "team.h"
 #include "player.h"
-#include "monitors.h"
+#include "monitor.h"
 #include "client.h"
 #include "client_player.h"
 #include "client_graphic.h"
@@ -28,8 +29,8 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 
   player = player_new(this, client, team);
   list_push_back(this->players, player);
-  monitor_send_player(this, player);
   player->it = this->players->root->prev;
+  bind_add_player(this, player);
 }
 
 void			gameplay_remove_player(t_gameplay* this, t_client* client)

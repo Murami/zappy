@@ -5,7 +5,7 @@
 #include "player.h"
 #include "client.h"
 
-void		gameplay_take_thystame(t_gameplay *this, t_player_command *command)
+void			gameplay_take_thystame(t_gameplay *this, t_player_command *command)
 {
   char			buffer[4096];
 
@@ -15,17 +15,19 @@ void		gameplay_take_thystame(t_gameplay *this, t_player_command *command)
       this->map.map[command->player->x + command->player->y *
 		    this->map.width].thystame--;
       command->player->inventory.thystame++;
-      sprintf(buffer, "ok");
+      bind_command_take(this,
+			&this->map.map[command->player->x + this->map.width * command->player->y]);
+      sprintf(buffer, "ok\n");
       client_send_msg(command->player->client, buffer);
     }
   else
     {
-      sprintf(buffer, "ko");
+      sprintf(buffer, "ko\n");
       client_send_msg(command->player->client, buffer);
     }
 }
 
-void		gameplay_drop_thystame(t_gameplay *this, t_player_command *command)
+void			gameplay_drop_thystame(t_gameplay *this, t_player_command *command)
 {
   char			buffer[4096];
 
@@ -34,12 +36,14 @@ void		gameplay_drop_thystame(t_gameplay *this, t_player_command *command)
       this->map.map[command->player->x + command->player-> y *
 		    this->map.width].thystame ++;
       command->player->inventory.thystame--;
-      sprintf(buffer, "ok");
+      bind_command_take(this,
+			&this->map.map[command->player->x + this->map.width * command->player->y]);
+      sprintf(buffer, "ok\n");
       client_send_msg(command->player->client, buffer);
     }
   else
     {
-      sprintf(buffer, "ko");
+      sprintf(buffer, "ko\n");
       client_send_msg(command->player->client, buffer);
     }
 }

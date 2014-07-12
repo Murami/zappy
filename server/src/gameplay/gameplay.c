@@ -6,7 +6,7 @@
 #include "client.h"
 #include "player.h"
 #include "server.h"
-#include "monitors.h"
+#include "monitor.h"
 #include "player_command.h"
 #include "monitor_command.h"
 #include "client_player.h"
@@ -89,6 +89,10 @@ struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
 
   waiting1 = gameplay_update_players(this, currenttime);
   waiting2 = gameplay_update_eggs(this, currenttime);
+  if (waiting1.tv_sec == 0 && waiting1.tv_usec == 0)
+    return (waiting2);
+  if (waiting2.tv_sec == 0 && waiting2.tv_usec == 0)
+    return (waiting1);
   if (timeval_comp(waiting1, waiting2) > 0)
     return (waiting2);
   return (waiting1);

@@ -19,7 +19,7 @@ bool		map_initialize(t_map *this, int width, int height)
       j = 0;
       while (j != height)
 	{
-	  case_initialize(&this->map[i + j * width], i, j);
+	  case_randomize(&this->map[i + j * width], i, j);
 	  j++;
 	}
       i++;

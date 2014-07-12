@@ -17,5 +17,6 @@ typedef struct	s_case
 typedef t_case t_inventory;
 
 void		case_initialize(t_case *this, int x, int y);
+void		case_randomize(t_case *this, int x, int y);
 
 #endif	/* _CASE_H_ */

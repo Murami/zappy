@@ -29,6 +29,7 @@ t_player_command_binding	g_player_commands[] =
 void			player_command_execute(t_player_command* this,
 					       t_gameplay* gameplay)
 {
+  printf("id command player [%d]\n", this->id_command);
   g_player_commands[this->id_command].callback(gameplay, this);
 }
 

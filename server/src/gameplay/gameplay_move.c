@@ -5,23 +5,24 @@
 #include "map.h"
 #include "client.h"
 
-
-void			gameplay_command_droite(t_gameplay* this, t_player_command* command)
+void			bind_command_move(t_gameplay *this, t_player_command *command)
 {
-  (void)this;
-  command->player->direction += 1;
-  if (command->player->direction >= 5)
-    command->player->direction = 0;
-  client_send_msg(command->player->client, "ok");
-}
+  char			buffer[4096];
+  t_list_iterator	it;
+  t_client*		monitor;
 
-void			gameplay_command_gauche(t_gameplay* this, t_player_command* command)
-{
-  (void)this;
-  command->player->direction -= 1;
-  if (command->player->direction <= 0)
-    command->player->direction = 4;
-  client_send_msg(command->player->client, "ok");
+  sprintf(buffer, "ppo %d %d %d %d\n",
+	  command->player->id,
+	  command->player->x,
+	  command->player->y,
+	  command->player->direction);
+  it = list_begin(this->monitors);
+  while (it != list_end(this->monitors))
+    {
+      monitor = it->data;
+      client_send_msg(monitor, buffer);
+      it = list_iterator_next(it);
+    }
 }
 
 void			gameplay_command_move(t_gameplay* this, t_player* player)
@@ -40,25 +41,4 @@ void			gameplay_command_move(t_gameplay* this, t_player* player)
     player->x = 0;
   if (player->x < 0)
     player->x = this->map.width;
-}
-
-void			gameplay_command_expulse(t_gameplay* this, t_player_command* command)
-{
-  char			buffer[4096];
-  t_list_iterator	it;
-  t_player*		player;
-
-  it = list_begin(this->players);
-  sprintf(buffer, "deplacement: %d\n", ((command->player->direction + 2) % 4));
-  while (it != list_end(this->players))
-    {
-      player = it->data;
-      if (player->x == command->player->x && player->y == command->player->y &&
-	  player->id != command->player->id)
-	{
-	  gameplay_command_move(this, player);
-	  client_send_msg(player->client, buffer);
-	}
-      it = list_iterator_next(it);
-    }
 }
