@@ -48,11 +48,16 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
       player = list_front(this->ghosts);
       list_erase(this->ghosts, player->it);
       player->it = NULL;
+      player->client = client;
+      ((t_client_player*)client)->player = player;
       gameplay_update_player_position(this, player, this->players);
+      bind
     }
   else
-    player = gameplay_add_new_player(this, client, team);
-  bind_add_player(this, player);
+    {
+      player = gameplay_add_new_player(this, client, team);
+      bind_add_player(this, player);
+    }
 }
 
 void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PLAYER GHOST */
@@ -68,7 +73,7 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PL
   list_erase(this->players, player->it);
   it = list_begin(this->ghosts);
   time_tomove = player_get_next_action_time(player);
-  while (it != list_end(this->players))
+  while (it != list_end(this->ghosts))
     {
       time_current = player_get_next_action_time(it->data);
       if (timeval_comp(time_current, time_tomove) < 0)
