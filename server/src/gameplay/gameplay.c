@@ -25,9 +25,17 @@ bool	egg_need_update(t_egg* egg, struct timeval currenttime)
 
 void	egg_hatch(t_gameplay* gameplay, t_egg* egg)
 {
+  /* FREE THE EGG !!! */
   (void) gameplay;
   (void) egg;
-  /* MAKE HATCH EGG */
+
+  t_player*	player;
+
+  player = malloc(sizeof(player));
+  player->is_egg = true;
+  player->client = NULL;
+  player->it = NULL;
+  gameplay_update_player_position(gameplay, player, gameplay->ghosts);
 }
 
 struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)

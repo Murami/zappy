@@ -38,6 +38,9 @@ ANTO ->
      - egg hatch
      - tester gestion egg
      - verifer bindings ia<->graphic
+     - id egg
+     - binds egg
+     - free egg dans le hatch
 ---------------------------------------------------------------------------
 
 CALLBACK
