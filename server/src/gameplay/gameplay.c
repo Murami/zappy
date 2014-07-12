@@ -42,7 +42,7 @@ struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
     }
   if (!list_empty(this->players))
     waiting_time = player_get_next_action_time(list_front(this->players));
-  return (waiting_time);
+  return (timeval_sub(waiting_time, currenttime));
 }
 
 
