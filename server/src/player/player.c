@@ -26,7 +26,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->y = rand() % gameplay->map.height;
   this->level = 1;
   this->team = team;
-  this->is_egg = false;
+  this->id_egg = 0;
   this->command_queue = list_new();
   /* team->nb_slots--; */
   case_initialize(&this->inventory, this->x, this->y);

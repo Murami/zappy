@@ -29,7 +29,7 @@ typedef struct		s_player
   int			level;
   int			x;
   int			y;
-  bool			is_egg;
+  int			id_egg;
   t_list*		command_queue;
   /* t_list*		eggs; */
   t_list_iterator	it;

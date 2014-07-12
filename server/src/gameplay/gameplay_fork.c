@@ -22,7 +22,9 @@ void			gameplay_command_fork(t_gameplay* this,
   egg->x = command->player->x;
   egg->y = command->player->y;
   egg->id = gameplay_get_new_id(this);
+  egg->id_player = command->player->id;
   list_push_back(this->eggs, egg);
+  gameplay_send_egg_lay(this, command->player);
 }
 
 int			count_taken_slot(t_gameplay* this, t_team* team)
@@ -36,7 +38,7 @@ int			count_taken_slot(t_gameplay* this, t_team* team)
   while (it != list_end(this->players))
     {
       player = it->data;
-      if (!player->is_egg && player->team == team)
+      if (!player->id_egg && player->team == team)
 	i++;
       it = list_iterator_next(it);
     }
@@ -44,7 +46,7 @@ int			count_taken_slot(t_gameplay* this, t_team* team)
   while (it != list_end(this->ghosts))
     {
       player = it->data;
-      if (!player->is_egg && player->team == team)
+      if (!player->id_egg && player->team == team)
 	i++;
       it = list_iterator_next(it);
     }

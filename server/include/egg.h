@@ -10,6 +10,7 @@ typedef struct		s_egg
   int			y;
   struct s_team*	team;
   struct timeval	time;
+  int			id_player;
   int			id;
 }			t_egg;
 

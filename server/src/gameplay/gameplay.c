@@ -23,18 +23,29 @@ bool	egg_need_update(t_egg* egg, struct timeval currenttime)
   return (false);
 }
 
-void	egg_hatch(t_gameplay* gameplay, t_egg* egg)
+void	gameplay_remove_egg(t_gameplay* this, t_egg* egg)
 {
-  /* FREE THE EGG !!! */
-  (void) gameplay;
-  (void) egg;
+  t_list_iterator	it;
+
+  it = list_begin(this->eggs);
+  while (it != list_end(this->eggs))
+    {
+      if (egg == it->data)
+	free(it->data);
+      it = list_iterator_next(it);
+    }
+}
+
+void	egg_hatch(t_gameplay* this, t_egg* egg)
+{
   t_player*	player;
 
-  player = player_new(gameplay, NULL, egg->team);
-  player->is_egg = true;
+  player = player_new(this, NULL, egg->team);
+  player->id_egg = egg->id;
   player->it = NULL;
-  gameplay_update_player_position(gameplay, player, gameplay->ghosts);
-  /* UN JOUEUR player->id s'est connecté sur egg->id ... */
+  gameplay_update_player_position(this, player, this->ghosts);
+  gameplay_send_egg_hatch(this, egg);
+  gameplay_remove_egg(this, egg);
 }
 
 struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)
