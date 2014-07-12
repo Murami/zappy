@@ -32,8 +32,8 @@ namespace	Zappy
     AnimationPool::getInstance()->loadModels();
     _hud = new HUD();
     updateClient();
-    _world = new World();
-    _world->initialize();
+    // _world = new World();
+    // _world->initialize();
     while (_window.isRunning())
       {
 	_window.bindShader();
@@ -157,7 +157,9 @@ namespace	Zappy
       _map = new Map(width, height);
     _map->setSize(width, height);
     _map->initialize();
-    // _word.setMapSize(map
+    _world = new World();
+    _world->initialize();
+    _world->setMapSize(_map->getWidth(), _map->getHeight());
     _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
     for (int i = 0; i < (width + height); i++)
       _window.getCamera()->zoomLess();

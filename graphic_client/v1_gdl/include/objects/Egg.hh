@@ -13,6 +13,7 @@ namespace	Zappy
   class		Egg : public AObject
   {
   private :
+    int		_id;
     gdl::Model*	_model;
 
   public :
