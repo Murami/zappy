@@ -22,6 +22,7 @@ void			gameplay_command_fork(t_gameplay* this,
   egg->x = command->player->x;
   egg->y = command->player->y;
   list_push_back(this->eggs, egg);
+  gameplay_send_egg_hatch(this, command->player);
 }
 
 void			gameplay_command_connect_nbr(t_gameplay* this,

@@ -31,6 +31,7 @@ SRC		=	main				\
 			misc/time_val			\
 			gameplay/gameplay		\
 			gameplay/gameplay_send_take	\
+			gameplay/gameplay_send_egg	\
 			gameplay/gameplay_send_drop	\
 			gameplay/gameplay_send_inventory\
 			gameplay/gameplay_send_res	\

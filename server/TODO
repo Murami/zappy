@@ -70,6 +70,7 @@ Connexion d'un nouveau joueur		OK	+ pop de vie
 
 Un joueur expulse      			OK	à tester
 Un joueur broadcast			OK	à tester
+ponte oeuf				OK	à tester
 
 Premier joueur lance incant		--	pic X Y #n #n....
 Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
@@ -83,9 +84,10 @@ ko + délais connexion			--	...
 
 id oeuf + mort de l'oeuf à gerer --> antho
 
-ponte oeuf				--	pfk #n
-oeuf a été pondu 			--	enw #e #n X Y + init monitor
+
+oeuf a été pondu 			--	miss id + init monitor
 oeuf eclot				--	eht #e
+
 joueur co sur egg			--	ebo #e
 oeuf meurt de faim			--	edi #e
 
