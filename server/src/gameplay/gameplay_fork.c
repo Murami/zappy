@@ -38,7 +38,7 @@ int			count_taken_slot(t_gameplay* this, t_team* team)
   while (it != list_end(this->players))
     {
       player = it->data;
-      if (!player->is_egg && player->team == team)
+      if (!player->id_egg && player->team == team)
 	i++;
       it = list_iterator_next(it);
     }
@@ -46,7 +46,7 @@ int			count_taken_slot(t_gameplay* this, t_team* team)
   while (it != list_end(this->ghosts))
     {
       player = it->data;
-      if (!player->is_egg && player->team == team)
+      if (!player->id_egg && player->team == team)
 	i++;
       it = list_iterator_next(it);
     }
