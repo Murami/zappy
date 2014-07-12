@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include "player.h"
 #include "team.h"
 #include "client.h"
 #include "client_graphic.h"
@@ -8,9 +9,12 @@ void		monitor_initialize(t_gameplay *this, t_client *client)
 {
   monitor_send_size(this, client);
   monitor_send_delay(this, client);
-  monitor_send_teams(this, client);
   monitor_send_map(this, client);
+  monitor_send_teams(this, client);
+  monitor_send_players(this, client);
 }
+
+
 
 void		monitor_send_size(t_gameplay *this, t_client *client)
 {
@@ -45,14 +49,34 @@ void			monitor_send_teams(t_gameplay *this, t_client *client)
     }
 }
 
+void		monitor_send_player(t_gameplay *this, t_player *player)
+{
+  char			buffer[4096];
+
+  (void)this;
+  sprintf(buffer, "pnw %d %d %d %d %d %s\n",
+	  player->id,
+	  player->x,
+	  player->y,
+	  player->direction,
+	  player->level,
+	  player->team->name);
+  client_send_msg(player->client, buffer);
+}
+
 void		monitor_send_players(t_gameplay *this, t_client *client)
 {
-  char		buff[4096];
+  t_list_iterator	it;
+  t_player*		player;
 
-  (void)buff;
-  (void)this;
   (void)client;
-  /* pas de players pour l'instant */
+  it = list_begin(this->players);
+  while (it != list_end(this->players))
+    {
+      player = it->data;
+      /* monitor_send_player(this, player); */
+      it = list_iterator_next(it);
+    }
 }
 
 void		monitor_send_eggs(t_gameplay *this, t_client *client)

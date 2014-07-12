@@ -17,7 +17,7 @@ bool			server_process_clients_input(t_server* this,
   if (!socketstream_flush_input(client->socketstream))
     {
       client_remove(client, this);
-      client_delete(client);
+      /* client_delete(client); */
       return (false);
     }
   client_run_input(client, this);

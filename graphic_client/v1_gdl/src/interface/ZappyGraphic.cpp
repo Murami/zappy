@@ -1,5 +1,3 @@
-#include		<GL/glew.h>
-#include		<GL/glut.h>
 #include		"objects/Map.hh"
 #include		"objects/Player.hh"
 #include		"interface/ZappyGraphic.hh"
