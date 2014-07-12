@@ -30,6 +30,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->command_queue = list_new();
   team->nb_slots--;
   case_initialize(&this->inventory, this->x, this->y);
+  this->inventory.food = 10;
   sprintf(buffer, "%d\n", team->nb_slots);
   client_send_msg(client, buffer);
   sprintf(buffer, "%d %d\n", this->x, this->y);

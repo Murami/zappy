@@ -1,5 +1,3 @@
-#include		<GL/glew.h>
-#include		<GL/glut.h>
 #include		"objects/Map.hh"
 #include		"objects/Player.hh"
 #include		"interface/ZappyGraphic.hh"
@@ -49,8 +47,15 @@ namespace	Zappy
 	_window.bindShader();
 	_window.draw(_world);
 	_window.updatePlayers(_players);
-	_drawOnlyOneStone();
-	_drawOnlyOneFood();
+	for (std::list<Stone*>::iterator it = _stones.begin();
+	     it != _stones.end(); it++)
+	  _window.draw(*it);
+	for (std::list<Food*>::iterator it = _foods.begin();
+	     it != _foods.end(); it++)
+	  _window.draw(*it);
+
+	// _drawOnlyOneStone();
+	// _drawOnlyOneFood();
 
 	// for (std::list<Egg*>::iterator it = _eggs.begin();
 	//      it != _eggs.end(); it++)
@@ -62,83 +67,85 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::_drawOnlyOneStone()
-  {
+  // void		ZappyGraphic::_drawOnlyOneStone()
+  // {
 
-    std::list<Stone*> tmp;
-    bool yetInList = false;
-    for (std::list<Stone*>::iterator it = _stones.begin();
-    	 it != _stones.end(); it++)
-      {
-    	yetInList = false;
-    	std::list<Stone*>::iterator it2;
-    	for (it2 = tmp.begin();
-    	     it2 != tmp.end(); it2++)
-    	  {
-    	    if ((*it2)->getPosition().x == (*it)->getPosition().x &&
-    		(*it2)->getPosition().y == (*it)->getPosition().y &&
-		(*it2)->getType() == (*it)->getType())
-    	      {
-    		yetInList = true;
-    		break;
-    	      }
-    	  }
-    	if (!yetInList && _stones.size())
-    	  tmp.push_back(*it);
-      }
-    for (std::list<Stone*>::iterator it = tmp.begin();
-    	 it != tmp.end(); it++)
-      _window.draw(*it);
-  }
+  //   std::list<Stone*> tmp;
+  //   bool yetInList = false;
+  //   for (std::list<Stone*>::iterator it = _stones.begin();
+  //   	 it != _stones.end(); it++)
+  //     {
+  //   	yetInList = false;
+  //   	std::list<Stone*>::iterator it2;
+  //   	for (it2 = tmp.begin();
+  //   	     it2 != tmp.end(); it2++)
+  //   	  {
+  //   	    if ((*it2)->getPosition().x == (*it)->getPosition().x &&
+  //   		(*it2)->getPosition().y == (*it)->getPosition().y &&
+  // 		(*it2)->getType() == (*it)->getType())
+  //   	      {
+  //   		yetInList = true;
+  //   		break;
+  //   	      }
+  //   	  }
+  //   	if (!yetInList && _stones.size())
+  //   	  tmp.push_back(*it);
+  //     }
+  //   for (std::list<Stone*>::iterator it = tmp.begin();
+  //   	 it != tmp.end(); it++)
+  //     _window.draw(*it);
+  // }
 
-  void		ZappyGraphic::_drawOnlyOneFood()
-  {
-    std::list<Food*> tmp;
-    bool yetInList = false;
-    for (std::list<Food*>::iterator it = _foods.begin();
-    	 it != _foods.end(); it++)
-      {
-    	yetInList = false;
-    	std::list<Food*>::iterator it2;
-    	for (it2 = tmp.begin();
-    	     it2 != tmp.end(); it2++)
-    	  {
-    	    if ((*it2)->getX() == (*it)->getX() &&
-    		(*it2)->getY() == (*it)->getY())
-    	      {
-    		yetInList = true;
-    		break;
-    	      }
-    	  }
-    	if (!yetInList)
-    	  tmp.push_back(*it);
-      }
-    for (std::list<Food*>::iterator it = tmp.begin();
-    	 it != tmp.end(); it++)
-      _window.draw(*it);
-  }
+  // void		ZappyGraphic::_drawOnlyOneFood()
+  // {
+  //   std::list<Food*> tmp;
+  //   bool yetInList = false;
+  //   for (std::list<Food*>::iterator it = _foods.begin();
+  //   	 it != _foods.end(); it++)
+  //     {
+  //   	yetInList = false;
+  //   	std::list<Food*>::iterator it2;
+  //   	for (it2 = tmp.begin();
+  //   	     it2 != tmp.end(); it2++)
+  //   	  {
+  //   	    if ((*it2)->getX() == (*it)->getX() &&
+  //   		(*it2)->getY() == (*it)->getY())
+  //   	      {
+  //   		yetInList = true;
+  //   		break;
+  //   	      }
+  //   	  }
+  //   	if (!yetInList)
+  //   	  tmp.push_back(*it);
+  //     }
+  //   for (std::list<Food*>::iterator it = tmp.begin();
+  //   	 it != tmp.end(); it++)
+  //     _window.draw(*it);
+  // }
 
   void		ZappyGraphic::_handleRightClickEvent()
   {
     gdl::Input	input = _window.getInputs();
     unsigned char pixel[4];
     pixel[0] = pixel[1] = pixel[2] = pixel[3] = 0;
-    if (input.getInput(SDL_BUTTON_RIGHT))
+    if (input.getKey(SDL_BUTTON_RIGHT))
       {
 	glReadPixels(input.getMousePosition().x,
 		     Window::HEIGHT - input.getMousePosition().y,
 		     1, 1, GL_RGBA, GL_UNSIGNED_BYTE, &pixel[0]);
-	glm::vec4 clickedColor(pixel[0] / 255,
-			       pixel[1] / 255,
-			       pixel[2] / 255, 0);
+	glm::vec4 clickedColor(static_cast<float>(pixel[0]) / 255.0f,
+			       static_cast<float>(pixel[1]) / 255.0f,
+			       static_cast<float>(pixel[2]) / 255.0f, 0);
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  {
 	    if ((*it)->getPickColor().r == clickedColor.r &&
 		(*it)->getPickColor().g == clickedColor.g &&
 		(*it)->getPickColor().b == clickedColor.b)
-	      _hud->print(*it, _client);
-	    else
+	      _hud->print(*it, _client, _window);
+	    else if (clickedColor.r == 0 &&
+		     clickedColor.g == 0 &&
+		     clickedColor.b == 0)
 	      _hud->hide();
 	  }
       }

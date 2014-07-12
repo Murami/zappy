@@ -51,22 +51,16 @@ namespace	Zappy
     int exDir = static_cast<int>(_orientation);
     int newDir = static_cast<int>(dir);
     _orientation = dir;
-    if (exDir == 1 && newDir == 4)
-      {
-	turnLeft();
-      }
+    if ((exDir - newDir) % 2 == 0)
+      rotate(glm::vec3(0, 1, 0), 180);
+    else if (exDir == 1 && newDir == 4)
+      turnLeft();
     else if (exDir == 4 && newDir == 1)
-      {
-	turnRight();
-      }
+      turnRight();
     else if ((exDir < newDir && (exDir != 1 || newDir != 4)))
-      {
-	turnRight();
-      }
+      turnRight();
     else if (((exDir > newDir) && (exDir != 4 || newDir != 1)))
-      {
-	turnLeft();
-      }
+      turnLeft();
   }
 
   Orientation	Player::getOrientation() const
@@ -230,8 +224,8 @@ namespace	Zappy
 
   void		Player::stopRunning()
   {
-    _x = (int) _position.x / Map::BLOCK_SIZE;
-    _y = (int) _position.y / Map::BLOCK_SIZE;
+    _x = static_cast<int>(_position.x) / Map::BLOCK_SIZE;
+    _y = static_cast<int>(_position.y) / Map::BLOCK_SIZE;
     _stateStack.pop();
     _stateStack.push(STANDING);
     _model = AnimationPool::getInstance()->getStandingFrame();

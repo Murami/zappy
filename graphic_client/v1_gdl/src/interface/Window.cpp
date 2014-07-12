@@ -8,8 +8,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1600.0f;
-  const float		Window::HEIGHT = 900.0f;
+  const float		Window::WIDTH = 1280.0f;
+  const float		Window::HEIGHT = 960.0f;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 

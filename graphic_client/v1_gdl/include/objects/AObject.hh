@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:28 2014 Manu
-// Last update Tue Jul  8 02:26:19 2014 Manu
+// Last update Fri Jul 11 23:34:12 2014 Manu
 //
 
 #ifndef		__AOBJECT_HH__

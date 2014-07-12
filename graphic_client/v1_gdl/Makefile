@@ -19,6 +19,8 @@ SRC		=	main				\
 			objects/Food			\
 			objects/World			\
 			objects/Egg			\
+			objects/Letter			\
+			objects/Sentence		\
 
 SRC_EXT		=	.cpp
 
@@ -120,8 +122,6 @@ CFLAGS		+=	$(CINC)
 LDFLAGS		+=	$(DLIB)				\
 			$(LIB)				\
 			-Wl,-rpath=./gdl/libs:./lua/libs\
-			-LLIBDIR			\
-			-D_REENTRANT -I/usr/local/include/SDL2 -I/usr/include/SDL2  -L/usr/local/lib -lSDL2_ttf -lSDL2
 ## MISC RULES
 
 MAKEOBJ		= $(addprefix $(DOBJ), %.o) : $(addprefix $(addprefix $(DSRC), %), $(SRC_EXT))
