@@ -54,27 +54,6 @@ void			gameplay_command_ppo(t_gameplay* this, t_monitor_command* command)
   // wrong arugment to do
 }
 
-void			gameplay_command_plv(t_gameplay* this, t_monitor_command* command)
-{
-  char			buffer[4096];
-  t_list_iterator	it;
-  t_player*		player;
-
-  it = list_begin(this->players);
-  while (it != list_end(this->players))
-    {
-      player = it->data;
-      if (player->id == atoi(command->data[0]))
-	{
-	  sprintf(buffer, "ppo %d %d\n",
-		  player->id,
-		  player->level);
-	  client_send_msg(&command->client->parent_client, buffer);
-	  return;
-	}
-      it = list_iterator_next(it);
-    }
-}
 
 void			gameplay_command_pin(t_gameplay* this, t_monitor_command* command)
 {
@@ -88,9 +67,8 @@ void			gameplay_command_pin(t_gameplay* this, t_monitor_command* command)
       player = it->data;
       if (player->id == atoi(command->data[0]))
 	{
-	  sprintf(buffer, "ppo %d %d %d %d %d %d %d %d %d %d\n",
-		  player->id,
-		  player->x,
+	  sprintf(buffer, "pin %d %d %d %d %d %d %d %d %d %d\n",
+		  player->id, player->x,
 		  player->y,
 		  player->inventory.food,
 		  player->inventory.linemate,

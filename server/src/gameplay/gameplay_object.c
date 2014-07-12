@@ -23,9 +23,8 @@ void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
   char			buffer[4096];
   struct timeval	time;
   float			foods;
-  (void)this;
-  /* CALCULER LE FOOD */
 
+  (void)this;
   time = timeval_sub(command->player->death_time, time);
   foods = time.tv_sec + ((float)time.tv_usec) / 1000000.f;
   foods /=  (126.f / ((float)this->delay));
@@ -62,10 +61,8 @@ void			gameplay_command_prend(t_gameplay* this, t_player_command* command)
 {
   int			i = 0;
 
-  printf("command_prend");
   while (object_bindings[i].object)
     {
-      printf("[%s] --- [%s]\n", command->data, object_bindings[i].object);
       if (strcmp(command->data,	object_bindings[i].object) == 0)
 	{
 	  object_bindings[i].take(this, command);

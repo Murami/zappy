@@ -7,43 +7,38 @@
 
 void			gameplay_take_thystame(t_gameplay *this, t_player_command *command)
 {
-  char			buffer[4096];
+  int			x;
+  int			y;
 
-  if (this->map.map[command->player->x + command->player->y *
-		    this->map.width].thystame != 0)
+  x = command->player->x;
+  y = command->player->y;
+  if (this->map.map[x + command->player->y * this->map.width].thystame != 0)
     {
-      this->map.map[command->player->x + command->player->y *
-		    this->map.width].thystame--;
+      this->map.map[x + y * this->map.width].thystame--;
       command->player->inventory.thystame++;
-      bind_command_take(this,
-			&this->map.map[command->player->x + this->map.width * command->player->y]);
-      sprintf(buffer, "ok\n");
-      client_send_msg(command->player->client, buffer);
+      bind_command_object(this, command,
+			  &this->map.map[x + this->map.width * y], 6);
+      gameplay_send_res(command->player->client, true);
     }
   else
-    {
-      sprintf(buffer, "ko\n");
-      client_send_msg(command->player->client, buffer);
-    }
+    gameplay_send_res(command->player->client, false);
 }
 
 void			gameplay_drop_thystame(t_gameplay *this, t_player_command *command)
 {
-  char			buffer[4096];
+  int			x;
+  int			y;
 
+  x = command->player->x;
+  y = command->player->y;
   if (command->player->inventory.thystame > 0)
     {
-      this->map.map[command->player->x + command->player-> y *
-		    this->map.width].thystame ++;
+      this->map.map[x + command->player-> y * this->map.width].thystame ++;
       command->player->inventory.thystame--;
-      bind_command_take(this,
-			&this->map.map[command->player->x + this->map.width * command->player->y]);
-      sprintf(buffer, "ok\n");
-      client_send_msg(command->player->client, buffer);
+      bind_command_object(this, command,
+			  &this->map.map[x + this->map.width * y], 6);
+      gameplay_send_res(command->player->client, true);
     }
   else
-    {
-      sprintf(buffer, "ko\n");
-      client_send_msg(command->player->client, buffer);
-    }
+    gameplay_send_res(command->player->client, false);
 }

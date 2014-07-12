@@ -46,8 +46,17 @@ void			gameplay_add_monitor(t_gameplay* this, struct s_client* client);
 void			gameplay_add_player_command(t_gameplay* this, struct s_player_command* command);
 void			gameplay_add_monitor_command(t_gameplay* this, struct s_monitor_command* command);
 
-void			bind_command_move(t_gameplay *this, struct s_player_command *command);
-void			bind_command_take(t_gameplay *this, struct s_case *c);
+void			gameplay_send_drop(struct s_client *monitor, struct s_player_command *command, int id);
+void			gameplay_send_take(struct s_client *monitor, struct s_player_command *command, int id);
+void			gameplay_send_inventory(struct s_client *monitor, struct s_player_command *command);
+void			gameplay_send_pos(t_gameplay *this, struct s_player *player);
+void			gameplay_send_res(struct s_client *client, bool b);
+void			gameplay_send_case(struct s_client *monitor, struct s_case *c);
+void			gameplay_send_case_all(t_gameplay *gameplay, struct s_player *player);
+void			gameplay_send_lvl_all(t_gameplay *gameplay, struct s_player *player);
+void			gameplay_send_res_incant(t_gameplay *this, struct s_player_command *command, bool b);
+
+void			bind_command_object(t_gameplay *this, struct s_player_command *command, t_case *c, int id);
 
 void			gameplay_command_move(t_gameplay *this, struct s_player *player);
 void			gameplay_command_avance(t_gameplay* this, struct s_player_command* command);

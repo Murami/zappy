@@ -21,5 +21,5 @@ void			gameplay_command_avance(t_gameplay* this, t_player_command* command)
     command->player->x = 0;
   if (command->player->x < 0)
     command->player->x = this->map.width;
-  bind_command_move(this, command);
+  gameplay_send_pos(this, command->player);
 }

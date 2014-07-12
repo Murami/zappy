@@ -25,7 +25,7 @@ void			bind_add_player(t_gameplay *this, t_player *player)
 
 void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 {
-  t_player*	player;
+  t_player*		player;
 
   player = player_new(this, client, team);
   list_push_back(this->players, player);
