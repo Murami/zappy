@@ -42,6 +42,8 @@ struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
     }
   if (!list_empty(this->players))
     waiting_time = player_get_next_action_time(list_front(this->players));
+  if (waiting_time.tv_sec == 0 && waiting_time.tv_usec == 0)
+    return (waiting_time);
   return (timeval_sub(waiting_time, currenttime));
 }
 
@@ -53,6 +55,7 @@ void			gameplay_update_player_position(t_gameplay* this, t_player* player)
   struct timeval	time_tomove;
   struct timeval	time_current;
 
+  printf("ON RENTRE DANS UPDATE POS PLAYER !\n");
   list_erase(this->players, player->it);
   it = list_begin(this->players);
   time_tomove = player_get_next_action_time(player);
@@ -77,7 +80,10 @@ t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
   /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
+  printf("%p\n", player->it);
   it = list_iterator_prev(player->it);
+  printf("%p -- %p\n", it, it->prev);
   client_remove(player->client, this->server);
+  server_remove(this->server, player->client);
   return (it);
 }

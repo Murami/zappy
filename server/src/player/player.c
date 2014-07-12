@@ -28,6 +28,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->team = team;
   this->eggs = list_new();
   this->command_queue = list_new();
+  this->client = client;
   team->nb_slots--;
   case_initialize(&this->inventory, this->x, this->y);
   this->inventory.food = 10;

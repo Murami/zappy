@@ -14,7 +14,7 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
 
   player = player_new(this, client, team);
   list_push_back(this->players, player);
-  player->it = list_back(this->players);
+  player->it = this->players->root->prev;
 }
 
 void			gameplay_remove_player(t_gameplay* this, t_client* client)
