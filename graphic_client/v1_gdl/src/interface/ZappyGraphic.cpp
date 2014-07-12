@@ -63,7 +63,7 @@ namespace	Zappy
 	//      it != _eggs.end(); it++)
 	//   _window.draw(*it);
 
-	_window.draw(_map);
+	_window.drawMap(_map);
 	_hud->draw();
 	_window.flush();
       }
@@ -160,6 +160,8 @@ namespace	Zappy
     _map->setSize(width, height);
     _map->initialize();
     _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
+    for (int i = 0; i < (width + height); i++)
+      _window.getCamera()->zoomLess();
   }
 
   void		ZappyGraphic::setCaseContent(int x, int y, int* resources)

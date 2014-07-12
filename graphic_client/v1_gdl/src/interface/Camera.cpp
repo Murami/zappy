@@ -29,8 +29,6 @@ namespace	Zappy
     _shader.bind();
     _shader.setUniform("projection", _projection);
     _colorPickShader.setUniform("projection", _projection);
-    _reflectionShader = *ShaderManager::getInstance()->getReflectionShader();
-    _reflectionShader.setUniform("projection", _projection);
     ShaderManager::getInstance()->getMapShader()->bind();
     ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
     for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
@@ -57,6 +55,7 @@ namespace	Zappy
     _colorPickShader.bind();
     _colorPickShader.setUniform("view", _transformation);
     _colorPickShader.setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->bind();
     ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
     ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
     for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
@@ -84,6 +83,7 @@ namespace	Zappy
     _reflectionShader.bind();
     _reflectionShader.setUniform("view", _transformation);
     _reflectionShader.setUniform("projection", _projection);
+    ShaderManager::getInstance()->getMapShader()->bind();
     ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
     ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
     ShaderManager::getInstance()->getBasicShader()->setUniform("projection", _projection);
@@ -125,8 +125,11 @@ namespace	Zappy
 
   void		Camera::setPosition(const glm::vec2& v)
   {
-    _x = (v.x) * Map::BLOCK_SIZE;
-    _y = (v.y) * Map::BLOCK_SIZE;
+    _xFocus = 0;
+    _yFocus = 0;
+
+    _x = 5 + v.x * Map::BLOCK_SIZE;
+    _y = v.y * Map::BLOCK_SIZE;
     _xFocus = v.x * Map::BLOCK_SIZE;
     _yFocus = v.y * Map::BLOCK_SIZE;
     update();
@@ -157,6 +160,7 @@ namespace	Zappy
 	_colorPickShader.setUniform("projection", _projection);
 	_reflectionShader.bind();
 	_reflectionShader.setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->bind();
 	ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
 	ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
 	for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
@@ -176,6 +180,7 @@ namespace	Zappy
 	_colorPickShader.setUniform("projection", _projection);
 	_reflectionShader.bind();
 	_reflectionShader.setUniform("projection", _projection);
+	ShaderManager::getInstance()->getMapShader()->bind();
 	ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
 	ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
 	for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)

@@ -7,6 +7,7 @@
 #include		"graphic/HUD.hh"
 #include		"graphic/ShaderManager.hpp"
 #include		"objects/Sentence.hh"
+#include		"objects/Map.hh"
 
 namespace	Zappy
 {
@@ -58,7 +59,7 @@ namespace	Zappy
 
   void		HUD::_printTeam()
   {
-    Sentence s(_currentPlayer->getTeamName(), (Window::WIDTH / 6) - (_currentPlayer->getTeamName().size() / 2) * 10 - 10, Window::HEIGHT * (62.5 / 900) + 10);
+    Sentence s(_currentPlayer->getTeamName(), Window::WIDTH * (72.5 / 1600) + 75, Window::HEIGHT * (62.5 / 900) + 10);
     s.draw(_shader);
   }
 
@@ -67,19 +68,19 @@ namespace	Zappy
     // linemate : blue
     std::stringstream ss;
     ss << _resources[1];
-    Sentence s(ss.str(), Window::WIDTH * (72.5 / 1600),
+    Sentence s(ss.str(), Window::WIDTH * (72.5 / 1600) + 15,
 	       Window::HEIGHT * (62.5 / 900));
     s.draw(_shader);
     // deraumere : red
     std::stringstream ss2;
     ss2 << _resources[2];
-    s = Sentence(ss2.str(), Window::WIDTH * (72.5 / 1600),
+    s = Sentence(ss2.str(), Window::WIDTH * (72.5 / 1600) + 15,
 		 2 * Window::HEIGHT * (62.5 / 900) - 9);
     s.draw(_shader);
     // mendiane : yellow
     std::stringstream ss3;
     ss3 << _resources[4];
-    s = Sentence(ss3.str(), Window::WIDTH * (72.5 / 1600),
+    s = Sentence(ss3.str(), Window::WIDTH * (72.5 / 1600) + 15,
 		 3 * Window::HEIGHT * (62.5 / 900) - 16);
     s.draw(_shader);
     // sibur : green
@@ -109,16 +110,23 @@ namespace	Zappy
   {
     if (_currentPlayer)
       {
-	char buff[4096];
-	std::memset(buff, 0, 4096);
-	std::stringstream ss;
-	ss << _currentPlayer->getId();
-	std::string request(std::string("pin ") + ss.str() + '\n');
-	_client->sendRequest(request);
+	static int	cpt = 0;
 
-	std::memset(&buff[0], 0, 4096);
-	request = std::string(std::string("plv ") + ss.str() + '\n');
-	_client->sendRequest(request);
+	if (cpt == 250)
+	  {
+	    char buff[4096];
+	    std::memset(buff, 0, 4096);
+	    std::stringstream ss;
+	    ss << _currentPlayer->getId();
+	    std::string request(std::string("pin ") + ss.str() + '\n');
+	    _client->sendRequest(request);
+	    std::memset(&buff[0], 0, 4096);
+	    request = std::string(std::string("plv ") + ss.str() + '\n');
+	    _client->sendRequest(request);
+	    cpt = 0;
+	  }
+	else
+	  cpt++;
 
 	glEnable(GL_ALPHA_TEST);
 	glEnable(GL_BLEND);
@@ -133,7 +141,6 @@ namespace	Zappy
 	_texture.bind();
 	_frame.draw(_shader, glm::mat4(1), GL_QUADS);
 
-	// TODO
 	_printLife();
 	_printLevel();
 	_printTeam();

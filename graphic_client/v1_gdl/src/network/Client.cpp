@@ -82,7 +82,7 @@ void			*launchWrite(void *attr)
 void			Client::resetRequest()
 {
   _sendRequest = false;
-  _request = std::string("");
+  _request.clear();
 }
 
 void			Client::throwWriteFailure()
