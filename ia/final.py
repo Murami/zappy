@@ -201,20 +201,19 @@ hystame"]
 
     def transformNbrInDirection (self, nb):
         if nb == 0:
+            self.addToQueue("droite")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
             self.addToQueue("broadcast here")
             self.needToStay = True
         elif nb == 1:
             self.addToQueue("avance")
         elif nb == 2:
             self.addToQueue("avance")
-            self.addToQueue("gauche")
-            self.addToQueue("avance")
         elif nb == 3:
             self.addToQueue("gauche")
             self.addToQueue("avance")
         elif nb == 4:
-            self.addToQueue("gauche")
-            self.addToQueue("avance")
             self.addToQueue("gauche")
             self.addToQueue("avance")
         elif nb == 5:
@@ -224,21 +223,18 @@ hystame"]
         elif nb == 6:
             self.addToQueue("droite")
             self.addToQueue("avance")
-            self.addToQueue("droite")
-            self.addToQueue("avance")
         elif nb == 7:
             self.addToQueue("droite")
             self.addToQueue("avance")
         elif nb == 8:
-            self.addToQueue("avance")
-            self.addToQueue("droite")
             self.addToQueue("avance")
 
     def __come (self, exp, message):
         if self.isCome == True:
             return
         if self.data.level.getActualLevel() == int(exp.group(1))\
-           and self.needToStay == False:
+           and self.needToStay is False:
+            print("je bouge <-------------------------------")
             self.possibleLeader = False
             self.transformNbrInDirection(message.getDirection())
             self.isCome = True
