@@ -80,7 +80,7 @@ class ResponseServerMessage(ResponseServer):
         self.isItMessage = True
 
     def getMessage (self):
-        return self.message 
+        return self.message
 
 # class reponse de type message
 class ResponseServerExpulse(ResponseServer):

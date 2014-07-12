@@ -6,7 +6,6 @@ import responseServer
 import data
 import re
 from random import randint
-from random import choice
 
 static = 0
 getlvl = 0
@@ -44,7 +43,6 @@ class   Player:
         }
         self.requests = queue.Queue()
         self.data = data.Data()
-        self.teamName = teamName
         try:
             self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except IndexError:
@@ -234,7 +232,7 @@ class   Player:
         #     self.fork()
 
     def transformNbrInDirection (self, nb):
-        print("@@@@@@@@@@@@@@@@ DIECTION = " + str(nb) + "@@@@@@@@@@@@@@@@@")
+        print("@@@@@@@@@@@@@@@@ DIRECTION = " + str(nb) + "@@@@@@@@@@@@@@@@@")
         if nb == 1:
             self.addToQueue("avance")
         elif nb == 2:

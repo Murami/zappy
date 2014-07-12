@@ -107,5 +107,5 @@ class ZappyParser:
 
     def __parseAlive (self, toParse):
         res = responseServer.ResponseServerAlive()
-        res.isItAlive = False
+        res.alive.isItAlive = False
         return res
