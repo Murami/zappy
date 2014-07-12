@@ -75,10 +75,12 @@ hystame"]
     def sendToServer (self, msg):
         if msg[:5] == "broad":
             print("\033[32m" + msg + "\033[0m")
+        print("SEND: " + msg)
         self.net.send(msg)
 
     def recvFromServer (self):
         recv = self.net.recv()
+        print("RECV:" + recv)
         if recv[:7] == "message":
             print("\033[31m" + str(recv) + "\033[0m")
         return self.data.update(recv)
