@@ -76,12 +76,10 @@ hystame"]
     def sendToServer (self, msg):
         if msg[:5] == "broad":
             print("\033[32m" + msg + "\033[0m")
-        print("SEND: " + msg)
         self.net.send(msg)
 
     def recvFromServer (self):
         recv = self.net.recv()
-        print("RECV:" + recv)
         if recv[:7] == "message":
             print("\033[31m" + str(recv) + "\033[0m")
         return self.data.update(recv)
@@ -101,7 +99,7 @@ hystame"]
                     exit (0)
                 else:
                     break
-        
+
     def getNeededStones (self):
         res = list()
         for elem in self.stoneName:
@@ -112,7 +110,7 @@ hystame"]
             for i in range(0, tmp):
                 res.append(elem)
         return res
-    
+
     def chooseOtherView (self):
         if self.staticSeek < 3:
             self.addToQueue("droite")
@@ -234,11 +232,11 @@ hystame"]
     def __come (self, exp, message):
         if self.isCome == True:
             return
-        if self.data.level.getActualLevel() == int(exp.group(1))\
-           and self.needToStay is False:
-            print("je bouge <-------------------------------")
+        if self.data.level.getActualLevel() == int(exp.group(1)):
+            if (self.needToStay is False):
+                self.transformNbrInDirection(message.getDirection())
+                print("je bouge <-------------------------------")
             self.possibleLeader = False
-            self.transformNbrInDirection(message.getDirection())
             self.isCome = True
 
     def __getlvl (self, exp, message):
@@ -258,7 +256,7 @@ hystame"]
             res = self.regex[elem].regex.search(message.getMessage())
             if res is not None:
                 self.regex[elem].funcPtr(res, message)
-        
+
     def manageTaskList (self):
         if len(self.taskList) == 0:
             return
