@@ -294,7 +294,7 @@ hystame"]
             self.seekStone()
         elif self.possibleLeader == True:
             self.tryToEvolve()
-        
+
     def run (self):
         while self.data.alive.isAlive() is True:
             self.getInventory()
