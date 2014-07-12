@@ -30,7 +30,7 @@ void			gameplay_add_player_command(t_gameplay* this,
       )
     {
       if (strcmp(g_player_commands[command->id_command].request, "fork") == 0)
-	gameplay_send_egg(this, command->player)
+	gameplay_send_egg(this, command->player);
       if (strcmp(g_player_commands[command->id_command].request, "incantation") == 0)
 	send_incantation_start(this, command);
       player_add_action(command->player, command);

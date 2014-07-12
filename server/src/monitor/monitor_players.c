@@ -5,6 +5,15 @@
 #include "client_graphic.h"
 #include "monitor.h"
 
+void			monitor_send_egg_connect(t_player *player, t_client *client)
+{
+ char			buffer[4096];
+
+  sprintf(buffer, "ebo %d\n",
+	  player->id_egg);
+  client_send_msg(client, buffer);
+}
+
 void			monitor_send_player(t_player *player, t_client* client)
 {
   char			buffer[4096];

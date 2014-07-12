@@ -11,4 +11,5 @@ void			monitor_initialize(t_gameplay *this, t_client *client)
   monitor_send_map(this, client);
   monitor_send_teams(this, client);
   monitor_send_players(this, client);
+  monitor_send_eggs(this, client);
 }
