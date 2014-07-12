@@ -57,6 +57,7 @@ hystame"]
         self.data = data.Data()
         self.playerReadyOnMyCase = 0
         self.possibleLeader = True
+        self.needToStay = False
         try:
             self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except:
@@ -203,6 +204,7 @@ hystame"]
     def transformNbrInDirection (self, nb):
         if nb == 0:
             self.addToQueue("here")
+            self.needToStay = True
         elif nb == 1:
             self.addToQueue("avance")
         elif nb == 2:
