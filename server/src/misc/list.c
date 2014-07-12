@@ -52,6 +52,8 @@ void		list_pop_front(t_list* this)
 {
   t_list_elm*	elm;
 
+  if (list_empty(this))
+    return;
   elm = (t_list_elm*)this->root->next;
   elm->next->prev = this->root;
   this->root->next = elm->next;
@@ -63,6 +65,8 @@ void	list_pop_back(t_list* this)
 {
   t_list_elm*	elm;
 
+  if (list_empty(this))
+    return;
   elm = (t_list_elm*)this->root->prev;
   elm->prev->next = this->root;
   this->root->prev = elm->prev;
@@ -82,11 +86,15 @@ bool	list_empty(t_list* this)
 
 void*	list_front(t_list* this)
 {
+  if (list_empty(this))
+    return (NULL);
   return (this->root->next->data);
 }
 
 void*	list_back(t_list* this)
 {
+  if (list_empty(this))
+    return (NULL);
   return (this->root->prev->data);
 }
 

@@ -1,4 +1,4 @@
-## FILES
+a## FILES
 
 NAME		=	server_zappy
 
@@ -24,6 +24,7 @@ SRC		=	main				\
 			misc/list			\
 			misc/time_val			\
 			gameplay/gameplay		\
+			gameplay/gameplay_avance	\
 			gameplay/gameplay_init		\
 			gameplay/gameplay_move		\
 			gameplay/gameplay_fork		\
@@ -31,7 +32,8 @@ SRC		=	main				\
 			gameplay/gameplay_broadcast	\
 			gameplay/gameplay_voir		\
 			gameplay/gameplay_incantation	\
-			gameplay/gameplay_client	\
+			gameplay/gameplay_add_player	\
+			gameplay/gameplay_add_monitor	\
 			gameplay/gameplay_food		\
 			gameplay/gameplay_linemate	\
 			gameplay/gameplay_deraumere	\

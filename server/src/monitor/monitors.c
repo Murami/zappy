@@ -49,11 +49,35 @@ void			monitor_send_teams(t_gameplay *this, t_client *client)
     }
 }
 
-void		monitor_send_player(t_gameplay *this, t_player *player)
+void		monitor_send_player_position(t_gameplay *this, int id, t_client* client)
 {
   char			buffer[4096];
 
   (void)this;
+  t_list_iterator	it;
+  t_player*		player;
+
+  it = list_begin(this->players);
+  printf("SEND POSITION\n");
+  while (it != list_end(this->players))
+    {
+      player = it->data;
+      if (player->id == id)
+	{
+	  sprintf(buffer, "ppo %d %d %d\n",
+		  player->id,
+		  player->x,
+		  player->y);
+	}
+      it = list_iterator_next(it);
+   }
+  client_send_msg(client, buffer);
+}
+
+void		monitor_send_player(t_player *player, t_client* client)
+{
+  char			buffer[4096];
+
   sprintf(buffer, "pnw %d %d %d %d %d %s\n",
 	  player->id,
 	  player->x,
@@ -61,7 +85,7 @@ void		monitor_send_player(t_gameplay *this, t_player *player)
 	  player->direction,
 	  player->level,
 	  player->team->name);
-  client_send_msg(player->client, buffer);
+  client_send_msg(client, buffer);
 }
 
 void		monitor_send_players(t_gameplay *this, t_client *client)
@@ -70,23 +94,30 @@ void		monitor_send_players(t_gameplay *this, t_client *client)
   t_player*		player;
 
   (void)client;
+  printf("send players\n");
   it = list_begin(this->players);
   while (it != list_end(this->players))
     {
       player = it->data;
-      /* monitor_send_player(this, player); */
+      monitor_send_player(player, client);
       it = list_iterator_next(it);
     }
 }
 
 void		monitor_send_eggs(t_gameplay *this, t_client *client)
 {
-  char		buff[4096];
+  t_list_iterator	it;
+  t_player*		player;
 
-  (void)buff;
-  (void)this;
   (void)client;
-  /* no eggs for the moment */
+  printf("send players\n");
+  it = list_begin(this->players);
+  while (it != list_end(this->players))
+    {
+      player = it->data;
+      monitor_send_player(player, client);
+      it = list_iterator_next(it);
+    }
 }
 
 void		monitor_send_case(t_gameplay *this, t_client *client, t_case *c)

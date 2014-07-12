@@ -93,7 +93,7 @@ void			server_launch(t_server *this)
 	  return;
 	}
       reset_rfds(this, &set_fd_in, &set_fd_out);
-      printf("[SELECT]\n");
+      printf("[SELECT] %ld -- %ld\n", waiting_time.tv_sec, waiting_time.tv_usec);
       retval = select(1 + this->socket_max,
 		      &set_fd_in, &set_fd_out, NULL,
 		      (waiting_time.tv_sec || waiting_time.tv_usec) ? &waiting_time : NULL);
@@ -126,11 +126,21 @@ void			server_add_monitor_command(t_server* this, t_monitor_command* command)
   gameplay_add_monitor_command(this->gameplay, command);
 }
 
-/* t_list_iterator		server_remove(t_server* this, t_list_iterator it) */
-/* { */
-/*   client_remove(it->data, this); */
-/*   return (list_erase(this->clients, it)); */
-/* } */
+void			server_remove(t_server* this, t_client* client)
+{
+  t_list_iterator	it;
+
+  it = list_begin(this->clients);
+  while (it != list_end(this->clients))
+    {
+      if (it->data == client)
+	{
+	  list_erase(this->clients, it);
+	  return;
+	}
+      it = list_iterator_next(it);
+    }
+}
 
 void			sighandler(int signum)
 {
