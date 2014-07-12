@@ -21,6 +21,7 @@ void			gameplay_command_fork(t_gameplay* this,
   egg->time = timeval_add(this->time, time);
   egg->x = command->player->x;
   egg->y = command->player->y;
+  egg->id = gameplay_get_new_id(this);
   list_push_back(this->eggs, egg);
   gameplay_send_egg_hatch(this, command->player);
 }
@@ -31,6 +32,6 @@ void			gameplay_command_connect_nbr(t_gameplay* this,
   char			buffer[4096];
 
   (void) this;
-  sprintf(buffer, "%d", command->player->team->nb_slots);
+  sprintf(buffer, "%d", command->player->team->nb_slots + list_size(this->ghosts));
   client_send_msg(command->player->client, buffer);
 }

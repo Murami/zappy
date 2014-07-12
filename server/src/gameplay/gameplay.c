@@ -28,14 +28,13 @@ void	egg_hatch(t_gameplay* gameplay, t_egg* egg)
   /* FREE THE EGG !!! */
   (void) gameplay;
   (void) egg;
-
   t_player*	player;
 
-  player = malloc(sizeof(player));
+  player = player_new(gameplay, NULL, egg->team);
   player->is_egg = true;
-  player->client = NULL;
   player->it = NULL;
   gameplay_update_player_position(gameplay, player, gameplay->ghosts);
+  /* UN JOUEUR player->id s'est connecté sur egg->id ... */
 }
 
 struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)

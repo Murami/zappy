@@ -28,14 +28,17 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->team = team;
   this->is_egg = false;
   this->command_queue = list_new();
-  this->client = client;
   team->nb_slots--;
   case_initialize(&this->inventory, this->x, this->y);
   this->inventory.food = 10;
-  sprintf(buffer, "%d\n", team->nb_slots);
-  client_send_msg(client, buffer);
-  sprintf(buffer, "%d %d\n", this->x, this->y);
-  client_send_msg(client, buffer);
+  this->client = client;
+  if (this->client)
+    {
+      sprintf(buffer, "%d\n", team->nb_slots);
+      client_send_msg(client, buffer);
+      sprintf(buffer, "%d %d\n", this->x, this->y);
+      client_send_msg(client, buffer);
+    }
 }
 
 t_player*	player_new(t_gameplay *gameplay, t_client *client,
