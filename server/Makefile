@@ -30,6 +30,12 @@ SRC		=	main				\
 			misc/list			\
 			misc/time_val			\
 			gameplay/gameplay		\
+			gameplay/gameplay_send_take	\
+			gameplay/gameplay_send_drop	\
+			gameplay/gameplay_send_inventory\
+			gameplay/gameplay_send_res	\
+			gameplay/gameplay_send_case	\
+			gameplay/gameplay_send_lvl	\
 			gameplay/gameplay_init		\
 			gameplay/gameplay_move		\
 			gameplay/gameplay_expulse	\

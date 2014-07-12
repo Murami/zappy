@@ -21,7 +21,6 @@ void			gameplay_command_fork(t_gameplay* this,
   egg->time = timeval_add(this->time, time);
   egg->x = command->player->x;
   egg->y = command->player->y;
-  /* list_push_back(command->player->eggs, egg); */
   list_push_back(this->eggs, egg);
 }
 

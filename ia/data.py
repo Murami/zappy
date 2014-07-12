@@ -34,6 +34,7 @@ class Data:
             self.inventory = res.getInventory()
         elif res.isFov():
             self.fov = res.getFov()
+            self.level.actualLevel = self.fov.getLevelWithRange()
         elif res.isAlive():
             self.alive = res.getAlive()
         elif res.isFreeSlot():

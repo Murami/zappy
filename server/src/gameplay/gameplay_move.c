@@ -5,17 +5,17 @@
 #include "map.h"
 #include "client.h"
 
-void			bind_command_move(t_gameplay *this, t_player_command *command)
+void			gameplay_send_pos(t_gameplay *this, t_player *player)
 {
   char			buffer[4096];
   t_list_iterator	it;
   t_client*		monitor;
 
   sprintf(buffer, "ppo %d %d %d %d\n",
-	  command->player->id,
-	  command->player->x,
-	  command->player->y,
-	  command->player->direction);
+	  player->id,
+	  player->x,
+	  player->y,
+	  player->direction);
   it = list_begin(this->monitors);
   while (it != list_end(this->monitors))
     {

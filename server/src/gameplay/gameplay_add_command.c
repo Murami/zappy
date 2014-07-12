@@ -24,7 +24,6 @@ void			send_incantation_start(t_gameplay* this, t_player_command* command)
 void			gameplay_add_player_command(t_gameplay* this,
 						    t_player_command* command)
 {
-  printf("ADD COMMAND\n");
   if ((strcmp(g_player_commands[command->id_command].request, "incantation") == 0 &&
        check_incant(this, command)) ||
       strcmp(g_player_commands[command->id_command].request, "incantation") != 0

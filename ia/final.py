@@ -128,7 +128,6 @@ hystame"]
                 self.addToQueue("avance")
 
     def seekFood (self):
-        self.playerReadyOnMyCase = 0
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
         else:
@@ -141,7 +140,6 @@ hystame"]
         self.sendRequests()
 
     def seekStone (self):
-        self.playerReadyOnMyCase = 0
         if self.data.fov.getUsed() is True:
             self.addToQueue("voir")
         else:
@@ -205,7 +203,7 @@ hystame"]
 
     def transformNbrInDirection (self, nb):
         if nb == 0:
-            self.addToQueue("here")
+            self.addToQueue("broadcast here")
             self.needToStay = True
         elif nb == 1:
             self.addToQueue("avance")
@@ -241,7 +239,8 @@ hystame"]
     def __come (self, exp, message):
         if self.isCome == True:
             return
-        if self.data.level.getActualLevel() == int(exp.group(1)):
+        if self.data.level.getActualLevel() == int(exp.group(1))\
+           and self.needToStay == False:
             self.possibleLeader = False
             self.transformNbrInDirection(message.getDirection())
             self.isCome = True
@@ -280,13 +279,18 @@ hystame"]
         self.sendRequests()
 
     def getDecision (self):
+        print(self.data.level.getActualLevel())
         self.possibleLeader = True
         self.manageTaskList()
         if self.data.inventory.getFood() <= 3:
+            self.playerReadyOnMyCase = 0
+            self.needToStay = False
             while self.data.inventory.getFood() < 10:
                 self.seekFood()
                 self.getInventory()
         elif len(self.getNeededStones()) > 0:
+            self.playerReadyOnMyCase = 0
+            self.needToStay = False
             self.seekStone()
         elif self.possibleLeader == True:
             self.tryToEvolve()
