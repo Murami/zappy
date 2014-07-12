@@ -86,6 +86,8 @@ void			gameplay_command_sst(t_gameplay* this, struct s_monitor_command* command)
 void			gameplay_update_player_position(t_gameplay* this, struct s_player* player);
 t_list_iterator		gameplay_kill_player(t_gameplay* this, struct s_player* player);
 
+bool			check_incant(t_gameplay* this, struct s_player_command* command);
+
 t_gameplay*		gameplay_new(t_config config, struct s_server* server);
 void			gameplay_delete(t_gameplay *this);
 

@@ -78,7 +78,8 @@ void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 	}
       i++;
     }
-  buffer[strnlen(buffer, 4095) - 1] = '}';
+  buffer[strnlen(buffer, 4094) - 1] = '}';
+  buffer[4094] = '\n';
   buffer[4095] = '\0';
   client_send_msg(command->player->client, buffer);
 }
