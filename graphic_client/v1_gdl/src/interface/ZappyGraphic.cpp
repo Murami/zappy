@@ -157,7 +157,7 @@ namespace	Zappy
       _map = new Map(width, height);
     _map->setSize(width, height);
     _map->initialize();
-    _word.setMapSize(map
+    // _word.setMapSize(map
     _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
     for (int i = 0; i < (width + height); i++)
       _window.getCamera()->zoomLess();

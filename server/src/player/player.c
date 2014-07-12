@@ -36,12 +36,6 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   client_send_msg(client, buffer);
   sprintf(buffer, "%d %d\n", this->x, this->y);
   client_send_msg(client, buffer);
-
-
-  printf("[NEW PLAYER]\n");
-  printf("pos x [%d] --- pos y [%d]\n", this->x, this->y);
-  printf("level [%d]\n", this->level);
-  printf("team [%s] - nb slot [%d]\n", this->team->name, this->team->nb_slots);
 }
 
 t_player*	player_new(t_gameplay *gameplay, t_client *client,
@@ -56,8 +50,15 @@ t_player*	player_new(t_gameplay *gameplay, t_client *client,
   return (player);
 }
 
-struct timeval	player_get_next_action_time(t_player* this)
+struct timeval		player_get_next_action_time(t_player* this)
 {
+  t_player_command*	command;
+
+  command = list_front(this->command_queue);
+  if (!command)
+    return (this->death_time);
+  if (timeval_comp(command->expiration_time, this->death_time) < 0)
+    return (command->expiration_time);
   return (this->death_time);
 }
 
@@ -101,7 +102,7 @@ bool			player_need_update(t_player* this,
   command = list_front(this->command_queue);
   if (command == NULL)
     return (player_is_dead(this, time));
-  if (timeval_comp(this->death_time, time) < 0)
+  if (timeval_comp(command->expiration_time, time) < 0)
     return (true);
   return (player_is_dead(this, time));
 }
