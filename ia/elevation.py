@@ -6,4 +6,3 @@ class Elevation:
 
     def inElevation (self):
         return self.isInElevation
-

@@ -46,20 +46,23 @@ class Data:
             self.answer = res.getAnswer()
         elif res.isElevation():
             self.elevation = res.getElevation()
+            self.leader = 0
         elif res.isLevel():
             self.level = res.getLevel()
-            self.leader = 0
             self.elevation.isInElevation = False
         return res
 
     def reinitializeListLevel (self):
         self.listOtherLevel = [0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-    def getNbrOfLevel (self, level):
-        return self.listOtherLevel[level]
+    def getNbrOfMyLevel (self):
+        return self.listOtherLevel[self.level.getActualLevel()]
 
-    def getNbrofLowerLevel (self, level):
+    def getNbrofLowerLevel (self):
         res = 0
-        for i in range(level):
+        for i in range(self.level.getActualLevel() + 1):
             res += self.listOtherLevel[i]
         return res
+
+    def addLevelToList (self, level):
+        self.listOtherLevel[level] += 1
