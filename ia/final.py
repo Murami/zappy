@@ -99,7 +99,7 @@ hystame"]
                     exit (0)
                 else:
                     break
-        
+
     def getNeededStones (self):
         res = list()
         for elem in self.stoneName:
@@ -110,7 +110,7 @@ hystame"]
             for i in range(0, tmp):
                 res.append(elem)
         return res
-    
+
     def chooseOtherView (self):
         if self.staticSeek < 3:
             self.addToQueue("droite")
@@ -180,6 +180,7 @@ hystame"]
     def tryToEvolve (self):
         if self.data.getNbrOfMyLevel() >=\
            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+            print(self.playerReadyOnMyCase)
             if self.playerReadyOnMyCase >=\
                self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
                 self.evolve()
@@ -201,20 +202,19 @@ hystame"]
 
     def transformNbrInDirection (self, nb):
         if nb == 0:
+            self.addToQueue("droite")
+            self.addToQueue("droite")
+            self.addToQueue("avance")
             self.addToQueue("broadcast here")
             self.needToStay = True
         elif nb == 1:
             self.addToQueue("avance")
         elif nb == 2:
             self.addToQueue("avance")
-            self.addToQueue("gauche")
-            self.addToQueue("avance")
         elif nb == 3:
             self.addToQueue("gauche")
             self.addToQueue("avance")
         elif nb == 4:
-            self.addToQueue("gauche")
-            self.addToQueue("avance")
             self.addToQueue("gauche")
             self.addToQueue("avance")
         elif nb == 5:
@@ -224,23 +224,20 @@ hystame"]
         elif nb == 6:
             self.addToQueue("droite")
             self.addToQueue("avance")
-            self.addToQueue("droite")
-            self.addToQueue("avance")
         elif nb == 7:
             self.addToQueue("droite")
             self.addToQueue("avance")
         elif nb == 8:
             self.addToQueue("avance")
-            self.addToQueue("droite")
-            self.addToQueue("avance")
 
     def __come (self, exp, message):
         if self.isCome == True:
             return
-        if self.data.level.getActualLevel() == int(exp.group(1))\
-           and self.needToStay == False:
+        if self.data.level.getActualLevel() == int(exp.group(1)):
+            if self.needToStay is False:
+                self.transformNbrInDirection(message.getDirection())
+                print("je bouge <-------------------------------")
             self.possibleLeader = False
-            self.transformNbrInDirection(message.getDirection())
             self.isCome = True
 
     def __getlvl (self, exp, message):
@@ -260,7 +257,7 @@ hystame"]
             res = self.regex[elem].regex.search(message.getMessage())
             if res is not None:
                 self.regex[elem].funcPtr(res, message)
-        
+
     def manageTaskList (self):
         if len(self.taskList) == 0:
             return
@@ -277,7 +274,6 @@ hystame"]
         self.sendRequests()
 
     def getDecision (self):
-        print(self.data.level.getActualLevel())
         self.possibleLeader = True
         self.manageTaskList()
         if self.data.inventory.getFood() <= 3:
@@ -286,18 +282,17 @@ hystame"]
             while self.data.inventory.getFood() < 10:
                 self.seekFood()
                 self.getInventory()
-        elif len(self.getNeededStones()) > 0:
+        elif self.possibleLeader is True and len(self.getNeededStones()) > 0:
             self.playerReadyOnMyCase = 0
             self.needToStay = False
             self.seekStone()
         elif self.possibleLeader == True:
             self.tryToEvolve()
-        
+
     def run (self):
         while self.data.alive.isAlive() is True:
             self.getInventory()
             self.getDecision()
-            print("\033[34m" + str(self.data.inventory.getFood()) + "\033[0m")
         print("\033[32mOh no, you're dead !!!\033[0m")
 
 
