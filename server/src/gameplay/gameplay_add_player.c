@@ -51,7 +51,11 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
       player->client = client;
       ((t_client_player*)client)->player = player;
       gameplay_update_player_position(this, player, this->players);
-      bind
+      if (player->is_egg)
+	/**/;
+      else
+	/**/;
+      player->is_egg = false;
     }
   else
     {
@@ -84,4 +88,5 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PL
       it = list_iterator_next(it);
     }
   player->it = list_insert(this->ghosts, it, player);
+  player->is_egg = true;
 }
