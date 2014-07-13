@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 20:20:47 2014 otoshigami
+** Last update Sun Jul 13 21:18:23 2014 Desabre Quentin
 */
 
 #include <string.h>
@@ -44,7 +44,7 @@ void			put_case_content(t_gameplay* this,
     {
       player = it->data;
       if (player->x == x && player->y == y)
-	strncat(buffer_msg, " player", 4095);
+	strncat(buffer_msg, " joueur", 4095);
       it = list_iterator_next(it);
     }
   strncat(buffer_msg, ",", 4095);

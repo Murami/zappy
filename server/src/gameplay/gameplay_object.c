@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:35:33 2014 otoshigami
-** Last update Sun Jul 13 17:35:34 2014 otoshigami
+** Last update Sun Jul 13 21:19:10 2014 Desabre Quentin
 */
 
 #include <stdio.h>
@@ -42,7 +42,7 @@ void			gameplay_command_inventaire(t_gameplay* this,
   if (foods < 0)
     foods = 0;
   sprintf(buffer, "{nourriture %d, linemate %d, deraumere %d, "
-	  "sibur %d, mendiane %d, phiras %d, thystame %d}",
+	  "sibur %d, mendiane %d, phiras %d, thystame %d}\n",
 	  (int)foods,
 	  command->player->inventory.linemate,
 	  command->player->inventory.deraumere,
