@@ -23,6 +23,7 @@ typedef struct		s_server
   t_gameplay*    	gameplay;
   t_list*		new_clients;
   t_list*		clients;
+  t_list*		deads;
 }			t_server;
 
 void			sighandler(int);
@@ -44,6 +45,7 @@ void			server_add_monitor_command(t_server* this, struct s_monitor_command* comm
 
 void			server_process_new_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
 void			server_process_clients(t_server* this, fd_set* fd_set_in, fd_set* fd_set_out);
+void			server_process_deads(t_server* this, fd_set* fd_set_in);
 
 bool			server_process_clients_input(t_server* this, fd_set* fd_set_in, struct s_client* client);
 bool			server_process_clients_output(t_server* this, fd_set* fd_set_in, struct s_client* client);

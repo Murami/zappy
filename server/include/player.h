@@ -30,6 +30,7 @@ typedef struct		s_player
   int			x;
   int			y;
   int			id_egg;
+  bool			is_egg;
   t_list*		command_queue;
   /* t_list*		eggs; */
   t_list_iterator	it;

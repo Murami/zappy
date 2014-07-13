@@ -24,7 +24,7 @@ void			gameplay_command_fork(t_gameplay* this,
   egg->id = gameplay_get_new_id(this);
   egg->id_player = command->player->id;
   list_push_back(this->eggs, egg);
-  gameplay_send_egg_lay(this, command->player);
+  gameplay_send_egg_lay(this, command->player, egg);
 }
 
 int			count_taken_slot(t_gameplay* this, t_team* team)

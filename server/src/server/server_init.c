@@ -86,4 +86,14 @@ void			reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out)
 	FD_SET(sockstream->socket, fd_set_out);
       it = list_iterator_next(it);
     }
+
+  /* DEADS LOOP */
+  it = list_begin(this->deads);
+  while (it != list_end(this->deads))
+    {
+      client = it->data;
+      if (client->socketstream->size_output != 0 || !list_empty(client->requests_output))
+	FD_SET(client->socketstream->socket, fd_set_out);
+      it = list_iterator_next(it);
+    }
 }

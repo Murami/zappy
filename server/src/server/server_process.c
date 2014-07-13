@@ -35,3 +35,38 @@ void			server_process_clients(t_server* this,
       it = list_iterator_next(it);
     }
 }
+
+bool			server_process_deads_output(t_server* this,
+						    fd_set* fd_set_out,
+						    t_client* client)
+{
+  (void) this;
+
+  if (FD_ISSET(client->socketstream->socket, fd_set_out))
+    if (!socketstream_flush_output(client->socketstream))
+      {
+	printf("client gone away ??? WUT ?\n");
+	client_delete(client);
+	return (false);
+      }
+  FD_CLR(client->socketstream->socket, fd_set_out);
+  if (!list_empty(client->requests_output))
+    client_run_output(client, this);
+  return (true);
+}
+
+void			server_process_deads(t_server* this,
+					     fd_set* fd_set_out)
+{
+  t_list_iterator	it;
+  t_client*		client;
+
+  it = list_begin(this->deads);
+  while (it != list_end(this->deads))
+    {
+      client = it->data;
+      if (!server_process_deads_output(this, fd_set_out, client))
+	it = list_erase(this->deads, it);
+      it = list_iterator_next(it);
+    }
+}

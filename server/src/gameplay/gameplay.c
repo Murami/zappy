@@ -43,9 +43,10 @@ void	egg_hatch(t_gameplay* this, t_egg* egg)
   player = player_new(this, NULL, egg->team);
   player->id_egg = egg->id;
   player->it = NULL;
+  player->is_egg = true;
   gameplay_update_player_position(this, player, this->ghosts);
   gameplay_send_egg_hatch(this, egg);
-  gameplay_remove_egg(this, egg);
+  /* gameplay_remove_egg(this, egg); */
 }
 
 struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)
@@ -60,7 +61,8 @@ struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttim
 	 egg_need_update(it->data, currenttime))
     {
       egg_hatch(this, it->data);
-      it = list_erase(this->eggs, it->data);
+      free(it->data);
+      it = list_erase(this->eggs, it);
       it = list_iterator_next(it);
     }
   if (!list_empty(this->eggs))
@@ -138,19 +140,52 @@ void			gameplay_update_player_position(t_gameplay* this, t_player* player, t_lis
   player->it = list_insert(list, it, player);
 }
 
-/* FREE SLOTS ???? */
+void			send_pdi(t_gameplay *this, t_player* player)
+{
+  char			buffer[4096];
+  t_list_iterator	it;
+  t_client*		client;
+
+  sprintf(buffer, "pdi %d\n", player->id);
+  it = list_begin(this->monitors);
+  while (it != list_end(this->monitors))
+    {
+      client = it->data;
+      client_send_msg(client, buffer);
+      it = list_iterator_next(it);
+    }
+}
 
 t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
 {
   /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
+  printf("player [%d] killed (starved to death)\n", player->id);
   it = list_iterator_prev(player->it);
   server_remove(this->server, player->client);
   list_erase(this->players, player->it);
-  client_delete(player->client);
+  send_pdi(this, player);
+  client_send_msg(player->client, "mort\n");
+  server_remove(this->server, player->client);
   free(player);
   return (it);
+}
+
+void			send_edi(t_gameplay* this, t_player* player)
+{
+  char			buffer[4096];
+  t_list_iterator	it;
+  t_client*		client;
+
+  sprintf(buffer, "edi %d\n", player->id_egg);
+  it = list_begin(this->monitors);
+  while (it != list_end(this->monitors))
+    {
+      client = it->data;
+      client_send_msg(client, buffer);
+      it = list_iterator_next(it);
+    }
 }
 
 t_list_iterator		gameplay_kill_ghost(t_gameplay* this, t_player* player)
@@ -158,8 +193,13 @@ t_list_iterator		gameplay_kill_ghost(t_gameplay* this, t_player* player)
   /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
+  printf("ghost player [%d] killed (starved to death)\n", player->id);
   it = list_iterator_prev(player->it);
   list_erase(this->ghosts, player->it);
+  if (player->is_egg)
+    send_edi(this, player);
+  else
+    send_pdi(this, player);
   free(player);
   return (it);
 }
