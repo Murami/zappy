@@ -11,6 +11,7 @@ void			gameplay_send_egg(t_gameplay *this, t_player *player)
   char			buffer[4096];
 
   sprintf(buffer, "pfk %d\n", player->id);
+  it = list_begin(this->monitors);
   while (it != list_end(this->monitors))
     {
       monitor = it->data;
