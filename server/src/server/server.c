@@ -1,3 +1,13 @@
+/*
+** server.c for server in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 16:25:12 2014 quentin desabre
+** Last update Sun Jul 13 16:30:32 2014 Desabre Quentin
+*/
+
 #include <unistd.h>
 #include <netdb.h>
 #include <netinet/in.h>
@@ -38,17 +48,14 @@ void			server_release(t_server *this)
   t_client*		client;
   t_socketstream*	new_client;
 
-  printf("realse [%d] [%d]\n", list_size(this->clients), list_size(this->new_clients));
   while (!list_empty(this->clients))
     {
-      printf("release d'un client identifié\n");
       client = list_back(this->clients);
       client_delete(client);
       list_pop_back(this->clients);
     }
   while (!list_empty(this->new_clients))
     {
-      printf("release d'un client non - identifié\n");
       new_client = list_back(this->new_clients);
       socketstream_delete(new_client);
       list_pop_back(this->new_clients);
@@ -78,88 +85,9 @@ void			server_accept(t_server *this)
     perror("accept");
   socketstream = socketstream_new(socket);
   list_push_back(this->new_clients, socketstream);
-  /* HERE WE HAD BETTER GO TROUGH ALL THE OPENED SOCKET TO FIND THE HIGEST AFTER EACH CONNECTION/DISCONNECTION ! */
   if (socket > this->socket_max)
     this->socket_max = socket;
   socketstream_write(socketstream, "BIENVENUE\n", strlen("BIENVENUE\n"));
-}
-
-
-void			server_delete_deads(t_server* this)
-{
-  t_list_iterator	it;
-  t_client*		client;
-
-  it = list_begin(this->deads);
-  while (it != list_end(this->deads))
-    {
-      client = it->data;
-      if (list_empty(client->requests_output) &&
-	  client->socketstream->size_output == 0)
-	{
-	  printf("dead deleted\n");
-	  client_delete(client);
-	  it = list_erase(this->deads, it);
-	}
-      it = list_iterator_next(it);
-    }
-}
-
-void			server_launch(t_server *this)
-{
-  struct timeval	waiting_time;
-  int			retval;
-  fd_set		set_fd_in;
-  fd_set		set_fd_out;
-
-  waiting_time.tv_sec = 0;
-  waiting_time.tv_usec = 0;
-  while (!this->gameplay->winner)
-    {
-      if (g_alive == false)
-	{
-	  server_release(this);
-	  return;
-	}
-      reset_rfds(this, &set_fd_in, &set_fd_out);
-      printf("[SELECT] %ld -- %ld\n", waiting_time.tv_sec, waiting_time.tv_usec);
-      retval = select(1 + this->socket_max,
-		      &set_fd_in, &set_fd_out, NULL,
-		      (waiting_time.tv_sec || waiting_time.tv_usec) ? &waiting_time : NULL);
-      if (g_alive == false)
-	{
-	  server_release(this);
-	  return;
-	}
-      else if (retval == -1)
-	{
-	  perror("select()");
-	  exit(-1);
-	}
-      gettimeofday(&this->gameplay->time, NULL);
-      if (FD_ISSET(this->socket, &set_fd_in))
-	server_accept(this);
-      else
-	{
-	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
-	  server_process_clients(this, &set_fd_in, &set_fd_out);
-	  server_process_deads(this, &set_fd_out);
-	}
-      waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
-      server_delete_deads(this);
-    }
-  printf("we have a winner : %s\n", this->gameplay->winner->name);
-  gameplay_send_seg(this->gameplay);
-}
-
-void			server_add_player_command(t_server* this, t_player_command* command)
-{
-  gameplay_add_player_command(this->gameplay, command);
-}
-
-void			server_add_monitor_command(t_server* this, t_monitor_command* command)
-{
-  gameplay_add_monitor_command(this->gameplay, command);
 }
 
 void			server_remove(t_server* this, t_client* client)

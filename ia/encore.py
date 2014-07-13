@@ -62,7 +62,7 @@ class Player:
             4: {"player": 3, "linemate": 1, "deraumere": 1, "sibur": 2, "mendiane": 0, "phiras": 1, "thystame": 0},
             5: {"player": 3, "linemate": 1, "deraumere": 2, "sibur": 1, "mendiane": 3, "phiras": 0, "thystame": 0},
             6: {"player": 5, "linemate": 1, "deraumere": 2, "sibur": 3, "mendiane": 0, "phiras": 1, "thystame": 0},
-            7: {"player": 5, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 0}
+            7: {"player": 5, "linemate": 2, "deraumere": 2, "sibur": 2, "mendiane": 2, "phiras": 2, "thystame": 1}
         }
 
         try:
@@ -216,6 +216,7 @@ class Player:
         return res
 
     def seekStone (self):
+        print("\n-----> DEBUT DU SEEK STONES <-------")
         tempo = queue.Queue()
         if self.data.fov.getUsed() is True:
             tempo.put("voir")
@@ -224,8 +225,9 @@ class Player:
             nearestDistance = 20
             nearest = queue.Queue()
             for elem in self.getNeededStones():
+                print(elem)
                 tmp = self.data.fov.getClosestStone(elem, self.data.level.getActualLevel())
-                if tmp.get()[5:] == "prend":
+                if tmp.qsize() > 0 and tmp.get()[5:] == "prend":
                     nearest = self.data.fov.getClosestStone(elem, self.data.level.getActualLevel())
                     break
                 tmp = self.data.fov.getClosestStone(elem, self.data.level.getActualLevel())
@@ -233,9 +235,14 @@ class Player:
                     nearest = tmp
             tempo = nearest
             if tempo.qsize() == 0:
+                print("JE CHOISI UNE AUTRE VUE")
                 tempo = self.chooseOtherView()
+                print("J'AI FINI DE CHOISIR UNE AUTRE VUE")
             else:
                 self.staticSeek = 0
+        print("\n")
+        print(tempo)
+        print("-----> FIN DU SEEK STONES <-------")
         return tempo
 
     # gestion de la bouffe

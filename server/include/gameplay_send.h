@@ -8,6 +8,7 @@ void	gameplay_send_pos(t_gameplay*, struct s_player*);
 void	gameplay_send_res(struct s_client*, bool);
 void	gameplay_send_case(struct s_client*, struct s_case*);
 void	gameplay_send_case_all(t_gameplay*, struct s_player*);
+void	gameplay_send_case_all2(t_gameplay*, int, int);
 void	gameplay_send_lvl_all(t_gameplay*, struct s_player*);
 void	gameplay_send_res_incant(t_gameplay*, struct s_player_command*, bool);
 void	gameplay_send_egg_hatch(t_gameplay*, struct s_egg*);
