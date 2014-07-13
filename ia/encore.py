@@ -78,10 +78,32 @@ class Player:
             raise GeneratorExit
         else:
             self.data.oldFreeSlot.freeSlot = int(recv)
-            
         tmp = self.net.recv().split(" ")
         print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0], tmp[1]))
-        
+
+    def transformNbrInDirection (self, nb):
+        if nb == 1:
+            self.theQueue.put("avance")
+        elif nb == 2:
+            self.theQueue.put("avance")
+        elif nb == 3:
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 4:
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 5:
+            self.theQueue.put("gauche")
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 6:
+            self.theQueue.put("droite")
+            self.theQueue.put("avance")
+        elif nb == 7:
+            self.theQueue.put("droite")
+            self.theQueue.put("avance")
+        elif nb == 8:
+            self.theQueue.put("avance")
 
     def manageResponse (self, response):
         if response.isMessage() is True:
@@ -96,18 +118,21 @@ class Player:
                 self.theQueue.put("broadcast come "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
+
             exp = self.regexResponse["come"].search(response.getMessage().getMessage())
             if exp is not None\
-               and self.leader is False\
                and self.eating is False\
                and int(exp.group(1)) == self.data.level.getActualLevel()\
                and exp.group(2) == self.teamName:
+                self.leader = False
                 if response.getMessage().getDirection() == 0:
                     self.wait = True
                 else:
                     self.theQueue.put("broadcast onMyWay "
                                       + str(self.data.level.getActualLevel())
                                       + " " + self.teamName)
+                    self.transformNbrInDirection(response.getMessage().getDirection())
+
             exp = self.regexResponse["getlvl"].search(response.getMessage().getMessage())
             if exp is not None\
                and exp.group(1) == self.teamName:
@@ -286,7 +311,7 @@ class Player:
                     self.data.reinitializeListLevel()
                     self.theQueue = self.seekFood()
                 elif self.eating is True:
-                    if self.data.inventory.getFood() <= 10:
+                    if self.data.inventory.getFood() <= 20:
                         self.theQueue = self.seekFood()
                     else:
                         self.eating = False
