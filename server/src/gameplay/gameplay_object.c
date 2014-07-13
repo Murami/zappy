@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:35:33 2014 otoshigami
-** Last update Sun Jul 13 21:30:59 2014 Desabre Quentin
+** Last update Sun Jul 13 22:06:26 2014 pinon
 */
 
 #include <stdio.h>
@@ -34,6 +34,15 @@ void			gameplay_command_inventaire(t_gameplay* this,
   char			buffer[4096];
   struct timeval	time;
   float			foods;
+
+  if (command->player->death_time.tv_sec == 0)
+    ;
+  if (command->player->death_time.tv_usec == 0)
+    ;
+  if (this->time.tv_sec == 0)
+    ;
+  if (this->time.tv_usec == 0)
+    ;
 
   time = timeval_sub(command->player->death_time, this->time);
   foods = time.tv_sec + ((float)time.tv_usec) / 1000000.f;

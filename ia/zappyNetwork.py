@@ -14,7 +14,9 @@ class   ZappyNetwork:
             print("\033[34mEnd of connection\033[00m")
         except:
             raise
-        self.recv()
+        self.data = ""
+        recv = self.recv()
+        print(recv)
 
     def __del__ (self):
         self.sock.close()
@@ -23,10 +25,17 @@ class   ZappyNetwork:
         self.sock.send("{}\n".format(msg).encode("utf8"))
 
     def recv (self):
+        print("!dfjkwljkldjfjksmlkjdlskjmldkj")
         try:
-            file = self.sock.makefile('rb')
-            data = file.readline()
-            return str(data[:-1], "utf8")
+            print("--------->" + self.data + "<-----------")
+            while (self.data.find("\n") == -1):
+                self.data = self.data + str(self.sock.recv(4096), "utf8")
+                print ("***" + self.data + "****")
+            tmp = self.data.find("\n")
+            recv = self.data[0:tmp]
+            self.data = self.data[tmp + 1:len(self.data)]
+            return recv
+
         except KeyboardInterrupt:
             print("\033[32m\b\bPetit malin, t'as appuyé sur Ctrl+C\033[0m")
             raise
