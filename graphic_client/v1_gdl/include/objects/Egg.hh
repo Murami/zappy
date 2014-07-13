@@ -16,6 +16,8 @@ namespace	Zappy
     int		_playerId;
     int		_id;
     gdl::Model*	_model;
+    int		_x;
+    int		_y;
 
   public :
     virtual void	initialize();
@@ -25,6 +27,8 @@ namespace	Zappy
   public :
     int		getId() const;
     int		getPlayerId() const;
+    int		getX() const;
+    int		getY() const;
 
   public :
     Egg(int playerId, int eggId, int x, int y);

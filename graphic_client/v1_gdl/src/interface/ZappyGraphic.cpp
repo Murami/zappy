@@ -338,8 +338,17 @@ namespace	Zappy
     _eggs.push_back(egg);
   }
 
-  void		ZappyGraphic::eggOpens(int)
+  void		ZappyGraphic::eggOpens(int eggId)
   {
+    for (std::list<Egg*>::iterator it = _eggs.begin(); it != _eggs.end(); it++)
+      {
+	std::cout << (*it)->getId() << " <=> " << eggId << std::endl;
+	if ((*it)->getId() == eggId)
+	  {
+	    _eggs.erase(it);
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::playerConnectsForEgg(int)
