@@ -27,6 +27,8 @@ class   ZappyNetwork:
             file = self.sock.makefile('rb')
             data = file.readline()
             return str(data[:-1], "utf8")
-        except:
+        except KeyboardInterrupt:
             print("\033[32m\b\bPetit malin, t'as appuyé sur Ctrl+C\033[0m")
+            raise
+        except:
             raise

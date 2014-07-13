@@ -147,7 +147,6 @@ class Player:
                and exp.group(2) == self.teamName:
                 print("->>>>>>>>>>>>>>>>>>> je recoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
                 self.data.addLevelToList(int(exp.group(1)))
-                print("debug")
 
         elif response.isFreeSlot() is True:
             print(str(self.data.newFreeSlot.getFreeSlot()) + " - " + str(self.data.oldFreeSlot.getFreeSlot()))
