@@ -1,25 +1,37 @@
-def __manageInventaire          (self, response, expr):
+def manageConnectNbr          (self, response, expr):
+    return response.isFreeSlot()
+
+def manageFork                (self, response, expr):
+    return response.isAnswer()
+
+def manageInventaire          (self, response, expr):
     return response.isInventory()
 
-def __manageVoir                (self, response, expr):
+def manageVoir                (self, response, expr):
+    print("ici je sui dans le voir")
+    return response.isFov()
+
+def manageAvance              (self, response, expr):
+    print("ici je suis dans avance")
     return response.isAnswer()
 
-def __manageAvance              (self, response, expr):
+def manageGauche              (self, response, expr):
+    print("ici je suis dans le gauche")
     return response.isAnswer()
 
-def __manageGauche              (self, response, expr):
+def manageDroite              (self, response, expr):
+    print("ici je suis dans le droite")
     return response.isAnswer()
 
-def __manageDroite              (self, response, expr):
+def managePrend               (self, response, expr):
+    print("ici je suis dans le prend")
     return response.isAnswer()
 
-def __managePrend               (self, response, expr):
+def managePose                (self, response, expr):
+    print("ici je suis dans le pose")
     return response.isAnswer()
 
-def __managePose                (self, response, expr):
-    return response.isAnswer()
-
-def __manageIncantation         (self, response, expr):
+def manageIncantation         (self, response, expr):
     if response.isElevation() is True:
         return True
     if response.isLevel() is True:
@@ -28,17 +40,17 @@ def __manageIncantation         (self, response, expr):
         return True
     return False
 
-def __manageExpulse             (self, response, expr):
+def manageExpulse             (self, response, expr):
     return response.isAnswer()
 
-def __manageGetlvl              (self, response, expr):
-    return False
+def manageGetlvl              (self, response, expr):
+    return response.isAnswer()
 
-def __manageMylvl               (self, response, expr):
-    return False
+def manageMylvl               (self, response, expr):
+    return response.isAnswer()
 
-def __manageCome                (self, response, expr):
-    return False
+def manageCome                (self, response, expr):
+    return response.isAnswer()
 
-def __manageOnMyWay             (self, response, expr):
-    return False
+def manageOnMyWay             (self, response, expr):
+    return response.isAnswer()

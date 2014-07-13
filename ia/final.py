@@ -71,8 +71,7 @@ hystame"]
             print("\033[33mYou can't reach the world yet\033[0m")
             raise GeneratorExit
         tmp = self.net.recv().split(" ")
-        print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0\
-], tmp[1]))
+        print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0], tmp[1]))
 
     def addToQueue (self, request):
         self.requests.put(request)
@@ -103,6 +102,7 @@ hystame"]
                     exit (0)
                 else:
                     break
+
 
     def getNeededStones (self):
         res = list()
@@ -145,8 +145,10 @@ hystame"]
     def seekStone (self):
         print("SEEK STONE")
         if self.data.fov.getUsed() is True:
+            print("UTILISE")
             self.addToQueue("voir")
         else:
+            print("PAS UTILISE")
             self.data.fov.setUsed(True)
             nearestDistance = 20
             nearest = queue.Queue()
@@ -156,7 +158,7 @@ hystame"]
                     nearest = self.data.fov.getClosestStone(elem, self.data.level.getActualLevel())
                     break
                 tmp = self.data.fov.getClosestStone(elem, self.data.level.getActualLevel())
-                if tmp.qsize() < nearestDistance:
+                if tmp.qsize() > 0 and tmp.qsize() < nearestDistance:
                     nearest = tmp
             self.requests = nearest
             if self.requests.qsize() == 0:
@@ -195,7 +197,7 @@ hystame"]
                 print("EVOLVE COND 1'1 : c'est le evolve")
                 self.evolve()
             elif self.isFirstCome == True:
-                print("EVOLVE COND 1''2; cc'est le broadcast come")
+                print("EVOLVE COND 1''2; c'est le broadcast come")
                 self.isFirstCome = False
                 self.addToQueue("broadcast come " + str(self.data.level.getActualLevel()))
         else:
@@ -304,7 +306,6 @@ hystame"]
     def getDecision (self):
         print("\nDECISION")
         self.possibleLeader = True
-        self.manageTaskList()
         if self.data.inventory.getFood() <= 3:
             self.playerReadyOnMyCase = 0
             self.needToStay = False

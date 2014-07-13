@@ -41,4 +41,5 @@ void			gameplay_command_plv(t_gameplay* this,
 	}
       it = list_iterator_next(it);
     }
+  gameplay_send_sbp(&command->client->parent_client);
 }

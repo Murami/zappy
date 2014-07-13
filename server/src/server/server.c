@@ -10,6 +10,7 @@
 #include "server.h"
 #include "gameplay.h"
 #include "client.h"
+#include "team.h"
 #include "client_graphic.h"
 #include "client_player.h"
 #include "socketstream.h"
@@ -113,7 +114,7 @@ void			server_launch(t_server *this)
 
   waiting_time.tv_sec = 0;
   waiting_time.tv_usec = 0;
-  while (42)
+  while (!this->gameplay->winner)
     {
       if (g_alive == false)
 	{
@@ -131,7 +132,10 @@ void			server_launch(t_server *this)
 	  return;
 	}
       else if (retval == -1)
-	perror("select()");
+	{
+	  perror("select()");
+	  exit(-1);
+	}
       gettimeofday(&this->gameplay->time, NULL);
       if (FD_ISSET(this->socket, &set_fd_in))
 	server_accept(this);
@@ -144,6 +148,8 @@ void			server_launch(t_server *this)
       waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
       server_delete_deads(this);
     }
+  printf("we have a winner : %s\n", this->gameplay->winner->name);
+  gameplay_send_seg(this->gameplay);
 }
 
 void			server_add_player_command(t_server* this, t_player_command* command)

@@ -5,6 +5,7 @@
 void		team_initialize(t_team *this, int nb_slots, char *name)
 {
   this->nb_slots = nb_slots;
+  this->nb_lvl8 = 0;
   this->name = strdup(name);
 }
 

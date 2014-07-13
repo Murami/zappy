@@ -4,6 +4,25 @@
 #include "player.h"
 #include "map.h"
 #include "client.h"
+#include "team.h"
+
+void			check_winner(t_gameplay* this)
+{
+  t_list_iterator	it;
+  t_team*		team;
+
+  it = list_begin(this->teams);
+  while (it != list_end(this->teams))
+    {
+      team = it->data;
+      if (team->nb_lvl8 >= 6)
+	{
+	  this->winner = team;
+	  return;
+	}
+      it = list_iterator_next(it);
+    }
+}
 
 bool			check_players(t_gameplay* this,
 				      t_player_command* command, int nb)
@@ -67,12 +86,16 @@ void			gameplay_command_incantation(t_gameplay* this,
 	  if (player->x == command->player->x && player->y == command->player->y)
 	    {
 	      player->level++;
+	      if (player->level == 8)
+		player->team->nb_lvl8++;
 	      gameplay_send_lvl_all(this, player);
 	      client_send_msg(player->client, buffer);
 	    }
 	  it = list_iterator_next(it);
 	}
+      check_winner(this);
     }
   else
     gameplay_send_res_incant(this, command, false);
+  gameplay_send_case_all(this, command->player);
 }

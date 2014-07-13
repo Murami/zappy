@@ -54,11 +54,21 @@ sgt OK
 
 ---------------------------------------------------------------------------
 
+test supplémentaire lancer graphique ave un oeuf
+
+
 EVENT
 
 avance				       -OK-
 droite				       -OK-
 gauche				       -OK-
+ponte oeuf			       -OK-
+joueur co sur egg		       -OK-
+oeuf a été pondu 		       -OK-
+oeuf eclot			       -OK-
+oeuf meurt de faim			--	à tester
+mort					--	à tester
+
 
 drop					OK	pop à faire
 take					OK	pop à faire
@@ -66,9 +76,6 @@ Connexion d'un nouveau joueur		OK	pop à faire
 
 Un joueur expulse      			OK	à tester
 Un joueur broadcast			OK	à tester
-ponte oeuf				OK	à tester (fin du fork)
-oeuf a été pondu 			OK	à tester (oeuf en attente d'éclosion) + init
-oeuf eclot				--	eht #e
 
 Premier joueur lance incant		--	pic X Y #n #n....
 Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
@@ -77,14 +84,11 @@ fin du jeu				--	seg N
 msg server				--	smg M
 cmd inconnue				--	suc
 mauvais param				--	sbp
-mort					--	...
 ko + délais connexion			--	...
 
 id oeuf + mort de l'oeuf à gerer --> antho
 
 
-joueur co sur egg			--	ebo #e
-oeuf meurt de faim			--	edi #e
 
 
 ---------------------------------------------------------------------------

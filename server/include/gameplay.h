@@ -31,6 +31,7 @@ typedef struct		s_gameplay
   struct timeval	time;
   struct s_server*	server;
   int			last_id;
+  struct s_team*	winner;
 }			t_gameplay;
 
 typedef struct		s_object_binding
@@ -44,6 +45,7 @@ typedef struct		s_object_binding
 # include "gameplay_send.h"
 # include "gameplay_ia_callbacks.h"
 # include "gameplay_monitor_callbacks.h"
+# include "gameplay_pop.h"
 # include "gameplay_misc.h"
 
 #endif /* _GAMEPLAY_H_ */

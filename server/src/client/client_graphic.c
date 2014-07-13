@@ -55,7 +55,7 @@ void			client_graphic_run_input(t_client_graphic* this,
       if (command)
 	server_add_monitor_command(server, command);
       else
-      	printf("error: invalid command send by a client monitor!\n");
+	gameplay_send_suc(&this->parent_client);
     }
 }
 

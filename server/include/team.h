@@ -4,6 +4,7 @@
 typedef struct	s_team
 {
   int		nb_slots;
+  int		nb_lvl8;
   char		*name;
 }		t_team;
 

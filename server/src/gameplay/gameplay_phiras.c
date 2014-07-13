@@ -20,6 +20,7 @@ void			gameplay_take_phiras(t_gameplay *this,
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 5);
       gameplay_send_res(command->player->client, true);
+      gameplay_pop_phiras(this);
     }
   else
     gameplay_send_res(command->player->client, false);
