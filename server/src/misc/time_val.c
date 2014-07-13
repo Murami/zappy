@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:48 2014 quentin desabre
-** Last update Sun Jul 13 18:04:48 2014 Desabre Quentin
+** Last update Sun Jul 13 22:56:40 2014 otoshigami
 */
 
 #include "time_val.h"
