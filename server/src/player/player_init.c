@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:00:47 2014 otoshigami
-** Last update Sun Jul 13 19:56:16 2014 otoshigami
+** Last update Sun Jul 13 20:29:25 2014 Desabre Quentin
 */
 
 #include <stdlib.h>
@@ -20,13 +20,15 @@
 #include "list.h"
 
 void		player_send(t_player* this, t_client* client,
-			    t_team* team)
+			    t_team* team, t_gameplay *gameplay)
 {
   char		buffer[4096];
 
+  (void)this;
   sprintf(buffer, "%d\n", team->nb_slots);
   client_send_msg(client, buffer);
-  sprintf(buffer, "%d %d\n", this->x, this->y);
+  sprintf(buffer, "%d %d\n", gameplay->map.width,
+	  gameplay->map.height);
   client_send_msg(client, buffer);
 }
 
@@ -52,7 +54,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   if (this->client)
     {
       ((t_client_player*)client)->player = this;
-      player_send(this, client, team);
+      player_send(this, client, team, gameplay);
     }
 }
 
