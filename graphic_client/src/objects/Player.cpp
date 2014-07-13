@@ -181,13 +181,14 @@ namespace	Zappy
       _stateStack.push(STANDING);
     _model = AnimationPool::getInstance()->getStandingFrame(_level);
     _state = STANDING;
+    AnimationPool::getInstance()->resetCast();
   }
 
   void		Player::startCast()
   {
     _stateStack.push(CASTING);
     _state = CASTING;
-    _model = AnimationPool::getInstance()->getCastingFrame();
+    _model = AnimationPool::getInstance()->getNextCastingFrame();
     _elapsed = 0;
   }
 
@@ -208,30 +209,70 @@ namespace	Zappy
 
   void		Player::north()
   {
-    translate(glm::vec3(0, -Player::SPEED, 0));
-    if (_position.y <= 0)
-      _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+    if (_timeUnit <= 10)
+      {
+	translate(glm::vec3(0, -Player::SPEED, 0));
+	if (_position.y <= 0)
+	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+      }
+    else
+      {
+	translate(glm::vec3(0, -Player::SPEED * Map::BLOCK_SIZE, 0));
+	if (_position.y <= 0)
+	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+	stopRunning();
+      }
   }
 
   void		Player::south()
   {
-    translate(glm::vec3(0, Player::SPEED, 0));
-    if (_position.y > Map::BLOCK_SIZE * _limitY)
-      _position.y = Map::BLOCK_SIZE / 2;
+    if (_timeUnit <= 10)
+      {
+	translate(glm::vec3(0, Player::SPEED, 0));
+	if (_position.y > Map::BLOCK_SIZE * _limitY)
+	  _position.y = Map::BLOCK_SIZE / 2;
+      }
+    else
+      {
+	translate(glm::vec3(0, Player::SPEED * Map::BLOCK_SIZE, 0));
+	if (_position.y > Map::BLOCK_SIZE * _limitY)
+	  _position.y = Map::BLOCK_SIZE / 2;
+	stopRunning();
+      }
   }
 
   void		Player::east()
   {
-    translate(glm::vec3(Player::SPEED, 0, 0));
-    if (_position.x > Map::BLOCK_SIZE * _limitX)
-      _position.x = Map::BLOCK_SIZE / 2;
+    if (_timeUnit <= 10)
+      {
+	translate(glm::vec3(Player::SPEED, 0, 0));
+	if (_position.x > Map::BLOCK_SIZE * _limitX)
+	  _position.x = Map::BLOCK_SIZE / 2;
+      }
+    else
+      {
+	translate(glm::vec3(Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	if (_position.x > Map::BLOCK_SIZE * _limitX)
+	  _position.x = Map::BLOCK_SIZE / 2;
+	stopRunning();
+      }
   }
 
   void		Player::west()
   {
-    translate(glm::vec3(-Player::SPEED, 0, 0));
-    if (_position.x <= 0)
-      _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+    if (_timeUnit <= 10)
+      {
+	translate(glm::vec3(-Player::SPEED, 0, 0));
+	if (_position.x <= 0)
+	  _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+      }
+    else
+      {
+	translate(glm::vec3(-Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	if (_position.x <= 0)
+	  _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+	stopRunning();
+      }
   }
 
   void		Player::move()
@@ -248,6 +289,10 @@ namespace	Zappy
 
   void		Player::cast()
   {
+    if (_timeUnit <= 10)
+      _model = AnimationPool::getInstance()->getNextCastingFrame();
+    else
+      _model = AnimationPool::getInstance()->getCastingFrame(8);
   }
 
   void		Player::fork()
