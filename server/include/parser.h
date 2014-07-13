@@ -9,6 +9,8 @@ typedef struct  s_func
   int  (*func)(int argc, char **argv, t_config* config);
 }               t_func;
 
+extern t_func  options[];
+
 int		opt_p(int argc, char **argv, t_config* config);
 int		opt_x(int argc, char **argv, t_config* config);
 int		opt_y(int argc, char **argv, t_config* config);

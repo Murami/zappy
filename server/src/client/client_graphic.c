@@ -1,3 +1,13 @@
+/*
+** client_graphic.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:03:26 2014 otoshigami
+** Last update Sun Jul 13 17:04:25 2014 otoshigami
+*/
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,16 +24,10 @@ t_client_vtable client_graphic_vtable =
     (t_client_delete_ptr)client_graphic_delete
   };
 
-void			client_graphic_initialize(t_client_graphic* this,
-						  t_socketstream* sockstream)
+void			client_graphic_remove(t_client_graphic* this,
+					      t_server* server)
 {
-  client_initialize(&this->parent_client, sockstream);
-  this->parent_client.vtable = &client_graphic_vtable;
-}
-
-void			client_graphic_release(t_client_graphic* this)
-{
-  client_release(&this->parent_client);
+  gameplay_remove_monitor(server->gameplay, (t_client*)this);
 }
 
 void			client_data_init(char *buffer, char **d)
@@ -62,27 +66,4 @@ void			client_graphic_run_input(t_client_graphic* this,
       else
 	gameplay_send_suc(&this->parent_client);
     }
-}
-
-void			client_graphic_remove(t_client_graphic* this,
-					      t_server* server)
-{
-  gameplay_remove_monitor(server->gameplay, (t_client*)this);
-}
-
-t_client_graphic*	client_graphic_new(t_socketstream* sockstream)
-{
-  t_client_graphic*	client_graphic;
-
-  client_graphic = malloc(sizeof(t_client_graphic));
-  if (client_graphic == NULL)
-    return (NULL);
-  client_graphic_initialize(client_graphic, sockstream);
-  return (client_graphic);
-}
-
-void			client_graphic_delete(t_client_graphic* client_graphic)
-{
-  client_graphic_release(client_graphic);
-  free(client_graphic);
 }

@@ -68,11 +68,25 @@ bool			check_incant(t_gameplay* this, t_player_command* cmd)
   return (false);
 }
 
+void			gameplay_player_incantation(t_gameplay* this,
+						    t_player_command* command,
+						    t_player* player,
+						    char* buffer)
+{
+  if (player->x == command->player->x && player->y == command->player->y)
+    {
+      player->level++;
+      if (player->level == 8)
+	player->team->nb_lvl8++;
+      gameplay_send_lvl_all(this, player);
+      client_send_msg(player->client, buffer);
+    }
+}
+
 void			gameplay_command_incantation(t_gameplay* this,
 						     t_player_command* command)
 {
   t_list_iterator	it;
-  t_player*		player;
   char			buffer[4096];
 
   sprintf(buffer, "niveau actuel : %d\n", command->player->level + 1);
@@ -82,15 +96,7 @@ void			gameplay_command_incantation(t_gameplay* this,
       it = list_begin(this->players);
       while (it != list_end(this->players))
 	{
-	  player = it->data;
-	  if (player->x == command->player->x && player->y == command->player->y)
-	    {
-	      player->level++;
-	      if (player->level == 8)
-		player->team->nb_lvl8++;
-	      gameplay_send_lvl_all(this, player);
-	      client_send_msg(player->client, buffer);
-	    }
+	  gameplay_player_incantation(this, command, it->data, buffer);
 	  it = list_iterator_next(it);
 	}
       check_winner(this);

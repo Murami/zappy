@@ -17,7 +17,9 @@ SRC		=	main					\
 			client/client_player			\
 			client/client_player_run_input		\
 			client/client_graphic			\
+			client/client_graphic_init		\
 			player/player				\
+			player/player_init			\
 			player/player_command			\
 			monitor/monitor_init			\
 			monitor/monitor_size			\
@@ -28,6 +30,7 @@ SRC		=	main					\
 			monitor/monitor_map			\
 			monitor/monitor_command			\
 			misc/parser				\
+			misc/parser_opt				\
 			misc/socketstream			\
 			misc/socketstream_flush			\
 			misc/socketstream_io			\
@@ -40,6 +43,7 @@ SRC		=	main					\
 			misc/time_val				\
 			gameplay/gameplay			\
 			gameplay/gameplay_pop			\
+			gameplay/gameplay_pop2			\
 			gameplay/check_stone1_5			\
 			gameplay/check_stone6_7			\
 			gameplay/gameplay_kill			\

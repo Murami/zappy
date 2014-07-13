@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 16:27:37 2014 quentin desabre
-** Last update Sun Jul 13 16:27:59 2014 Desabre Quentin
+** Last update Sun Jul 13 17:20:02 2014 otoshigami
 */
 
 #include <unistd.h>
@@ -27,10 +27,44 @@
 #include "player_command.h"
 #include "monitor_command.h"
 
+void	server_select(t_server* this, fd_set* set_fd_out,
+		      fd_set* set_fd_in, struct timeval time)
+{
+  int	retval;
+  reset_rfds(this, set_fd_in, set_fd_out);
+  retval = select(1 + this->socket_max,
+		  set_fd_in, set_fd_out, NULL,
+		  (time.tv_sec || time.tv_usec) ?
+		  &time : NULL);
+  if (retval == -1)
+    {
+      perror("select()");
+      exit(-1);
+    }
+}
+
+struct timeval		server_process(t_server* this, fd_set* set_fd_out,
+				       fd_set* set_fd_in)
+{
+  struct timeval	waiting_time;
+
+  gettimeofday(&this->gameplay->time, NULL);
+  if (FD_ISSET(this->socket, set_fd_in))
+    server_accept(this);
+  else
+    {
+      server_process_new_clients(this, set_fd_in, set_fd_out);
+      server_process_clients(this, set_fd_in, set_fd_out);
+      server_process_deads(this, set_fd_out);
+    }
+  waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
+  server_delete_deads(this);
+  return (waiting_time);
+}
+
 void			server_launch(t_server *this)
 {
   struct timeval	waiting_time;
-  int			retval;
   fd_set		set_fd_in;
   fd_set		set_fd_out;
 
@@ -38,37 +72,13 @@ void			server_launch(t_server *this)
   waiting_time.tv_usec = 0;
   while (!this->gameplay->winner)
     {
+      server_select(this, &set_fd_out, &set_fd_in, waiting_time);
       if (g_alive == false)
 	{
 	  server_release(this);
 	  return;
 	}
-      reset_rfds(this, &set_fd_in, &set_fd_out);
-      retval = select(1 + this->socket_max,
-		      &set_fd_in, &set_fd_out, NULL,
-		      (waiting_time.tv_sec || waiting_time.tv_usec) ?
-		      &waiting_time : NULL);
-      if (g_alive == false)
-	{
-	  server_release(this);
-	  return;
-	}
-      else if (retval == -1)
-	{
-	  perror("select()");
-	  exit(-1);
-	}
-      gettimeofday(&this->gameplay->time, NULL);
-      if (FD_ISSET(this->socket, &set_fd_in))
-	server_accept(this);
-      else
-	{
-	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
-	  server_process_clients(this, &set_fd_in, &set_fd_out);
-	  server_process_deads(this, &set_fd_out);
-	}
-      waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
-      server_delete_deads(this);
+      waiting_time = server_process(this, &set_fd_out, &set_fd_in);
     }
   printf("we have a winner : %s\n", this->gameplay->winner->name);
   gameplay_send_seg(this->gameplay);

@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:06:09 2014 otoshigami
-** Last update Sun Jul 13 17:06:10 2014 otoshigami
+** Last update Sun Jul 13 17:08:01 2014 otoshigami
 */
 
 #include <stdio.h>
@@ -16,6 +16,17 @@
 
 #include "parser.h"
 #include "team.h"
+
+int		opt_n(int argc, char **argv, t_config* config)
+{
+  optind--;
+  while (optind < argc && *argv[optind] != '-')
+    {
+      list_push_back(config->team_names, argv[optind]);
+      optind++;
+    }
+  return (0);
+}
 
 int		opt_p(int argc, char **argv, t_config* config)
 {
