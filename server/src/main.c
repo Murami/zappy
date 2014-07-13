@@ -1,3 +1,13 @@
+/*
+** main.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:06:50 2014 quentin desabre
+** Last update Sun Jul 13 18:06:50 2014 Desabre Quentin
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>

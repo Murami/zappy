@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:06:09 2014 otoshigami
-** Last update Sun Jul 13 17:08:01 2014 otoshigami
+** Last update Sun Jul 13 18:04:26 2014 Desabre Quentin
 */
 
 #include <stdio.h>
@@ -13,7 +13,6 @@
 #include <unistd.h>
 #include <limits.h>
 #include <errno.h>
-
 #include "parser.h"
 #include "team.h"
 
