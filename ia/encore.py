@@ -76,7 +76,8 @@ class Player:
             raise GeneratorExit
         else:
             self.data.oldFreeSlot.freeSlot = int(recv)
-        tmp = self.net.recv().split(" ")
+        recv = self.net.recv()
+        tmp = recv.split(" ")
         print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0], tmp[1]))
 
     def transformNbrInDirection (self, nb):
