@@ -6,7 +6,7 @@
 **
 ** Started on  Sun Jul 13 18:07:52 2014 otoshigami
 <<<<<<< HEAD
-** Last update Sun Jul 13 22:23:06 2014 Desabre Quentin
+** Last update Sun Jul 13 23:21:12 2014 otoshigami
 =======
 ** Last update Sun Jul 13 20:14:45 2014 otoshigami
 >>>>>>> 58f2b3e522fb05934a773d1712fb0a3a2a1b0866
@@ -66,10 +66,10 @@ void	gameplay_voir(t_gameplay* this, t_player_command* command,
       j = -i;
       while (j <= i)
 	{
-	  x = command->player->x +
-	    gameplay_voir_case_x(command, i, j);
-	  y = command->player->y +
-	    gameplay_voir_case_y(command, i, j);
+	  x = command->player->x
+	    + gameplay_voir_case_x(command, i, j);
+	  y = command->player->y
+	    + gameplay_voir_case_y(command, i, j);
 	  if (x < 0)
 	    x += this->map.width;
 	  if (y < 0)
