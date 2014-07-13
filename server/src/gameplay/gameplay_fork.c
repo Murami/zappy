@@ -5,7 +5,11 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:25 2014 otoshigami
+<<<<<<< HEAD
+** Last update Sun Jul 13 23:23:05 2014 otoshigami
+=======
 ** Last update Sun Jul 13 23:00:47 2014 otoshigami
+>>>>>>> a5c4c89db8a5d3e46cc6fadb0c04906ecdd4c7bc
 */
 
 #include <stdlib.h>
