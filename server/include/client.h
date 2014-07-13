@@ -26,7 +26,8 @@ typedef struct		s_client
   struct s_list*		requests_output;
 }			t_client;
 
-void		client_initialize(t_client* this, struct s_socketstream* sockstream);
+void		client_initialize(t_client* this,
+				  struct s_socketstream* sockstream);
 void		client_release(t_client* this);
 
 void		client_run_input(t_client* this, struct s_server* server);

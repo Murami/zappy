@@ -40,7 +40,8 @@ t_list_iterator		list_iterator_prev(t_list_iterator list_iterator);
 /* INSERT/ERASE */
 
 t_list_iterator		list_erase(t_list* this, t_list_iterator list_iterator);
-t_list_iterator		list_insert(t_list* this, t_list_iterator list_iterator, void* data);
+t_list_iterator		list_insert(t_list* this, t_list_iterator list_iterator,
+				    void* data);
 
 /* OPERATORS */
 
