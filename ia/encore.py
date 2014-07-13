@@ -66,9 +66,7 @@ class Player:
         }
 
         try:
-            self.ip = sys.argv[1]
-            self.port = sys.argv[2]
-            self.net = zappyNetwork.ZappyNetwork(self.ip, int(self.port))
+            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except:
             raise
         self.net.send(teamName)
@@ -146,6 +144,7 @@ class Player:
                and exp.group(2) == self.teamName:
                 print("->>>>>>>>>>>>>>>>>>> je recoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
                 self.data.addLevelToList(int(exp.group(1)))
+                print("debug")
 
         elif response.isFreeSlot() is True:
             print(str(self.data.newFreeSlot.getFreeSlot()) + " - " + str(self.data.oldFreeSlot.getFreeSlot()))
@@ -316,16 +315,21 @@ class Player:
                     else:
                         self.eating = False
                 elif self.wait is False:
+                    print("je n'attend pas")
                     if self.leader is True:
+                        print("je suis leader")
                         if self.playerReadyOnMyCase >=\
                            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                            print("il y a assez de joueur sur ma case")
                             self.evolve()
                     elif self.forking is False:
-                        print(self.getNeededStones())
+                        print("je ne fork pas")
                         if len(self.getNeededStones()) > 0:
+                            print("je cherche des pierres")
                             self.theQueue = self.seekStone()
                         elif self.data.getNbrOfMyLevel() <\
                              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                            print("il n'y pas assez de joueur sur la map")
                             if self.staticGetlvl == 0:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
@@ -337,6 +341,7 @@ class Player:
                                 print("JE FORK")
                             self.staticGetlvl += 1
                         else:
+                            print("le cas par defaut")
                             self.leader = True
                             if self.data.level.getActualLevel() > 1:
                                 self.theQueue.put("broadcast come "
