@@ -16,6 +16,8 @@ namespace	Zappy
   {
     _parser = new Parser(this);
     _map = NULL;
+    _endScreen = NULL;
+    _connectForEgg = -1;
   }
 
   void		ZappyGraphic::updateClient()
@@ -41,7 +43,6 @@ namespace	Zappy
 
     while (_window.isRunning())
       {
-
 	if (!_client.isConnected())
 	  throw (std::runtime_error("Connection to server closed unexpectedly"));
 	_window.bindShader();
@@ -56,7 +57,6 @@ namespace	Zappy
 	_window.bindShader();
 	_window.draw(_world);
 	_window.updatePlayers(_players);
-
 	for (std::list<Stone*>::iterator it = _stones.begin();
 	     it != _stones.end(); it++)
 	  _window.draw(*it);
@@ -66,69 +66,13 @@ namespace	Zappy
 	for (std::list<Egg*>::iterator it = _eggs.begin();
 	     it != _eggs.end(); it++)
 	  _window.draw(*it);
-
 	_window.drawMap(_map);
 	_hud->draw();
-
+	if (_endScreen)
+	  _endScreen->draw();
 	_window.flush();
       }
   }
-
-  // void		ZappyGraphic::_drawOnlyOneStone()
-  // {
-
-  //   std::list<Stone*> tmp;
-  //   bool yetInList = false;
-  //   for (std::list<Stone*>::iterator it = _stones.begin();
-  //   	 it != _stones.end(); it++)
-  //     {
-  //   	yetInList = false;
-  //   	std::list<Stone*>::iterator it2;
-  //   	for (it2 = tmp.begin();
-  //   	     it2 != tmp.end(); it2++)
-  //   	  {
-  //   	    if ((*it2)->getPosition().x == (*it)->getPosition().x &&
-  //   		(*it2)->getPosition().y == (*it)->getPosition().y &&
-  // 		(*it2)->getType() == (*it)->getType())
-  //   	      {
-  //   		yetInList = true;
-  //   		break;
-  //   	      }
-  //   	  }
-  //   	if (!yetInList && _stones.size())
-  //   	  tmp.push_back(*it);
-  //     }
-  //   for (std::list<Stone*>::iterator it = tmp.begin();
-  //   	 it != tmp.end(); it++)
-  //     _window.draw(*it);
-  // }
-
-  // void		ZappyGraphic::_drawOnlyOneFood()
-  // {
-  //   std::list<Food*> tmp;
-  //   bool yetInList = false;
-  //   for (std::list<Food*>::iterator it = _foods.begin();
-  //   	 it != _foods.end(); it++)
-  //     {
-  //   	yetInList = false;
-  //   	std::list<Food*>::iterator it2;
-  //   	for (it2 = tmp.begin();
-  //   	     it2 != tmp.end(); it2++)
-  //   	  {
-  //   	    if ((*it2)->getX() == (*it)->getX() &&
-  //   		(*it2)->getY() == (*it)->getY())
-  //   	      {
-  //   		yetInList = true;
-  //   		break;
-  //   	      }
-  //   	  }
-  //   	if (!yetInList)
-  //   	  tmp.push_back(*it);
-  //     }
-  //   for (std::list<Food*>::iterator it = tmp.begin();
-  //   	 it != tmp.end(); it++)
-  //     _window.draw(*it);
-  // }
 
   void		ZappyGraphic::_handleRightClickEvent()
   {
@@ -215,21 +159,40 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::addTeamName(const std::string&)
+  void		ZappyGraphic::addTeamName(const std::string& args)
   {
+    std::cout << "\033[30m" << "[RECEIVED NEW TEAM NAME]: " << args
+	      << "\033[0m" << std::endl;
   }
 
   void		ZappyGraphic::addNewPlayer(int playerId, int x , int y,
 					   int orientation, int level,
 					   const std::string& teamName)
   {
-    Player *player = PlayerFactory::createNewPlayer(playerId, x, y,
-						    orientation, level,
-						    _map->getWidth(),
-						    _map->getHeight(),
-						    teamName);
-    player->initialize();
-    _players.push_back(player);
+    if (_connectForEgg == -1)
+      {
+	Player *player = PlayerFactory::createNewPlayer(playerId, x, y,
+							orientation, level,
+							_map->getWidth(),
+							_map->getHeight(),
+							teamName);
+	player->initialize();
+	_players.push_back(player);
+      }
+    else
+      {
+	for (std::list<Player*>::iterator it = _players.begin();
+	     it != _players.end(); it++)
+	  {
+	    if (_connectForEgg == (*it)->getEggId())
+	      {
+		(*it)->setTeamName(teamName);
+		(*it)->setId(playerId);
+		break;
+	      }
+	  }
+	_connectForEgg = -1;
+      }
   }
 
   void		ZappyGraphic::setPlayerPosition(int playerId, int newX,
@@ -268,12 +231,16 @@ namespace	Zappy
 		      resources[3], resources[4], resources[5], resources[6]);
   }
 
-  void		ZappyGraphic::playerExpulse(int)
+  void		ZappyGraphic::playerExpulse(int id)
   {
+    std::cout << "\033[30m" << "[PLAYER EXPULSE]: " << id << "\033[0m";
+    std::cout << std::endl;
   }
 
-  void		ZappyGraphic::playerBroadcast(int)
+  void		ZappyGraphic::playerBroadcast(int id)
   {
+    std::cout << "\033[30m" << "[PLAYER BROADCAST]: " << id;
+    std::cout << std::endl;
   }
 
   void		ZappyGraphic::playerStartCast(int firstId, int x, int y,
@@ -299,30 +266,20 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::playerLaysEgg(int)
+  void		ZappyGraphic::playerLaysEgg(int id)
   {
-    // for (std::list<Player*>::iterator it = _players.begin();
-    // 	 it != _players.end(); it++)
-    //   {
-    // 	if ((*it)->getId() == id)
-    // 	  {
-    // 	    _eggs.push_back(EggFactory::createNewEgg(id, (*it)->getX(), (*it)->getY()));
-
-    // 	    // Egg* egg = new Egg(id, (*it)->getX(), (*it)->getY());
-    // 	    // egg->initialize();
-    // 	    // _eggs.push_back(egg);
-
-    // 	    break;
-    // 	  }
-    //   }
+    std::cout << "\033[30m" << "[PLAYER " << id
+	      << " LAYS EGG]\033[0m" << std::endl;
   }
 
   void		ZappyGraphic::playerDropsResource(int, int)
   {
+    std::cout << "\033[30m" << "[PLAYER DROP RESOURCE]\033[0m" << std::endl;
   }
 
   void		ZappyGraphic::playerLootsResource(int, int)
   {
+    std::cout << "\033[30m" << "[PLAYER LOOT RESOURCE]\033[0m" << std::endl;
   }
 
   void		ZappyGraphic::playerDies(int playerId)
@@ -350,21 +307,59 @@ namespace	Zappy
   {
     for (std::list<Egg*>::iterator it = _eggs.begin(); it != _eggs.end(); it++)
       {
-	std::cout << (*it)->getId() << " <=> " << eggId << std::endl;
-	if ((*it)->getId() == eggId)
+	if ((*it)->getId() + 1 == eggId)
 	  {
-	    _eggs.erase(it);
+	    (*it)->unprint();
+	    Player *p = PlayerFactory::createNewPlayer(0, (*it)->getX(),
+						       (*it)->getY(), NORTH,
+						       1, _map->getWidth(),
+						       _map->getHeight(),
+						       "");
+	    p->initialize();
+	    p->setEggId(eggId);
+	    _players.push_back(p);
 	    break;
 	  }
       }
   }
 
-  void		ZappyGraphic::playerConnectsForEgg(int)
+  void		ZappyGraphic::playerConnectsForEgg(int eggId)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getEggId() == eggId)
+	  {
+	    _connectForEgg = eggId;
+	    break;
+	  }
+      }
   }
 
-  void		ZappyGraphic::eggDies(int)
+  void		ZappyGraphic::eggDies(int id)
   {
+    int x = 0, y = 0;
+    for (std::list<Egg*>::iterator eggit = _eggs.begin();
+	 eggit != _eggs.end(); eggit++)
+      {
+	if ((*eggit)->getId() == id)
+	  {
+	    x = (*eggit)->getX();
+	    y = (*eggit)->getY();
+	    for (std::list<Player*>::iterator it = _players.begin();
+		 it != _players.end(); it++)
+	      {
+		if ((*it)->getId() == 0 &&
+		    (*it)->getX() == x && (*it)->getY() == y)
+		  {
+		    _players.erase(it);
+		    break;
+		  }
+	      }
+	    _eggs.erase(eggit);
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::setTimeUnit(int timeUnit)
@@ -372,20 +367,27 @@ namespace	Zappy
     _timeUnit = timeUnit;
   }
 
-  void		ZappyGraphic::endGame(const std::string&)
+  void		ZappyGraphic::endGame(const std::string& team)
   {
+    _endScreen = new Screen("./assets/End.tga");
+    _endScreen->setWinnerTeam(team);
   }
 
-  void		ZappyGraphic::serverMessage(const std::string&)
+  void		ZappyGraphic::serverMessage(const std::string& args)
   {
+    std::cout << "\033[32m[SERVER]: " << args << "\033[0m" << std::endl;
   }
 
   void		ZappyGraphic::unknownCommand(const std::string&)
   {
+    std::cout << "\033[31m[SERVER]: Unknown command\033[0m"
+	      << std::endl;
   }
 
   void		ZappyGraphic::badParameters(const std::string&)
   {
+    std::cout << "\033[31m[SERVER]: Bad parameter for command\033[0m"
+	      << std::endl;
   }
 
   int		ZappyGraphic::_getFoodAtCase(int x, int y)

@@ -103,9 +103,9 @@ namespace	Zappy
     _callback->setCaseContent(x, y, &resources[0]);
   }
 
-  void		Parser::addTeamName(const std::string&)
+  void		Parser::addTeamName(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    _callback->addTeamName(args);
   }
 
   void		Parser::addNewPlayer(const std::string& args)
@@ -199,14 +199,37 @@ namespace	Zappy
     _callback->playerStock(id, x, y, &resources[0]);
   }
 
-  void		Parser::playerExpulse(const std::string&)
+  void		Parser::playerExpulse(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int id = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	_callback->playerExpulse(id);
+      }
   }
 
-  void		Parser::playerBroadcast(const std::string&)
+  void		Parser::playerBroadcast(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int id = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	_callback->playerBroadcast(id);
+      }
   }
 
   void		Parser::playerStartCast(const std::string& args)
@@ -282,14 +305,44 @@ namespace	Zappy
       }
   }
 
-  void		Parser::playerDropsResource(const std::string&)
+  void		Parser::playerDropsResource(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int playerId, resId;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> playerId;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> resId;
+	_callback->playerDropsResource(playerId, resId);
+      }
   }
 
-  void		Parser::playerLootsResource(const std::string&)
+  void		Parser::playerLootsResource(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int playerId, resId;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> playerId;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> resId;
+	_callback->playerLootsResource(playerId, resId);
+      }
   }
 
   void		Parser::playerDies(const std::string& args)
@@ -304,8 +357,6 @@ namespace	Zappy
 
   void		Parser::eggLaidOnCaseByPlayer(const std::string& args)
   {
-    // enw #e #n x y
-
     int eggId = 0, playerId = 0, x = 0, y = 0;
     std::stringstream ss, sstmp;
     std::string tmp;
@@ -337,19 +388,46 @@ namespace	Zappy
     _callback->eggLaidOnCaseByPlayer(eggId, playerId, x, y);
   }
 
-  void		Parser::eggOpens(const std::string&)
+  void		Parser::eggOpens(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int id = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	_callback->eggOpens(id);
+      }
   }
 
-  void		Parser::playerConnectsForEgg(const std::string&)
+  void		Parser::playerConnectsForEgg(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int id = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	_callback->playerConnectsForEgg(id);
+      }
   }
 
-  void		Parser::eggDies(const std::string&)
+  void		Parser::eggDies(const std::string & args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    int id = 0;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> id;
+	_callback->eggDies(id);
+      }
   }
 
   void		Parser::setTimeUnit(const std::string& args)
@@ -362,24 +440,30 @@ namespace	Zappy
     _callback->setTimeUnit(time);
   }
 
-  void		Parser::endGame(const std::string&)
+  void		Parser::endGame(const std::string & args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    std::stringstream ss;
+    std::string tmp;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	_callback->endGame(tmp);
+      }
   }
 
-  void		Parser::serverMessage(const std::string&)
+  void		Parser::serverMessage(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    _callback->serverMessage(args);
   }
 
-  void		Parser::unknownCommand(const std::string&)
+  void		Parser::unknownCommand(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    _callback->unknownCommand(args);
   }
 
-  void		Parser::badParameters(const std::string&)
+  void		Parser::badParameters(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    _callback->badParameters(args);
   }
 
   Parser::~Parser()

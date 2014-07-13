@@ -15,6 +15,7 @@ namespace	Zappy
   class		World;
   class		Egg;
   class		Parser;
+  class		Screen;
 
   class		ZappyGraphic : public ICallback
   {
@@ -26,6 +27,8 @@ namespace	Zappy
     Parser*	_parser;
     HUD*	_hud;
     int		_timeUnit;
+    Screen*	_endScreen;
+    int		_connectForEgg;
 
     // pour test
     std::list<Stone*>	_stones;

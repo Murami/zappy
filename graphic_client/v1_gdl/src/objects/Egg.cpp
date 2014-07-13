@@ -17,6 +17,7 @@ namespace	Zappy
 			(Map::BLOCK_SIZE - 1) + 1,
 			y * Map::BLOCK_SIZE + random() %
 			(Map::BLOCK_SIZE - 1) + 1, 0));
+    _print = true;
   }
 
   int		Egg::getY() const
@@ -50,8 +51,16 @@ namespace	Zappy
 
   void		Egg::draw(gdl::AShader& shader, const gdl::Clock&)
   {
-    rotate(glm::vec3(0, 1, 0), 5);
-    _model->draw(shader, getTransformation(), 0);
+    if (_print)
+      {
+	rotate(glm::vec3(0, 1, 0), 5);
+	_model->draw(shader, getTransformation(), 0);
+      }
+  }
+
+  void		Egg::unprint()
+  {
+    _print = false;
   }
 
   Egg::~Egg()
