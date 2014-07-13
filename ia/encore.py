@@ -216,7 +216,6 @@ class Player:
         return res
 
     def seekStone (self):
-        print("\n-----> DEBUT DU SEEK STONES <-------")
         tempo = queue.Queue()
         if self.data.fov.getUsed() is True:
             tempo.put("voir")
@@ -235,14 +234,9 @@ class Player:
                     nearest = tmp
             tempo = nearest
             if tempo.qsize() == 0:
-                print("JE CHOISI UNE AUTRE VUE")
                 tempo = self.chooseOtherView()
-                print("J'AI FINI DE CHOISIR UNE AUTRE VUE")
             else:
                 self.staticSeek = 0
-        print("\n")
-        print(tempo)
-        print("-----> FIN DU SEEK STONES <-------")
         return tempo
 
     # gestion de la bouffe
