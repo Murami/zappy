@@ -44,5 +44,6 @@ typedef struct		s_object_binding
 # include "gameplay_send.h"
 # include "gameplay_ia_callbacks.h"
 # include "gameplay_monitor_callbacks.h"
+# include "gameplay_misc.h"
 
 #endif /* _GAMEPLAY_H_ */
