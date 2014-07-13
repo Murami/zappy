@@ -29,13 +29,16 @@ namespace	Zappy
     _shader.bind();
     _shader.setUniform("projection", _projection);
     _colorPickShader.setUniform("projection", _projection);
+    ShaderManager::getInstance();
+
     ShaderManager::getInstance()->getMapShader()->bind();
     ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-    for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
+    for (int i; i < MAX_PLAYER_LEVEL; i++)
       {
 	ShaderManager::getInstance()->getPlayerShader(i)->bind();
 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
       }
+
   }
 
   void		Camera::initialize()
@@ -55,15 +58,19 @@ namespace	Zappy
     _colorPickShader.bind();
     _colorPickShader.setUniform("view", _transformation);
     _colorPickShader.setUniform("projection", _projection);
-    ShaderManager::getInstance()->getMapShader()->bind();
-    ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-    ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-    for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-      {
-	ShaderManager::getInstance()->getPlayerShader(i)->bind();
-	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-      }
+
+    ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
+
+    // ShaderManager::getInstance()->getMapShader()->bind();
+    // ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+    // ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
+    // for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
+    //   {
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->bind();
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
+    //   }
+
   }
 
   void		Camera::update()
@@ -83,17 +90,21 @@ namespace	Zappy
     _reflectionShader.bind();
     _reflectionShader.setUniform("view", _transformation);
     _reflectionShader.setUniform("projection", _projection);
-    ShaderManager::getInstance()->getMapShader()->bind();
-    ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-    ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-    ShaderManager::getInstance()->getBasicShader()->setUniform("projection", _projection);
-    ShaderManager::getInstance()->getBasicShader()->setUniform("view", _transformation);
-    for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-      {
-	ShaderManager::getInstance()->getPlayerShader(i)->bind();
-	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-      }
+
+    ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
+
+    // ShaderManager::getInstance()->getMapShader()->bind();
+    // ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+    // ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
+    // ShaderManager::getInstance()->getBasicShader()->setUniform("projection", _projection);
+    // ShaderManager::getInstance()->getBasicShader()->setUniform("view", _transformation);
+    // for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
+    //   {
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->bind();
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
+    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
+    //   }
+
   }
 
   void		Camera::zoomPlus()
@@ -180,15 +191,18 @@ namespace	Zappy
 	_colorPickShader.setUniform("projection", _projection);
 	_reflectionShader.bind();
 	_reflectionShader.setUniform("projection", _projection);
-	ShaderManager::getInstance()->getMapShader()->bind();
-	ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-	ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-	for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-	  {
-	    ShaderManager::getInstance()->getPlayerShader(i)->bind();
-	    ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-	    ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-	  }
+
+	ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
+
+	// ShaderManager::getInstance()->getMapShader()->bind();
+	// ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
+	// ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
+	// for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
+	//   {
+	//     ShaderManager::getInstance()->getPlayerShader(i)->bind();
+	//     ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
+	//     ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
+	//   }
       }
     else
       {

@@ -28,7 +28,18 @@ namespace	Zappy
     _y = y;
     _alive = true;
     _dying = false;
-    _shader = ShaderManager::getInstance()->getPlayerShader(_level);
+    _shader = *ShaderManager::getInstance()->getPlayerShader(_level);
+    _eggId = -1;
+  }
+
+  void		Player::setEggId(int id)
+  {
+    _eggId = id;
+  }
+
+  int		Player::getEggId() const
+  {
+    return (_eggId);
   }
 
   bool		Player::isAlive() const
@@ -80,7 +91,7 @@ namespace	Zappy
   void		Player::setLevel(int lvl)
   {
     _level = lvl;
-    _shader = ShaderManager::getInstance()->getPlayerShader(lvl);
+    _shader = *ShaderManager::getInstance()->getPlayerShader(lvl);
   }
 
   int		Player::getX() const
@@ -128,6 +139,16 @@ namespace	Zappy
   void		Player::turnRight()
   {
     rotate(glm::vec3(0, 1, 0), 90);
+  }
+
+  void		Player::setId(int id)
+  {
+    _id = id;
+  }
+
+  void		Player::setTeamName(const std::string& team)
+  {
+    _teamName = team;
   }
 
   void		Player::goForward()
@@ -268,9 +289,15 @@ namespace	Zappy
     return (_timeUnit);
   }
 
-  void		Player::draw(gdl::AShader&, const gdl::Clock& clock)
+  void		Player::draw(gdl::AShader& shader, const gdl::Clock& clock)
   {
-    _model->draw(*_shader, getTransformation(), clock.getElapsed());
+    _model->draw(shader, getTransformation(), clock.getElapsed());
+  }
+
+  void		Player::drawColorLevel()
+  {
+    _shader = *ShaderManager::getInstance()->getPlayerShader(_level);
+    _model->draw(_shader, getTransformation(), 0);
   }
 
   Player::~Player()

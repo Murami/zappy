@@ -52,6 +52,7 @@ namespace	Zappy
     void		updatePlayers(std::list<Player*>&);
     void		setCameraPosition(int, int);
     void		updateCamera();
+    void		drawPlayer(Player*);
 
   public :
     Window();

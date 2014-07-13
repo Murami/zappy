@@ -76,8 +76,22 @@ namespace		Zappy
 
   void			Window::draw(AObject* object)
   {
+    _shader.bind();
     if (object)
       object->draw(_shader, _clock);
+  }
+
+  void			Window::drawPlayer(Player* player)
+  {
+    gdl::BasicShader* shader = ShaderManager::getInstance()->getPlayerShader(player->getLevel());
+    shader->bind();
+    glActiveTexture(GL_TEXTURE1);
+    glEnable(GL_TEXTURE_2D);
+    glBindTexture(GL_TEXTURE_2D, ShaderManager::getInstance()->getPlayerTexture(player->getLevel())->getId());
+    shader->setUniform("texture", 1);
+    glActiveTexture(GL_TEXTURE0);
+    player->draw(*shader, _clock);
+    glActiveTexture(GL_TEXTURE0);
   }
 
   void			Window::drawMap(AObject* object)
@@ -99,7 +113,7 @@ namespace		Zappy
 	 it != list.end(); it++)
       {
 	updateObject(*it);
-	draw(*it);
+	drawPlayer(*it);
 	if ((*it)->isAlive() == false)
 	  {
 	    list.erase(it);

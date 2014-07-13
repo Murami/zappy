@@ -67,14 +67,14 @@ void			*launchListen(void *attr)
 
 void			*launchWrite(void *attr)
 {
-  std::string		input;
   Client		*client;
 
   client = reinterpret_cast<Client *>(attr);
   while (1)
     {
-      std::cin >> input;
-      std::cout << input << std::endl;
+      std::string input;
+      std::getline(std::cin, input);
+      input += '\n';
       write(client->_socket.getFd(), input.c_str(), input.size());
     }
   return (attr);
@@ -94,13 +94,11 @@ bool			Client::isConnected() const
 void			Client::throwWriteFailure()
 {
   _connected = false;
-  //throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
 }
 
 void			Client::throwConnectionLost()
 {
   _connected = false;
-  //throw (std::runtime_error("Connection to server has closed unexpectedly"));
 }
 
 Client::Client(int argc, char **argv)
@@ -134,7 +132,6 @@ bool			Client::haveToSendRequest() const
 
 void			Client::sendRequest(const std::string& request)
 {
-  std::cout << "\033[35m[" << request << "]\033[0m" << std::endl;
   _sendRequest = true;
   write(_socket.getFd(), request.c_str(), request.size());
 }

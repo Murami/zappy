@@ -10,16 +10,22 @@
 
 namespace	Zappy
 {
+  class		Sentence;
+
   class		Screen
   {
   private :
-     gdl::Geometry	_geom;
+    gdl::Geometry	_geom;
     gdl::Texture	_texture;
     gdl::BasicShader	_shader;
     glm::mat4		_projection;
+    bool		_endScreen;
+    std::string		_winnerTeam;
+    Sentence*		_s;
 
   public :
     void	draw();
+    void	setWinnerTeam(const std::string&);
 
   public :
     Screen(const std::string&);

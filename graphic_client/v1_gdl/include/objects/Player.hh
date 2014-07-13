@@ -35,12 +35,12 @@ namespace	Zappy
   private :
     gdl::Model*		_model;
     int			_level;
-    const std::string	_teamName;
+    std::string		_teamName;
     Orientation		_orientation;
     float		_timeUnit;
     int			_elapsed;
     State		_state;
-    std::stack<State>	_stateStack;
+    //std::stack<State>	_stateStack;
     glm::vec4		_pickColor;
     gdl::BasicShader	_colorPickShader;
     int			_id;
@@ -50,12 +50,18 @@ namespace	Zappy
     int			_limitY;
     bool		_alive;
     bool		_dying;
-    gdl::AShader*	_shader;
+    gdl::BasicShader	_shader;
+    int			_eggId;
+
+  public :
+    void		setId(int);
+    void		setTeamName(const std::string&);
 
   public :
     virtual void	initialize();
     virtual void	update(const gdl::Clock&, gdl::Input&);
     virtual void	draw(gdl::AShader&, const gdl::Clock&);
+    void		drawColorLevel();
 
   public :
     void		turnLeft();
@@ -68,6 +74,8 @@ namespace	Zappy
     const glm::vec4&	getPickColor() const;
     void		goingTo(int, int);
     void		die();
+    void		setEggId(int);
+    int			getEggId() const;
 
   public :
     int			getId() const;
