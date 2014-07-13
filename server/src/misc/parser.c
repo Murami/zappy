@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:06:05 2014 otoshigami
-** Last update Sun Jul 13 22:22:19 2014 Desabre Quentin
+** Last update Sun Jul 13 23:06:39 2014 pinon
 */
 
 #include <stdio.h>
@@ -91,16 +91,6 @@ int		parser(int argc, char **argv, t_config* config)
 
   init_config(config);
   opterr = 1;
-  i = 0;
-  while (argv[i] != NULL)
-    {
-      if (argv[i][0] == '-' && argv[i][1] == '-')
-  	{
-  	  printf("./server: invalid option %s\n", argv[i]);
-  	  return (1);
-  	}
-      i++;
-    }
   while ((optch = getopt(argc, argv, format)) != -1)
     {
       i = 0;

@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:06:50 2014 quentin desabre
-** Last update Sun Jul 13 20:08:07 2014 otoshigami
+** Last update Sun Jul 13 23:08:14 2014 pinon
 */
 
 #include <stdlib.h>
@@ -27,12 +27,29 @@ void		release_config(t_config* config)
   list_delete(config->team_names);
 }
 
+int		check_invalid_argv(char **argv)
+{
+  int		i;
+
+  i = 0;
+  while (argv[i] != NULL)
+    {
+      if (argv[i][0] == '-' && argv[i][1] == '-')
+  	{
+  	  printf("./server: invalid option %s\n", argv[i]);
+  	  return (1);
+  	}
+      i++;
+    }
+  return (0);
+}
+
 int		main(int ac, char **av)
 {
   t_config	config;
   t_server	server;
 
-  if (ac < 2)
+  if (ac < 2 || check_invalid_argv(av))
     {
       printf("usage: ./zappy-server-linux [[[-p port] -p port] ...] "
 	     "[-x world_x] [-y world_y] [-c max_clients] [-t speed]"
