@@ -120,7 +120,7 @@ class Player:
             if exp is not None\
                and exp.group(2) == self.teamName:
                 print("->>>>>>>>>>>>>>>>>>> je recoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
-                self.data.addLevelToList(exp.group(1))
+                self.data.addLevelToList(int(exp.group(1)))
 
         elif response.isFreeSlot() is True:
             print(str(self.data.newFreeSlot.getFreeSlot()) + " - " + str(self.data.oldFreeSlot.getFreeSlot()))
