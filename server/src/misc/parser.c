@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:06:05 2014 otoshigami
-** Last update Sun Jul 13 20:08:51 2014 otoshigami
+** Last update Sun Jul 13 22:22:19 2014 Desabre Quentin
 */
 
 #include <stdio.h>
@@ -58,7 +58,7 @@ int		opt_t(int argc, char **argv, t_config* config)
       if ((errno == ERANGE && (config->delay == LONG_MAX ||
 			       config->delay == LONG_MIN)) ||
 	  config->delay > INT_MAX ||
-	  errno != 0)
+	  errno != 0 || config->delay == 0)
 	{
 	  printf("%s: invalid delay %s\n", argv[0], argv[optind]);
 	  return (1);
