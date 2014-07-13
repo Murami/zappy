@@ -1,3 +1,13 @@
+//
+// HUD.cpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/src/graphic
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 22:59:15 2014 Manu
+// Last update Sun Jul 13 22:59:15 2014 Manu
+//
+
 #include		<Clock.hh>
 #include		<sstream>
 #include		<cstring>
@@ -74,39 +84,33 @@ namespace	Zappy
 
   void		HUD::_printResources()
   {
-    // linemate : blue
     std::stringstream ss;
     ss << _resources[1];
     Sentence s(ss.str(), Window::WIDTH * (72.5 / 1600) + 15,
 	       Window::HEIGHT * (62.5 / 900));
     s.draw(_shader);
-    // deraumere : red
     std::stringstream ss2;
     ss2 << _resources[2];
     s = Sentence(ss2.str(), Window::WIDTH * (72.5 / 1600) + 15,
 		 2 * Window::HEIGHT * (62.5 / 900) - 9);
     s.draw(_shader);
-    // mendiane : yellow
     std::stringstream ss3;
     ss3 << _resources[4];
     s = Sentence(ss3.str(), Window::WIDTH * (72.5 / 1600) + 15,
 		 3 * Window::HEIGHT * (62.5 / 900) - 16);
     s.draw(_shader);
-    // sibur : green
     std::stringstream ss4;
     ss4 << _resources[3];
     s = Sentence(ss4.str(),
 		 Window::WIDTH / 3 - 15 - Window::WIDTH * (72.5 / 1600),
 		 Window::HEIGHT * (62.5 / 900));
     s.draw(_shader);
-    // phiras : purple
     std::stringstream ss5;
     ss5 << _resources[5];
     s = Sentence(ss5.str(),
 		 Window::WIDTH / 3 - 15 - Window::WIDTH * (72.5 / 1600),
 		 2 * Window::HEIGHT * (62.5 / 900) - 9);
     s.draw(_shader);
-    // thystame : grey
     std::stringstream ss6;
     ss6 << _resources[6];
     s = Sentence(ss6.str(),

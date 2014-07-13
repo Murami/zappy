@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:10 2014 otoshigami
-** Last update Sun Jul 13 18:04:11 2014 otoshigami
+** Last update Sun Jul 13 22:21:18 2014 Desabre Quentin
 */
 
 #include <stdbool.h>
@@ -38,6 +38,7 @@ void			gameplay_send_res_incant(t_gameplay *this,
     sprintf(buffer, "pie %d %d 1\n", command->player->x, command->player->y);
   else
     sprintf(buffer, "pie %d %d 0\n", command->player->x, command->player->y);
+  it = list_begin(this->monitors);
   while (it != list_end(this->monitors))
     {
       monitor = it->data;

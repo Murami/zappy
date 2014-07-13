@@ -1,3 +1,13 @@
+//
+// Letter.hh for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/include/objects
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:04:46 2014 Manu
+// Last update Sun Jul 13 23:04:47 2014 Manu
+//
+
 #ifndef		__LETTER_HH__
 # define	__LETTER_HH__
 
