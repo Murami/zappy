@@ -13,6 +13,7 @@ namespace	Zappy
   class		Egg : public AObject
   {
   private :
+    int		_playerId;
     int		_id;
     gdl::Model*	_model;
 
@@ -23,9 +24,10 @@ namespace	Zappy
 
   public :
     int		getId() const;
+    int		getPlayerId() const;
 
   public :
-    Egg(int id, int x, int y);
+    Egg(int playerId, int eggId, int x, int y);
     ~Egg();
   };
 }

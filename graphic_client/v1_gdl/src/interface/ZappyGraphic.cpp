@@ -4,6 +4,7 @@
 #include		"interface/Camera.hh"
 #include		"network/Client.hh"
 #include		"objects/PlayerFactory.hpp"
+#include		"objects/EggFactory.hpp"
 #include		"objects/World.hh"
 #include		"objects/Egg.hh"
 #include		"parser/Parser.hh"
@@ -268,7 +269,7 @@ namespace	Zappy
   }
 
   void		ZappyGraphic::playerStartCast(int firstId, int x, int y,
-					      int, std::list<int> ids)
+					      int, std::list<int>)
   {
     for (std::list<Player*>::iterator it = _players.begin();
 	 it != _players.end(); it++)
@@ -290,19 +291,22 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::playerLaysEgg(int id)
+  void		ZappyGraphic::playerLaysEgg(int)
   {
-    for (std::list<Player*>::iterator it = _players.begin();
-	 it != _players.end(); it++)
-      {
-	if ((*it)->getId() == id)
-	  {
-	    Egg* egg = new Egg(id, (*it)->getX(), (*it)->getY());
-	    egg->initialize();
-	    _eggs.push_back(egg);
-	    break;
-	  }
-      }
+    // for (std::list<Player*>::iterator it = _players.begin();
+    // 	 it != _players.end(); it++)
+    //   {
+    // 	if ((*it)->getId() == id)
+    // 	  {
+    // 	    _eggs.push_back(EggFactory::createNewEgg(id, (*it)->getX(), (*it)->getY()));
+
+    // 	    // Egg* egg = new Egg(id, (*it)->getX(), (*it)->getY());
+    // 	    // egg->initialize();
+    // 	    // _eggs.push_back(egg);
+
+    // 	    break;
+    // 	  }
+    //   }
   }
 
   void		ZappyGraphic::playerDropsResource(int, int)
@@ -327,8 +331,11 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::eggLaidOnCaseByPlayer(int, int, int, int)
+  void		ZappyGraphic::eggLaidOnCaseByPlayer(int eggid, int playerid,
+						    int x, int y)
   {
+    Egg* egg = EggFactory::createNewEgg(playerid, eggid, x, y);
+    _eggs.push_back(egg);
   }
 
   void		ZappyGraphic::eggOpens(int)

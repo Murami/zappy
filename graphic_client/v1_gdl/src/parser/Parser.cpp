@@ -211,7 +211,6 @@ namespace	Zappy
 
   void		Parser::playerStartCast(const std::string& args)
   {
-    // pic X Y L #n #n...\n
     std::stringstream ss;
     std::stringstream sstmp;
     std::string tmp;
@@ -268,14 +267,13 @@ namespace	Zappy
     _callback->castEnd(x, y, r);
   }
 
-  void		Parser::playerLaysEgg(const std::string&)
+  void		Parser::playerLaysEgg(const std::string& args)
   {
-    // pfk #n\n
-
     std::stringstream ss;
     std::stringstream sstmp;
     std::string tmp;
     int id = 0;
+    ss << args;
     if (std::getline(ss, tmp, ' '))
       {
 	sstmp << tmp;
@@ -304,9 +302,39 @@ namespace	Zappy
     _callback->playerDies(nb);
   }
 
-  void		Parser::eggLaidOnCaseByPlayer(const std::string&)
+  void		Parser::eggLaidOnCaseByPlayer(const std::string& args)
   {
-    //std::cout << __FUNCTION__ << ": \"" << args << "\"" << std::endl;
+    // enw #e #n x y
+
+    int eggId = 0, playerId = 0, x = 0, y = 0;
+    std::stringstream ss, sstmp;
+    std::string tmp;
+    ss << args;
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> eggId;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> playerId;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> x;
+	sstmp.clear();
+      }
+    if (std::getline(ss, tmp, ' '))
+      {
+	sstmp << tmp;
+	sstmp >> y;
+	sstmp.clear();
+      }
+    _callback->eggLaidOnCaseByPlayer(eggId, playerId, x, y);
   }
 
   void		Parser::eggOpens(const std::string&)

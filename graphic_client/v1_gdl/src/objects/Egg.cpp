@@ -5,9 +5,10 @@
 
 namespace	Zappy
 {
-  Egg::Egg(int id, int x, int y) : AObject()
+  Egg::Egg(int playerId, int id, int x, int y) : AObject()
   {
     _id = id;
+    _playerId = playerId;
     rotate(glm::vec3(1, 0, 0), 90);
     scale(glm::vec3(0.75, 0.75, 0.75));
     translate(glm::vec3(x * Map::BLOCK_SIZE + random() %
@@ -24,6 +25,11 @@ namespace	Zappy
   int		Egg::getId() const
   {
     return (_id);
+  }
+
+  int		Egg::getPlayerId() const
+  {
+    return (_playerId);
   }
 
   void		Egg::update(const gdl::Clock&, gdl::Input&)
