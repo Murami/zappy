@@ -66,9 +66,7 @@ class Player:
         }
 
         try:
-            self.ip = sys.argv[1]
-            self.port = sys.argv[2]
-            self.net = zappyNetwork.ZappyNetwork(self.ip, int(self.port))
+            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except:
             raise
         self.net.send(teamName)
@@ -127,6 +125,9 @@ class Player:
                 self.leader = False
                 if response.getMessage().getDirection() == 0:
                     self.wait = True
+                    self.theQueue.put("droite")
+                    self.theQueue.put("droite")
+                    self.theQueue.put("avance")
                 else:
                     self.theQueue.put("broadcast onMyWay "
                                       + str(self.data.level.getActualLevel())
@@ -190,13 +191,14 @@ class Player:
                     if self.regexStatus[elem].funcPtr(self, response, exp) is True:
                         self.responseQueue = queue.Queue()
                         return True
-            return False
+        return False
 
     def sendRequest (self):
         print("\n############")
         if self.theQueue.qsize() == 0:
             return
         msg = self.theQueue.get()
+        print("------------["+ msg +"]--------------")
         self.sendToServer(msg)
         while (self.getStatus(msg) == False):
             self.sendToServer("inventaire")
@@ -204,7 +206,7 @@ class Player:
             if response.isAlive() is True:
                 self.data.alive.killHim()
                 return
-            while (response.isInventory() == False):
+            while (response.isInventory() is False):
                 self.responseQueue.put(response)
                 response = self.recvFromServer()
                 if response.isAlive() is True:
@@ -300,7 +302,6 @@ class Player:
     # principale
     def run (self):
         while self.data.alive.isAlive() is True:
-            print(self.data.listOtherLevel)
             if self.theQueue.qsize() == 0:
                 if self.data.inventory.getFood() <= 9 and self.eating is False:
                     self.eating = True
@@ -316,27 +317,32 @@ class Player:
                     else:
                         self.eating = False
                 elif self.wait is False:
+                    print("je n'attend pas")
                     if self.leader is True:
+                        print("je suis leader")
                         if self.playerReadyOnMyCase >=\
                            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                            print("il y a assez de joueur sur ma case")
                             self.evolve()
                     elif self.forking is False:
-                        print(self.getNeededStones())
+                        print("je ne fork pas")
                         if len(self.getNeededStones()) > 0:
+                            print("je cherche des pierres")
                             self.theQueue = self.seekStone()
                         elif self.data.getNbrOfMyLevel() <\
                              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
-                            if self.staticGetlvl == 0:
+                            print("il n'y pas assez de joueur sur la map")
+                            if self.staticGetlvl <= 0:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
-                            elif self.staticGetlvl >= 5:
+                            elif self.staticGetlvl >= 10:
                                 self.staticGetlvl = -1
-                                self.data.reinitializeListLevel()
-                                # self.theQueue.put("fork")
-                                # self.forking = True
+                                self.theQueue.put("fork")
+                                self.forking = True
                                 print("JE FORK")
                             self.staticGetlvl += 1
                         else:
+                            print("le cas par defaut")
                             self.leader = True
                             if self.data.level.getActualLevel() > 1:
                                 self.theQueue.put("broadcast come "
