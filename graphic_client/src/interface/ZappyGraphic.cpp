@@ -268,6 +268,15 @@ namespace	Zappy
 
   void		ZappyGraphic::playerLaysEgg(int id)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == id)
+	  {
+	    (*it)->startForking();
+	    break;
+	  }
+      }
     std::cout << "\033[30m" << "[PLAYER " << id
 	      << " LAYS EGG]\033[0m" << std::endl;
   }
@@ -301,6 +310,15 @@ namespace	Zappy
   {
     Egg* egg = EggFactory::createNewEgg(playerid, eggid, x, y);
     _eggs.push_back(egg);
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == playerid)
+	  {
+	    (*it)->stopForking();
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::eggOpens(int eggId)

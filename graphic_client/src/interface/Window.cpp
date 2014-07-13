@@ -8,8 +8,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1920.0f / 2;
-  const float		Window::HEIGHT = 1080.0f / 2;
+  const float		Window::WIDTH = 1920.0f / 1.5f;
+  const float		Window::HEIGHT = 1080.0f / 1.5f;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 
@@ -83,15 +83,24 @@ namespace		Zappy
 
   void			Window::drawPlayer(Player* player)
   {
-    gdl::BasicShader* shader = ShaderManager::getInstance()->getPlayerShader(player->getLevel());
-    shader->bind();
-    glActiveTexture(GL_TEXTURE1);
-    glEnable(GL_TEXTURE_2D);
-    glBindTexture(GL_TEXTURE_2D, ShaderManager::getInstance()->getPlayerTexture(player->getLevel())->getId());
-    shader->setUniform("texture", 1);
-    glActiveTexture(GL_TEXTURE0);
-    player->draw(*shader, _clock);
-    glActiveTexture(GL_TEXTURE0);
+    if (player->getLevel() < 7)
+      {
+	gdl::BasicShader* shader = ShaderManager::getInstance()->getPlayerShader(player->getLevel());
+	shader->bind();
+	glActiveTexture(GL_TEXTURE1);
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, ShaderManager::getInstance()->getPlayerTexture(player->getLevel())->getId());
+	shader->setUniform("texture", 1);
+	glActiveTexture(GL_TEXTURE0);
+	player->draw(*shader, _clock);
+	glActiveTexture(GL_TEXTURE0);
+      }
+    else
+      {
+	gdl::BasicShader* shader = ShaderManager::getInstance()->getBasicShader();
+	shader->bind();
+	player->draw(*shader, _clock);
+      }
   }
 
   void			Window::drawMap(AObject* object)

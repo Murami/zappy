@@ -19,7 +19,7 @@ namespace	Zappy
     translate(glm::vec3(x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2,
 			y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2, 0));
     _state = STANDING;
-    //_stateStack.push(STANDING);
+    _stateStack.push(STANDING);
     _orientation = static_cast<Orientation>(orientation);
     rotate(glm::vec3(1, 0, 0), 90);
     _timeUnit = 100;
@@ -121,14 +121,13 @@ namespace	Zappy
 
   void		Player::initialize()
   {
-    _model = AnimationPool::getInstance()->getStandingFrame();
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
     rotate(glm::vec3(0, 1, 0), (_orientation - 1) * 90);
   }
 
   State		Player::getState() const
   {
-    return (_state);
-    //return (_stateStack.top());
+    return (_stateStack.top());
   }
 
   void		Player::turnLeft()
@@ -153,106 +152,85 @@ namespace	Zappy
 
   void		Player::goForward()
   {
-    // if (_stateStack.top() == STANDING)
-    //   {
-    // 	_stateStack.pop();
-    // 	_stateStack.push(RUNNING);
-    //   }
-    // else
-    //   _stateStack.push(RUNNING);
+    _stateStack.push(RUNNING);
     _state = RUNNING;
+    _elapsed = 0;
   }
 
   void		Player::loot()
   {
-    // if (_stateStack.top() == STANDING)
-    //   {
-    // 	_stateStack.pop();
-    // 	_stateStack.push(LOOTING);
-    //   }
-    // else
-    //   _stateStack.push(LOOTING);
+    _stateStack.push(LOOTING);
     _state = LOOTING;
+    _elapsed = 0;
   }
 
   void		Player::stopCast()
   {
-    // if (_stateStack.top() == CASTING)
-    //   {
-    // 	_stateStack.pop();
-    // 	_stateStack.push(STANDING);
-	_model = AnimationPool::getInstance()->getStandingFrame();
-      // }
-	_state = STANDING;
+    _stateStack.pop();
+    if (_stateStack.size() == 0)
+      _stateStack.push(STANDING);
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
+    _state = STANDING;
   }
 
   void		Player::startCast()
   {
-    // if (_stateStack.top() == STANDING)
-    //   {
-    // 	_stateStack.pop();
-    // 	_stateStack.push(CASTING);
-    //   }
-    // else
-    //   _stateStack.push(CASTING);
+    _stateStack.push(CASTING);
     _state = CASTING;
     _model = AnimationPool::getInstance()->getCastingFrame();
+    _elapsed = 0;
   }
 
   void		Player::update(const gdl::Clock&, gdl::Input&)
   {
     if (!_dying)
       {
-	switch (_state)
-	  //switch (_stateStack.top())
+	switch (_stateStack.top())
 	  {
 	  case RUNNING :
-
 	    switch (_orientation)
 	      {
 	      case NORTH :
-	      	translate(glm::vec3(0, -Player::SPEED * Map::BLOCK_SIZE, 0));
+	      	translate(glm::vec3(0, -Player::SPEED, 0));
 	      	if (_position.y <= 0)
 	      	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
-		stopRunning();
 	      	break;
 	      case EAST :
-	      	translate(glm::vec3(Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	      	translate(glm::vec3(Player::SPEED, 0, 0));
 	      	if (_position.x > Map::BLOCK_SIZE * _limitX)
 	      	  _position.x = Map::BLOCK_SIZE / 2;
-		stopRunning();
 	      	break;
 	      case SOUTH :
-	      	translate(glm::vec3(0, Player::SPEED * Map::BLOCK_SIZE, 0));
+	      	translate(glm::vec3(0, Player::SPEED, 0));
 	      	if (_position.y > Map::BLOCK_SIZE * _limitY)
 	      	  _position.y = Map::BLOCK_SIZE / 2;
-		stopRunning();
 	      	break;
 	      case WEST :
-	      	translate(glm::vec3(-Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	      	translate(glm::vec3(-Player::SPEED, 0, 0));
 	      	if (_position.x <= 0)
 	      	  _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
-		stopRunning();
 	      	break;
 	      }
-
-	    //_model = AnimationPool::getInstance()->getNextRunningFrame();
-
-	    // if (_model == NULL)
-	    //   std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
+	    _model = AnimationPool::getInstance()->getNextRunningFrame();
 	    _elapsed++;
-	    // if (_elapsed == Map::BLOCK_SIZE)
-	    //   {
-	    // 	stopRunning();
-	    // 	_elapsed = 0;
-	    //   }
-
+	    if (_elapsed >= Map::BLOCK_SIZE)
+	      {
+	    	stopRunning();
+	    	_elapsed = 0;
+	      }
+	    break;
+	  case FORKING:
+	    _model = AnimationPool::getInstance()->getNextForkingFrame();
+	    _elapsed++;
+	    if (_elapsed == 10)
+	      _elapsed = 0;
 	    break;
 	  case LOOTING :
 	    break;
 	  case CASTING :
 	    break;
 	  case STANDING :
+	    _model = AnimationPool::getInstance()->getStandingFrame(_level);
 	    break;
 	  case GHOST :
 	    break;
@@ -261,7 +239,7 @@ namespace	Zappy
     else
       {
 	_elapsed++;
-	if (_elapsed == 25)
+	if (_elapsed == 50)
 	  {
 	    _alive = false;
 	    _elapsed = 0;
@@ -269,14 +247,28 @@ namespace	Zappy
       }
   }
 
+  void		Player::startForking()
+  {
+    _stateStack.push(FORKING);
+  }
+
+  void		Player::stopForking()
+  {
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
+    _stateStack.pop();
+    _stateStack.push(STANDING);
+  }
+
   void		Player::stopRunning()
   {
     _x = static_cast<int>(_position.x) / Map::BLOCK_SIZE;
     _y = static_cast<int>(_position.y) / Map::BLOCK_SIZE;
-    // _stateStack.pop();
-    // _stateStack.push(STANDING);
-    _state = STANDING;
-    _model = AnimationPool::getInstance()->getStandingFrame();
+    _position.x = _x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
+    _position.y = _y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
+    std::cout << _x << "  " << _y << std::endl << std::endl;
+    _stateStack.pop();
+    _stateStack.push(STANDING);
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
   }
 
   void		Player::setTimeUnit(float time)
