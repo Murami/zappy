@@ -5,11 +5,8 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:25 2014 otoshigami
-<<<<<<< HEAD
-** Last update Sun Jul 13 23:23:05 2014 otoshigami
-=======
+** Last update Sun Jul 13 23:26:54 2014 otoshigami
 ** Last update Sun Jul 13 23:00:47 2014 otoshigami
->>>>>>> a5c4c89db8a5d3e46cc6fadb0c04906ecdd4c7bc
 */
 
 #include <stdlib.h>
@@ -72,8 +69,19 @@ void			gameplay_command_connect_nbr(t_gameplay* this,
 {
   char			buffer[4096];
 
+<<<<<<< HEAD
+=======
+  printf("[CONNECT_NBR]\n");
+  printf("%d\n", list_size(this->ghosts)
+	  + command->player->team->nb_slots
+	  - count_taken_slot(this, command->player->team));
+>>>>>>> 66890d2716d5b9677d4b7e821201ba91970ff220
   sprintf(buffer, "%d\n", list_size(this->ghosts)
 	  + command->player->team->nb_slots
 	  - count_taken_slot(this, command->player->team));
   client_send_msg(command->player->client, buffer);
+<<<<<<< HEAD
+=======
+  printf("[CONNECT_NBR]\n");
+>>>>>>> 66890d2716d5b9677d4b7e821201ba91970ff220
 }

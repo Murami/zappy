@@ -4,8 +4,8 @@
 ** Made by otoshigami
 ** Login   <otoshigami@epitech.net>
 **
-** Started on  Sun Jul 13 18:07:52 2014 otoshigami
-** Last update Sun Jul 13 23:24:36 2014 otoshigami
+** Started on  Sun Jul 13 23:27:15 2014 otoshigami
+** Last update Sun Jul 13 23:27:15 2014 otoshigami
 */
 
 #include <string.h>
@@ -82,7 +82,7 @@ void	gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
   char	buffer[4096];
 
-  memset(buffer, 0, 4096);
+  memset(&buffer[0], 0, 4096);
   buffer[0] = '{';
   gameplay_voir(this, command, buffer);
   buffer[strnlen(buffer, 4094) - 1] = '}';
