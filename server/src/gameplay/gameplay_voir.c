@@ -6,7 +6,7 @@
 **
 ** Started on  Sun Jul 13 18:07:52 2014 otoshigami
 <<<<<<< HEAD
-** Last update Sun Jul 13 21:47:41 2014 Desabre Quentin
+** Last update Sun Jul 13 22:23:06 2014 Desabre Quentin
 =======
 ** Last update Sun Jul 13 20:14:45 2014 otoshigami
 >>>>>>> 58f2b3e522fb05934a773d1712fb0a3a2a1b0866
@@ -83,7 +83,7 @@ void	gameplay_voir(t_gameplay* this, t_player_command* command,
 
 void	gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
-  char*	buffer = malloc(4096);
+  char	buffer[4096];
 
   memset(buffer, 0, 4096);
   buffer[0] = '{';
