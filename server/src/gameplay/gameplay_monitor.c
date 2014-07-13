@@ -18,9 +18,26 @@ void			gameplay_command_msz(t_gameplay* this,
 void			gameplay_command_bct(t_gameplay* this,
 					     t_monitor_command* command)
 {
+  int			x;
+  int			y;
+  char*			ptr;
+
+  ptr = command->data[0];
+  x = strtol(command->data[0], &ptr, 10);
+  if (*ptr == '\0')
+    {
+      gameplay_send_sbp(&command->client->parent_client);
+      return;
+    }
+  ptr = command->data[1];
+  y = strtol(command->data[1], &ptr, 10);
+  if (ptr == '\0')
+    {
+      gameplay_send_sbp(&command->client->parent_client);
+      return;
+    }
   monitor_send_case(&command->client->parent_client,
-		    &this->map.map[atoi(command->data[0])
-				   + atoi(command->data[1]) * this->map.width]);
+		    &this->map.map[x + y * this->map.width]);
 }
 
 void			gameplay_command_mct(t_gameplay* this,
@@ -58,6 +75,7 @@ void			gameplay_command_ppo(t_gameplay* this,
 	}
       it = list_iterator_next(it);
     }
+  gameplay_send_sbp(&command->client->parent_client);
 }
 
 void			gameplay_command_pin(t_gameplay* this,
@@ -74,8 +92,7 @@ void			gameplay_command_pin(t_gameplay* this,
       if (player->id == atoi(command->data[0]))
 	{
 	  sprintf(buffer, "pin %d %d %d %d %d %d %d %d %d %d\n",
-		  player->id, player->x,
-		  player->y,
+		  player->id, player->x, player->y,
 		  player->inventory.food,
 		  player->inventory.linemate,
 		  player->inventory.deraumere,
@@ -88,6 +105,7 @@ void			gameplay_command_pin(t_gameplay* this,
 	}
       it = list_iterator_next(it);
     }
+  gameplay_send_sbp(&command->client->parent_client);
 }
 
 void			gameplay_command_sgt(t_gameplay* this,
@@ -167,9 +185,17 @@ void			gameplay_command_sst(t_gameplay* this,
 					     t_monitor_command* command)
 {
   int			old_delay;
+  char*			ptr;
 
   old_delay = this->delay;
-  this->delay = atoi(command->data[0]);
+  ptr = command->data[0];
+  this->delay = strtol(command->data[0], &ptr, 10);
+  if (ptr == '\0' || this->delay == 0)
+    {
+      this->delay = old_delay;
+      gameplay_send_sbp(&command->client->parent_client);
+      return;
+    }
   monitor_send_delay(this, &command->client->parent_client);
   gameplay_update_all_times(this, old_delay);
 }

@@ -27,20 +27,24 @@ void			gameplay_command_expulse(t_gameplay* this,
   char			buffer[4096];
   t_list_iterator	it;
   t_player*		player;
+  bool			b;
 
+  b = false;
   it = list_begin(this->players);
   sprintf(buffer, "deplacement: %d\n", ((command->player->direction + 2) % 4));
+  bind_command_expulse(this, command);
   while (it != list_end(this->players))
     {
       player = it->data;
       if (player->x == command->player->x && player->y == command->player->y &&
 	  player->id != command->player->id)
 	{
+	  b = true;
 	  gameplay_command_move(this, player);
 	  gameplay_send_pos(this, player);
 	  client_send_msg(player->client, buffer);
 	}
       it = list_iterator_next(it);
     }
-  bind_command_expulse(this, command);
+  gameplay_send_res(player->client, b);
 }

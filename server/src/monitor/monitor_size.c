@@ -10,5 +10,4 @@ void			monitor_send_size(t_gameplay *this, t_client *client)
 
   sprintf(buff, "msz %d %d\n", this->map.width, this->map.height);
   client_send_msg(client, buff);
-
 }

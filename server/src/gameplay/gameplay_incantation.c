@@ -75,4 +75,5 @@ void			gameplay_command_incantation(t_gameplay* this,
     }
   else
     gameplay_send_res_incant(this, command, false);
+  gameplay_send_case_all(this, command->player);
 }

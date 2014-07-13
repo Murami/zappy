@@ -43,8 +43,7 @@ void			gameplay_command_broadcast(t_gameplay* this,
 	{
 	  angle = fmod(atan2(player->x - command->player->x,
 			     player->y - command->player->y) + M_PI, M_PI);
-	  side =
-	    (angle < M_PI / 2) ? EAST :
+	  side = (angle < M_PI / 2) ? EAST :
 	    (angle < M_PI) ? NORTH :
 	    (angle < 3 * M_PI / 2) ? WEST : SOUTH;
 	  side += player->direction - 1;
@@ -54,4 +53,5 @@ void			gameplay_command_broadcast(t_gameplay* this,
       it = list_iterator_next(it);
     }
   bind_command_broadcast(this, command);
+  gameplay_send_res(player->client, true);
 }
