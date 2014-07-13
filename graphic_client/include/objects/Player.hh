@@ -27,7 +27,8 @@ namespace	Zappy
       LOOTING = 3,
       DROPING = 4,
       CASTING = 5,
-      GHOST = 6
+      GHOST = 6,
+      EXPULSING = 7
     };
 
   class		Player : public AObject
@@ -75,6 +76,7 @@ namespace	Zappy
     void		drop();
     void		stand();
     void		cast();
+    void		expulsing();
 
   public :
     virtual void	initialize();
@@ -97,6 +99,7 @@ namespace	Zappy
     int			getEggId() const;
     void		startForking();
     void		stopForking();
+    void		expulse();
 
   public :
     int			getId() const;

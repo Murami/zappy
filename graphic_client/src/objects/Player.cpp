@@ -36,6 +36,7 @@ namespace	Zappy
     _moveFunc[LOOTING] = &Player::loot;
     _moveFunc[DROPING] = &Player::drop;
     _moveFunc[CASTING] = &Player::cast;
+    _moveFunc[EXPULSING] = &Player::expulsing;
     _dirMoveFunc[NORTH] = &Player::north;
     _dirMoveFunc[SOUTH] = &Player::south;
     _dirMoveFunc[EAST] = &Player::east;
@@ -73,6 +74,7 @@ namespace	Zappy
     int exDir = static_cast<int>(_orientation);
     int newDir = static_cast<int>(dir);
     _orientation = dir;
+    std::cout << "\033[31m[SET ORIENTATION]\033[0m" << std::endl;
     if ((exDir - newDir) % 2 == 0)
       rotate(glm::vec3(0, 1, 0), 180);
     else if (exDir == 1 && newDir == 4)
@@ -192,6 +194,8 @@ namespace	Zappy
     _elapsed = 0;
   }
 
+
+
   void		Player::update(const gdl::Clock&, gdl::Input&)
   {
     if (!_dying)
@@ -205,6 +209,27 @@ namespace	Zappy
 	    _elapsed = 0;
 	  }
       }
+  }
+
+  void		Player::expulsing()
+  {
+    _elapsed++;
+    if (_elapsed == 10)
+      {
+	_stateStack.pop();
+	_stateStack.push(STANDING);
+	_model = AnimationPool::getInstance()->getStandingFrame(_level);
+	_elapsed = 0;
+      }
+    else
+      _model = AnimationPool::getInstance()->getNextExpulsingFrame();
+  }
+
+  void		Player::expulse()
+  {
+    _stateStack.push(EXPULSING);
+    _elapsed = 0;
+    _model = AnimationPool::getInstance()->getNextExpulsingFrame();
   }
 
   void		Player::north()
@@ -280,7 +305,7 @@ namespace	Zappy
     (this->*this->_dirMoveFunc[_orientation])();
     _model = AnimationPool::getInstance()->getNextRunningFrame();
     _elapsed++;
-    if (_elapsed >= Map::BLOCK_SIZE)
+    if (_elapsed > Map::BLOCK_SIZE)
       {
 	stopRunning();
 	_elapsed = 0;
@@ -328,15 +353,16 @@ namespace	Zappy
     _stateStack.push(STANDING);
   }
 
+  // probleme au niveau de l'ajout des coordonnees en Y
+  // -> translation et pas rotation
+
   void		Player::stopRunning()
   {
     _x = static_cast<int>(_position.x) / Map::BLOCK_SIZE;
     _y = static_cast<int>(_position.y) / Map::BLOCK_SIZE;
     _position.x = _x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
     _position.y = _y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
-    std::cout << _x << "  " << _y << std::endl << std::endl;
     _stateStack.pop();
-    _stateStack.push(STANDING);
     _model = AnimationPool::getInstance()->getStandingFrame(_level);
   }
 

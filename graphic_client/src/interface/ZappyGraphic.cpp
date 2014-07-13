@@ -40,7 +40,6 @@ namespace	Zappy
     _window.flush();
     _hud = new HUD();
     AnimationPool::getInstance()->loadModels();
-
     while (_window.isRunning())
       {
 	if (!_client.isConnected())
@@ -48,7 +47,6 @@ namespace	Zappy
 	_window.bindShader();
 	_window.update();
 	updateClient();
-
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.drawPlayerColorMap(static_cast<Player*>(*it));
@@ -205,10 +203,19 @@ namespace	Zappy
       {
 	if ((*it)->getId() == playerId)
 	  {
+	    std::cout << "PLAYER: " << (*it)->getX() << " " << (*it)->getY()
+		      << std::endl;
+	    std::cout << "PARAMS: " << newX << " " << newY << std::endl;
 	    if ((*it)->getX() == newX && (*it)->getY() == newY)
-	      (*it)->setOrientation(static_cast<Orientation>(orientation));
+	      {
+		std::cout << "Setting orientation" << std::endl;
+		(*it)->setOrientation(static_cast<Orientation>(orientation));
+	      }
 	    else
-	      (*it)->goForward();
+	      {
+		std::cout << "going forward" << std::endl;
+		(*it)->goForward();
+	      }
 	    break;
 	  }
       }
@@ -235,8 +242,15 @@ namespace	Zappy
 
   void		ZappyGraphic::playerExpulse(int id)
   {
-    std::cout << "\033[30m" << "[PLAYER EXPULSE]: " << id << "\033[0m";
-    std::cout << std::endl;
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == id)
+	  {
+	    (*it)->expulse();
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::playerBroadcast(int id)

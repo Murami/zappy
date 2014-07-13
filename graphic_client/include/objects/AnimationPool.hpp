@@ -20,6 +20,8 @@ namespace	Zappy
     gdl::Model*			_lastModel;
     std::map<int, gdl::Model*>	_forkingFrames;
     int				_currentForkingFrame;
+    std::map<int, gdl::Model*>	_expulsingFrames;
+    int				_currentExpulsingFrame;
 
   public :
     static AnimationPool*	getInstance()
@@ -79,8 +81,19 @@ namespace	Zappy
       return (_forkingFrames[_currentForkingFrame]);
     }
 
+    gdl::Model*		getNextExpulsingFrame()
+    {
+      int size = _expulsingFrames.size();
+      if (_currentExpulsingFrame < size - 1)
+	_currentExpulsingFrame++;
+      else
+	_currentExpulsingFrame = 0;
+      return (_expulsingFrames[_currentExpulsingFrame]);
+    }
+
     void		loadModels()
     {
+      _currentExpulsingFrame = 0;
       _currentCastingFrame = 0;
       _currentForkingFrame = 0;
       _currentRunningFrame = 0;
@@ -123,7 +136,17 @@ namespace	Zappy
 	  model->createSubAnim(0, "casting", i + 30, i + 31);
 	  model->setCurrentSubAnim("casting");
 	  _castingFrame[i-1] = model;
-	  std::cout << "\033[31mCREATE CAST FRAME " << i+30 << "-" << i+31 << " i - 1 = " << i - 1 << std::endl;
+	  usleep(5000);
+	}
+      for (int i = 0; i < 10; i++)
+	{
+	  model = new gdl::Model();
+	  if (!model->load("./assets/models/young_link_1.fbx"))
+	    throw (std::runtime_error("Error while loading expulsing frames"));
+	  model->setCurrentAnim(0);
+	  model->createSubAnim(0, "expulse", i + 80, i + 31);
+	  model->setCurrentSubAnim("expulse");
+	  _expulsingFrames[i] = model;
 	  usleep(5000);
 	}
 
