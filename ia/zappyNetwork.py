@@ -16,7 +16,6 @@ class   ZappyNetwork:
             raise
         self.data = ""
         recv = self.recv()
-        print(recv)
 
     def __del__ (self):
         self.sock.close()
@@ -27,10 +26,8 @@ class   ZappyNetwork:
     def recv (self):
         print("!dfjkwljkldjfjksmlkjdlskjmldkj")
         try:
-            print("--------->" + self.data + "<-----------")
             while (self.data.find("\n") == -1):
                 self.data = self.data + str(self.sock.recv(4096), "utf8")
-                print ("***" + self.data + "****")
             tmp = self.data.find("\n")
             recv = self.data[0:tmp]
             self.data = self.data[tmp + 1:len(self.data)]
