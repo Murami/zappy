@@ -128,8 +128,8 @@ DBGBOOL		=	yes
 
 PROFILE		=	no
 
-DBG		=	-g3			\
-			-ggdb
+DBG		=	-ggdb			\
+			-g3
 
 WERROR		=	-Werror
 
