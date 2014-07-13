@@ -14,7 +14,8 @@ void			put_case_content_x(char* buffer_msg, int val, char* str)
     }
 }
 
-void			put_case_content(t_gameplay* this, char* buffer_msg, int x, int y)
+void			put_case_content(t_gameplay* this,
+					 char* buffer_msg, int x, int y)
 {
   t_case*		contents;
   t_list_iterator	it;

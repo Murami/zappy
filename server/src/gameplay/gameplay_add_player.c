@@ -36,8 +36,15 @@ t_player*		gameplay_add_new_player(t_gameplay* this,
 						t_client* client, t_team* team)
 {
   t_player*		player;
+  int			nb;
 
+  nb = 0;
   player = player_new(this, client, team);
+  while (nb != this->map.width * this->map.height / 8)
+    {
+      gameplay_pop_food(this);
+      nb++;
+    }
   gameplay_update_player_position(this, player, this->players);
   return (player);
 }

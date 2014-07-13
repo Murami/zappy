@@ -66,29 +66,20 @@ ponte oeuf			       -OK-
 joueur co sur egg		       -OK-
 oeuf a été pondu 		       -OK-
 oeuf eclot			       -OK-
-oeuf meurt de faim			--	à tester
-mort					--	à tester
+oeuf meurt de faim		        OK
+mort				 	OK
+Un joueur expulse      			OK
+Un joueur broadcast			OK
+Lancement de l'incantation		OK
+Fin incantation     	     		OK
+drop					OK	pop à faire -
+take					OK	pop à faire -
+Connexion d'un nouveau joueur		OK	pop à faire -
+cmd inconnue				OK
+mauvais param				OK
+ko + délais connexion			OK
 
-
-drop					OK	pop à faire
-take					OK	pop à faire
-Connexion d'un nouveau joueur		OK	pop à faire
-
-Un joueur expulse      			OK	à tester
-Un joueur broadcast			OK	à tester
-
-Premier joueur lance incant		--	pic X Y #n #n....
-Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
-mort de faim				--	pdi #n
 fin du jeu				--	seg N
 msg server				--	smg M
-cmd inconnue				--	suc
-mauvais param				--	sbp
-ko + délais connexion			--	...
-
-id oeuf + mort de l'oeuf à gerer --> antho
-
-
-
 
 ---------------------------------------------------------------------------

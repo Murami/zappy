@@ -12,6 +12,7 @@ void	gameplay_add_player_command(t_gameplay*, struct s_player_command*);
 void	gameplay_add_monitor_command(t_gameplay*, struct s_monitor_command*);
 void	gameplay_update_player_position(t_gameplay*, struct s_player*,
 					t_list*);
+void    gameplay_update_all_times(t_gameplay*, int);
 bool	check_incant(t_gameplay*, struct s_player_command*);
 int	count_taken_slot(t_gameplay*, struct s_team*);
 void	bind_command_object(t_gameplay*, struct s_player_command*,

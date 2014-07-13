@@ -26,14 +26,20 @@ typedef struct		s_server
   t_list*		deads;
 }			t_server;
 
+extern bool		g_alive;
+
 void			sighandler(int);
 
 # include "server_core.h"
 # include "server_io.h"
 
-void	create_socket(t_server *this, int port);
-void	bind_socket(t_server *this, struct sockaddr_in *sin);
-void	create_queue(t_server *this);
-void	reset_rfds(t_server *this, fd_set *fd_set_in, fd_set* fd_set_out);
+void		create_socket(t_server*, int);
+void		bind_socket(t_server*, struct sockaddr_in*);
+void		create_queue(t_server*);
+void		reset_rfds(t_server*, fd_set*, fd_set*);
+void		server_delete_deads(t_server*);
+void		server_add_player_command(t_server*, struct s_player_command*);
+void		server_add_monitor_command(t_server*, struct s_monitor_command*);
+struct s_team*	server_check_teams(struct s_server*, char*, int);
 
 #endif	/* _SERVER_H_ */

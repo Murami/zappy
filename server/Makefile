@@ -2,72 +2,83 @@
 
 NAME		=	server_zappy
 
-SRC		=	main				\
-			server/server			\
-			server/server_monitor		\
-			server/server_io		\
-			server/server_process		\
-			server/server_init		\
-			client/client			\
-			client/client_io		\
-			client/client_player		\
-			client/client_player_run_input	\
-			client/client_graphic		\
-			player/player			\
-			player/player_command		\
-			monitor/monitor_init		\
-			monitor/monitor_size		\
-			monitor/monitor_delay		\
-			monitor/monitor_teams		\
-			monitor/monitor_players		\
-			monitor/monitor_eggs		\
-			monitor/monitor_map		\
-			monitor/monitor_command		\
-			misc/parser			\
-			misc/socketstream		\
-			misc/socketstream_flush		\
-			misc/socketstream_io		\
-			misc/list			\
-			misc/time_val			\
-			gameplay/gameplay		\
-			gameplay/gameplay_pop		\
-			gameplay/check_stone1_5		\
-			gameplay/check_stone6_7		\
-			gameplay/gameplay_kill		\
-			gameplay/gameplay_egg		\
-			gameplay/gameplay_send_seg	\
-			gameplay/gameplay_send_err	\
-			gameplay/gameplay_send_take	\
-			gameplay/gameplay_send_egg	\
-			gameplay/gameplay_send_drop	\
-			gameplay/gameplay_send_inventory\
-			gameplay/gameplay_send_res	\
-			gameplay/gameplay_send_case	\
-			gameplay/gameplay_send_lvl	\
-			gameplay/gameplay_init		\
-			gameplay/gameplay_move		\
-			gameplay/gameplay_expulse	\
-			gameplay/gameplay_avance	\
-			gameplay/gameplay_droite	\
-			gameplay/gameplay_gauche	\
-			gameplay/gameplay_fork		\
-			gameplay/gameplay_add_command	\
-			gameplay/gameplay_broadcast	\
-			gameplay/gameplay_voir		\
-			gameplay/gameplay_incantation	\
-			gameplay/gameplay_add_player	\
-			gameplay/gameplay_add_monitor	\
-			gameplay/gameplay_food		\
-			gameplay/gameplay_linemate	\
-			gameplay/gameplay_deraumere	\
-			gameplay/gameplay_sibur		\
-			gameplay/gameplay_mendiane	\
-			gameplay/gameplay_phiras	\
-			gameplay/gameplay_thystame	\
-			gameplay/gameplay_monitor	\
-			gameplay/gameplay_object	\
-			gameplay/map			\
-			gameplay/case			\
+SRC		=	main					\
+			server/server				\
+			server/server_check			\
+			server/server_add			\
+			server/server_launch			\
+			server/server_monitor			\
+			server/server_reset_rfds		\
+			server/server_io			\
+			server/server_process			\
+			server/server_init			\
+			client/client				\
+			client/client_io			\
+			client/client_player			\
+			client/client_player_run_input		\
+			client/client_graphic			\
+			player/player				\
+			player/player_command			\
+			monitor/monitor_init			\
+			monitor/monitor_size			\
+			monitor/monitor_delay			\
+			monitor/monitor_teams			\
+			monitor/monitor_players			\
+			monitor/monitor_eggs			\
+			monitor/monitor_map			\
+			monitor/monitor_command			\
+			misc/parser				\
+			misc/socketstream			\
+			misc/socketstream_flush			\
+			misc/socketstream_io			\
+			misc/list				\
+			misc/list_init				\
+			misc/list_modifiers			\
+			misc/list_access			\
+			misc/list_misc				\
+			misc/list_iterators			\
+			misc/time_val				\
+			gameplay/gameplay			\
+			gameplay/gameplay_pop			\
+			gameplay/check_stone1_5			\
+			gameplay/check_stone6_7			\
+			gameplay/gameplay_kill			\
+			gameplay/gameplay_egg			\
+			gameplay/gameplay_send_seg		\
+			gameplay/gameplay_send_err		\
+			gameplay/gameplay_send_take		\
+			gameplay/gameplay_send_egg		\
+			gameplay/gameplay_send_drop		\
+			gameplay/gameplay_send_inventory	\
+			gameplay/gameplay_send_res		\
+			gameplay/gameplay_send_case		\
+			gameplay/gameplay_send_lvl		\
+			gameplay/gameplay_init			\
+			gameplay/gameplay_move			\
+			gameplay/gameplay_update_time		\
+			gameplay/gameplay_monitor_command	\
+			gameplay/gameplay_expulse		\
+			gameplay/gameplay_avance		\
+			gameplay/gameplay_droite		\
+			gameplay/gameplay_gauche		\
+			gameplay/gameplay_fork			\
+			gameplay/gameplay_add_command		\
+			gameplay/gameplay_broadcast		\
+			gameplay/gameplay_voir			\
+			gameplay/gameplay_incantation		\
+			gameplay/gameplay_add_player		\
+			gameplay/gameplay_add_monitor		\
+			gameplay/gameplay_food			\
+			gameplay/gameplay_linemate		\
+			gameplay/gameplay_deraumere		\
+			gameplay/gameplay_sibur			\
+			gameplay/gameplay_mendiane		\
+			gameplay/gameplay_phiras		\
+			gameplay/gameplay_thystame		\
+			gameplay/gameplay_monitor		\
+			gameplay/gameplay_object		\
+			gameplay/map				\
+			gameplay/case				\
 			gameplay/team
 
 SRC_EXT		=	.c
@@ -80,9 +91,9 @@ DBIN		=	.
 
 ## COMPILATION
 
-DINC		=	include		\
+DINC		=	include			\
 
-CFLAGS		=	-Wall		\
+CFLAGS		=	-Wall			\
 			-Wextra
 
 MAKED		=	make --no-print-directory -C
@@ -111,7 +122,7 @@ DBGBOOL		=	yes
 
 PROFILE		=	no
 
-DBG		=	-g3		\
+DBG		=	-g3			\
 			-ggdb
 
 WERROR		=	-Werror

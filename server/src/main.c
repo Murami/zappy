@@ -25,7 +25,8 @@ int		main(int ac, char **av)
   if (ac < 2)
     {
       printf("usage: ./zappy-server-linux [[[-p port] -p port] ...] "
-	     "[-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name_1 team_name_2 ...\n");
+	     "[-x world_x] [-y world_y] [-c max_clients] [-t speed]"
+	     "-n team_name_1 team_name_2 ...\n");
       return (EXIT_FAILURE);
     }
   srand(time(NULL));

@@ -11,7 +11,8 @@ t_client_vtable client_player_vtable =
     (t_client_delete_ptr)client_player_delete
   };
 
-void	client_player_initialize(t_client_player* this, t_socketstream* sockstream)
+void	client_player_initialize(t_client_player* this,
+				 t_socketstream* sockstream)
 {
   client_initialize(&this->parent_client, sockstream);
   this->parent_client.vtable = &client_player_vtable;
