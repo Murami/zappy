@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:00:47 2014 otoshigami
-** Last update Sun Jul 13 17:00:47 2014 otoshigami
+** Last update Sun Jul 13 19:56:16 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -19,11 +19,20 @@
 #include "time_val.h"
 #include "list.h"
 
-void		player_initialize(t_player *this, t_gameplay *gameplay,
-				  t_client *client, t_team *team)
+void		player_send(t_player* this, t_client* client,
+			    t_team* team)
 {
   char		buffer[4096];
 
+  sprintf(buffer, "%d\n", team->nb_slots);
+  client_send_msg(client, buffer);
+  sprintf(buffer, "%d %d\n", this->x, this->y);
+  client_send_msg(client, buffer);
+}
+
+void		player_initialize(t_player *this, t_gameplay *gameplay,
+				  t_client *client, t_team *team)
+{
   this->death_time.tv_usec = (1200 * 1000000) / gameplay->delay;
   this->death_time.tv_sec = 0;
   this->death_time = timeval_add(gameplay->time, this->death_time);
@@ -35,6 +44,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->team = team;
   this->id_egg = 0;
   this->is_egg = false;
+  this->it = NULL;
   this->command_queue = list_new();
   case_initialize(&this->inventory, this->x, this->y);
   this->inventory.food = 10;
@@ -42,10 +52,7 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   if (this->client)
     {
       ((t_client_player*)client)->player = this;
-      sprintf(buffer, "%d\n", team->nb_slots);
-      client_send_msg(client, buffer);
-      sprintf(buffer, "%d %d\n", this->x, this->y);
-      client_send_msg(client, buffer);
+      player_send(this, client, team);
     }
 }
 
@@ -63,6 +70,7 @@ t_player*	player_new(t_gameplay *gameplay, t_client *client,
 
 void			player_release(t_player* this)
 {
+  printf("release player\n");
   while (!list_empty(this->command_queue))
     {
       player_command_delete(list_back(this->command_queue));

@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:06:50 2014 quentin desabre
-** Last update Sun Jul 13 18:25:27 2014 otoshigami
+** Last update Sun Jul 13 18:29:03 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -24,12 +24,6 @@ void		release_config(t_config* config)
       free(list_back(config->team_names));
       list_pop_back(config->team_names);
     }
-  while (!list_empty(config->teams))
-    {
-      free(list_back(config->teams));
-      list_pop_back(config->teams);
-    }
-  list_delete(config->teams);
   list_delete(config->team_names);
 }
 

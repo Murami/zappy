@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:45 2014 quentin desabre
-** Last update Sun Jul 13 18:04:45 2014 Desabre Quentin
+** Last update Sun Jul 13 19:56:37 2014 otoshigami
 */
 
 #include <stdbool.h>
@@ -22,6 +22,7 @@ int	socketstream_read(t_socketstream* this, char* buffer, int size)
     delta = this->size_input;
   if (size < delta)
     delta = size;
+  memset(buffer, 0, size);
   memcpy(buffer, this->buffer_input + this->begin_input, delta);
   memcpy(buffer + delta, this->buffer_input, this->size_input - delta);
   if (!strchr(buffer, '\n'))
@@ -52,6 +53,7 @@ int	socketstream_peek(t_socketstream* this, char* buffer, int size)
     delta = size;
   memcpy(buffer, this->buffer_input + this->begin_input, delta);
   memcpy(buffer + delta, this->buffer_input, this->size_input - delta);
+  buffer[size -  1] = '\0';
   if (!strchr(buffer, '\n'))
     return (0);
   else

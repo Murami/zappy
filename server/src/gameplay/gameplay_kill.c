@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:06:18 2014 otoshigami
-** Last update Sun Jul 13 18:06:19 2014 otoshigami
+** Last update Sun Jul 13 18:37:18 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -31,7 +31,7 @@ t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
   monitor_send_pdi(this, player);
   client_send_msg(player->client, "mort\n");
   server_remove(this->server, player->client);
-  free(player);
+  player_delete(player);
   return (it);
 }
 
@@ -48,6 +48,6 @@ t_list_iterator		gameplay_kill_ghost(t_gameplay* this, t_player* player)
     monitor_send_edi(this, player);
   else
     monitor_send_pdi(this, player);
-  free(player);
+  player_delete(player);
   return (it);
 }

@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:03:38 2014 quentin desabre
-** Last update Sun Jul 13 18:03:39 2014 Desabre Quentin
+** Last update Sun Jul 13 19:32:59 2014 otoshigami
 */
 
 #include <string.h>
@@ -42,6 +42,7 @@ static t_player_command*	get_command(t_server* server,
       if (strncmp(g_player_commands[i].request, "broadcast", size) == 0)
 	return (player_command_new(client, server->gameplay,
 				   buffer_original + strlen("broadcast") + 1, i));
+      printf("player command : %s\n", buffer_original);
       if ((g_player_commands[i].has_data == 1 && data != NULL) ||
 	  (g_player_commands[i].has_data == 0 && data == NULL))
 	return (player_command_new(client, server->gameplay, data, i));
