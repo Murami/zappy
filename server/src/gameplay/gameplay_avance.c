@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:05:48 2014 otoshigami
-** Last update Sun Jul 13 18:11:47 2014 otoshigami
+** Last update Sun Jul 13 21:18:41 2014 Desabre Quentin
 */
 
 #include <stdio.h>
@@ -14,6 +14,7 @@
 #include "player_command.h"
 #include "map.h"
 #include "client.h"
+#include "socketstream.h"
 
 void			gameplay_command_avance(t_gameplay* this,
 						t_player_command* command)
@@ -32,6 +33,7 @@ void			gameplay_command_avance(t_gameplay* this,
     command->player->x = 0;
   if (command->player->x < 0)
     command->player->x = this->map.width;
+  printf("res to avance player %d sur la socket %d\n", command->player->id, command->player->client->socketstream->socket);
   gameplay_send_res(command->player->client, true);
   gameplay_send_pos(this, command->player);
 }
