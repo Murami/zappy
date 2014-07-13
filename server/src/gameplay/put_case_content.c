@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 21:43:47 2014 Desabre Quentin
+** Last update Sun Jul 13 22:00:45 2014 otoshigami
 */
 
 #include <string.h>
@@ -32,6 +32,7 @@ void			put_case_content(t_gameplay* this,
   t_list_iterator	it;
 
   contents = &this->map.map[x + y * this->map.width];
+  printf("voir : %d\n", contents->linemate);
   put_case_content_x(buffer_msg, contents->linemate, "linemate");
   put_case_content_x(buffer_msg, contents->deraumere, "deraumere");
   put_case_content_x(buffer_msg, contents->sibur, "sibur");
