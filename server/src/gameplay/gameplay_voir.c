@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:07:52 2014 otoshigami
-** Last update Sun Jul 13 18:10:52 2014 otoshigami
+** Last update Sun Jul 13 21:15:08 2014 Desabre Quentin
 */
 
 #include <string.h>
@@ -83,6 +83,7 @@ void	gameplay_command_voir(t_gameplay* this, t_player_command* command)
   buffer[0] = '{';
   gameplay_voir(this, command, buffer);
   buffer[strnlen(buffer, 4094) - 1] = '}';
+  strncat(buffer, "\n", 4096);
   buffer[4094] = '\n';
   buffer[4095] = '\0';
   client_send_msg(command->player->client, buffer);
