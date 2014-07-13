@@ -6,11 +6,14 @@
 #include "player.h"
 #include "server.h"
 #include "monitor.h"
+#include "team.h"
 
 t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
 {
   t_list_iterator	it;
 
+  if (player->level == 8)
+    player->team->nb_lvl8--;
   printf("player [%d] killed (starved to death)\n", player->id);
   it = list_iterator_prev(player->it);
   server_remove(this->server, player->client);
@@ -26,6 +29,8 @@ t_list_iterator		gameplay_kill_ghost(t_gameplay* this, t_player* player)
 {
   t_list_iterator	it;
 
+  if (player->level == 8)
+    player->team->nb_lvl8--;
   printf("ghost player [%d] killed (starved to death)\n", player->id);
   it = list_iterator_prev(player->it);
   list_erase(this->ghosts, player->it);
