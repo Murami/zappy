@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:05:43 2014 otoshigami
-** Last update Sun Jul 13 18:05:45 2014 otoshigami
+** Last update Sun Jul 13 21:31:32 2014 otoshigami
 */
 
 #include <stdio.h>
@@ -64,10 +64,8 @@ void			gameplay_add_player(t_gameplay* this,
 {
   t_player*	player;
 
-  if (!list_empty(this->ghosts))
+  if ((player = gameplay_get_ghost(this, team)))
     {
-      player = list_front(this->ghosts);
-      list_erase(this->ghosts, player->it);
       player->it = NULL;
       player->client = client;
       player->is_egg = false;

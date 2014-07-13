@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:03:26 2014 otoshigami
-** Last update Sun Jul 13 18:03:29 2014 Desabre Quentin
+** Last update Sun Jul 13 20:49:54 2014 otoshigami
 */
 
 #include <string.h>
@@ -51,6 +51,7 @@ void			client_graphic_run_input(t_client_graphic* this,
     {
       i = 0;
       command = NULL;
+      printf("buffer [%s]\n", buffer);
       client_data_init(buffer, d);
       while (g_monitor_commands[i].request &&
 	     strncmp(buffer, g_monitor_commands[i].request, size))
