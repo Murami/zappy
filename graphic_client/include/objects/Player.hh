@@ -20,11 +20,12 @@ namespace	Zappy
 
   enum		State
     {
-      STANDING,
-      RUNNING,
-      LOOTING,
-      CASTING,
-      GHOST,
+      STANDING = 0,
+      FORKING = 1,
+      RUNNING = 2,
+      LOOTING = 3,
+      CASTING = 4,
+      GHOST = 5,
     };
 
   class		Player : public AObject
@@ -40,7 +41,7 @@ namespace	Zappy
     float		_timeUnit;
     int			_elapsed;
     State		_state;
-    //std::stack<State>	_stateStack;
+    std::stack<State>	_stateStack;
     glm::vec4		_pickColor;
     gdl::BasicShader	_colorPickShader;
     int			_id;
@@ -76,6 +77,8 @@ namespace	Zappy
     void		die();
     void		setEggId(int);
     int			getEggId() const;
+    void		startForking();
+    void		stopForking();
 
   public :
     int			getId() const;

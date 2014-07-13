@@ -1,3 +1,13 @@
+/*
+** gameplay_sibur.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:38:39 2014 otoshigami
+** Last update Sun Jul 13 17:38:40 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include "gameplay.h"

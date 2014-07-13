@@ -12,7 +12,7 @@ namespace	Zappy
     _x = x;
     _y = y;
     rotate(glm::vec3(1, 0, 0), 90);
-    scale(glm::vec3(0.75, 0.75, 0.75));
+    scale(glm::vec3(2, 2, 2));
     translate(glm::vec3(x * Map::BLOCK_SIZE + random() %
 			(Map::BLOCK_SIZE - 1) + 1,
 			y * Map::BLOCK_SIZE + random() %

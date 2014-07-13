@@ -1,3 +1,13 @@
+/*
+** monitor_eggs.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:34:36 2014 otoshigami
+** Last update Sun Jul 13 17:34:37 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include "gameplay.h"
 #include "player.h"

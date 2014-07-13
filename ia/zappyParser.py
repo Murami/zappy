@@ -31,11 +31,13 @@ class ZappyParser:
                                         self.__parseElevation),
             "level" : structFuncPtr(re.compile("niveau actuel : ([0-9]+)"),
                                     self.__parseLevel),
-            "alive" : structFuncPtr(re.compile("mort"),
-                                    self.__parseAlive)
+            "alive" : structFuncPtr(re.compile("^mort$"),
+                                    self.__parseAlive),
         }
     def parse (self, toParse):
         for cmd in toParse.split("\n"):
+            if cmd == "":
+                self.__handleDeath()
             for elem in self.names:
                 tmp = self.tab[elem].regex.search(cmd)
                 if tmp is not None:
@@ -109,3 +111,8 @@ class ZappyParser:
     def __parseAlive (self, toParse):
         res = responseServer.ResponseServerAlive()
         return res
+
+    def __handleDeath (self):
+        print("\033[31mError : "
+              + "\033[33mthe servor close the connection\033[0m")
+        exit (0)

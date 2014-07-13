@@ -1,3 +1,13 @@
+/*
+** time_val.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/misc
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:04:48 2014 quentin desabre
+** Last update Sun Jul 13 18:04:48 2014 Desabre Quentin
+*/
+
 #include "time_val.h"
 
 struct timeval	timeval_add(struct timeval t1, struct timeval t2)

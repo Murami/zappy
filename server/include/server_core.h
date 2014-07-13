@@ -1,3 +1,13 @@
+/*
+** server_core.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:26:19 2014 otoshigami
+** Last update Sun Jul 13 17:26:20 2014 otoshigami
+*/
+
 #ifndef SERVER_CORE_H
 # define SERVER_CORE_H
 

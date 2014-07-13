@@ -1,3 +1,13 @@
+/*
+** client_player.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:03:20 2014 quentin desabre
+** Last update Sun Jul 13 18:03:23 2014 Desabre Quentin
+*/
+
 #include <stdlib.h>
 #include "client_player.h"
 #include "socketstream.h"

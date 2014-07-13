@@ -16,6 +16,9 @@ namespace	Zappy
     static	AnimationPool*	_instance;
     gdl::Model*			_standingFrame;
     gdl::Model*			_castingFrame;
+    gdl::Model*			_lastModel;
+    std::map<int, gdl::Model*>	_forkingFrames;
+    int				_currentForkingFrame;
 
   public :
     static AnimationPool*	getInstance()
@@ -25,9 +28,11 @@ namespace	Zappy
       return (_instance);
     }
 
-    gdl::Model*		getStandingFrame()
+    gdl::Model*		getStandingFrame(int level)
     {
-      return (_standingFrame);
+      if (level < 8)
+	return (_standingFrame);
+      return (_lastModel);
     }
 
     gdl::Model*		getRunningFrame(int index)
@@ -42,25 +47,34 @@ namespace	Zappy
 
     gdl::Model*		getNextRunningFrame()
     {
-      if (_currentRunningFrame < 18)
+      int size = _runningFrames.size();
+      if (_currentRunningFrame < size - 1)
 	_currentRunningFrame++;
       else
 	_currentRunningFrame = 0;
       return (_runningFrames[_currentRunningFrame]);
     }
 
+    gdl::Model*		getNextForkingFrame()
+    {
+      int size = _forkingFrames.size();
+      if (_currentForkingFrame < size - 1)
+	_currentForkingFrame++;
+      else
+	_currentForkingFrame = 0;
+      return (_forkingFrames[_currentForkingFrame]);
+    }
+
     void		loadModels()
     {
+      _currentForkingFrame = 0;
       _currentRunningFrame = 0;
       gdl::Model* model;
       for (int i = 0; i < 19; i++)
 	{
 	  model = new gdl::Model();
 	  if (!model->load("./assets/models/young_link_1.fbx"))
-	    {
-	      std::cerr << "Error while loading young_link_1.fbx" << std::endl;
-	      return ;
-	    }
+	    throw (std::runtime_error("Error while loading running frames"));
 	  model->setCurrentAnim(0);
 	  model->createSubAnim(0, "running", i + 10, i + 11);
 	  model->setCurrentSubAnim("running");
@@ -76,6 +90,21 @@ namespace	Zappy
       _castingFrame->setCurrentAnim(0);
       _castingFrame->createSubAnim(0, "cast", 50, 50);
       _castingFrame->setCurrentSubAnim("cast");
+      _lastModel = new gdl::Model();
+      if (!_lastModel->load("./assets/link_adult/adult.fbx"))
+	throw (std::runtime_error("Error while loading model for last level"));
+      for (int i = 0; i < 9; i++)
+	{
+	  model = new gdl::Model();
+	  if (!model->load("./assets/models/young_link_1.fbx"))
+	    throw (std::runtime_error("Error while loading forking frames"));
+	  model->setCurrentAnim(0);
+	  model->createSubAnim(0, "forking", i + 60, i + 61);
+	  model->setCurrentSubAnim("forking");
+	  _forkingFrames[i] = model;
+	  usleep(5000);
+	}
+
     }
 
   private :

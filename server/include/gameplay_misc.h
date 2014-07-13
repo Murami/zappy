@@ -1,3 +1,13 @@
+/*
+** gameplay_misc.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:24:56 2014 otoshigami
+** Last update Sun Jul 13 18:12:16 2014 otoshigami
+*/
+
 #ifndef GAMEPLAY_MISC_H
 # define GAMEPLAY_MISC_H
 
@@ -8,5 +18,6 @@ bool	check_stone4(t_gameplay* this, int x, int y);
 bool	check_stone5(t_gameplay* this, int x, int y);
 bool	check_stone6(t_gameplay* this, int x, int y);
 bool	check_stone7(t_gameplay* this, int x, int y);
+void	put_case_content(t_gameplay* this,  char* buffer_msg, int x, int y);
 
 #endif /* GAMEPLAY_MISC_H */

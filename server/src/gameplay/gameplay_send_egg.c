@@ -1,3 +1,13 @@
+/*
+** gameplay_send_egg.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 18:03:45 2014 otoshigami
+** Last update Sun Jul 13 18:03:46 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include "gameplay.h"
 #include "player.h"

@@ -1,3 +1,13 @@
+/*
+** gameplay_add_command.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 18:05:37 2014 otoshigami
+** Last update Sun Jul 13 18:06:56 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include "gameplay.h"
@@ -6,7 +16,8 @@
 #include "client.h"
 #include "player.h"
 
-void			send_incantation_start(t_gameplay* this, t_player_command* command)
+void			send_incantation_start(t_gameplay* this,
+					       t_player_command* command)
 {
   char			buffer[4096];
   char			temp[64];
