@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 18:10:09 2014 otoshigami
+** Last update Sun Jul 13 20:20:47 2014 otoshigami
 */
 
 #include <string.h>
@@ -28,20 +28,23 @@ void			put_case_content(t_gameplay* this,
 					 char* buffer_msg, int x, int y)
 {
   t_case*		contents;
+  t_player*		player;
   t_list_iterator	it;
 
   contents = &this->map.map[x + y * this->map.width];
   put_case_content_x(buffer_msg, contents->linemate, "linemate");
-  put_case_content_x(buffer_msg, contents->linemate, "deraumere");
-  put_case_content_x(buffer_msg, contents->linemate, "sibur");
-  put_case_content_x(buffer_msg, contents->linemate, "phiras");
-  put_case_content_x(buffer_msg, contents->linemate, "thystame");
-  put_case_content_x(buffer_msg, contents->linemate, "linemate");
-  put_case_content_x(buffer_msg, contents->linemate, "nourriture");
+  put_case_content_x(buffer_msg, contents->deraumere, "deraumere");
+  put_case_content_x(buffer_msg, contents->sibur, "sibur");
+  put_case_content_x(buffer_msg, contents->phiras, "phiras");
+  put_case_content_x(buffer_msg, contents->thystame, "thystame");
+  put_case_content_x(buffer_msg, contents->mendiane, "mendiane");
+  put_case_content_x(buffer_msg, contents->food, "nourriture");
   it = list_begin(this->players);
   while (it != list_end(this->players))
     {
-      strncat(buffer_msg, " player", 4095);
+      player = it->data;
+      if (player->x == x && player->y == y)
+	strncat(buffer_msg, " player", 4095);
       it = list_iterator_next(it);
     }
   strncat(buffer_msg, ",", 4095);
