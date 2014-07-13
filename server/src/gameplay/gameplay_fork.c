@@ -1,3 +1,13 @@
+/*
+** gameplay_fork.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 18:04:25 2014 otoshigami
+** Last update Sun Jul 13 18:04:26 2014 otoshigami
+*/
+
 #include <stdlib.h>
 #include <stdio.h>
 #include "gameplay.h"
