@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 16:27:37 2014 quentin desabre
-** Last update Sun Jul 13 23:22:42 2014 otoshigami
+** Last update Sun Jul 13 23:27:47 2014 otoshigami
 */
 
 #include <unistd.h>
@@ -72,6 +72,10 @@ void			server_launch(t_server *this)
   waiting_time.tv_usec = 0;
   while (!this->gameplay->winner)
     {
+<<<<<<< HEAD
+=======
+      printf("SELECT [%d] -- [%d]\n", (int)waiting_time.tv_sec, (int)waiting_time.tv_usec);
+>>>>>>> 8c42b46f35715de7de7491b5edb8a19532f3c4bb
       server_select(this, &set_fd_out, &set_fd_in, waiting_time);
       if (g_alive == false)
 	{

@@ -5,9 +5,10 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 23:21:29 2014 Desabre Quentin
+** Last update Sun Jul 13 23:26:41 2014 Desabre Quentin
 */
 
+#include <stdlib.h>
 #include <string.h>
 #include "gameplay.h"
 #include "player_command.h"
