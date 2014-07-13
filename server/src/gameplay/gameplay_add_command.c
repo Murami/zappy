@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:05:37 2014 otoshigami
-** Last update Sun Jul 13 18:06:56 2014 otoshigami
+** Last update Sun Jul 13 23:08:52 2014 Desabre Quentin
 */
 
 #include <stdio.h>
@@ -56,6 +56,11 @@ void			gameplay_add_player_command(t_gameplay* this,
 	     "incantation") != 0
       )
     {
+      if (g_player_commands[command->id_command].time == 0)
+	{
+	  player_command_execute(command, this);
+	  return;
+	}
       if (strcmp(g_player_commands[command->id_command].request, "fork") == 0)
 	gameplay_send_egg(this, command->player);
       if (strcmp(g_player_commands[command->id_command].request,
