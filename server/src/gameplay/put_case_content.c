@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 22:56:55 2014 otoshigami
+** Last update Sun Jul 13 23:21:29 2014 Desabre Quentin
 */
 
 #include <string.h>
@@ -14,12 +14,36 @@
 #include "player.h"
 #include "client.h"
 
+char			*my_strcat(char *str, char *str2)
+{
+  int			len;
+  char			*buff;
+  int			i;
+
+  i = 0;
+  len = strlen(str) + strlen(str2) + 4;
+  buff = malloc(len);
+  memset(buff, 0, len);
+  while (str[i])
+    {
+      buff[i] = str[i];
+      i++;
+    }
+  len = 0;
+  while (str2[len])
+    {
+      buff[i++] = str2[len];
+      len++;
+    }
+  return (buff);
+}
+
 void			put_case_content_x(char* buffer_msg, int val, char* str)
 {
   while (val > 0)
     {
-      strncat(buffer_msg, " ", 4095);
-      strncat(buffer_msg, str, 4095);
+      my_strcat(buffer_msg, " ");
+      my_strcat(buffer_msg, str);
       val--;
     }
 }
