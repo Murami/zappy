@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:04:48 2014 quentin desabre
-** Last update Sun Jul 13 22:30:58 2014 otoshigami
+** Last update Sun Jul 13 22:56:40 2014 otoshigami
 */
 
 #include "time_val.h"
@@ -40,14 +40,7 @@ struct timeval	timeval_sub(struct timeval t1, struct timeval t2)
 
 int		timeval_comp(struct timeval t1, struct timeval t2)
 {
-  printf("%d\n", t1.tv_sec);
-  printf("%d\n", t1.tv_usec);
-  printf("%d\n", t2.tv_sec);
-  printf("%d\n", t2.tv_usec);
-  if (t1.tv_sec ==
-      t2.tv_sec &&
-      t1.tv_usec ==
-      t2.tv_usec)
+  if (t1.tv_sec == t2.tv_sec && t1.tv_usec == t2.tv_usec)
     return (0);
   if ((t1.tv_sec == t2.tv_sec && t1.tv_usec > t2.tv_usec) ||
       (t1.tv_sec > t2.tv_sec))

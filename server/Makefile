@@ -129,7 +129,7 @@ DBGBOOL		=	yes
 PROFILE		=	no
 
 DBG		=	-ggdb			\
-			-lefence
+			-g3
 
 WERROR		=	-Werror
 
