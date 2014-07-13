@@ -45,7 +45,6 @@ bool			server_process_deads_output(t_server* this,
   if (FD_ISSET(client->socketstream->socket, fd_set_out))
     if (!socketstream_flush_output(client->socketstream))
       {
-	printf("client gone away ??? WUT ?\n");
 	client_delete(client);
 	return (false);
       }
