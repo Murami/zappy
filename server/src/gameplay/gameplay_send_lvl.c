@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:06:41 2014 otoshigami
-** Last update Sun Jul 13 18:06:42 2014 otoshigami
+** Last update Sun Jul 13 22:37:15 2014 Desabre Quentin
 */
 
 #include <stdlib.h>
@@ -22,6 +22,7 @@ void			gameplay_send_lvl_all(t_gameplay *this, t_player *player)
   char			buffer[4096];
 
   sprintf(buffer, "plv %d %d\n", player->id, player->level);
+  it = list_begin(this->monitors);
   while (it != list_end(this->monitors))
     {
       monitor = it->data;
