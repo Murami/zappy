@@ -7,7 +7,8 @@
 #include "player_command.h"
 #include "client.h"
 
-void			bind_command_broadcast(t_gameplay *this, t_player_command *command)
+void			bind_command_broadcast(t_gameplay *this,
+					       t_player_command *command)
 {
   char			buffer[4096];
   t_list_iterator	it;
@@ -25,7 +26,8 @@ void			bind_command_broadcast(t_gameplay *this, t_player_command *command)
     }
 }
 
-void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
+void			gameplay_command_broadcast(t_gameplay* this,
+						   t_player_command* command)
 {
   char			buffer[4096];
   t_list_iterator	it;
@@ -41,8 +43,7 @@ void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
 	{
 	  angle = fmod(atan2(player->x - command->player->x,
 			     player->y - command->player->y) + M_PI, M_PI);
-	  side =
-	    (angle < M_PI / 2) ? EAST :
+	  side = (angle < M_PI / 2) ? EAST :
 	    (angle < M_PI) ? NORTH :
 	    (angle < 3 * M_PI / 2) ? WEST : SOUTH;
 	  side += player->direction - 1;
@@ -52,4 +53,5 @@ void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
       it = list_iterator_next(it);
     }
   bind_command_broadcast(this, command);
+  gameplay_send_res(player->client, true);
 }

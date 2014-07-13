@@ -5,7 +5,8 @@
 #include "player.h"
 #include "client.h"
 
-void			gameplay_take_phiras(t_gameplay *this, t_player_command *command)
+void			gameplay_take_phiras(t_gameplay *this,
+					     t_player_command *command)
 {
   int			x;
   int			y;
@@ -19,12 +20,14 @@ void			gameplay_take_phiras(t_gameplay *this, t_player_command *command)
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 5);
       gameplay_send_res(command->player->client, true);
+      gameplay_pop_phiras(this);
     }
   else
     gameplay_send_res(command->player->client, false);
 }
 
-void			gameplay_drop_phiras(t_gameplay *this, t_player_command *command)
+void			gameplay_drop_phiras(t_gameplay *this,
+					     t_player_command *command)
 {
   int			x;
   int			y;

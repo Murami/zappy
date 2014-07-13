@@ -19,6 +19,7 @@ void			gameplay_take_deraumere(t_gameplay *this, t_player_command *command)
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 2);
       gameplay_send_res(command->player->client, true);
+      gameplay_pop_deraumere(this);
     }
   else
     gameplay_send_res(command->player->client, false);

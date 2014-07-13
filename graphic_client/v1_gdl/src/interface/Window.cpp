@@ -53,6 +53,11 @@ namespace		Zappy
     return (_input);
   }
 
+  void			Window::updateCamera()
+  {
+    _camera->update();
+  }
+
   void			Window::update()
   {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

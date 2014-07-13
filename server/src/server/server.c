@@ -10,6 +10,7 @@
 #include "server.h"
 #include "gameplay.h"
 #include "client.h"
+#include "team.h"
 #include "client_graphic.h"
 #include "client_player.h"
 #include "socketstream.h"
@@ -27,6 +28,7 @@ void			server_initialize(t_server *this, t_config config)
   create_queue(this);
   this->clients = list_new();
   this->new_clients = list_new();
+  this->deads = list_new();
   this->socket_max = this->socket;
   this->gameplay = gameplay_new(config, this);
 }
@@ -51,6 +53,12 @@ void			server_release(t_server *this)
       socketstream_delete(new_client);
       list_pop_back(this->new_clients);
     }
+  while (!list_empty(this->deads))
+    {
+      free(list_back(this->deads));
+      list_pop_back(this->deads);
+    }
+  list_delete(this->deads);
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
   list_delete(this->clients);
@@ -76,6 +84,27 @@ void			server_accept(t_server *this)
   socketstream_write(socketstream, "BIENVENUE\n", strlen("BIENVENUE\n"));
 }
 
+
+void			server_delete_deads(t_server* this)
+{
+  t_list_iterator	it;
+  t_client*		client;
+
+  it = list_begin(this->deads);
+  while (it != list_end(this->deads))
+    {
+      client = it->data;
+      if (list_empty(client->requests_output) &&
+	  client->socketstream->size_output == 0)
+	{
+	  printf("dead deleted\n");
+	  client_delete(client);
+	  it = list_erase(this->deads, it);
+	}
+      it = list_iterator_next(it);
+    }
+}
+
 void			server_launch(t_server *this)
 {
   struct timeval	waiting_time;
@@ -85,7 +114,7 @@ void			server_launch(t_server *this)
 
   waiting_time.tv_sec = 0;
   waiting_time.tv_usec = 0;
-  while (42)
+  while (!this->gameplay->winner)
     {
       if (g_alive == false)
 	{
@@ -103,7 +132,10 @@ void			server_launch(t_server *this)
 	  return;
 	}
       else if (retval == -1)
-	perror("select()");
+	{
+	  perror("select()");
+	  exit(-1);
+	}
       gettimeofday(&this->gameplay->time, NULL);
       if (FD_ISSET(this->socket, &set_fd_in))
 	server_accept(this);
@@ -111,9 +143,13 @@ void			server_launch(t_server *this)
 	{
 	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	  server_process_clients(this, &set_fd_in, &set_fd_out);
+	  server_process_deads(this, &set_fd_out);
 	}
       waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
+      server_delete_deads(this);
     }
+  printf("we have a winner : %s\n", this->gameplay->winner->name);
+  gameplay_send_seg(this->gameplay);
 }
 
 void			server_add_player_command(t_server* this, t_player_command* command)
@@ -140,6 +176,7 @@ void			server_remove(t_server* this, t_client* client)
 	}
       it = list_iterator_next(it);
     }
+  list_push_back(this->deads, client);
 }
 
 void			sighandler(int signum)

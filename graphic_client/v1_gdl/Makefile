@@ -21,6 +21,7 @@ SRC		=	main				\
 			objects/Egg			\
 			objects/Letter			\
 			objects/Sentence		\
+			objects/Screen			\
 
 SRC_EXT		=	.cpp
 

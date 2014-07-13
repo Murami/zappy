@@ -2,6 +2,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "monitor.h"
+#include "gameplay.h"
 
 void			monitor_send_size(t_gameplay *this, t_client *client)
 {
@@ -9,5 +10,4 @@ void			monitor_send_size(t_gameplay *this, t_client *client)
 
   sprintf(buff, "msz %d %d\n", this->map.width, this->map.height);
   client_send_msg(client, buff);
-
 }

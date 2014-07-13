@@ -39,10 +39,12 @@ void			gameplay_take_food(t_gameplay *this, t_player_command *command)
   if (this->map.map[x + y * this->map.width].food != 0)
     {
       this->map.map[x + y * this->map.width].food--;
-      command->player->death_time = timeval_add(command->player->death_time, t);
+      command->player->death_time =
+	timeval_add(command->player->death_time, t);
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 0);
       gameplay_send_res(command->player->client, true);
+      gameplay_pop_food(this);
     }
   else
     gameplay_send_res(command->player->client, false);
@@ -64,7 +66,8 @@ void			gameplay_drop_food(t_gameplay *this, t_player_command *command)
     {
       this->map.map[command->player->x + command->player-> y *
 		    this->map.width].food++;
-      command->player->death_time = timeval_sub(command->player->death_time, t);
+      command->player->death_time =
+	timeval_sub(command->player->death_time, t);
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 0);
       gameplay_send_res(command->player->client, true);

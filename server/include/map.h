@@ -1,6 +1,7 @@
 #ifndef		_MAP_H_
 # define	_MAP_H_
 
+# include	<stdbool.h>
 # include	"case.h"
 
 typedef struct	s_map

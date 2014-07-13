@@ -15,7 +15,8 @@ t_gameplay*    	gameplay_new(t_config config, t_server* server)
   return (gameplay);
 }
 
-void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
+void		gameplay_initialize(t_gameplay *this, t_config config,
+				    t_server* server)
 {
   memset(this, 0, sizeof(t_gameplay));
   this->players = list_new();
@@ -23,6 +24,7 @@ void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
   this->eggs = list_new();
   this->ghosts = list_new();
   this->teams = config.teams;
+  this->winner = NULL;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
   this->server = server;
