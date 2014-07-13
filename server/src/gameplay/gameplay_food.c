@@ -1,3 +1,13 @@
+/*
+** gameplay_food.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:37:42 2014 otoshigami
+** Last update Sun Jul 13 17:39:22 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include "gameplay.h"
@@ -6,7 +16,8 @@
 #include "client.h"
 #include "time_val.h"
 
-void			bind_command_object(t_gameplay *this, t_player_command *command,
+void			bind_command_object(t_gameplay *this,
+					    t_player_command *command,
 					    t_case *c, int id)
 {
   t_list_iterator	it;
@@ -26,7 +37,8 @@ void			bind_command_object(t_gameplay *this, t_player_command *command,
     }
 }
 
-void			gameplay_take_food(t_gameplay *this, t_player_command *command)
+void			gameplay_take_food(t_gameplay *this,
+					   t_player_command *command)
 {
   int			x;
   int			y;

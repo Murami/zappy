@@ -1,5 +1,15 @@
+/*
+** gameplay_core.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:22:22 2014 otoshigami
+** Last update Sun Jul 13 17:22:24 2014 otoshigami
+*/
+
 #ifndef GAMEPLAY_CORE_H
-#define GAMEPLAY_CORE_H
+# define GAMEPLAY_CORE_H
 
 void	gameplay_initialize(t_gameplay*, t_config, struct s_server*);
 void	gameplay_release(t_gameplay*);

@@ -1,5 +1,15 @@
+/*
+** gameplay_send.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:25:30 2014 otoshigami
+** Last update Sun Jul 13 17:25:33 2014 otoshigami
+*/
+
 #ifndef GAMEPLAY_SEND_H
-#define GAMEPLAY_SEND_H
+# define GAMEPLAY_SEND_H
 
 void	gameplay_send_drop(struct s_client*, struct s_player_command*, int);
 void	gameplay_send_take(struct s_client*, struct s_player_command*, int);

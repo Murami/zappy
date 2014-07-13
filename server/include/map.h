@@ -1,3 +1,13 @@
+/*
+** map.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:22:57 2014 otoshigami
+** Last update Sun Jul 13 17:22:58 2014 otoshigami
+*/
+
 #ifndef		_MAP_H_
 # define	_MAP_H_
 
