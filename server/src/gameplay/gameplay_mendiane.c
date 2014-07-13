@@ -20,6 +20,7 @@ void			gameplay_take_mendiane(t_gameplay *this,
       bind_command_object(this, command,
 			  &this->map.map[x + this->map.width * y], 4);
       gameplay_send_res(command->player->client, true);
+      gameplay_pop_mendiane(this);
     }
   else
     gameplay_send_res(command->player->client, false);
