@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:07:52 2014 otoshigami
-** Last update Sun Jul 13 18:10:52 2014 otoshigami
+** Last update Sun Jul 13 20:14:45 2014 otoshigami
 */
 
 #include <string.h>
@@ -62,8 +62,10 @@ void	gameplay_voir(t_gameplay* this, t_player_command* command,
       j = -i;
       while (j <= i)
 	{
-	  x = gameplay_voir_case_x(command, i, j);
-	  y = gameplay_voir_case_y(command, i, j);
+	  x = command->player->x +
+	    gameplay_voir_case_x(command, i, j);
+	  y = command->player->y +
+	    gameplay_voir_case_y(command, i, j);
 	  if (x < 0)
 	    x += this->map.width;
 	  if (y < 0)
