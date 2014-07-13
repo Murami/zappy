@@ -22,6 +22,7 @@ void		gameplay_delete(t_gameplay*);
 t_list_iterator	gameplay_kill_player(t_gameplay*, struct s_player*);
 t_list_iterator	gameplay_kill_ghost(t_gameplay*, struct s_player*);
 struct timeval	gameplay_update(t_gameplay*, struct timeval);
+struct timeval	gameplay_update_eggs(t_gameplay*, struct timeval);
 struct timeval	gameplay_update_players(t_gameplay*, struct timeval,
 					t_list*, kill_func);
 

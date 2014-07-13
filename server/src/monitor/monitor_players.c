@@ -50,3 +50,19 @@ void			monitor_send_players(t_gameplay *this, t_client *client)
       it = list_iterator_next(it);
     }
 }
+
+void			monitor_send_pdi(t_gameplay *this, t_player* player)
+{
+  char			buffer[4096];
+  t_list_iterator	it;
+  t_client*		client;
+
+  sprintf(buffer, "pdi %d\n", player->id);
+  it = list_begin(this->monitors);
+  while (it != list_end(this->monitors))
+    {
+      client = it->data;
+      client_send_msg(client, buffer);
+      it = list_iterator_next(it);
+    }
+}
