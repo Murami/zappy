@@ -1,4 +1,5 @@
 import queue
+import random
 
 class Fov:
 
@@ -59,6 +60,7 @@ class Fov:
     def getClosestStone (self, stoneName, actualLevel):
         temp = queue.Queue()
         for elem in distance:
+            random.shuffle(elem)
             for sub in elem:
                 if sub < len(self.cases):
                     try:
