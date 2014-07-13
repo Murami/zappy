@@ -48,9 +48,11 @@ t_player_command*	player_command_new(t_client_player* client,
   command = malloc(sizeof(t_player_command));
   if (command == NULL)
     return (NULL);
-  command->expiration_time.tv_usec = (g_player_commands[id_command].time * 1000000) / gameplay->delay;
+  command->expiration_time.tv_usec =
+    (g_player_commands[id_command].time * 1000000) / gameplay->delay;
   command->expiration_time.tv_sec = 0;
-  command->expiration_time = timeval_add(command->expiration_time, gameplay->time);
+  command->expiration_time =
+    timeval_add(command->expiration_time, gameplay->time);
   command->player = client->player;
   if (data)
     command->data = strdup(data);

@@ -46,12 +46,15 @@ void			client_player_run_input(t_client_player* this,
   t_player_command*	command;
   int			size;
 
-  while ((size = socketstream_read(this->parent_client.socketstream, buffer, 4096)))
+  while ((size = socketstream_read(this->parent_client.socketstream,
+				   buffer, 4096)))
     {
-      /* printf("buffer [%s]\n", buffer); */
       if ((command = get_command(server, this, buffer, size)))
 	server_add_player_command(server, command);
       else
-      	printf("error: invalid command send by a client player!\n");
+	{
+	  printf("error: invalid command send by a client player!\n");
+	  gameplay_send_res(&this->parent_client, false);
+	}
     }
 }
