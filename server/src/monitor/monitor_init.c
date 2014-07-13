@@ -4,6 +4,7 @@
 #include "client_graphic.h"
 #include "monitor.h"
 #include "socketstream.h"
+#include "gameplay.h"
 
 void			monitor_initialize(t_gameplay *this, t_client *client)
 {

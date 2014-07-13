@@ -2,6 +2,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "monitor.h"
+#include "gameplay.h"
 
 void			monitor_send_size(t_gameplay *this, t_client *client)
 {

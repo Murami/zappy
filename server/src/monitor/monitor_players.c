@@ -4,6 +4,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "monitor.h"
+#include "gameplay.h"
 
 void			monitor_send_egg_connect(t_player *player, t_client *client)
 {

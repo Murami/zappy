@@ -34,7 +34,6 @@ struct timeval		gameplay_update_players(t_gameplay* this,
 						t_list* list, kill_func kill_player)
 {
   struct timeval	waiting_time;
-  t_player*		player;
   t_list_iterator	it;
 
   waiting_time.tv_sec = 0;
@@ -42,7 +41,6 @@ struct timeval		gameplay_update_players(t_gameplay* this,
   it = list_begin(list);
   while (it != list_end(list) && player_need_update(it->data, currenttime))
     {
-      player = it->data;
       if (player_is_dead(it->data, currenttime))
 	it = kill_player(this, it->data);
       else

@@ -128,7 +128,7 @@ void			update_player_times(t_gameplay* this, int old_delay, t_player* player)
   player->death_time = get_updated_time(this->time, player->death_time, old_delay, this->delay);
 }
 
-void			gameplay_udpate_all_times(t_gameplay* this, int old_delay)
+void			gameplay_update_all_times(t_gameplay* this, int old_delay)
 {
   t_list_iterator	it;
 
@@ -159,4 +159,5 @@ void			gameplay_command_sst(t_gameplay* this, t_monitor_command* command)
   old_delay = this->delay;
   this->delay = atoi(command->data[0]);
   monitor_send_delay(this, &command->client->parent_client);
+  gameplay_update_all_times(this, old_delay);
 }

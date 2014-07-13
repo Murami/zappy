@@ -4,6 +4,8 @@
 #include "client.h"
 #include "gameplay.h"
 #include "player.h"
+#include "server.h"
+#include "monitor.h"
 
 t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
 {
