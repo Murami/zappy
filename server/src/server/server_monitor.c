@@ -1,3 +1,13 @@
+/*
+** server_monitor.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/server
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:06:32 2014 quentin desabre
+** Last update Sun Jul 13 18:06:33 2014 Desabre Quentin
+*/
+
 #include <stdio.h>
 #include <string.h>
 #include "server.h"

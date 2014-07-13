@@ -66,9 +66,7 @@ class Player:
         }
 
         try:
-            self.ip = sys.argv[1]
-            self.port = sys.argv[2]
-            self.net = zappyNetwork.ZappyNetwork(self.ip, int(self.port))
+            self.net = zappyNetwork.ZappyNetwork(sys.argv[1], int(sys.argv[2]))
         except:
             raise
         self.net.send(teamName)
@@ -78,10 +76,32 @@ class Player:
             raise GeneratorExit
         else:
             self.data.oldFreeSlot.freeSlot = int(recv)
-            
         tmp = self.net.recv().split(" ")
         print("\033[32mYou have reach a world of size {} {} !!!\033[0m".format(tmp[0], tmp[1]))
-        
+
+    def transformNbrInDirection (self, nb):
+        if nb == 1:
+            self.theQueue.put("avance")
+        elif nb == 2:
+            self.theQueue.put("avance")
+        elif nb == 3:
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 4:
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 5:
+            self.theQueue.put("gauche")
+            self.theQueue.put("gauche")
+            self.theQueue.put("avance")
+        elif nb == 6:
+            self.theQueue.put("droite")
+            self.theQueue.put("avance")
+        elif nb == 7:
+            self.theQueue.put("droite")
+            self.theQueue.put("avance")
+        elif nb == 8:
+            self.theQueue.put("avance")
 
     def manageResponse (self, response):
         if response.isMessage() is True:
@@ -96,42 +116,47 @@ class Player:
                 self.theQueue.put("broadcast come "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
+
             exp = self.regexResponse["come"].search(response.getMessage().getMessage())
             if exp is not None\
-               and self.leader is False\
                and self.eating is False\
                and int(exp.group(1)) == self.data.level.getActualLevel()\
                and exp.group(2) == self.teamName:
+                self.leader = False
                 if response.getMessage().getDirection() == 0:
                     self.wait = True
                 else:
                     self.theQueue.put("broadcast onMyWay "
                                       + str(self.data.level.getActualLevel())
                                       + " " + self.teamName)
+                    self.transformNbrInDirection(response.getMessage().getDirection())
+
             exp = self.regexResponse["getlvl"].search(response.getMessage().getMessage())
             if exp is not None\
                and exp.group(1) == self.teamName:
+                print("->>>>>>>>>>>>>>>>>>> j'envoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
                 self.theQueue.put("broadcast mylvl "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
+
             exp = self.regexResponse["mylvl"].search(response.getMessage().getMessage())
             if exp is not None\
-               and self.leader is True\
-               and self.eating is False\
                and exp.group(2) == self.teamName:
-                self.data.addLevelToList(exp.group(1))
+                print("->>>>>>>>>>>>>>>>>>> je recoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
+                self.data.addLevelToList(int(exp.group(1)))
+                print("debug")
 
         elif response.isFreeSlot() is True:
             print(str(self.data.newFreeSlot.getFreeSlot()) + " - " + str(self.data.oldFreeSlot.getFreeSlot()))
             if self.data.newFreeSlot.getFreeSlot() > \
                self.data.oldFreeSlot.getFreeSlot() and \
                self.forking == True:
+                self.forking = False;
                 self.doTheFork()
-                self.forking = False
                 self.staticGetlvl = 0
-                if self.data.oldFreeSlot.getFreeSlot() != \
-                   self.data.newFreeSlot.getFreeSlot():
-                    self.data.oldFreeSlot.freeSlot = self.data.newFreeSlot.getFreeSlot()
+            if self.data.oldFreeSlot.getFreeSlot() != \
+               self.data.newFreeSlot.getFreeSlot():
+                self.data.oldFreeSlot.freeSlot = self.data.newFreeSlot.getFreeSlot()
 
     # gestion du fork
     def doTheFork (self):
@@ -143,7 +168,6 @@ class Player:
     def recvFromServer (self):
         recv = self.net.recv()
         print("recv " + str(recv))
-        
         response = self.data.update(recv)
         self.manageResponse(response)
         return response
@@ -180,12 +204,11 @@ class Player:
                 self.data.alive.killHim()
                 return
             while (response.isInventory() == False):
-                self.responseQueue.put(response)               
+                self.responseQueue.put(response)
                 response = self.recvFromServer()
                 if response.isAlive() is True:
                     self.data.alive.killHim()
                     return
-                
                 if self.data.inventory.getFood() <= 9 and self.eating == False:
                     print("manque de nouriture")
                     return
@@ -217,7 +240,6 @@ class Player:
         return res
 
     def seekStone (self):
-        print("\n-----> DEBUT DU SEEK STONES <-------")
         tempo = queue.Queue()
         if self.data.fov.getUsed() is True:
             tempo.put("voir")
@@ -236,14 +258,9 @@ class Player:
                     nearest = tmp
             tempo = nearest
             if tempo.qsize() == 0:
-                print("JE CHOISI UNE AUTRE VUE")
                 tempo = self.chooseOtherView()
-                print("J'AI FINI DE CHOISIR UNE AUTRE VUE")
             else:
                 self.staticSeek = 0
-        print("\n")
-        print(tempo)
-        print("-----> FIN DU SEEK STONES <-------")
         return tempo
 
     # gestion de la bouffe
@@ -282,6 +299,7 @@ class Player:
     # principale
     def run (self):
         while self.data.alive.isAlive() is True:
+            print(self.data.listOtherLevel)
             if self.theQueue.qsize() == 0:
                 if self.data.inventory.getFood() <= 9 and self.eating is False:
                     self.eating = True
@@ -292,32 +310,38 @@ class Player:
                     self.data.reinitializeListLevel()
                     self.theQueue = self.seekFood()
                 elif self.eating is True:
-                    if self.data.inventory.getFood() <= 10:
+                    if self.data.inventory.getFood() <= 20:
                         self.theQueue = self.seekFood()
                     else:
                         self.eating = False
                 elif self.wait is False:
+                    print("je n'attend pas")
                     if self.leader is True:
+                        print("je suis leader")
                         if self.playerReadyOnMyCase >=\
                            self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                            print("il y a assez de joueur sur ma case")
                             self.evolve()
                     elif self.forking is False:
-                        print(self.getNeededStones())
+                        print("je ne fork pas")
                         if len(self.getNeededStones()) > 0:
+                            print("je cherche des pierres")
                             self.theQueue = self.seekStone()
                         elif self.data.getNbrOfMyLevel() <\
                              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
+                            print("il n'y pas assez de joueur sur la map")
                             if self.staticGetlvl == 0:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
                             elif self.staticGetlvl >= 5:
-                                staticGetlvl = -1
+                                self.staticGetlvl = -1
                                 self.data.reinitializeListLevel()
-                                self.theQueue.put("fork")
-                                self.forking = True
+                                # self.theQueue.put("fork")
+                                # self.forking = True
                                 print("JE FORK")
                             self.staticGetlvl += 1
                         else:
+                            print("le cas par defaut")
                             self.leader = True
                             if self.data.level.getActualLevel() > 1:
                                 self.theQueue.put("broadcast come "

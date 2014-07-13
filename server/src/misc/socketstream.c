@@ -1,3 +1,13 @@
+/*
+** socketstream.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/misc
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:04:29 2014 quentin desabre
+** Last update Sun Jul 13 18:04:30 2014 Desabre Quentin
+*/
+
 #include <unistd.h>
 #include <sys/socket.h>
 #include <stdlib.h>

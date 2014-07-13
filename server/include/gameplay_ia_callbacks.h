@@ -1,7 +1,17 @@
-#ifndef GAMEPLAY_IA_CALLBACKS
-# define GAMEPLAY_IA_CALLBACK
+/*
+** gameplay_ia_callbacks.h for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 17:27:06 2014 otoshigami
+** Last update Sun Jul 13 17:27:18 2014 otoshigami
+*/
 
-#include "gameplay_object_callback.h"
+#ifndef GAMEPLAY_IA_CALLBACKS
+# define GAMEPLAY_IA_CALLBACKS
+
+# include "gameplay_object_callback.h"
 
 void	gameplay_command_move(t_gameplay*,
 			      struct s_player*);
@@ -30,4 +40,4 @@ void	gameplay_command_fork(t_gameplay* this,
 void	gameplay_command_connect_nbr(t_gameplay* this,
 				     struct s_player_command* command);
 
-#endif /* GAMEPLAY_IA_CALLBACK */
+#endif /* GAMEPLAY_IA_CALLBACKS */

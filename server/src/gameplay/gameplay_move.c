@@ -1,3 +1,13 @@
+/*
+** gameplay_move.c for  in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 18:03:32 2014 otoshigami
+** Last update Sun Jul 13 18:03:33 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include "gameplay.h"
 #include "player.h"

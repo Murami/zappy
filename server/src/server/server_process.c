@@ -1,3 +1,13 @@
+/*
+** server_process.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/server
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:06:35 2014 quentin desabre
+** Last update Sun Jul 13 18:06:35 2014 Desabre Quentin
+*/
+
 #include "server.h"
 #include "socketstream.h"
 #include "client.h"

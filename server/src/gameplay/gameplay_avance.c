@@ -1,3 +1,13 @@
+/*
+** gameplay_avance.c for $ in /home/otoshigami/Workspace/Epitech/git/PSU_2013_zappy/server
+**
+** Made by otoshigami
+** Login   <otoshigami@epitech.net>
+**
+** Started on  Sun Jul 13 18:05:48 2014 otoshigami
+** Last update Sun Jul 13 18:11:47 2014 otoshigami
+*/
+
 #include <stdio.h>
 #include "gameplay.h"
 #include "player.h"
@@ -5,7 +15,8 @@
 #include "map.h"
 #include "client.h"
 
-void			gameplay_command_avance(t_gameplay* this, t_player_command* command)
+void			gameplay_command_avance(t_gameplay* this,
+						t_player_command* command)
 {
   command->player->y +=
     (command->player->direction == NORTH) ? 1 :
