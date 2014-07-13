@@ -10,5 +10,8 @@ void	gameplay_send_case(struct s_client*, struct s_case*);
 void	gameplay_send_case_all(t_gameplay*, struct s_player*);
 void	gameplay_send_lvl_all(t_gameplay*, struct s_player*);
 void	gameplay_send_res_incant(t_gameplay*, struct s_player_command*, bool);
+void	gameplay_send_egg_hatch(t_gameplay*, struct s_egg*);
+void	gameplay_send_egg(t_gameplay*, struct s_player*);
+void	gameplay_send_egg_lay(t_gameplay*, struct s_player*, struct s_egg*);
 
 #endif /* GAMEPLAY_SEND_H */

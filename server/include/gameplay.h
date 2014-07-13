@@ -15,6 +15,7 @@ struct s_server;
 struct s_team;
 struct s_case;
 struct s_gameplay;
+struct s_egg;
 
 typedef t_list_iterator (*kill_func)(struct s_gameplay*, struct s_player*);
 
