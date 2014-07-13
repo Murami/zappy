@@ -30,6 +30,16 @@ namespace	Zappy
     _dying = false;
     _shader = *ShaderManager::getInstance()->getPlayerShader(_level);
     _eggId = -1;
+    _moveFunc[STANDING] = &Player::stand;
+    _moveFunc[FORKING] = &Player::fork;
+    _moveFunc[RUNNING] = &Player::move;
+    _moveFunc[LOOTING] = &Player::loot;
+    _moveFunc[DROPING] = &Player::drop;
+    _moveFunc[CASTING] = &Player::cast;
+    _dirMoveFunc[NORTH] = &Player::north;
+    _dirMoveFunc[SOUTH] = &Player::south;
+    _dirMoveFunc[EAST] = &Player::east;
+    _dirMoveFunc[WEST] = &Player::west;
   }
 
   void		Player::setEggId(int id)
@@ -184,58 +194,7 @@ namespace	Zappy
   void		Player::update(const gdl::Clock&, gdl::Input&)
   {
     if (!_dying)
-      {
-	switch (_stateStack.top())
-	  {
-	  case RUNNING :
-	    switch (_orientation)
-	      {
-	      case NORTH :
-	      	translate(glm::vec3(0, -Player::SPEED, 0));
-	      	if (_position.y <= 0)
-	      	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
-	      	break;
-	      case EAST :
-	      	translate(glm::vec3(Player::SPEED, 0, 0));
-	      	if (_position.x > Map::BLOCK_SIZE * _limitX)
-	      	  _position.x = Map::BLOCK_SIZE / 2;
-	      	break;
-	      case SOUTH :
-	      	translate(glm::vec3(0, Player::SPEED, 0));
-	      	if (_position.y > Map::BLOCK_SIZE * _limitY)
-	      	  _position.y = Map::BLOCK_SIZE / 2;
-	      	break;
-	      case WEST :
-	      	translate(glm::vec3(-Player::SPEED, 0, 0));
-	      	if (_position.x <= 0)
-	      	  _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
-	      	break;
-	      }
-	    _model = AnimationPool::getInstance()->getNextRunningFrame();
-	    _elapsed++;
-	    if (_elapsed >= Map::BLOCK_SIZE)
-	      {
-	    	stopRunning();
-	    	_elapsed = 0;
-	      }
-	    break;
-	  case FORKING:
-	    _model = AnimationPool::getInstance()->getNextForkingFrame();
-	    _elapsed++;
-	    if (_elapsed == 10)
-	      _elapsed = 0;
-	    break;
-	  case LOOTING :
-	    break;
-	  case CASTING :
-	    break;
-	  case STANDING :
-	    _model = AnimationPool::getInstance()->getStandingFrame(_level);
-	    break;
-	  case GHOST :
-	    break;
-	  }
-      }
+      (this->*this->_moveFunc[_stateStack.top()])();
     else
       {
 	_elapsed++;
@@ -245,6 +204,71 @@ namespace	Zappy
 	    _elapsed = 0;
 	  }
       }
+  }
+
+  void		Player::north()
+  {
+    translate(glm::vec3(0, -Player::SPEED, 0));
+    if (_position.y <= 0)
+      _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+  }
+
+  void		Player::south()
+  {
+    translate(glm::vec3(0, Player::SPEED, 0));
+    if (_position.y > Map::BLOCK_SIZE * _limitY)
+      _position.y = Map::BLOCK_SIZE / 2;
+  }
+
+  void		Player::east()
+  {
+    translate(glm::vec3(Player::SPEED, 0, 0));
+    if (_position.x > Map::BLOCK_SIZE * _limitX)
+      _position.x = Map::BLOCK_SIZE / 2;
+  }
+
+  void		Player::west()
+  {
+    translate(glm::vec3(-Player::SPEED, 0, 0));
+    if (_position.x <= 0)
+      _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+  }
+
+  void		Player::move()
+  {
+    (this->*this->_dirMoveFunc[_orientation])();
+    _model = AnimationPool::getInstance()->getNextRunningFrame();
+    _elapsed++;
+    if (_elapsed >= Map::BLOCK_SIZE)
+      {
+	stopRunning();
+	_elapsed = 0;
+      }
+  }
+
+  void		Player::cast()
+  {
+  }
+
+  void		Player::fork()
+  {
+    _model = AnimationPool::getInstance()->getNextForkingFrame();
+    _elapsed++;
+    if (_elapsed == 10)
+      _elapsed = 0;
+  }
+
+  void		Player::looting()
+  {
+  }
+
+  void		Player::drop()
+  {
+  }
+
+  void		Player::stand()
+  {
+    _model = AnimationPool::getInstance()->getStandingFrame(_level);
   }
 
   void		Player::startForking()
