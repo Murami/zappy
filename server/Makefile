@@ -82,6 +82,7 @@ SRC		=	main					\
 			gameplay/gameplay_monitor		\
 			gameplay/gameplay_object		\
 			gameplay/put_case_content		\
+			gameplay/gameplay_get_ghost		\
 			gameplay/map				\
 			gameplay/case				\
 			gameplay/team
