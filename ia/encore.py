@@ -85,7 +85,7 @@ class Player:
 
     def manageResponse (self, response):
         if response.isMessage() is True:
-            exp = regexResponse["onMyWay"].search(response.getMessage().getMessage())
+            exp = self.regexResponse["onMyWay"].search(response.getMessage().getMessage())
             if exp is not None\
                and self.leader is True\
                and self.eating is False\
@@ -96,7 +96,7 @@ class Player:
                 self.theQueue.put("broadcast come "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
-            exp = regexResponse["come"].search(response.getMessage().getMessage())
+            exp = self.regexResponse["come"].search(response.getMessage().getMessage())
             if exp is not None\
                and self.leader is False\
                and self.eating is False\
@@ -108,13 +108,13 @@ class Player:
                     self.theQueue.put("broadcast onMyWay "
                                       + str(self.data.level.getActualLevel())
                                       + " " + self.teamName)
-            exp = regexResponse["getlvl"].search(response.getMessage().getMessage())
+            exp = self.regexResponse["getlvl"].search(response.getMessage().getMessage())
             if exp is not None\
-               and exp.group(2) == self.teamName:
+               and exp.group(1) == self.teamName:
                 self.theQueue.put("broadcast mylvl "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
-            exp = regexResponse["mylvl"].search(response.getMessage().getMessage())
+            exp = self.regexResponse["mylvl"].search(response.getMessage().getMessage())
             if exp is not None\
                and self.leader is True\
                and self.eating is False\
@@ -126,13 +126,18 @@ class Player:
             if self.data.newFreeSlot.getFreeSlot() > \
                self.data.oldFreeSlot.getFreeSlot() and \
                self.forking == True:
-                os.system("python " + sys.argv[0] + " " + sys.argv[1] + " " + sys.argv[2] + " " + sys.argv[3])
-                print("\033[31mJE CONNECT UNE IA\033[00m")
+                self.doTheFork()
                 self.forking = False
                 self.staticGetlvl = 0
                 if self.data.oldFreeSlot.getFreeSlot() != \
                    self.data.newFreeSlot.getFreeSlot():
                     self.data.oldFreeSlot.freeSlot = self.data.newFreeSlot.getFreeSlot()
+
+    # gestion du fork
+    def doTheFork (self):
+        newPid = os.fork()
+        if newPid == 0:
+            os.system("python " + sys.argv[0] + " " + sys.argv[1] + " " + sys.argv[2] + " " + sys.argv[3])
 
     # gestion du serveur
     def recvFromServer (self):
