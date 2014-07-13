@@ -1,3 +1,13 @@
+/*
+** client.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:03:09 2014 quentin desabre
+** Last update Sun Jul 13 18:03:43 2014 Desabre Quentin
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

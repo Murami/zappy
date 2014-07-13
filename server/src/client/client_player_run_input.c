@@ -1,3 +1,13 @@
+/*
+** client_player_run_input.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:03:38 2014 quentin desabre
+** Last update Sun Jul 13 18:03:39 2014 Desabre Quentin
+*/
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

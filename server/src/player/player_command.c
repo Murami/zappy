@@ -5,10 +5,6 @@
 #include "client_player.h"
 #include "time_val.h"
 
-/*
-** FAIRE LES BINDS
-*/
-
 t_player_command_binding	g_player_commands[] =
   {
     {0, 7, "avance", gameplay_command_avance},

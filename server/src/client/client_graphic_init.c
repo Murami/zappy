@@ -5,13 +5,12 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:03:17 2014 otoshigami
-** Last update Sun Jul 13 17:03:18 2014 otoshigami
+** Last update Sun Jul 13 18:03:45 2014 Desabre Quentin
 */
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "client_graphic.h"
 #include "socketstream.h"
 #include "server.h"

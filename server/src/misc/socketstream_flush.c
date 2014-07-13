@@ -1,3 +1,13 @@
+/*
+** socketstream_flush.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/misc
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:04:33 2014 quentin desabre
+** Last update Sun Jul 13 18:04:41 2014 Desabre Quentin
+*/
+
 #include <unistd.h>
 #include <stdbool.h>
 #include <string.h>
@@ -14,9 +24,6 @@ bool		socketstream_flush_output(t_socketstream* this)
   if (cpysize - this->size_output)
     memcpy(buffer + cpysize, this->buffer_output + this->begin_output,
 	   cpysize - this->size_output);
-  /* write(1, "buffer [", 8); */
-  /* write(1, buffer, strlen(buffer) - 1); */
-  /* write(1, "]\n", 2); */
   if (write(this->socket, buffer, cpysize) == -1)
     return (false);
   this->begin_output = 0;

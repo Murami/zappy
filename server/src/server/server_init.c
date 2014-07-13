@@ -1,3 +1,13 @@
+/*
+** server_init.c for  in /home/desabr_q/Desktop/zappy/PSU_2013_zappy/server/src/server
+**
+** Made by quentin desabre
+** Login   <desabr_q@epitech.net>
+**
+** Started on  Sun Jul 13 18:06:24 2014 quentin desabre
+** Last update Sun Jul 13 18:06:25 2014 Desabre Quentin
+*/
+
 #include <unistd.h>
 #include <netdb.h>
 #include <netinet/in.h>
