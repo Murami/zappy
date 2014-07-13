@@ -1,6 +1,7 @@
 #ifndef		__PLAYER_HH__
 # define	__PLAYER_HH__
 
+# include	<map>
 # include	<stack>
 # include	<string>
 # include	<Model.hh>
@@ -24,8 +25,9 @@ namespace	Zappy
       FORKING = 1,
       RUNNING = 2,
       LOOTING = 3,
-      CASTING = 4,
-      GHOST = 5,
+      DROPING = 4,
+      CASTING = 5,
+      GHOST = 6
     };
 
   class		Player : public AObject
@@ -34,29 +36,45 @@ namespace	Zappy
     const static float	SPEED;
 
   private :
-    gdl::Model*		_model;
-    int			_level;
-    std::string		_teamName;
-    Orientation		_orientation;
-    float		_timeUnit;
-    int			_elapsed;
-    State		_state;
-    std::stack<State>	_stateStack;
-    glm::vec4		_pickColor;
-    gdl::BasicShader	_colorPickShader;
-    int			_id;
-    int			_x;
-    int			_y;
-    int			_limitX;
-    int			_limitY;
-    bool		_alive;
-    bool		_dying;
-    gdl::BasicShader	_shader;
-    int			_eggId;
+    gdl::Model*				_model;
+    int					_level;
+    std::string				_teamName;
+    Orientation				_orientation;
+    float				_timeUnit;
+    int					_elapsed;
+    State				_state;
+    std::stack<State>			_stateStack;
+    glm::vec4				_pickColor;
+    gdl::BasicShader			_colorPickShader;
+    int					_id;
+    int					_x;
+    int					_y;
+    int					_limitX;
+    int					_limitY;
+    bool				_alive;
+    bool				_dying;
+    gdl::BasicShader			_shader;
+    int					_eggId;
+    std::map<int, void (Player::*)()>	_moveFunc;
+    std::map<int, void (Player::*)()>	_dirMoveFunc;
 
   public :
     void		setId(int);
     void		setTeamName(const std::string&);
+
+  public:
+    void		north();
+    void		south();
+    void		east();
+    void		west();
+
+  public :
+    void		move();
+    void		fork();
+    void		looting();
+    void		drop();
+    void		stand();
+    void		cast();
 
   public :
     virtual void	initialize();
