@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 18:09:27 2014 otoshigami
-** Last update Sun Jul 13 21:43:47 2014 Desabre Quentin
+** Last update Sun Jul 13 21:47:01 2014 Desabre Quentin
 */
 
 #include <string.h>
@@ -18,8 +18,8 @@ void			put_case_content_x(char* buffer_msg, int val, char* str)
 {
   while (val > 0)
     {
-      strncat(buffer_msg, " ", 4096);
-      strncat(buffer_msg, str, 4096);
+      strncat(buffer_msg, " ", 4095);
+      strncat(buffer_msg, str, 4095);
       val--;
     }
 }
