@@ -9,8 +9,6 @@
 #include "time_val.h"
 #include "list.h"
 
-/* INIT DU DEAHT TIME EN BRUT A FAIRE EN FONCTION DE LA BOUFE ET DU DELAY */
-
 void		player_initialize(t_player *this, t_gameplay *gameplay,
 				  t_client *client, t_team *team)
 {
@@ -118,7 +116,6 @@ void			player_release(t_player* this)
       list_pop_back(this->command_queue);
     }
   list_delete(this->command_queue);
-  /* list_delete(this->eggs); */
 }
 
 void			player_delete(t_player* player)

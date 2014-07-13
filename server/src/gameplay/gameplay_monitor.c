@@ -53,11 +53,10 @@ void			gameplay_command_ppo(t_gameplay* this, t_monitor_command* command)
 	}
       it = list_iterator_next(it);
     }
-  // wrong arugment to do
 }
 
-
-void			gameplay_command_pin(t_gameplay* this, t_monitor_command* command)
+void			gameplay_command_pin(t_gameplay* this,
+					     t_monitor_command* command)
 {
   char			buffer[4096];
   t_list_iterator	it;
@@ -86,12 +85,14 @@ void			gameplay_command_pin(t_gameplay* this, t_monitor_command* command)
     }
 }
 
-void			gameplay_command_sgt(t_gameplay* this, t_monitor_command* command)
+void			gameplay_command_sgt(t_gameplay* this,
+					     t_monitor_command* command)
 {
   monitor_send_delay(this, &command->client->parent_client);
 }
 
-struct timeval		get_updated_time(struct timeval currenttime, struct timeval time,
+struct timeval		get_updated_time(struct timeval currenttime,
+					 struct timeval time,
 					 int old_delay, int new_delay)
 {
   struct timeval	diff;
@@ -110,12 +111,16 @@ void			update_egg_time(t_gameplay* this, int old_delay, t_egg* egg)
   egg->time = get_updated_time(this->time, egg->time, old_delay, this->delay);
 }
 
-void			update_command_time(t_gameplay* this, int old_delay, t_player_command* command)
+void			update_command_time(t_gameplay* this, int old_delay,
+					    t_player_command* command)
 {
-  command->expiration_time = get_updated_time(this->time, command->expiration_time, old_delay, this->delay);
+  command->expiration_time = get_updated_time(this->time,
+					      command->expiration_time,
+					      old_delay, this->delay);
 }
 
-void			update_player_times(t_gameplay* this, int old_delay, t_player* player)
+void			update_player_times(t_gameplay* this,
+					    int old_delay, t_player* player)
 {
   t_list_iterator	it;
 
@@ -125,7 +130,8 @@ void			update_player_times(t_gameplay* this, int old_delay, t_player* player)
       update_command_time(this, old_delay, it->data);
       it = list_iterator_next(it);
     }
-  player->death_time = get_updated_time(this->time, player->death_time, old_delay, this->delay);
+  player->death_time = get_updated_time(this->time,
+					player->death_time, old_delay, this->delay);
 }
 
 void			gameplay_update_all_times(t_gameplay* this, int old_delay)
@@ -152,7 +158,8 @@ void			gameplay_update_all_times(t_gameplay* this, int old_delay)
     }
 }
 
-void			gameplay_command_sst(t_gameplay* this, t_monitor_command* command)
+void			gameplay_command_sst(t_gameplay* this,
+					     t_monitor_command* command)
 {
   int			old_delay;
 
