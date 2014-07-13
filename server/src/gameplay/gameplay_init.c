@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:38:11 2014 otoshigami
-** Last update Sun Jul 13 17:38:12 2014 otoshigami
+** Last update Sun Jul 13 19:59:49 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -13,6 +13,7 @@
 #include "gameplay.h"
 #include "server.h"
 #include "player.h"
+#include "team.h"
 
 t_gameplay*    	gameplay_new(t_config config, t_server* server)
 {
@@ -41,9 +42,17 @@ void		gameplay_initialize(t_gameplay *this, t_config config,
   gettimeofday(&this->time, NULL);
 }
 
-void			gameplay_release(t_gameplay *this)
+void			gameplay_release_list(t_gameplay* this)
 {
   list_delete(this->teams);
+  list_delete(this->eggs);
+  list_delete(this->players);
+  list_delete(this->monitors);
+  list_delete(this->ghosts);
+}
+
+void			gameplay_release(t_gameplay *this)
+{
   while (!list_empty(this->players))
     {
       player_delete(list_back(this->players));
@@ -56,13 +65,16 @@ void			gameplay_release(t_gameplay *this)
     }
   while (!list_empty(this->ghosts))
     {
-      free(list_back(this->ghosts));
+      player_delete(list_back(this->ghosts));
       list_pop_back(this->ghosts);
     }
-  list_delete(this->eggs);
-  list_delete(this->players);
-  list_delete(this->monitors);
-  list_delete(this->ghosts);
+  while (!list_empty(this->teams))
+    {
+      free(((t_team*)list_back(this->teams))->name);
+      free(list_back(this->teams));
+      list_pop_back(this->teams);
+    }
+  gameplay_release_list(this);
   map_release(&this->map);
 }
 

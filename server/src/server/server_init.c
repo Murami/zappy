@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 18:06:24 2014 quentin desabre
-** Last update Sun Jul 13 18:06:25 2014 Desabre Quentin
+** Last update Sun Jul 13 19:29:27 2014 otoshigami
 */
 
 #include <unistd.h>
@@ -56,7 +56,7 @@ void			create_queue(t_server *this)
 {
   int			rlisten;
 
-  rlisten = listen(this->socket, 42);
+  rlisten = listen(this->socket, SOMAXCONN);
   if (rlisten == -1)
     {
       close(this->socket);

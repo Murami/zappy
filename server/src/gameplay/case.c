@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:36:48 2014 otoshigami
-** Last update Sun Jul 13 17:36:49 2014 otoshigami
+** Last update Sun Jul 13 18:43:46 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -26,8 +26,7 @@ void		case_initialize(t_case *this, int x, int y)
 
 void		case_randomize(t_case *this, int x, int y)
 {
-  this->x = x;
-  this->y = y;
+  case_initialize(this, x, y);
   this->food = rand() % 2;
   if (rand() % 4)
     {

@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 16:25:12 2014 quentin desabre
-** Last update Sun Jul 13 16:30:32 2014 Desabre Quentin
+** Last update Sun Jul 13 19:58:31 2014 otoshigami
 */
 
 #include <unistd.h>
@@ -45,30 +45,26 @@ void			server_initialize(t_server *this, t_config config)
 
 void			server_release(t_server *this)
 {
-  t_client*		client;
-  t_socketstream*	new_client;
-
   while (!list_empty(this->clients))
     {
-      client = list_back(this->clients);
-      client_delete(client);
+      client_delete(list_back(this->clients));
       list_pop_back(this->clients);
     }
   while (!list_empty(this->new_clients))
     {
-      new_client = list_back(this->new_clients);
-      socketstream_delete(new_client);
+      socketstream_delete(list_back(this->new_clients));
       list_pop_back(this->new_clients);
     }
   while (!list_empty(this->deads))
     {
-      free(list_back(this->deads));
+      client_delete(list_back(this->deads));
       list_pop_back(this->deads);
     }
   list_delete(this->deads);
+  list_delete(this->clients);
+  list_delete(this->new_clients);
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
-  list_delete(this->clients);
   gameplay_delete(this->gameplay);
 }
 

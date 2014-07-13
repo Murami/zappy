@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:40:56 2014 otoshigami
-** Last update Sun Jul 13 17:40:57 2014 otoshigami
+** Last update Sun Jul 13 18:47:05 2014 otoshigami
 */
 
 #include <stdlib.h>
@@ -35,6 +35,7 @@ void			gameplay_remove_monitor(t_gameplay* this, t_client* client)
       tmp = it->data;
       if ((t_client*)tmp == client)
   	{
+	  client_delete(it->data);
   	  it = list_erase(this->monitors, it);
   	  return;
   	}

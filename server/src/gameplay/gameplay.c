@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:37:29 2014 otoshigami
-** Last update Sun Jul 13 17:37:33 2014 otoshigami
+** Last update Sun Jul 13 19:03:38 2014 otoshigami
 */
 
 #include <stdio.h>
@@ -30,13 +30,15 @@ t_list_iterator		gameplay_make_actions(t_gameplay* this,
 					      struct timeval currenttime,
 					      t_list* list, t_list_iterator it)
 {
+  t_list_iterator	it_prev;
+
   if (player_make_action(it->data, this, currenttime))
     {
-      it = list_iterator_prev(it);
+      it_prev = list_iterator_prev(it);
       while (player_make_action(it->data, this, currenttime));
       gameplay_update_player_position(this, it->data, list);
     }
-  return (it);
+  return (it_prev);
 }
 
 struct timeval		gameplay_update_players(t_gameplay* this,
