@@ -1,3 +1,13 @@
+//
+// PlayerFactory.hpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/include/objects
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:04:21 2014 Manu
+// Last update Sun Jul 13 23:04:21 2014 Manu
+//
+
 #ifndef		__PLAYERFACTORY_HPP__
 # define	__PLAYERFACTORY_HPP__
 

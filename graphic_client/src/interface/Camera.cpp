@@ -1,3 +1,13 @@
+//
+// Camera.cpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/src/interface
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 22:59:43 2014 Manu
+// Last update Sun Jul 13 22:59:43 2014 Manu
+//
+
 #include		"interface/Window.hh"
 #include		"interface/Camera.hh"
 #include		"objects/Map.hh"
@@ -58,19 +68,7 @@ namespace	Zappy
     _colorPickShader.bind();
     _colorPickShader.setUniform("view", _transformation);
     _colorPickShader.setUniform("projection", _projection);
-
     ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
-
-    // ShaderManager::getInstance()->getMapShader()->bind();
-    // ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-    // ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-    // for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-    //   {
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->bind();
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-    //   }
-
   }
 
   void		Camera::update()
@@ -90,21 +88,7 @@ namespace	Zappy
     _reflectionShader.bind();
     _reflectionShader.setUniform("view", _transformation);
     _reflectionShader.setUniform("projection", _projection);
-
     ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
-
-    // ShaderManager::getInstance()->getMapShader()->bind();
-    // ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-    // ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-    // ShaderManager::getInstance()->getBasicShader()->setUniform("projection", _projection);
-    // ShaderManager::getInstance()->getBasicShader()->setUniform("view", _transformation);
-    // for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-    //   {
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->bind();
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-    // 	ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-    //   }
-
   }
 
   void		Camera::zoomPlus()
@@ -191,18 +175,7 @@ namespace	Zappy
 	_colorPickShader.setUniform("projection", _projection);
 	_reflectionShader.bind();
 	_reflectionShader.setUniform("projection", _projection);
-
 	ShaderManager::getInstance()->updateAllShaders(_projection, _transformation);
-
-	// ShaderManager::getInstance()->getMapShader()->bind();
-	// ShaderManager::getInstance()->getMapShader()->setUniform("projection", _projection);
-	// ShaderManager::getInstance()->getMapShader()->setUniform("view", _transformation);
-	// for (int i = 1; i < MAX_PLAYER_LEVEL + 1; i++)
-	//   {
-	//     ShaderManager::getInstance()->getPlayerShader(i)->bind();
-	//     ShaderManager::getInstance()->getPlayerShader(i)->setUniform("projection", _projection);
-	//     ShaderManager::getInstance()->getPlayerShader(i)->setUniform("view", _transformation);
-	//   }
       }
     else
       {

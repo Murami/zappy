@@ -1,3 +1,13 @@
+//
+// LetterManager.hpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/include/objects
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:04:41 2014 Manu
+// Last update Sun Jul 13 23:07:55 2014 Manu
+//
+
 #ifndef		__LETTERMANAGER_HPP__
 # define	__LETTERMANAGER_HPP__
 
@@ -72,9 +82,6 @@ namespace	Zappy
       _geometry->pushVertex(glm::vec3(1, 0, 0));
       _geometry->pushVertex(glm::vec3(1, 1, 0));
       _geometry->pushVertex(glm::vec3(0, 1, 0));
-
-      // changer cet ordre les lettres sont a l'envers
-      // et checker les translates
       _geometry->pushUv(glm::vec2(-1, 1));
       _geometry->pushUv(glm::vec2(0, 1));
       _geometry->pushUv(glm::vec2(0, 0));

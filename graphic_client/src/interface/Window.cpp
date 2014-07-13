@@ -1,3 +1,13 @@
+//
+// Window.cpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/src/interface
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 22:59:51 2014 Manu
+// Last update Sun Jul 13 22:59:52 2014 Manu
+//
+
 #include		<SDL_ttf.h>
 #include		<unistd.h>
 #include		"objects/AObject.hh"
