@@ -4,26 +4,29 @@
 #include "player.h"
 #include "client.h"
 
+void			put_case_content_x(char* buffer_msg, int val, char* str)
+{
+  while (val > 0)
+    {
+      strcat(buffer_msg, " ");
+      strcat(buffer_msg, str);
+      val--;
+    }
+}
+
 void			put_case_content(t_gameplay* this, char* buffer_msg, int x, int y)
 {
   t_case*		contents;
   t_list_iterator	it;
 
   contents = &this->map.map[x + y * this->map.width];
-  if (contents->linemate)
-    strncat(buffer_msg, " linemate", 4095);
-  if (contents->deraumere)
-    strncat(buffer_msg, " deraumere", 4095);
-  if (contents->sibur)
-    strncat(buffer_msg, " sibur", 4095);
-  if (contents->phiras)
-    strncat(buffer_msg, " phiras", 4095);
-  if (contents->thystame)
-    strncat(buffer_msg, " thystame", 4095);
-  if (contents->linemate)
-    strncat(buffer_msg, " linemate", 4095);
-  if (contents->food)
-    strncat(buffer_msg, " nourriture", 4095);
+  put_case_content_x(buffer_msg, contents->linemate, "linemate");
+  put_case_content_x(buffer_msg, contents->linemate, "deraumere");
+  put_case_content_x(buffer_msg, contents->linemate, "sibur");
+  put_case_content_x(buffer_msg, contents->linemate, "phiras");
+  put_case_content_x(buffer_msg, contents->linemate, "thystame");
+  put_case_content_x(buffer_msg, contents->linemate, "linemate");
+  put_case_content_x(buffer_msg, contents->linemate, "nourriture");
   it = list_begin(this->players);
   while (it != list_end(this->players))
     {
