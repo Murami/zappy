@@ -71,11 +71,11 @@ namespace	Zappy
     shader.bind();
     shader.setUniform("color", glm::vec4(1, 1, 1, 1));
     _texture.bind();
-    // static gdl::BasicShader bs = *ShaderManager::getInstance()->getMapShader();
     _geom.draw(shader,
 	       getTransformation(), GL_QUADS);
     glDisable(GL_TEXTURE_2D);
-    // _lines.draw(*bs, getTransformation(), GL_LINES);
+    glLineWidth(2.0f);
+    _lines.draw(shader, getTransformation(), GL_LINES);
   }
 
   Map::~Map()

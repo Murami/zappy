@@ -41,8 +41,6 @@ void			*launchListen(void *attr)
       if ((ret = read(client->_socket.getFd(), &buff[ndx], 8191 - ndx)) == 0)
 	{
 	  client->throwConnectionLost();
-	  // std::cerr << "\033[31mConnection to server "
-	  //   "closed unexpectedly\033[0m" << std::endl;
 	  return (NULL);
 	}
       std::size_t nbLines = countLines(&buff[0]);
@@ -129,7 +127,7 @@ bool			Client::haveToSendRequest() const
 
 void			Client::sendRequest(const std::string& request)
 {
-  _request = request;
+  std::cout << "\033[35m[" << request << "]\033[0m" << std::endl;
   _sendRequest = true;
   write(_socket.getFd(), request.c_str(), request.size());
 }

@@ -18,7 +18,8 @@ namespace	Zappy
     _level = level;
     translate(glm::vec3(x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2,
 			y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2, 0));
-    _stateStack.push(STANDING);
+    _state = STANDING;
+    //_stateStack.push(STANDING);
     _orientation = static_cast<Orientation>(orientation);
     rotate(glm::vec3(1, 0, 0), 90);
     _timeUnit = 100;
@@ -72,8 +73,8 @@ namespace	Zappy
   {
     _x = x;
     _y = y;
-    _position.x = x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
-    _position.y = y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;
+    translate(glm::vec3(x * Map::BLOCK_SIZE + Map::BLOCK_SIZE,
+			y * Map::BLOCK_SIZE + Map::BLOCK_SIZE, 0));
   }
 
   void		Player::setLevel(int lvl)
@@ -115,7 +116,8 @@ namespace	Zappy
 
   State		Player::getState() const
   {
-    return (_stateStack.top());
+    return (_state);
+    //return (_stateStack.top());
   }
 
   void		Player::turnLeft()
@@ -130,76 +132,100 @@ namespace	Zappy
 
   void		Player::goForward()
   {
-    if (_stateStack.top() == STANDING)
-      {
-	_stateStack.pop();
-	_stateStack.push(RUNNING);
-      }
-    else
-      _stateStack.push(RUNNING);
+    // if (_stateStack.top() == STANDING)
+    //   {
+    // 	_stateStack.pop();
+    // 	_stateStack.push(RUNNING);
+    //   }
+    // else
+    //   _stateStack.push(RUNNING);
+    _state = RUNNING;
   }
 
   void		Player::loot()
   {
-    if (_stateStack.top() == STANDING)
-      {
-	_stateStack.pop();
-	_stateStack.push(LOOTING);
-      }
-    else
-      _stateStack.push(LOOTING);
+    // if (_stateStack.top() == STANDING)
+    //   {
+    // 	_stateStack.pop();
+    // 	_stateStack.push(LOOTING);
+    //   }
+    // else
+    //   _stateStack.push(LOOTING);
+    _state = LOOTING;
+  }
+
+  void		Player::stopCast()
+  {
+    // if (_stateStack.top() == CASTING)
+    //   {
+    // 	_stateStack.pop();
+    // 	_stateStack.push(STANDING);
+	_model = AnimationPool::getInstance()->getStandingFrame();
+      // }
+	_state = STANDING;
   }
 
   void		Player::startCast()
   {
-    if (_stateStack.top() == STANDING)
-      {
-	_stateStack.pop();
-	_stateStack.push(CASTING);
-      }
-    else
-      _stateStack.push(CASTING);
+    // if (_stateStack.top() == STANDING)
+    //   {
+    // 	_stateStack.pop();
+    // 	_stateStack.push(CASTING);
+    //   }
+    // else
+    //   _stateStack.push(CASTING);
+    _state = CASTING;
+    _model = AnimationPool::getInstance()->getCastingFrame();
   }
 
   void		Player::update(const gdl::Clock&, gdl::Input&)
   {
     if (!_dying)
       {
-	switch (_stateStack.top())
+	switch (_state)
+	  //switch (_stateStack.top())
 	  {
 	  case RUNNING :
+
 	    switch (_orientation)
 	      {
 	      case NORTH :
-		translate(glm::vec3(0, -Player::SPEED, 0));
-		if (_position.y < 0)
-		  _position.y = (_limitY - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
-		break;
-	      case EAST :
-		translate(glm::vec3(Player::SPEED, 0, 0));
-		if (_position.x > Map::BLOCK_SIZE * _limitX)
-		  _position.x = 0;
-		break;
-	      case SOUTH :
-		translate(glm::vec3(0, Player::SPEED, 0));
-		if (_position.y > Map::BLOCK_SIZE * _limitY)
-		  _position.y = 0;
-		break;
-	      case WEST :
-		translate(glm::vec3(-Player::SPEED, 0, 0));
-		if (_position.x < 0)
-		  _position.x = (_limitX - 1) * Map::BLOCK_SIZE + Map::BLOCK_SIZE;
-		break;
-	      }
-	    _model = AnimationPool::getInstance()->getNextRunningFrame();
-	    if (_model == NULL)
-	      std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
-	    _elapsed++;
-	    if (_elapsed == Map::BLOCK_SIZE)
-	      {
+	      	translate(glm::vec3(0, -Player::SPEED * Map::BLOCK_SIZE, 0));
+	      	if (_position.y <= 0)
+	      	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
 		stopRunning();
-		_elapsed = 0;
+	      	break;
+	      case EAST :
+	      	translate(glm::vec3(Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	      	if (_position.x > Map::BLOCK_SIZE * _limitX)
+	      	  _position.x = Map::BLOCK_SIZE / 2;
+		stopRunning();
+	      	break;
+	      case SOUTH :
+	      	translate(glm::vec3(0, Player::SPEED * Map::BLOCK_SIZE, 0));
+	      	if (_position.y > Map::BLOCK_SIZE * _limitY)
+	      	  _position.y = Map::BLOCK_SIZE / 2;
+		stopRunning();
+	      	break;
+	      case WEST :
+	      	translate(glm::vec3(-Player::SPEED * Map::BLOCK_SIZE, 0, 0));
+	      	if (_position.x <= 0)
+	      	  _position.x = _limitX * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
+		stopRunning();
+	      	break;
 	      }
+
+	    //_model = AnimationPool::getInstance()->getNextRunningFrame();
+
+	    // if (_model == NULL)
+	    //   std::cerr << "WARNING : MODEL TO DRAW IS NULL" << std::endl;
+	    _elapsed++;
+	    // if (_elapsed == Map::BLOCK_SIZE)
+	    //   {
+	    // 	stopRunning();
+	    // 	_elapsed = 0;
+	    //   }
+
 	    break;
 	  case LOOTING :
 	    break;
@@ -226,8 +252,9 @@ namespace	Zappy
   {
     _x = static_cast<int>(_position.x) / Map::BLOCK_SIZE;
     _y = static_cast<int>(_position.y) / Map::BLOCK_SIZE;
-    _stateStack.pop();
-    _stateStack.push(STANDING);
+    // _stateStack.pop();
+    // _stateStack.push(STANDING);
+    _state = STANDING;
     _model = AnimationPool::getInstance()->getStandingFrame();
   }
 
