@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sun Jul 13 23:01:15 2014 Manu
-// Last update Sun Jul 13 23:01:24 2014 Manu
+// Last update Sun Jul 13 23:15:29 2014 Manu
 //
 
 #include		"objects/ModelManager.hh"
@@ -84,7 +84,6 @@ namespace	Zappy
     int exDir = static_cast<int>(_orientation);
     int newDir = static_cast<int>(dir);
     _orientation = dir;
-    std::cout << "\033[31m[SET ORIENTATION]\033[0m" << std::endl;
     if ((exDir - newDir) % 2 == 0)
       rotate(glm::vec3(0, 1, 0), 180);
     else if (exDir == 1 && newDir == 4)
@@ -247,14 +246,12 @@ namespace	Zappy
     if (_timeUnit <= 10)
       {
 	translate(glm::vec3(0, -Player::SPEED, 0));
-	std::cout << __FUNCTION__ << " _position.y = " << _position.y << std::endl;
 	if (_position.y <= 0)
 	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
       }
     else
       {
 	translate(glm::vec3(0, -Player::SPEED * Map::BLOCK_SIZE, 0));
-	std::cout << __FUNCTION__ << " _position.y = " << _position.y << std::endl;
 	if (_position.y <= 0)
 	  _position.y = _limitY * Map::BLOCK_SIZE - Map::BLOCK_SIZE / 2;
 	stopRunning();
@@ -266,14 +263,12 @@ namespace	Zappy
     if (_timeUnit <= 10)
       {
 	translate(glm::vec3(0, Player::SPEED, 0));
-	std::cout << __FUNCTION__ << " _position.y = " << _position.y << std::endl;
 	if (_position.y > Map::BLOCK_SIZE * _limitY)
 	  _position.y = Map::BLOCK_SIZE / 2;
       }
     else
       {
 	translate(glm::vec3(0, Player::SPEED * Map::BLOCK_SIZE, 0));
-	std::cout << __FUNCTION__ << " _position.y = " << _position.y << std::endl;
 	if (_position.y > Map::BLOCK_SIZE * _limitY)
 	  _position.y = Map::BLOCK_SIZE / 2;
 	stopRunning();
@@ -369,12 +364,6 @@ namespace	Zappy
 
   void		Player::stopRunning()
   {
-    std::cout << "\033[42mSetting x: " << _x << " to: " << static_cast<int>(_position.x) / Map::BLOCK_SIZE << "\033[0m" << std::endl;
-    std::cout << "\033[42mSetting y: " << _y << " to: " << static_cast<int>(_position.y) / Map::BLOCK_SIZE << "\033[0m" << std::endl;
-
-    std::cout << "\033[42mSetting position.x: " << _position.x << " to: " << _x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2  << "\033[0m" << std::endl;
-    std::cout << "\033[42mSetting position.y: " << _position.y << " to: " << _y * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2  << "\033[0m" << std::endl;
-
     _x = static_cast<int>(_position.x) / Map::BLOCK_SIZE;
     _y = static_cast<int>(_position.y) / Map::BLOCK_SIZE;
     _position.x = _x * Map::BLOCK_SIZE + Map::BLOCK_SIZE / 2;

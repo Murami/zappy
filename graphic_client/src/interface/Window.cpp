@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sun Jul 13 22:59:51 2014 Manu
-// Last update Sun Jul 13 22:59:52 2014 Manu
+// Last update Sun Jul 13 23:13:11 2014 Manu
 //
 
 #include		<SDL_ttf.h>
@@ -18,8 +18,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1920.0f / 1.5f;
-  const float		Window::HEIGHT = 1080.0f / 1.5f;
+  const float		Window::WIDTH = 1920.0f / 1.25f;
+  const float		Window::HEIGHT = 1080.0f / 1.25f;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 
