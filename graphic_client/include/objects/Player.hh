@@ -1,3 +1,13 @@
+//
+// Player.hh for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/include/objects
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:04:18 2014 Manu
+// Last update Sun Jul 13 23:04:19 2014 Manu
+//
+
 #ifndef		__PLAYER_HH__
 # define	__PLAYER_HH__
 

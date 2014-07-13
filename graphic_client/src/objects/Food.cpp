@@ -1,3 +1,13 @@
+//
+// Food.cpp for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/src/objects
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:02:03 2014 Manu
+// Last update Sun Jul 13 23:02:05 2014 Manu
+//
+
 #include		"objects/Food.hh"
 #include		"objects/ModelManager.hh"
 #include		"objects/Map.hh"

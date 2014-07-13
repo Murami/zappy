@@ -1,3 +1,13 @@
+//
+// Window.hh for zappy in /home/manu/rendu/PSU_2013_zappy/graphic_client/include/interface
+//
+// Made by Manu
+// Login   <manu@epitech.net>
+//
+// Started on  Sun Jul 13 23:03:28 2014 Manu
+// Last update Sun Jul 13 23:03:29 2014 Manu
+//
+
 #ifndef		__WINDOW_HH__
 # define	__WINDOW_HH__
 
