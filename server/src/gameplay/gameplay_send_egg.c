@@ -21,13 +21,15 @@ void			gameplay_send_egg(t_gameplay *this, t_player *player)
     }
 }
 
-void			gameplay_send_egg_lay(t_gameplay *this, t_player *player, t_egg *egg)
+void			gameplay_send_egg_lay(t_gameplay *this, t_player *player,
+					      t_egg *egg)
 {
   t_list_iterator	it;
   t_client*		monitor;
   char			buffer[4096];
 
-  printf("new egg [%d] : by player [%d] on [%d, %d]\n", egg->id, player->id, egg->x, egg->y);
+  printf("new egg [%d] : by player [%d] on [%d, %d]\n",
+	 egg->id, player->id, egg->x, egg->y);
   sprintf(buffer, "enw %d %d %d %d\n", egg->id, player->id, egg->x, egg->y);
   it = list_begin(this->monitors);
   while (it != list_end(this->monitors))

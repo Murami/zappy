@@ -41,7 +41,8 @@ t_player*		gameplay_add_new_player(t_gameplay* this, t_client* client, t_team* t
   return (player);
 }
 
-void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
+void			gameplay_add_player(t_gameplay* this,
+					    t_client* client, t_team *team)
 {
   t_player*	player;
 
@@ -56,7 +57,8 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
       gameplay_update_player_position(this, player, this->players);
       if (player->id_egg)
 	{
-	  printf("new player [%d] connected on egg slot [%d]\n", player->id, player->id_egg);
+	  printf("new player [%d] connected on egg slot [%d]\n",
+		 player->id, player->id_egg);
 	  bind_add_player(this, player);
 	}
     }
@@ -68,7 +70,8 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
     }
 }
 
-void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PLAYER GHOST */
+void			gameplay_remove_player(t_gameplay* this,
+					       t_client* client)
 {
   t_player*		player;
   t_list_iterator	it;

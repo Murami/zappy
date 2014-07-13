@@ -17,7 +17,8 @@ void			gameplay_send_res(t_client *client, bool b)
   client_send_msg(client, buffer);
 }
 
-void			gameplay_send_res_incant(t_gameplay *this, t_player_command *command, bool b)
+void			gameplay_send_res_incant(t_gameplay *this,
+						 t_player_command *command, bool b)
 {
   t_list_iterator	it;
   t_client*		monitor;

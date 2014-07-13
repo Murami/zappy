@@ -20,7 +20,8 @@ void			gameplay_send_lvl_all(t_gameplay *this, t_player *player)
     }
 }
 
-void			gameplay_command_plv(t_gameplay* this, t_monitor_command* command)
+void			gameplay_command_plv(t_gameplay* this,
+					     t_monitor_command* command)
 {
   char			buffer[4096];
   t_list_iterator	it;
