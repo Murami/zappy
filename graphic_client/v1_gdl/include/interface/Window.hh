@@ -51,6 +51,7 @@ namespace	Zappy
     void		updateObject(AObject*);
     void		updatePlayers(std::list<Player*>&);
     void		setCameraPosition(int, int);
+    void		updateCamera();
 
   public :
     Window();

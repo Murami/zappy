@@ -5,7 +5,7 @@
 // Login   <desabr_q@epitech.net>
 //
 // Started on  Tue May 13 18:35:03 2014 quentin desabre
-// Last update Fri Jul 11 08:46:55 2014 Manu
+// Last update Sun Jul 13 04:13:18 2014 Manu
 //
 
 #ifndef				_CLIENT_HH_
@@ -37,11 +37,15 @@ public:
   Socket			_socket;
   SafeQueue<std::string>       	_queue;
 
+public :
+  bool		isConnected() const;
+
 private :
   bool		_sendRequest;
   std::string	_request;
   pthread_t	_thread;
   pthread_t	_thread2;
+  bool		_connected;
 };
 
 #endif			/* _CLIENT_HH_ */

@@ -86,14 +86,21 @@ void			Client::resetRequest()
   _request.clear();
 }
 
+bool			Client::isConnected() const
+{
+  return (_connected);
+}
+
 void			Client::throwWriteFailure()
 {
-  throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
+  _connected = false;
+  //throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
 }
 
 void			Client::throwConnectionLost()
 {
-  throw (std::runtime_error("Connection to server has closed unexpectedly"));
+  _connected = false;
+  //throw (std::runtime_error("Connection to server has closed unexpectedly"));
 }
 
 Client::Client(int argc, char **argv)
@@ -147,6 +154,7 @@ void				Client::connectServer()
   	  sizeof(this->_socket.getSin()));
   if (ret == -1)
     throw (std::runtime_error("Error while attempting to connect..."));
+  _connected = true;
 }
 
 SafeQueue<std::string>&		Client::getQueue()

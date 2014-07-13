@@ -8,6 +8,7 @@
 #include		"objects/World.hh"
 #include		"objects/Egg.hh"
 #include		"parser/Parser.hh"
+#include		"objects/Screen.hh"
 
 namespace	Zappy
 {
@@ -30,14 +31,23 @@ namespace	Zappy
   void		ZappyGraphic::run()
   {
     _window.create(Window::WIDTH, Window::HEIGHT, Window::TITLE);
-    AnimationPool::getInstance()->loadModels();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Screen s("./assets/Loading.tga");
+    s.draw();
+    _window.flush();
     _hud = new HUD();
-    updateClient();
+    AnimationPool::getInstance()->loadModels();
+
     while (_window.isRunning())
       {
+
+	if (!_client.isConnected())
+	  throw (std::runtime_error("Connection to server closed unexpectedly"));
 	_window.bindShader();
 	_window.update();
 	updateClient();
+
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.drawPlayerColorMap(static_cast<Player*>(*it));
@@ -46,22 +56,20 @@ namespace	Zappy
 	_window.bindShader();
 	_window.draw(_world);
 	_window.updatePlayers(_players);
+
 	for (std::list<Stone*>::iterator it = _stones.begin();
 	     it != _stones.end(); it++)
 	  _window.draw(*it);
 	for (std::list<Food*>::iterator it = _foods.begin();
 	     it != _foods.end(); it++)
 	  _window.draw(*it);
-
-	// _drawOnlyOneStone();
-	// _drawOnlyOneFood();
-
 	for (std::list<Egg*>::iterator it = _eggs.begin();
 	     it != _eggs.end(); it++)
 	  _window.draw(*it);
 
 	_window.drawMap(_map);
 	_hud->draw();
+
 	_window.flush();
       }
   }
@@ -160,7 +168,7 @@ namespace	Zappy
     _world->initialize();
     _world->setMapSize(_map->getWidth(), _map->getHeight());
     _window.getCamera()->setPosition(glm::vec2(width / 2, -height / 2));
-    for (int i = 0; i < (width + height); i++)
+    for (int i = 0; i < (width + height) / 2; i++)
       _window.getCamera()->zoomLess();
   }
 
