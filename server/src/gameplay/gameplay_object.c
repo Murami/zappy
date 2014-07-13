@@ -18,7 +18,8 @@ t_object_binding object_bindings[] =
     {NULL, NULL, NULL}
   };
 
-void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
+void			gameplay_command_inventaire(t_gameplay* this,
+						    t_player_command* command)
 {
   char			buffer[4096];
   struct timeval	time;
@@ -42,7 +43,8 @@ void			gameplay_command_inventaire(t_gameplay* this, t_player_command* command)
   client_send_msg(command->player->client, buffer);
 }
 
-void			gameplay_command_pose(t_gameplay* this, t_player_command* command)
+void			gameplay_command_pose(t_gameplay* this,
+					      t_player_command* command)
 {
   int			i = 0;
 
@@ -57,7 +59,8 @@ void			gameplay_command_pose(t_gameplay* this, t_player_command* command)
     }
 }
 
-void			gameplay_command_prend(t_gameplay* this, t_player_command* command)
+void			gameplay_command_prend(t_gameplay* this,
+					       t_player_command* command)
 {
   int			i = 0;
 

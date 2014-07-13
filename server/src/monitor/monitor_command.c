@@ -18,14 +18,16 @@ t_monitor_command_binding	g_monitor_commands[] =
     {0, NULL, NULL}
   };
 
-void			monitor_command_execute(t_monitor_command* this, t_gameplay* gameplay)
+void			monitor_command_execute(t_monitor_command* this,
+						t_gameplay* gameplay)
 {
   (void) this;
   (void) gameplay;
   g_monitor_commands[this->id_command].callback(gameplay, this);
 }
 
-t_monitor_command*	monitor_command_new(t_client_graphic* client, char* data[2], int id_command)
+t_monitor_command*	monitor_command_new(t_client_graphic* client,
+					    char* data[2], int id_command)
 {
   t_monitor_command*	command;
 

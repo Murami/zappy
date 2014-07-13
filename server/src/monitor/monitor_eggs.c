@@ -15,7 +15,8 @@ void			monitor_send_eggs(t_gameplay *this, t_client *client)
   while (it != list_end(this->eggs))
     {
       egg = it->data;
-      sprintf(buffer, "enw %d %d %d %d\n", egg->id, egg->id_player, egg->x, egg->y);
+      sprintf(buffer, "enw %d %d %d %d\n", egg->id, egg->id_player,
+	      egg->x, egg->y);
       client_send_msg(client, buffer);
       it = list_iterator_next(it);
     }

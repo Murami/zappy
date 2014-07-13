@@ -46,10 +46,10 @@ void	egg_hatch(t_gameplay* this, t_egg* egg)
   player->is_egg = true;
   gameplay_update_player_position(this, player, this->ghosts);
   gameplay_send_egg_hatch(this, egg);
-  /* gameplay_remove_egg(this, egg); */
 }
 
-struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttime)
+struct timeval		gameplay_update_eggs(t_gameplay* this,
+					     struct timeval currenttime)
 {
   struct timeval	waiting_time;
   t_list_iterator	it;
@@ -66,13 +66,27 @@ struct timeval		gameplay_update_eggs(t_gameplay* this, struct timeval currenttim
       it = list_iterator_next(it);
     }
   if (!list_empty(this->eggs))
-    return (timeval_sub(((t_egg*)list_front(this->eggs))->time, currenttime));
+    return (timeval_sub(((t_egg*)list_front(this->eggs))->time,
+			currenttime));
   return (waiting_time);
 }
 
-struct timeval		gameplay_update_players(t_gameplay* this, struct timeval currenttime,
-						t_list* list,
-						t_list_iterator (*kill_player)(t_gameplay*, struct s_player*))
+t_list_iterator		gameplay_make_actions(t_gameplay* this,
+					      struct timeval currenttime,
+					      t_list* list, t_list_iterator it)
+{
+  if (player_make_action(it->data, this, currenttime))
+    {
+      it = list_iterator_prev(it);
+      while (player_make_action(it->data, this, currenttime));
+      gameplay_update_player_position(this, it->data, list);
+    }
+  return (it);
+}
+
+struct timeval		gameplay_update_players(t_gameplay* this,
+						struct timeval currenttime,
+						t_list* list, kill_func kill_player)
 {
   struct timeval	waiting_time;
   t_player*		player;
@@ -87,14 +101,7 @@ struct timeval		gameplay_update_players(t_gameplay* this, struct timeval current
       if (player_is_dead(it->data, currenttime))
 	it = kill_player(this, it->data);
       else
-	{
-	  if (player_make_action(player, this, currenttime))
-	    {
-	      it = list_iterator_prev(it);
-	      while (player_make_action(player, this, currenttime));
-	      gameplay_update_player_position(this, player, list);
-	    }
-	}
+	it = gameplay_make_actions(this, currenttime, list, it);
       it = list_iterator_next(it);
     }
   if (!list_empty(list))
@@ -104,19 +111,24 @@ struct timeval		gameplay_update_players(t_gameplay* this, struct timeval current
   return (timeval_sub(waiting_time, currenttime));
 }
 
-struct timeval		gameplay_update(t_gameplay *this, struct timeval currenttime)
+struct timeval		gameplay_update(t_gameplay *this,
+					struct timeval currenttime)
 {
   struct timeval	waiting1;
   struct timeval	waiting2;
 
-  waiting1 = gameplay_update_players(this, currenttime, this->players, gameplay_kill_player);
-  waiting2 = gameplay_update_players(this, currenttime, this->ghosts, gameplay_kill_ghost);
+  waiting1 = gameplay_update_players(this, currenttime,
+				     this->players, gameplay_kill_player);
+  waiting2 = gameplay_update_players(this, currenttime,
+				     this->ghosts, gameplay_kill_ghost);
   waiting1 = timeval_min_nz(waiting1, waiting2);
   waiting2 = gameplay_update_eggs(this, currenttime);
   return (timeval_min_nz(waiting1, waiting2));
 }
 
-void			gameplay_update_player_position(t_gameplay* this, t_player* player, t_list* list)
+void			gameplay_update_player_position(t_gameplay* this,
+							t_player* player,
+							t_list* list)
 {
   t_list_iterator	it;
   struct timeval	time_tomove;
@@ -158,7 +170,6 @@ void			send_pdi(t_gameplay *this, t_player* player)
 
 t_list_iterator		gameplay_kill_player(t_gameplay* this, t_player* player)
 {
-  /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
   printf("player [%d] killed (starved to death)\n", player->id);
@@ -190,7 +201,6 @@ void			send_edi(t_gameplay* this, t_player* player)
 
 t_list_iterator		gameplay_kill_ghost(t_gameplay* this, t_player* player)
 {
-  /* JUST SEND THE MSG FOR THE DEATH IS NOT DONE */
   t_list_iterator	it;
 
   printf("ghost player [%d] killed (starved to death)\n", player->id);
