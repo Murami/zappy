@@ -191,7 +191,7 @@ class Player:
                     if self.regexStatus[elem].funcPtr(self, response, exp) is True:
                         self.responseQueue = queue.Queue()
                         return True
-            return False
+        return False
 
     def sendRequest (self):
         print("\n############")
@@ -332,12 +332,11 @@ class Player:
                         elif self.data.getNbrOfMyLevel() <\
                              self.ressourcesByLevel[self.data.level.getActualLevel()]["player"]:
                             print("il n'y pas assez de joueur sur la map")
-                            if self.staticGetlvl == 0:
+                            if self.staticGetlvl <= 0:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
                             elif self.staticGetlvl >= 10:
                                 self.staticGetlvl = -1
-                                self.data.reinitializeListLevel()
                                 self.theQueue.put("fork")
                                 self.forking = True
                                 print("JE FORK")
