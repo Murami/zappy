@@ -33,11 +33,10 @@ A VERIFIER !!!!!
 ANTO ->
      - VERIFIACTION DES FREE !!!
      - OnDelayChange : update all request and death_time !!!!
-     - Les ouefs a prendre en compte dans la gestion du temps
-     - condtions bourines pour la gestion de l'incant
-     - egg hatch
      - tester gestion egg
      - verifer bindings ia<->graphic
+     - binds egg
+     - free egg dans le hatch
 ---------------------------------------------------------------------------
 
 CALLBACK
@@ -63,10 +62,13 @@ gauche				       -OK-
 
 drop					OK	pop à faire
 take					OK	pop à faire
-Connexion d'un nouveau joueur		OK	+ pop de vie
+Connexion d'un nouveau joueur		OK	pop à faire
 
 Un joueur expulse      			OK	à tester
 Un joueur broadcast			OK	à tester
+ponte oeuf				OK	à tester (fin du fork)
+oeuf a été pondu 			OK	à tester (oeuf en attente d'éclosion) + init
+oeuf eclot				--	eht #e
 
 Premier joueur lance incant		--	pic X Y #n #n....
 Fin incant     	     			-- 	pie X Y R (R = 1 ou 0)
@@ -80,9 +82,7 @@ ko + délais connexion			--	...
 
 id oeuf + mort de l'oeuf à gerer --> antho
 
-ponte oeuf				--	pfk #n
-oeuf a été pondu 			--	enw #e #n X Y + init monitor
-oeuf eclot				--	eht #e
+
 joueur co sur egg			--	ebo #e
 oeuf meurt de faim			--	edi #e
 

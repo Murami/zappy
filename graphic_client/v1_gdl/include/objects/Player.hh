@@ -39,6 +39,7 @@ namespace	Zappy
     Orientation		_orientation;
     float		_timeUnit;
     int			_elapsed;
+    State		_state;
     std::stack<State>	_stateStack;
     glm::vec4		_pickColor;
     gdl::BasicShader	_colorPickShader;

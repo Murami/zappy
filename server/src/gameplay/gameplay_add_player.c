@@ -25,6 +25,8 @@ void			bind_add_player(t_gameplay *this, t_player *player)
   while (it != list_end(this->monitors))
     {
       monitor = it->data;
+      if (player->id_egg)
+	monitor_send_egg_connect(player, monitor);
       monitor_send_player(player, monitor);
       it = list_iterator_next(it);
     }
@@ -51,11 +53,8 @@ void			gameplay_add_player(t_gameplay* this, t_client* client, t_team *team)
       player->client = client;
       ((t_client_player*)client)->player = player;
       gameplay_update_player_position(this, player, this->players);
-      if (player->is_egg)
-	/**/;
-      else
-	/**/;
-      player->is_egg = false;
+      if (player->id_egg)
+	bind_add_player(this, player);
     }
   else
     {
@@ -88,5 +87,4 @@ void			gameplay_remove_player(t_gameplay* this, t_client* client) /* MAKE THE PL
       it = list_iterator_next(it);
     }
   player->it = list_insert(this->ghosts, it, player);
-  player->is_egg = true;
 }

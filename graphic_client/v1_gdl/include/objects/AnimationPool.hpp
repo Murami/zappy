@@ -1,6 +1,7 @@
 #ifndef		__ANIMATIONPOOL_HPP__
 # define	__ANIMATIONPOOL_HPP__
 
+# include	<stdexcept>
 # include	<unistd.h>
 # include	<map>
 # include	<Model.hh>
@@ -14,6 +15,7 @@ namespace	Zappy
     int				_currentRunningFrame;
     static	AnimationPool*	_instance;
     gdl::Model*			_standingFrame;
+    gdl::Model*			_castingFrame;
 
   public :
     static AnimationPool*	getInstance()
@@ -31,6 +33,11 @@ namespace	Zappy
     gdl::Model*		getRunningFrame(int index)
     {
       return (_runningFrames[index]);
+    }
+
+    gdl::Model*		getCastingFrame()
+    {
+      return (_castingFrame);
     }
 
     gdl::Model*		getNextRunningFrame()
@@ -62,10 +69,13 @@ namespace	Zappy
 	}
       _standingFrame = new gdl::Model();
       if (!_standingFrame->load("./assets/models/young_link_1.fbx"))
-	{
-	  std::cerr << "Error while loading young_link_1.fbx" << std::endl;
-	  return ;
-	}
+	throw (std::runtime_error("Error while laoding standing frame"));
+      _castingFrame = new gdl::Model();
+      if (!_castingFrame->load("./assets/models/young_link_1.fbx"))
+	throw (std::runtime_error("Error while laoding casting frame"));
+      _castingFrame->setCurrentAnim(0);
+      _castingFrame->createSubAnim(0, "cast", 50, 50);
+      _castingFrame->setCurrentSubAnim("cast");
     }
 
   private :

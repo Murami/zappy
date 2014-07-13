@@ -11,23 +11,23 @@ void			put_case_content(t_gameplay* this, char* buffer_msg, int x, int y)
 
   contents = &this->map.map[x + y * this->map.width];
   if (contents->linemate)
-    strncat(buffer_msg, "linemate ", 4095);
+    strncat(buffer_msg, " linemate", 4095);
   if (contents->deraumere)
-    strncat(buffer_msg, "deraumere ", 4095);
+    strncat(buffer_msg, " deraumere", 4095);
   if (contents->sibur)
-    strncat(buffer_msg, "sibur ", 4095);
+    strncat(buffer_msg, " sibur", 4095);
   if (contents->phiras)
-    strncat(buffer_msg, "phiras ", 4095);
+    strncat(buffer_msg, " phiras", 4095);
   if (contents->thystame)
-    strncat(buffer_msg, "thystame ", 4095);
+    strncat(buffer_msg, " thystame", 4095);
   if (contents->linemate)
-    strncat(buffer_msg, "linemate ", 4095);
+    strncat(buffer_msg, " linemate", 4095);
   if (contents->food)
-    strncat(buffer_msg, "nourriture ", 4095);
+    strncat(buffer_msg, " nourriture", 4095);
   it = list_begin(this->players);
   while (it != list_end(this->players))
     {
-      strncat(buffer_msg, "player ", 4095);
+      strncat(buffer_msg, " player", 4095);
       it = list_iterator_next(it);
     }
   strncat(buffer_msg, ",", 4095);
@@ -35,7 +35,7 @@ void			put_case_content(t_gameplay* this, char* buffer_msg, int x, int y)
 
 void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
 {
-  char			buffer[4069];
+  char			buffer[4096];
   int			i;
   int			j;
   int			x;
@@ -44,7 +44,7 @@ void			gameplay_command_voir(t_gameplay* this, t_player_command* command)
   i = 0;
   memset(buffer, 0, 4096);
   buffer[0] = '{';
-  while (i < command->player->level)
+  while (i <= command->player->level)
     {
       j = -i;
       while (j <= i)

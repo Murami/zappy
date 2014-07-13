@@ -81,7 +81,8 @@ t_team*			server_check_teams(t_server *this, char *name, int size)
   while (it != list_end(this->gameplay->teams))
     {
       team = it->data;
-      if (strncmp(team->name, name, size - 1) == 0 && team->nb_slots != 0)
+      if (strncmp(team->name, name, size - 1) == 0 &&
+	  team->nb_slots - count_taken_slot(this->gameplay, team) != 0)
 	{
 	  printf("cet équipe existe\n");
 	  return (team);
