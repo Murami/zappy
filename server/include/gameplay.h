@@ -31,6 +31,7 @@ typedef struct		s_gameplay
   struct timeval	time;
   struct s_server*	server;
   int			last_id;
+  struct s_team*	winner;
 }			t_gameplay;
 
 typedef struct		s_object_binding

@@ -24,6 +24,7 @@ void		gameplay_initialize(t_gameplay *this, t_config config,
   this->eggs = list_new();
   this->ghosts = list_new();
   this->teams = config.teams;
+  this->winner = NULL;
   map_initialize(&this->map, config.width, config.height);
   this->delay = config.delay;
   this->server = server;

@@ -15,7 +15,6 @@ void	gameplay_send_egg(t_gameplay*, struct s_player*);
 void	gameplay_send_egg_lay(t_gameplay*, struct s_player*, struct s_egg*);
 void	gameplay_send_sbp(struct s_client*);
 void	gameplay_send_suc(struct s_client*);
-void	gameplay_send_smg(struct s_client*, char*);
 void	gameplay_send_seg(t_gameplay*);
 
 #endif /* GAMEPLAY_SEND_H */
