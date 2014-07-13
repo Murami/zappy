@@ -5,7 +5,7 @@
 ** Login   <desabr_q@epitech.net>
 **
 ** Started on  Sun Jul 13 16:27:37 2014 quentin desabre
-** Last update Sun Jul 13 17:20:02 2014 otoshigami
+** Last update Sun Jul 13 18:15:32 2014 otoshigami
 */
 
 #include <unistd.h>
@@ -36,7 +36,7 @@ void	server_select(t_server* this, fd_set* set_fd_out,
 		  set_fd_in, set_fd_out, NULL,
 		  (time.tv_sec || time.tv_usec) ?
 		  &time : NULL);
-  if (retval == -1)
+  if (retval == -1 && g_alive)
     {
       perror("select()");
       exit(-1);
