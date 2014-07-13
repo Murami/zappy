@@ -111,14 +111,15 @@ class Player:
             exp = self.regexResponse["getlvl"].search(response.getMessage().getMessage())
             if exp is not None\
                and exp.group(1) == self.teamName:
+                print("->>>>>>>>>>>>>>>>>>> j'envoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
                 self.theQueue.put("broadcast mylvl "
                                   + str(self.data.level.getActualLevel())
                                   + " " + self.teamName)
+
             exp = self.regexResponse["mylvl"].search(response.getMessage().getMessage())
             if exp is not None\
-               and self.leader is True\
-               and self.eating is False\
                and exp.group(2) == self.teamName:
+                print("->>>>>>>>>>>>>>>>>>> je recoie un mylvl <<<<<<<<<<<<<<<<<<<<<<<-")
                 self.data.addLevelToList(exp.group(1))
 
         elif response.isFreeSlot() is True:
@@ -126,12 +127,12 @@ class Player:
             if self.data.newFreeSlot.getFreeSlot() > \
                self.data.oldFreeSlot.getFreeSlot() and \
                self.forking == True:
+                self.forking = False;
                 self.doTheFork()
-                self.forking = False
                 self.staticGetlvl = 0
-                if self.data.oldFreeSlot.getFreeSlot() != \
-                   self.data.newFreeSlot.getFreeSlot():
-                    self.data.oldFreeSlot.freeSlot = self.data.newFreeSlot.getFreeSlot()
+            if self.data.oldFreeSlot.getFreeSlot() != \
+               self.data.newFreeSlot.getFreeSlot():
+                self.data.oldFreeSlot.freeSlot = self.data.newFreeSlot.getFreeSlot()
 
     # gestion du fork
     def doTheFork (self):
@@ -143,7 +144,6 @@ class Player:
     def recvFromServer (self):
         recv = self.net.recv()
         print("recv " + str(recv))
-        
         response = self.data.update(recv)
         self.manageResponse(response)
         return response
@@ -180,12 +180,11 @@ class Player:
                 self.data.alive.killHim()
                 return
             while (response.isInventory() == False):
-                self.responseQueue.put(response)               
+                self.responseQueue.put(response)
                 response = self.recvFromServer()
                 if response.isAlive() is True:
                     self.data.alive.killHim()
                     return
-                
                 if self.data.inventory.getFood() <= 9 and self.eating == False:
                     print("manque de nouriture")
                     return
@@ -275,6 +274,7 @@ class Player:
     # principale
     def run (self):
         while self.data.alive.isAlive() is True:
+            print(self.data.listOtherLevel)
             if self.theQueue.qsize() == 0:
                 if self.data.inventory.getFood() <= 9 and self.eating is False:
                     self.eating = True
@@ -304,10 +304,10 @@ class Player:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
                             elif self.staticGetlvl >= 5:
-                                staticGetlvl = -1
+                                self.staticGetlvl = -1
                                 self.data.reinitializeListLevel()
-                                self.theQueue.put("fork")
-                                self.forking = True
+                                # self.theQueue.put("fork")
+                                # self.forking = True
                                 print("JE FORK")
                             self.staticGetlvl += 1
                         else:
