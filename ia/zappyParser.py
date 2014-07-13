@@ -14,26 +14,26 @@ class ZappyParser:
         self.names = ["inventory", "fov", "message", "expulse", "answer", "freeSlot", "elevation", "level", "alive"]
 
         # liste de structures liant les regex et leur fonction de parsing
-        self.tab = {}
-        self.tab["inventory"] = structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
-                                              self.__parseInventory)
-        self.tab["fov"] = structFuncPtr(re.compile("^{([,]?([ ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))?)*}"),
-                                        self.__parseFov)
-        self.tab["message"] = structFuncPtr(re.compile("^message [0-9]+,"),
-                                               self.__parseMessage)
-        self.tab["expulse"] = structFuncPtr(re.compile("^deplacement: [0-9]+$"),
-                                            self.__parseExpulse)
-        self.tab["answer"] = structFuncPtr(re.compile("^(ok|ko)$"),
-                                           self.__parseAnswer)
-        self.tab["freeSlot"] = structFuncPtr(re.compile("^[0-9]+$"),
-                                             self.__parseFreeSlot)
-        self.tab["elevation"] = structFuncPtr(re.compile("elevation en cours"),
-                                              self.__parseElevation)
-        self.tab["level"] = structFuncPtr(re.compile("niveau actuel : ([0-9]+)"),
-                                          self.__parseLevel)
-        self.tab["alive"] = structFuncPtr(re.compile("mort"),
-                                          self.__parseAlive)
-
+        self.tab = {
+            "inventory" : structFuncPtr(re.compile("^{([ ]*(nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame)[ ]+[0-9]+[,]*){7}}$"),
+                                        self.__parseInventory),
+            "fov" : structFuncPtr(re.compile("^{([,]?([ ](joueur|nourriture|linemate|sibur|deraumere|mendiane|phiras|thystame))?)*}"),
+                                  self.__parseFov),
+            "message" : structFuncPtr(re.compile("^message [0-9]+,"),
+                                  self.__parseMessage),
+            "expulse" : structFuncPtr(re.compile("^deplacement: [0-9]+$"),
+                                      self.__parseExpulse),
+            "answer" : structFuncPtr(re.compile("^(ok|ko)$"),
+                                     self.__parseAnswer),
+            "freeSlot" : structFuncPtr(re.compile("^[0-9]+$"),
+                                       self.__parseFreeSlot),
+            "elevation" : structFuncPtr(re.compile("elevation en cours"),
+                                        self.__parseElevation),
+            "level" : structFuncPtr(re.compile("niveau actuel : ([0-9]+)"),
+                                    self.__parseLevel),
+            "alive" : structFuncPtr(re.compile("mort"),
+                                    self.__parseAlive)
+        }
     def parse (self, toParse):
         for cmd in toParse.split("\n"):
             for elem in self.names:
@@ -108,5 +108,4 @@ class ZappyParser:
 
     def __parseAlive (self, toParse):
         res = responseServer.ResponseServerAlive()
-        res.alive.isItAlive = False
         return res

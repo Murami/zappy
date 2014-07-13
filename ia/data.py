@@ -19,7 +19,8 @@ class Data:
         self.elevation = elevation.Elevation()
         self.level = level.Level()
         self.alive = alive.Alive()
-        self.freeSlot = freeSlot.FreeSlot()
+        self.newFreeSlot = freeSlot.FreeSlot()
+        self.oldFreeSlot = freeSlot.FreeSlot()
         self.expulse = expulse.Expulse()
         self.message = message.Message()
         self.answer = answer.Answer()
@@ -38,7 +39,7 @@ class Data:
         elif res.isAlive():
             self.alive = res.getAlive()
         elif res.isFreeSlot():
-            self.freeSlot = res.getFreeSlot()
+            self.newFreeSlot = res.getFreeSlot()
         elif res.isExpulse():
             self.expulse = res.getExpulse()
         elif res.isMessage():
