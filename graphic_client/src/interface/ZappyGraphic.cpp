@@ -177,6 +177,7 @@ namespace	Zappy
 							_map->getHeight(),
 							teamName);
 	player->initialize();
+	player->setTimeUnit(_timeUnit);
 	_players.push_back(player);
       }
     else
@@ -186,6 +187,7 @@ namespace	Zappy
 	  {
 	    if (_connectForEgg == (*it)->getEggId())
 	      {
+		(*it)->setTimeUnit(_timeUnit);
 		(*it)->setTeamName(teamName);
 		(*it)->setId(playerId);
 		break;
@@ -383,6 +385,9 @@ namespace	Zappy
   void		ZappyGraphic::setTimeUnit(int timeUnit)
   {
     _timeUnit = timeUnit;
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      (*it)->setTimeUnit(timeUnit);
   }
 
   void		ZappyGraphic::endGame(const std::string& team)
