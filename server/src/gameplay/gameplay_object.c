@@ -5,7 +5,7 @@
 ** Login   <otoshigami@epitech.net>
 **
 ** Started on  Sun Jul 13 17:35:33 2014 otoshigami
-** Last update Sun Jul 13 22:05:15 2014 otoshigami
+** Last update Sun Jul 13 22:04:31 2014 pinon
 */
 
 #include <stdio.h>
@@ -46,7 +46,9 @@ void			gameplay_command_inventaire(t_gameplay* this,
 
   time = timeval_sub(command->player->death_time, this->time);
   foods = time.tv_sec + ((float)time.tv_usec) / 1000000.f;
+  printf("%f\n", foods);
   foods /=  (126.f / ((float)this->delay));
+  printf("%f\n", foods);
   if (foods < 0)
     foods = 0;
   sprintf(buffer, "{nourriture %d, linemate %d, deraumere %d, "
