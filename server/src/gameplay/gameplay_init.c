@@ -15,7 +15,8 @@ t_gameplay*    	gameplay_new(t_config config, t_server* server)
   return (gameplay);
 }
 
-void		gameplay_initialize(t_gameplay *this, t_config config, t_server* server)
+void		gameplay_initialize(t_gameplay *this, t_config config,
+				    t_server* server)
 {
   memset(this, 0, sizeof(t_gameplay));
   this->players = list_new();

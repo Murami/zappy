@@ -27,8 +27,6 @@ bool			server_process_clients_output(t_server* this,
 						      fd_set* fd_set_out,
 						      t_client* client)
 {
-  (void) this;
-
   if (FD_ISSET(client->socketstream->socket, fd_set_out))
     if (!socketstream_flush_output(client->socketstream))
       {
@@ -83,10 +81,7 @@ t_team*			server_check_teams(t_server *this, char *name, int size)
       team = it->data;
       if (strncmp(team->name, name, size - 1) == 0 &&
 	  team->nb_slots - count_taken_slot(this->gameplay, team) != 0)
-	{
-	  printf("cet équipe existe\n");
-	  return (team);
-	}
+	return (team);
       it = list_iterator_next(it);
     }
   return (NULL);
@@ -104,7 +99,6 @@ bool			server_read_new_clients_input(t_server* this,
     {
       if (strncmp("GRAPHIC\n", buffer, size) == 0)
 	{
-	  /* sockstream tjrs présent les new client ? */
 	  client = (t_client*)client_graphic_new(new_client);
 	  server_add_monitor(this, client);
 	  return (false);

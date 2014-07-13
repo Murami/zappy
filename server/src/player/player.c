@@ -9,14 +9,11 @@
 #include "time_val.h"
 #include "list.h"
 
-/* INIT DU DEAHT TIME EN BRUT A FAIRE EN FONCTION DE LA BOUFE ET DU DELAY */
-
 void		player_initialize(t_player *this, t_gameplay *gameplay,
 				  t_client *client, t_team *team)
 {
   char		buffer[4096];
 
-  ((t_client_player*)client)->player = this;
   this->death_time.tv_usec = (1200 * 1000000) / gameplay->delay;
   this->death_time.tv_sec = 0;
   this->death_time = timeval_add(gameplay->time, this->death_time);
@@ -27,13 +24,14 @@ void		player_initialize(t_player *this, t_gameplay *gameplay,
   this->level = 1;
   this->team = team;
   this->id_egg = 0;
+  this->is_egg = false;
   this->command_queue = list_new();
-  /* team->nb_slots--; */
   case_initialize(&this->inventory, this->x, this->y);
   this->inventory.food = 10;
   this->client = client;
   if (this->client)
     {
+      ((t_client_player*)client)->player = this;
       sprintf(buffer, "%d\n", team->nb_slots);
       client_send_msg(client, buffer);
       sprintf(buffer, "%d %d\n", this->x, this->y);
@@ -118,7 +116,6 @@ void			player_release(t_player* this)
       list_pop_back(this->command_queue);
     }
   list_delete(this->command_queue);
-  /* list_delete(this->eggs); */
 }
 
 void			player_delete(t_player* player)

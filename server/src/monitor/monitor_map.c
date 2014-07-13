@@ -4,6 +4,7 @@
 #include "client.h"
 #include "client_graphic.h"
 #include "monitor.h"
+#include "gameplay.h"
 
 void			monitor_send_case(t_client *client, t_case *c)
 {
