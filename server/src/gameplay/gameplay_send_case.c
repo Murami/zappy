@@ -21,7 +21,8 @@ void			gameplay_send_case_all(t_gameplay *this, t_player *player)
   while (it != list_end(this->monitors))
     {
       monitor = it->data;
-      gameplay_send_case(monitor, &this->map.map[player->x + player->y * this->map.width]);
+      gameplay_send_case(monitor,
+			 &this->map.map[player->x + player->y * this->map.width]);
       it = list_iterator_next(it);
     }
 }

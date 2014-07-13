@@ -8,8 +8,8 @@
 
 namespace		Zappy
 {
-  const float		Window::WIDTH = 1600.0f;
-  const float		Window::HEIGHT = 900.0f;
+  const float		Window::WIDTH = 1920.0f / 2;
+  const float		Window::HEIGHT = 1080.0f / 2;
   const std::string	Window::TITLE = "Zappy Bibicy";
   ShaderManager*	ShaderManager::_instance = NULL;
 
@@ -51,6 +51,11 @@ namespace		Zappy
   gdl::Input&		Window::getInputs()
   {
     return (_input);
+  }
+
+  void			Window::updateCamera()
+  {
+    _camera->update();
   }
 
   void			Window::update()

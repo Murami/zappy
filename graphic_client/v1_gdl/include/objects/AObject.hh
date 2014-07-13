@@ -5,7 +5,7 @@
 // Login   <manu@epitech.net>
 //
 // Started on  Sat May 10 15:42:28 2014 Manu
-// Last update Fri Jul 11 23:34:12 2014 Manu
+// Last update Sat Jul 12 20:49:09 2014 Manu
 //
 
 #ifndef		__AOBJECT_HH__
@@ -47,6 +47,7 @@ namespace	Zappy
     void		rotate(const glm::vec3&, float);
     void		scale(const glm::vec3&);
     glm::mat4		getTransformation();
+    glm::mat4		getReverseTransformation();
 
   public :
     void		setPosition(const glm::vec3&);

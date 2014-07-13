@@ -26,7 +26,7 @@ namespace	Zappy
   void		Letter::draw(gdl::AShader& shader, const gdl::Clock&)
   {
     _texture->bind();
-    _geometry->draw(shader, getTransformation(), GL_QUADS);
+    _geometry->draw(shader, getReverseTransformation(), GL_QUADS);
   }
 
   Letter::~Letter()

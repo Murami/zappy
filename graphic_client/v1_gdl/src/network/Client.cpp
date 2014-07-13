@@ -41,8 +41,6 @@ void			*launchListen(void *attr)
       if ((ret = read(client->_socket.getFd(), &buff[ndx], 8191 - ndx)) == 0)
 	{
 	  client->throwConnectionLost();
-	  // std::cerr << "\033[31mConnection to server "
-	  //   "closed unexpectedly\033[0m" << std::endl;
 	  return (NULL);
 	}
       std::size_t nbLines = countLines(&buff[0]);
@@ -88,14 +86,21 @@ void			Client::resetRequest()
   _request.clear();
 }
 
+bool			Client::isConnected() const
+{
+  return (_connected);
+}
+
 void			Client::throwWriteFailure()
 {
-  throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
+  _connected = false;
+  //throw (std::runtime_error("Error while writing on socket. Is connection active ?"));
 }
 
 void			Client::throwConnectionLost()
 {
-  throw (std::runtime_error("Connection to server has closed unexpectedly"));
+  _connected = false;
+  //throw (std::runtime_error("Connection to server has closed unexpectedly"));
 }
 
 Client::Client(int argc, char **argv)
@@ -129,7 +134,7 @@ bool			Client::haveToSendRequest() const
 
 void			Client::sendRequest(const std::string& request)
 {
-  _request = request;
+  std::cout << "\033[35m[" << request << "]\033[0m" << std::endl;
   _sendRequest = true;
   write(_socket.getFd(), request.c_str(), request.size());
 }
@@ -149,6 +154,7 @@ void				Client::connectServer()
   	  sizeof(this->_socket.getSin()));
   if (ret == -1)
     throw (std::runtime_error("Error while attempting to connect..."));
+  _connected = true;
 }
 
 SafeQueue<std::string>&		Client::getQueue()

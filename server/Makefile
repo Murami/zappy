@@ -30,6 +30,10 @@ SRC		=	main				\
 			misc/list			\
 			misc/time_val			\
 			gameplay/gameplay		\
+			gameplay/check_stone1_5		\
+			gameplay/check_stone6_7		\
+			gameplay/gameplay_kill		\
+			gameplay/gameplay_egg		\
 			gameplay/gameplay_send_take	\
 			gameplay/gameplay_send_egg	\
 			gameplay/gameplay_send_drop	\

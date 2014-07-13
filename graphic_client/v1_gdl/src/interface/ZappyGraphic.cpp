@@ -4,9 +4,11 @@
 #include		"interface/Camera.hh"
 #include		"network/Client.hh"
 #include		"objects/PlayerFactory.hpp"
+#include		"objects/EggFactory.hpp"
 #include		"objects/World.hh"
 #include		"objects/Egg.hh"
 #include		"parser/Parser.hh"
+#include		"objects/Screen.hh"
 
 namespace	Zappy
 {
@@ -29,16 +31,23 @@ namespace	Zappy
   void		ZappyGraphic::run()
   {
     _window.create(Window::WIDTH, Window::HEIGHT, Window::TITLE);
-    AnimationPool::getInstance()->loadModels();
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    Screen s("./assets/Loading.tga");
+    s.draw();
+    _window.flush();
     _hud = new HUD();
-    updateClient();
-    // _world = new World();
-    // _world->initialize();
+    AnimationPool::getInstance()->loadModels();
+
     while (_window.isRunning())
       {
+
+	if (!_client.isConnected())
+	  throw (std::runtime_error("Connection to server closed unexpectedly"));
 	_window.bindShader();
 	_window.update();
 	updateClient();
+
 	for (std::list<Player*>::iterator it = _players.begin();
 	     it != _players.end(); it++)
 	  _window.drawPlayerColorMap(static_cast<Player*>(*it));
@@ -47,22 +56,20 @@ namespace	Zappy
 	_window.bindShader();
 	_window.draw(_world);
 	_window.updatePlayers(_players);
+
 	for (std::list<Stone*>::iterator it = _stones.begin();
 	     it != _stones.end(); it++)
 	  _window.draw(*it);
 	for (std::list<Food*>::iterator it = _foods.begin();
 	     it != _foods.end(); it++)
 	  _window.draw(*it);
-
-	// _drawOnlyOneStone();
-	// _drawOnlyOneFood();
-
-	// for (std::list<Egg*>::iterator it = _eggs.begin();
-	//      it != _eggs.end(); it++)
-	//   _window.draw(*it);
+	for (std::list<Egg*>::iterator it = _eggs.begin();
+	     it != _eggs.end(); it++)
+	  _window.draw(*it);
 
 	_window.drawMap(_map);
 	_hud->draw();
+
 	_window.flush();
       }
   }
@@ -160,8 +167,8 @@ namespace	Zappy
     _world = new World();
     _world->initialize();
     _world->setMapSize(_map->getWidth(), _map->getHeight());
-    _window.getCamera()->setPosition(glm::vec2(width / 2, height / 2));
-    for (int i = 0; i < (width + height); i++)
+    _window.getCamera()->setPosition(glm::vec2(width / 2, -height / 2));
+    for (int i = 0; i < (width + height) / 2; i++)
       _window.getCamera()->zoomLess();
   }
 
@@ -269,16 +276,45 @@ namespace	Zappy
   {
   }
 
-  void		ZappyGraphic::playerStartCast(int, int, int, int, std::list<int>)
+  void		ZappyGraphic::playerStartCast(int firstId, int x, int y,
+					      int, std::list<int>)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getId() == firstId)
+	  (*it)->startCast();
+	else if ((*it)->getX() == x && (*it)->getY() == y)
+	  (*it)->startCast();
+      }
   }
 
-  void		ZappyGraphic::castEnd(int, int, int)
+  void		ZappyGraphic::castEnd(int x, int y, int)
   {
+    for (std::list<Player*>::iterator it = _players.begin();
+	 it != _players.end(); it++)
+      {
+	if ((*it)->getX() == x && (*it)->getY() == y)
+	  (*it)->stopCast();
+      }
   }
 
   void		ZappyGraphic::playerLaysEgg(int)
   {
+    // for (std::list<Player*>::iterator it = _players.begin();
+    // 	 it != _players.end(); it++)
+    //   {
+    // 	if ((*it)->getId() == id)
+    // 	  {
+    // 	    _eggs.push_back(EggFactory::createNewEgg(id, (*it)->getX(), (*it)->getY()));
+
+    // 	    // Egg* egg = new Egg(id, (*it)->getX(), (*it)->getY());
+    // 	    // egg->initialize();
+    // 	    // _eggs.push_back(egg);
+
+    // 	    break;
+    // 	  }
+    //   }
   }
 
   void		ZappyGraphic::playerDropsResource(int, int)
@@ -303,12 +339,24 @@ namespace	Zappy
       }
   }
 
-  void		ZappyGraphic::eggLaidOnCaseByPlayer(int, int, int, int)
+  void		ZappyGraphic::eggLaidOnCaseByPlayer(int eggid, int playerid,
+						    int x, int y)
   {
+    Egg* egg = EggFactory::createNewEgg(playerid, eggid, x, y);
+    _eggs.push_back(egg);
   }
 
-  void		ZappyGraphic::eggOpens(int)
+  void		ZappyGraphic::eggOpens(int eggId)
   {
+    for (std::list<Egg*>::iterator it = _eggs.begin(); it != _eggs.end(); it++)
+      {
+	std::cout << (*it)->getId() << " <=> " << eggId << std::endl;
+	if ((*it)->getId() == eggId)
+	  {
+	    _eggs.erase(it);
+	    break;
+	  }
+      }
   }
 
   void		ZappyGraphic::playerConnectsForEgg(int)

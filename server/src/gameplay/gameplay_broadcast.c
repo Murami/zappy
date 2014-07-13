@@ -7,7 +7,8 @@
 #include "player_command.h"
 #include "client.h"
 
-void			bind_command_broadcast(t_gameplay *this, t_player_command *command)
+void			bind_command_broadcast(t_gameplay *this,
+					       t_player_command *command)
 {
   char			buffer[4096];
   t_list_iterator	it;
@@ -25,7 +26,8 @@ void			bind_command_broadcast(t_gameplay *this, t_player_command *command)
     }
 }
 
-void			gameplay_command_broadcast(t_gameplay* this, t_player_command* command)
+void			gameplay_command_broadcast(t_gameplay* this,
+						   t_player_command* command)
 {
   char			buffer[4096];
   t_list_iterator	it;

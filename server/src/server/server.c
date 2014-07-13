@@ -27,6 +27,7 @@ void			server_initialize(t_server *this, t_config config)
   create_queue(this);
   this->clients = list_new();
   this->new_clients = list_new();
+  this->deads = list_new();
   this->socket_max = this->socket;
   this->gameplay = gameplay_new(config, this);
 }
@@ -51,6 +52,12 @@ void			server_release(t_server *this)
       socketstream_delete(new_client);
       list_pop_back(this->new_clients);
     }
+  while (!list_empty(this->deads))
+    {
+      free(list_back(this->deads));
+      list_pop_back(this->deads);
+    }
+  list_delete(this->deads);
   shutdown(this->socket, SHUT_RDWR);
   close(this->socket);
   list_delete(this->clients);
@@ -74,6 +81,27 @@ void			server_accept(t_server *this)
   if (socket > this->socket_max)
     this->socket_max = socket;
   socketstream_write(socketstream, "BIENVENUE\n", strlen("BIENVENUE\n"));
+}
+
+
+void			server_delete_deads(t_server* this)
+{
+  t_list_iterator	it;
+  t_client*		client;
+
+  it = list_begin(this->deads);
+  while (it != list_end(this->deads))
+    {
+      client = it->data;
+      if (list_empty(client->requests_output) &&
+	  client->socketstream->size_output == 0)
+	{
+	  printf("dead deleted\n");
+	  client_delete(client);
+	  it = list_erase(this->deads, it);
+	}
+      it = list_iterator_next(it);
+    }
 }
 
 void			server_launch(t_server *this)
@@ -111,8 +139,10 @@ void			server_launch(t_server *this)
 	{
 	  server_process_new_clients(this, &set_fd_in, &set_fd_out);
 	  server_process_clients(this, &set_fd_in, &set_fd_out);
+	  server_process_deads(this, &set_fd_out);
 	}
       waiting_time = gameplay_update(this->gameplay, this->gameplay->time);
+      server_delete_deads(this);
     }
 }
 
@@ -140,6 +170,7 @@ void			server_remove(t_server* this, t_client* client)
 	}
       it = list_iterator_next(it);
     }
+  list_push_back(this->deads, client);
 }
 
 void			sighandler(int signum)

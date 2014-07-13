@@ -22,8 +22,6 @@ void			server_add_player(t_server *this, t_client *client, t_team *team)
 
 void			server_remove_monitor(t_server *this, t_client *client)
 {
-  // arreter la boucle plus tot
-  // supprimer de la liste du t_ser et du t_gameplay
   t_list_iterator	it;
   t_client*		tmp;
 
@@ -36,15 +34,6 @@ void			server_remove_monitor(t_server *this, t_client *client)
       it = list_iterator_next(it);
     }
   gameplay_remove_monitor(this->gameplay, client);
-  // itere la boucle gameplay
-  /* it = list_begin(this->clients); */
-  /* while (it != list_end(this->clients)) */
-  /*   { */
-  /*     tmp = it->data; */
-  /*     if (client == client) */
-  /* 	it = list_erase(this->clients, it); */
-  /*     it = list_iterator_next(it); */
-  /*   } */
   client_delete(client);
 }
 

@@ -5,7 +5,8 @@
 #include "player.h"
 #include "client.h"
 
-void			gameplay_take_mendiane(t_gameplay *this, t_player_command *command)
+void			gameplay_take_mendiane(t_gameplay *this,
+					       t_player_command *command)
 {
   int			x;
   int			y;
@@ -24,7 +25,8 @@ void			gameplay_take_mendiane(t_gameplay *this, t_player_command *command)
     gameplay_send_res(command->player->client, false);
 }
 
-void			gameplay_drop_mendiane(t_gameplay *this, t_player_command *command)
+void			gameplay_drop_mendiane(t_gameplay *this,
+					       t_player_command *command)
 {
   int			x;
   int			y;
