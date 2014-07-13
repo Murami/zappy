@@ -127,6 +127,9 @@ class Player:
                 self.leader = False
                 if response.getMessage().getDirection() == 0:
                     self.wait = True
+                    self.theQueue.put("droite")
+                    self.theQueue.put("droite")
+                    self.theQueue.put("avance")
                 else:
                     self.theQueue.put("broadcast onMyWay "
                                       + str(self.data.level.getActualLevel())
@@ -197,6 +200,7 @@ class Player:
         if self.theQueue.qsize() == 0:
             return
         msg = self.theQueue.get()
+        print("------------["+ msg +"]--------------")
         self.sendToServer(msg)
         while (self.getStatus(msg) == False):
             self.sendToServer("inventaire")
@@ -204,7 +208,7 @@ class Player:
             if response.isAlive() is True:
                 self.data.alive.killHim()
                 return
-            while (response.isInventory() == False):
+            while (response.isInventory() is False):
                 self.responseQueue.put(response)
                 response = self.recvFromServer()
                 if response.isAlive() is True:
@@ -300,7 +304,6 @@ class Player:
     # principale
     def run (self):
         while self.data.alive.isAlive() is True:
-            print(self.data.listOtherLevel)
             if self.theQueue.qsize() == 0:
                 if self.data.inventory.getFood() <= 9 and self.eating is False:
                     self.eating = True
@@ -329,11 +332,11 @@ class Player:
                             if self.staticGetlvl == 0:
                                 self.data.reinitializeListLevel()
                                 self.theQueue.put("broadcast getlvl " + self.teamName)
-                            elif self.staticGetlvl >= 5:
+                            elif self.staticGetlvl >= 10:
                                 self.staticGetlvl = -1
                                 self.data.reinitializeListLevel()
-                                # self.theQueue.put("fork")
-                                # self.forking = True
+                                self.theQueue.put("fork")
+                                self.forking = True
                                 print("JE FORK")
                             self.staticGetlvl += 1
                         else:
